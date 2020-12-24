@@ -3,7 +3,9 @@ import { useHistory } from 'react-router-dom';
 import { TESTS } from '../constants';
 import Test from './components/Test';
 
-const Home = ({ setTitle }) => {
+const Home = ({ setTitle, search, setSearch }) => {
+  let zip = search.zip.slice();
+  let tests = { ...search.tests };
   useEffect(() => setTitle('Covid-19 tests'));
   const history = useHistory();
 
@@ -15,15 +17,13 @@ const Home = ({ setTitle }) => {
   const submit = (e) => {
     e.preventDefault();
     const values = document.querySelectorAll('#form-home input');
-    const tests = [];
-    for (let i = 0; i < 3; i++) {
-      if (values[i].checked) tests.push(values[i].name);
+    tests = {};
+    for (let i = 0; i < values.length - 1; i++) {
+      tests[values[i].name] = values[i].checked;
     }
-    const zip = values[3].value;
-    history.push({
-      pathname: '/locations',
-      state: { zip, tests },
-    });
+    zip = values[values.length - 1].value;
+    setSearch({ zip, tests });
+    history.push(`/locations`);
   };
 
   return (
