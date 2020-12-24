@@ -1,0 +1,59 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  /* border: 1px solid red; */
+}
+
+html,
+body {
+  width: 100%;
+}
+
+#root {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 500px;
+}
+
+#main {
+  width: 100%;
+}
+
+.header,
+.center {
+  padding: 1rem;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.navbar {
+  padding: 1rem;
+}
+
+.nav-ul {
+  display: flex;
+  justify-content: space-between;
+}
+
+.card-small {
+  display: inline-block;
+  width: 150px;
+  height: 150px;
+  border: 1px solid magenta;
+}
+
+.select-active {
+  background-color: red;
+}
+
+.checkbox {
+  display: none;
+}
+
+.location {
+  padding: 1rem;
+  display: flex;
+  justify-content: space-evenly;
+}
