@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import { AppContext } from '../../ContextProvider.js';
 
-const Header = ({ title }) => {
+const Header = () => {
   const history = useHistory();
+  const { title } = useContext(AppContext);
   return (
     <>
       <header className='header'>

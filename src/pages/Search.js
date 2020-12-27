@@ -1,13 +1,15 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import { AppContext, SearchContext } from '../ContextProvider.js';
 import { TESTS } from '../constants';
 import Test from './components/Test';
 
-const Home = ({ setTitle, search, setSearch }) => {
-  let zip = search.zip.slice();
-  let tests = { ...search.tests };
-  useEffect(() => setTitle('Covid-19 tests'));
+const Search = () => {
   const history = useHistory();
+  const { zip, setZip, setTestFilter, setFetchingSort } = useContext(
+    SearchContext
+  );
+  const { setTitle } = useContext(AppContext);
 
   const toggleTest = (e) => {
     e.stopPropagation();
@@ -17,14 +19,19 @@ const Home = ({ setTitle, search, setSearch }) => {
   const submit = (e) => {
     e.preventDefault();
     const values = document.querySelectorAll('#form-home input');
-    tests = {};
+    let tests = {};
     for (let i = 0; i < values.length - 1; i++) {
       tests[values[i].name] = values[i].checked;
     }
-    zip = values[values.length - 1].value;
-    setSearch({ zip, tests });
+    setZip(values[values.length - 1].value);
+    setTestFilter(tests);
+    setFetchingSort(true);
     history.push(`/locations`);
   };
+
+  useEffect(() => {
+    setTitle('Search');
+  }, []);
 
   return (
     <form id='form-home' className='form' onSubmit={submit}>
@@ -44,12 +51,19 @@ const Home = ({ setTitle, search, setSearch }) => {
         name='zip'
         placeholder='Enter your zipcode'
         maxLength='5'
+        value={zip}
+        onChange={(e) => setZip(e.target.value)}
       ></input>
-      <button type='submit' id='btn-search' className='btn'>
+      <button
+        type='submit'
+        id='btn-search'
+        className='btn'
+        disabled={zip.length < 5}
+      >
         Search availability
       </button>
     </form>
   );
 };
 
-export default Home;
+export default Search;
