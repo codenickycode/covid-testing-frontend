@@ -1,140 +1,139 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
 import axios from 'axios';
+import { TESTS, FILTER_INIT } from './constants';
 
 export const AppContext = React.createContext();
-export const SearchContext = React.createContext();
-export const UserContext = React.createContext();
 
+const INITIAL_STATE = {
+  title: 'COVID-19 Tests',
+  tests: TESTS,
+  testFilter: FILTER_INIT(),
+  allLocations: [],
+  searchLocations: [],
+  zip: '',
+  prevSort: {},
+  fetching: false,
+  error: '',
+};
+
+//? ******************************************* REDUCER ACTIONS:
+const SET_ERROR = 'SET_ERROR';
+const SET_ALL_LOCATIONS = 'SET_ALL_LOCATIONS';
+const SET_SEARCH_LOCATIONS = 'SET_SEARCH_LOCATIONS';
+const SET_SORTED_LOCATIONS = 'SET_SORTED_LOCATIONS';
+
+//? ******************************************* COMPONENT:
 export const ContextProvider = ({ children }) => {
-  //? **************************************************** HEADER TITLE
-  const [title, setTitle] = useState('COVID-19 Tests');
+  // ******************************************* STATE:
+  const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
+  const [fetching, setFetching] = useState(false);
 
-  //? **************************************************** ALL LOCATIONS
-  const [locations, setLocations] = useState([]);
-  const [fetchingLocations, setFetchingLocations] = useState(false);
-  const getLocations = () => {
-    setFetchingLocations(true);
-    axios
-      .get('http://localhost:8000/common/locations')
-      .then((res) => {
-        if (!zip) setLocations(res.data);
-        sortDistance(res.data);
-      })
-      .catch((e) => {
-        console.log(e);
-      })
-      .finally(() => {
-        setFetchingLocations(false);
-      });
+  // ******************************************* REDUCER:
+  const reducer = (state, action) => {
+    const { type, payload };
+    switch (type) {
+      case SET_ERROR:
+        return { ...state, error: payload };
+      case SET_ALL_LOCATIONS:
+        return { ...state, allLocations: payload };
+      case SET_SEARCH_LOCATIONS:
+        return { ...state, searchLocations: payload };
+      case SET_SORTED_LOCATIONS:
+        return {
+          ...state,
+          searchLocations: payload.searchLocations,
+          prevSort: payload.prevSort,
+        };
+      default:
+        throw new Error('Invalid dispatch');
+    }
   };
 
-  //? **************************************************** ALL APPOINTMENTS
-  const [appointments, setAppointments] = useState([]);
-  const [fetchingAppointments, setFetchingAppointments] = useState(false);
-  const getAppointments = () => {
-    setFetchingAppointments(true);
-    axios
-      .get('http://localhost:8000/common/appointments/all')
-      .then((res) => {
-        setAppointments(res);
-      })
-      .catch((e) => {
-        console.log(e);
-      })
-      .finally(() => {
-        setFetchingAppointments(false);
-      });
+  // ******************************************* FUNCTIONS:
+  const getLocations = async () => {
+    setFetching(true);
+    try {
+      const res = await axios.get('http://localhost:8000/common/locations');
+      dispatch({ type: SET_ALL_LOCATIONS, payload: res.data });
+    } catch (e) {
+      console.log(e);
+      dispatch({ type: SET_ERROR, payload: e.message });
+    } finally {
+      setFetching(false);
+    }
   };
 
-  //? *************************************************** SEARCH PARAMS
-  const [testFilter, setTestFilter] = useState([]);
-  const [filteredLocations, setFilteredLocations] = useState([]);
-  const [zip, setZip] = useState('');
-  const [prevSort, setPrevSort] = useState({});
-  const [fetchingSort, setFetchingSort] = useState(false);
-
-  const filter = () => {
-    if (Object.keys(testFilter).length === 0)
-      return setFilteredLocations(locations);
-    setFilteredLocations(
-      locations.filter((location) => {
-        for (let [test, val] of Object.entries(testFilter)) {
-          if (testFilter[test] && location.tests.indexOf(test) === -1)
-            return false;
-        }
-        return true;
-      })
-    );
-  };
-
-  const sortDistance = ([...array]) => {
-    if (!zip || zip.match(/\D/g)) return;
-    if (zip in prevSort) return setLocations(prevSort[zip]);
-    setFetchingSort(true);
+  const sortDistance = async (
+    allLocations = [...state.allLocations],
+    searchLocations = [...state.searchLocations],
+    zip = state.zip,
+    prevSort = state.prevSort
+  ) => {
+    if (!zip || zip.match(/\D/g))
+      return dispatch({ type: SET_SEARCH_LOCATIONS, payload: searchLocations });
+    if (zip in prevSort)
+      return dispatch({ type: SET_SEARCH_LOCATIONS, payload: prevSort[zip] });
+    setFetching(true);
     let locationZips = '';
-    for (let location of array) {
+    for (let location of allLocations) {
       locationZips += location.address.zip + '|';
     }
-    axios
-      .post(`http://localhost:8000/common/locations/distance`, {
-        zip,
-        locationZips,
-        locations: array,
-      })
-      .then((res) => {
-        res.data.sort((a, b) => a.distance - b.distance);
-        setPrevSort({ ...prevSort, [zip]: res.data });
-        setLocations(res.data);
-      })
-      .catch((e) => {
-        console.log(e);
-      })
-      .finally(() => {
-        setFetchingSort(false);
-      });
+    getDistances(zip, locationsZips, allLocations);
   };
 
-  //? **************************************************** USER CONTEXT
+  const getDistances = async (zip, locationZips, allLocations) => {
+    try {
+      const res = await axios.post(
+        `http://localhost:8000/common/locations/distance`,
+        {
+          zip,
+          locationZips,
+          allLocations,
+        }
+      );
+      res.data.sort((a, b) => a.distance - b.distance);
+      const updatedPrevSort = { ...state.prevSort, [zip]: res.data };
+      dispatch({
+        type: SET_SORTED_LOCATIONS,
+        payload: { searchLocations: res.data, prevSort: updatedPrevSort },
+      });
+    } catch (e) {
+      console.log(e);
+      dispatch({ type: SET_ERROR, payload: e.message });
+    } finally {
+      setFetching(false);
+    }
+  };
+
+  const filter = (testFilter) => {
+    const searchLocations =
+      Object.keys(testFilter).length === 0
+        ? state.allLocations
+        : locations.filter((location) => {
+            for (let [test, val] of Object.entries(testFilter)) {
+              if (testFilter[test] && location.tests.indexOf(test) === -1)
+                return false;
+            }
+            return true;
+          });
+    dispatch({ type: SET_SEARCH_LOCATIONS, searchLocations });
+  };
 
   // ******************************************* USE-EFFECTS:
   useEffect(() => {
-    filter();
-  }, [locations, testFilter]);
+    filter(state.testFilter);
+  }, [state.allLocations, state.testFilter]);
 
   useEffect(() => {
-    console.log(locations, appointments);
-  }, [locations, appointments]);
+    sortDistance();
+  }, [state.allLocations, state.zip]);
 
+  // ******************************************* RETURN:
   return (
-    <AppContext.Provider value={{ title, setTitle }}>
-      <SearchContext.Provider
-        value={{
-          locations,
-          setLocations,
-          fetchingLocations,
-          setFetchingLocations,
-          getLocations,
-          appointments,
-          setAppointments,
-          fetchingAppointments,
-          setFetchingAppointments,
-          getAppointments,
-          testFilter,
-          setTestFilter,
-          filteredLocations,
-          setFilteredLocations,
-          zip,
-          setZip,
-          prevSort,
-          setPrevSort,
-          fetchingSort,
-          setFetchingSort,
-          filter,
-          sortDistance,
-        }}
-      >
-        <UserContext.Provider value={null}>{children}</UserContext.Provider>
-      </SearchContext.Provider>
+    <AppContext.Provider
+      value={{ reducer, state, dispatch, getLocations, sortDistance, fetching }}
+    >
+      {children}
     </AppContext.Provider>
   );
 };
