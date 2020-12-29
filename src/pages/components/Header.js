@@ -1,11 +1,11 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import { AppContext } from '../../ContextProvider.js';
+// import { AppContext } from '../../ContextProvider.js';
 
 const Header = () => {
   const history = useHistory();
-  const { title } = useContext(AppContext);
+  // const { title } = useContext(AppContext);
   return (
     <>
       <header className='header'>
@@ -14,7 +14,7 @@ const Header = () => {
             Back
           </button>
         </Link>
-        <h1 className='title'>{title}</h1>
+        <h1 className='title'>TITLE</h1>
         <button id='btn-edit' className='btn'>
           Edit
         </button>

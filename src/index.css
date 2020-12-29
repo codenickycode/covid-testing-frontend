@@ -10,6 +10,10 @@ body {
   width: 100%;
 }
 
+.error {
+  color: red;
+}
+
 #root {
   margin: 0 auto;
   width: 100%;

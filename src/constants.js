@@ -4,10 +4,8 @@ export const TESTS = {
   blood: { name: 'Blood', info: 'blood test info' },
 };
 
-export const FILTER_INIT = () => {
-  let filterInit = {};
-  Object.entries(TESTS).forEach((type) => {
-    filterInit[type[0]] = false;
-  });
-  return filterInit;
+export const FILTER_INIT = {
+  rapid: false,
+  pcr: false,
+  blood: false,
 };
