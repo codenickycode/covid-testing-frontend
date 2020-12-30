@@ -1,63 +1,64 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
-import { FILTER_INIT } from '../constants.js';
 import SearchForm from './SearchForm.js';
 import SearchResults from './SearchResults.js';
 
 const Loading = () => <h1>Loading...</h1>;
 
+const INITIAL_STATE = {
+  showResults: false,
+  filteredLocations: [],
+  loading: false,
+  error: '',
+};
+
 const Search = () => {
-  const [showResults, setShowResults] = useState(false);
-  const [search, setSearch] = useState({ tests: FILTER_INIT, zip: 11572 });
-  const [locations, setLocations] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [filteredLocations, setFilteredLocations] = useState([]);
-  const [error, setError] = useState('');
+  const [state, setState] = useState(INITIAL_STATE);
 
-  // get all locations
-  useEffect(() => {
-    const getLocations = async () => {
-      setLoading(true);
-      try {
-        const res = await axios.get(
-          `http://localhost:8000/common/locations?zip=${search.zip}`
-        );
-        setLocations(res.data);
-      } catch (e) {
-        console.log(e);
-        setError(e.message);
-      } finally {
-        setLoading(false);
+  const handleSubmit = (tests, zip) => {
+    getLocations(tests, zip);
+  };
+
+  const getLocations = async (tests, zip) => {
+    setState({ ...state, loading: true });
+    try {
+      const res = await axios.get(
+        `http://localhost:8000/common/locations?zip=${zip}`
+      );
+      const locations = res.data;
+      const filteredLocations = filterLocations(tests, locations);
+      setState({
+        showResults: true,
+        filteredLocations,
+        loading: false,
+        error: '',
+      });
+    } catch (e) {
+      console.log(e);
+      setState({ ...state, loading: false, error: e.message });
+    }
+  };
+
+  const filterLocations = (tests, locations) => {
+    return locations.filter((location) => {
+      location.tests.forEach((test, i) => {
+        location.tests[i] = test.toLowerCase();
+      });
+      for (let [test] of Object.entries(tests)) {
+        console.log(test);
+        console.log(location.tests);
+        if (tests[test] && location.tests.indexOf(test) === -1) return false;
       }
-    };
-    search && getLocations();
-  }, [search]);
+      return true;
+    });
+  };
 
-  // filter locations by test type
-  useEffect(() => {
-    const filterLocations = () => {
-      const tempFilteredLocations =
-        Object.keys(search.tests).length === 0
-          ? locations
-          : locations.filter((location) => {
-              for (let [test] of Object.entries(search.tests)) {
-                if (search.tests[test] && location.tests.indexOf(test) === -1)
-                  return false;
-              }
-              return true;
-            });
-      setFilteredLocations(tempFilteredLocations);
-      setShowResults(true);
-    };
-    locations && filterLocations();
-  }, [locations]);
-
-  return loading ? (
+  return state.loading ? (
     <Loading />
-  ) : showResults || error ? (
-    <SearchResults locations={filteredLocations} />
+  ) : state.showResults ? (
+    <SearchResults locations={state.filteredLocations} />
   ) : (
-    <SearchForm setSearch={setSearch} error={error} />
+    <SearchForm handleSubmit={handleSubmit} error={state.error} />
   );
 };
 

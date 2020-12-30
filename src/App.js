@@ -24,7 +24,6 @@ const App = () => {
           <Navbar />
         </div>
       </Router>
-      //{' '}
     </ContextProvider>
   );
 };

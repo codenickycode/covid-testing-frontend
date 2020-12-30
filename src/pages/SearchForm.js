@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import { TESTS } from '../constants.js';
 import Test from './components/Test.js';
 
-const SearchForm = ({ setSearch, error }) => {
+const SearchForm = ({ handleSubmit, error }) => {
   const zipRef = useRef('');
 
   const toggleTest = (e) => {
@@ -17,7 +17,7 @@ const SearchForm = ({ setSearch, error }) => {
     for (let i = 0; i < values.length - 1; i++) {
       tests[values[i].name] = values[i].checked;
     }
-    setSearch({ tests, zip: zipRef.current });
+    handleSubmit(tests, zipRef.current);
   };
 
   return (
