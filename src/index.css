@@ -56,8 +56,14 @@ body {
   display: none;
 }
 
-.location {
+.location,
+.location-selection {
   padding: 1rem;
   display: flex;
   justify-content: space-evenly;
+}
+
+.location-selection {
+  flex-direction: column;
+  align-items: center;
 }

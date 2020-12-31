@@ -1,9 +1,9 @@
 import React from 'react';
 
-const Location = ({ location }) => {
+const LocationPreview = ({ location, select }) => {
   const { name, phone, address, tests } = location;
   return (
-    <div className='location'>
+    <div className='location' onClick={() => select(location._id)}>
       <div className='location-basic'>
         <h2>{name}</h2>
         <p>{phone}</p>
@@ -13,6 +13,8 @@ const Location = ({ location }) => {
         </p>
       </div>
       <div className='location-tests'>
+        <h4>Next Available Appointment:</h4>
+        <h6>{location.available[0]}</h6>
         <h4>Tests available:</h4>
         <ul>
           {tests.map((test, index) => {
@@ -24,4 +26,4 @@ const Location = ({ location }) => {
   );
 };
 
-export default Location;
+export default LocationPreview;

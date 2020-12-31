@@ -1,11 +1,28 @@
 import React from 'react';
-import Location from './components/Location.js';
+import LocationPreview from './components/LocationPreview.js';
 
-const SearchResults = ({ locations }) => {
-  const sortBy = (type) => {};
+const SearchResults = ({ locations, sortBy, date, changeDate, select }) => {
+  // locations.forEach((location) => console.log(location.available));
 
   return (
     <div>
+      <div className='center date-picker'>
+        <button
+          id='date-dec'
+          className='btn-small'
+          onClick={() => changeDate('dec')}
+        >
+          {'<'}
+        </button>
+        <p id='date'>{date}</p>
+        <button
+          id='date-inc'
+          className='btn-small'
+          onClick={() => changeDate('inc')}
+        >
+          {'>'}
+        </button>
+      </div>
       <div className='center sort-tests'>
         <h2>Sort by:</h2>
         <button id='sort-time' className='btn' onClick={() => sortBy('time')}>
@@ -21,7 +38,9 @@ const SearchResults = ({ locations }) => {
       </div>
       <div id='div-locations'>
         {locations.map((location, index) => {
-          return <Location key={index} location={location} />;
+          return (
+            <LocationPreview key={index} location={location} select={select} />
+          );
         })}
       </div>
     </div>

@@ -42,12 +42,7 @@ const SearchForm = ({ handleSubmit, error }) => {
         maxLength='5'
         onChange={(e) => (zipRef.current = e.target.value)}
       ></input>
-      <button
-        type='submit'
-        id='btn-search'
-        className='btn'
-        disabled={zipRef.length < 5}
-      >
+      <button type='submit' id='btn-search' className='btn' disabled={false}>
         Search availability
       </button>
     </form>
