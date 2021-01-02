@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import dayjs from 'dayjs';
-import { TIMESLOTS } from '../constants.js';
+import {
+  getAvailableTimes,
+  sortDistance,
+  filterLocations,
+} from './searchTools.js';
+import { getLocations, getDistances } from './reqs.js';
 import SearchForm from './SearchForm.js';
 import SearchResults from './SearchResults.js';
 import LocationSelection from './components/LocationSelection.js';
@@ -25,8 +29,29 @@ const INITIAL_STATE = {
 const Search = () => {
   const [state, setState] = useState(INITIAL_STATE);
 
-  const handleSubmit = (tests, zip) => {
-    getLocations(tests, zip);
+  const handleSubmit = async (tests, zip) => {
+    setState({ ...state, loading: true });
+    try {
+      const allLocations = await getLocations(state.date);
+      const allLocationsPlusDistances = await getDistances(zip, allLocations);
+      const filteredLocations = filterLocations(
+        tests,
+        allLocationsPlusDistances
+      );
+      const sortedLocations = sortDistance(filteredLocations);
+      setState({
+        ...state,
+        showResults: true,
+        allLocations: allLocationsPlusDistances,
+        locationsResults: sortedLocations,
+        loading: false,
+        error: '',
+      });
+    } catch (e) {
+      const error = e.response != null ? e.response.data : e.message;
+      console.log(error);
+      setState({ ...state, loading: false, error });
+    }
   };
 
   const handleSortBy = (type) => {
@@ -62,61 +87,6 @@ const Search = () => {
     }
     getAvailableTimes(locationsResults, date);
     setState({ ...state, locationsResults, date });
-  };
-
-  const getLocations = async (tests, zip) => {
-    setState({ ...state, loading: true });
-    try {
-      const res = await axios.get(
-        `http://localhost:8000/common/locations?zip=${zip}`
-      );
-      const allLocations = res.data;
-      getAvailableTimes(allLocations, state.date);
-      const filteredLocations = filterLocations(tests, allLocations);
-      const sortedLocations = sortDistance(filteredLocations);
-      setState({
-        ...state,
-        showResults: true,
-        allLocations,
-        locationsResults: sortedLocations,
-        loading: false,
-        error: '',
-      });
-    } catch (e) {
-      console.log(e);
-      setState({ ...state, loading: false, error: e.message });
-    }
-  };
-
-  const getAvailableTimes = (locations, date) => {
-    locations.forEach((location) => {
-      location.available = [...TIMESLOTS];
-      location.appointments.forEach((appointment) => {
-        if (dayjs(appointment.date).isSame(dayjs(date), 'date')) {
-          location.available.splice(
-            location.available.indexOf(appointment.time),
-            1
-          );
-        }
-      });
-    });
-  };
-
-  const filterLocations = (tests, locations) => {
-    return locations.filter((location) => {
-      location.tests.forEach((test, i) => {
-        location.tests[i] = test.toLowerCase();
-      });
-      for (let [test] of Object.entries(tests)) {
-        if (tests[test] && location.tests.indexOf(test) === -1) return false;
-      }
-      return true;
-    });
-  };
-
-  const sortDistance = (unsorted) => {
-    let locations = [...unsorted];
-    return locations.sort((a, b) => a.distance - b.distance);
   };
 
   return state.loading ? (
