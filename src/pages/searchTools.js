@@ -1,7 +1,9 @@
 import dayjs from 'dayjs';
 import { TIMESLOTS } from '../constants.js';
 
-export const getAvailableTimes = (locations, date) => {
+const ALL_LOCATIONS = 'ALL_LOCATIONS';
+
+export const addAvailableTimes = (locations, date) => {
   locations.forEach((location) => {
     location.available = [...TIMESLOTS];
     location.appointments.forEach((appointment) => {
@@ -15,19 +17,30 @@ export const getAvailableTimes = (locations, date) => {
   });
 };
 
-export const sortDistance = (unsorted) => {
-  let locations = [...unsorted];
-  return locations.sort((a, b) => a.distance - b.distance);
+export const filterLocationsBy = (type, filter) => {
+  if (type === 'tests') {
+    const tests = filter;
+    const allLocations = JSON.parse(sessionStorage.getItem(ALL_LOCATIONS));
+    const filteredLocations = allLocations.filter((location) => {
+      for (let [test] of Object.entries(tests)) {
+        if (tests[test] && location.tests.indexOf(test) === -1) return false;
+      }
+      return true;
+    });
+    return filteredLocations;
+  }
 };
 
-export const filterLocations = (tests, locations) => {
-  return locations.filter((location) => {
-    location.tests.forEach((test, i) => {
-      location.tests[i] = test.toLowerCase();
-    });
-    for (let [test] of Object.entries(tests)) {
-      if (tests[test] && location.tests.indexOf(test) === -1) return false;
-    }
-    return true;
+export const sortDistance = (unsorted) => {
+  const locations = [...unsorted];
+  const sortedLocations = locations.sort((a, b) => a.distance - b.distance);
+  return sortedLocations;
+};
+
+export const sortTime = (unsorted) => {
+  return unsorted.sort((a, b) => {
+    let aDate = dayjs(`2000-01-01 ${a.available[0]}`);
+    let bDate = dayjs(`2000-01-01 ${b.available[0]}`);
+    return aDate.diff(bDate);
   });
 };

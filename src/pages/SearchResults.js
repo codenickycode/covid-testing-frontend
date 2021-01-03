@@ -2,8 +2,6 @@ import React from 'react';
 import LocationPreview from './components/LocationPreview.js';
 
 const SearchResults = ({ locations, sortBy, date, changeDate, select }) => {
-  // locations.forEach((location) => console.log(location.available));
-
   return (
     <div>
       <div className='center date-picker'>

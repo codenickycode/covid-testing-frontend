@@ -1,11 +1,7 @@
 import React, { useState } from 'react';
 import dayjs from 'dayjs';
-import {
-  getAvailableTimes,
-  sortDistance,
-  filterLocations,
-} from './searchTools.js';
-import { getLocations, getDistances } from './reqs.js';
+import * as tools from './searchTools.js';
+import * as store from './storeLocations.js';
 import SearchForm from './SearchForm.js';
 import SearchResults from './SearchResults.js';
 import LocationSelection from './components/LocationSelection.js';
@@ -15,94 +11,73 @@ const Loading = () => <h1>Loading...</h1>;
 const format = 'MMMM D, YYYY';
 const today = dayjs().format(format);
 
-const INITIAL_STATE = {
-  showResults: false,
-  showSelection: false,
-  allLocations: [],
-  locationsResults: [],
-  selectedLocation: '',
-  date: today,
-  loading: false,
-  error: '',
-};
-
 const Search = () => {
-  const [state, setState] = useState(INITIAL_STATE);
+  const [loading, setLoading] = useState(false);
+  const [showResults, setShowResults] = useState(false);
+  const [showSelection, setShowSelection] = useState(false);
+  const [error, setError] = useState('');
+  const [date, setDate] = useState(today);
+  const [locations, setLocations] = useState([]);
+  const [selectedLocation, setSelectedLocation] = useState(null);
 
   const handleSubmit = async (tests, zip) => {
-    setState({ ...state, loading: true });
+    setLoading(true);
     try {
-      const allLocations = await getLocations(state.date);
-      const allLocationsPlusDistances = await getDistances(zip, allLocations);
-      const filteredLocations = filterLocations(
-        tests,
-        allLocationsPlusDistances
-      );
-      const sortedLocations = sortDistance(filteredLocations);
-      setState({
-        ...state,
-        showResults: true,
-        allLocations: allLocationsPlusDistances,
-        locationsResults: sortedLocations,
-        loading: false,
-        error: '',
-      });
+      await store.storeLocations(date);
+      await store.storeDistances(zip);
+      const filtered = tools.filterLocationsBy('tests', tests);
+      const sorted = tools.sortDistance(filtered);
+      setLocations(sorted);
+      setShowResults(true);
+      setError('');
     } catch (e) {
       const error = e.response != null ? e.response.data : e.message;
-      console.log(error);
-      setState({ ...state, loading: false, error });
+      setError(error);
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleSortBy = (type) => {
-    let locationsResults = [...state.locationsResults];
-    locationsResults = sortDistance(locationsResults);
-    if (type === 'time') {
-      locationsResults.sort((a, b) => {
-        let aDate = dayjs(`2000-01-01 ${a.available[0]}`);
-        let bDate = dayjs(`2000-01-01 ${b.available[0]}`);
-        return aDate.diff(bDate);
-      });
-    }
-    setState({ ...state, locationsResults });
+    let sorted = tools.sortDistance(locations);
+    if (type === 'time') sorted = tools.sortTime(sorted);
+    setLocations(sorted);
   };
 
   const handleSelection = (selected) => {
-    let selectedLocation = null;
-    state.locationsResults.forEach((location) => {
+    locations.forEach((location) => {
       if (location._id.toString() === selected) {
-        selectedLocation = location;
+        setSelectedLocation(location);
+        setShowSelection(true);
       }
     });
-    setState({ ...state, showSelection: true, selectedLocation });
   };
 
   const changeDate = (type) => {
-    let locationsResults = [...state.locationsResults];
-    let date = dayjs(state.date);
-    if (type === 'dec') {
-      date = date.subtract(1, 'day').format(format);
-    } else {
-      date = date.add(1, 'day').format(format);
-    }
-    getAvailableTimes(locationsResults, date);
-    setState({ ...state, locationsResults, date });
+    let newDate = dayjs(date);
+    newDate =
+      type === 'dec' ? newDate.subtract(1, 'day') : newDate.add(1, 'day');
+    newDate = newDate.format(format);
+    let newLocations = [...locations];
+    tools.addAvailableTimes(newLocations, newDate);
+    setLocations(newLocations);
+    setDate(newDate);
   };
 
-  return state.loading ? (
+  return loading ? (
     <Loading />
-  ) : state.showSelection ? (
-    <LocationSelection location={state.selectedLocation} date={state.date} />
-  ) : state.showResults ? (
+  ) : showSelection ? (
+    <LocationSelection location={selectedLocation} date={date} />
+  ) : showResults ? (
     <SearchResults
-      locations={state.locationsResults}
+      locations={locations}
       sortBy={handleSortBy}
-      date={state.date}
+      date={date}
       changeDate={changeDate}
       select={handleSelection}
     />
   ) : (
-    <SearchForm handleSubmit={handleSubmit} error={state.error} />
+    <SearchForm handleSubmit={handleSubmit} error={error} />
   );
 };
 
