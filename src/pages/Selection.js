@@ -1,19 +1,15 @@
 import React, { useState, useContext } from 'react';
 import Times from './components/Times.js';
 import Modal from './Modal/Modal.js';
-import {
-  SelectedLocationContext,
-  DateContext,
-  AppointmentContext,
-} from '../ContextProvider.js';
+import { GetContext, SetContext } from '../ContextProvider.js';
 
 const Selection = () => {
-  const { selectedLocation } = useContext(SelectedLocationContext);
-  const { date } = useContext(DateContext);
-  const { setNewAppointment } = useContext(AppointmentContext);
+  const getContext = useContext(GetContext);
+  const setContext = useContext(SetContext);
+
   const [showModal, setShowModal] = useState(false);
 
-  const { name, phone, address, tests } = selectedLocation;
+  const { name, phone, address, tests } = getContext('selectedLocation');
   let timeSelection = null;
   let testsSelection = [];
 

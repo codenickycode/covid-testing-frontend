@@ -3,9 +3,10 @@ import { useHistory } from 'react-router-dom';
 import dayjs from 'dayjs';
 import * as tools from './Search/tools/tools.js';
 import useGetLocations from './Search/tools/useGetLocations.js';
+import { GetContext, SetContext } from '../ContextProvider.js';
+import * as keys from '../contextKeys.js';
 import SearchForm from './Search/Form.js';
 import SearchResults from './Search/Results.js';
-import { DateContext, SelectedLocationContext } from '../ContextProvider.js';
 
 const Loading = () => <h1>Loading...</h1>;
 
@@ -16,8 +17,13 @@ const Search = () => {
     storeDistances,
     filterLocationsBy,
   } = useGetLocations();
-  const { setSelectedLocation } = useContext(SelectedLocationContext);
-  const { format, date, setDate } = useContext(DateContext);
+  const getContext = useContext(GetContext);
+  const setContext = useContext(SetContext);
+
+  const format = 'MMMM D, YYYY';
+  const date = getContext(keys.DATE);
+  let setDate = (newDate) => setContext(keys.DATE, newDate);
+
   const [loading, setLoading] = useState(false);
   const [showResults, setShowResults] = useState(false);
   const [error, setError] = useState('');
@@ -50,7 +56,7 @@ const Search = () => {
   const handleSelection = (selected) => {
     results.forEach((location) => {
       if (location._id.toString() === selected) {
-        setSelectedLocation(location);
+        setContext(keys.SELECTED_LOCATION, location);
         history.push('/selection');
       }
     });

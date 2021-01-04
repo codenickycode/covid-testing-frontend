@@ -1,49 +1,29 @@
 import React from 'react';
 import dayjs from 'dayjs';
+import * as keys from './contextKeys.js';
 
-export const AllLocationsContext = React.createContext();
-export const DateContext = React.createContext();
-export const SelectedLocationContext = React.createContext();
-export const AppointmentContext = React.createContext();
-export const UserContext = React.createContext();
+const format = 'MMMM D, YYYY';
+const today = dayjs().format(format);
+
+export const GetContext = React.createContext();
+export const SetContext = React.createContext();
 
 const ContextProvider = ({ children }) => {
-  let allLocations = null;
-  const setAllLocations = (input) => (allLocations = input);
-  let selectedLocation = null;
-  const setSelectedLocation = (input) => (selectedLocation = input);
-  const format = 'MMMM D, YYYY';
-  const today = dayjs().format(format);
-  let date = today;
-  const setDate = (input) => (date = input);
-  let newAppointment = null;
-  const setNewAppointment = (input) => (newAppointment = input);
-  let confirmation = null;
-  const setConfirmation = (input) => (confirmation = input);
-  let user = null;
-  const setUser = (input) => (user = input);
+  const context = {
+    [keys.ALL_LOCATIONS]: null,
+    [keys.SELECTED_LOCATION]: null,
+    [keys.DATE]: today,
+    [keys.NEW_APPOINTMENT]: null,
+    [keys.CONFIRMATION]: null,
+    [keys.USER]: null,
+  };
+  const getContext = (key) => context[key];
+  const setContext = (key, value) => (context[key] = value);
 
   return (
-    <AllLocationsContext.Provider value={{ allLocations, setAllLocations }}>
-      <DateContext.Provider value={{ format, today, date, setDate }}>
-        <SelectedLocationContext.Provider
-          value={{ selectedLocation, setSelectedLocation }}
-        >
-          <AppointmentContext.Provider
-            value={{
-              newAppointment,
-              setNewAppointment,
-              confirmation,
-              setConfirmation,
-            }}
-          >
-            <UserContext.Provider value={{ user, setUser }}>
-              {children}
-            </UserContext.Provider>
-          </AppointmentContext.Provider>
-        </SelectedLocationContext.Provider>
-      </DateContext.Provider>
-    </AllLocationsContext.Provider>
+    <GetContext.Provider value={getContext}>
+      <SetContext.Provider value={setContext}>{children}</SetContext.Provider>
+    </GetContext.Provider>
   );
 };
 

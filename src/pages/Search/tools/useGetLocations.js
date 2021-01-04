@@ -1,30 +1,34 @@
 import { useContext } from 'react';
 import axios from 'axios';
-import { AllLocationsContext } from '../../../ContextProvider.js';
+import { GetContext, SetContext } from '../../../ContextProvider.js';
+import * as keys from '../../../contextKeys.js';
 import { addAvailableTimes, parseLocationsZips } from './tools.js';
 import { url } from '../../../url.js';
 
 const useGetLocations = () => {
-  let { allLocations, setAllLocations } = useContext(AllLocationsContext);
+  const getContext = useContext(GetContext);
+  const setContext = useContext(SetContext);
 
   const storeLocations = async (date) => {
     const res = await axios.get(url + 'locations');
-    allLocations = res.data;
+    let allLocations = res.data;
     addAvailableTimes(allLocations, date);
-    setAllLocations(allLocations);
+    setContext(keys.ALL_LOCATIONS, allLocations);
   };
 
   const storeDistances = async (zip) => {
+    const allLocations = getContext(keys.ALL_LOCATIONS);
     const locationsZips = parseLocationsZips(allLocations);
     const locationsPlusDistances = await axios.post(url + 'distances', {
       zip,
       locationsZips,
       locations: allLocations,
     });
-    setAllLocations(locationsPlusDistances);
+    setContext(keys.ALL_LOCATIONS, locationsPlusDistances.data);
   };
 
   const filterLocationsBy = (type, filter) => {
+    const allLocations = getContext(keys.ALL_LOCATIONS);
     if (type === 'tests') {
       const tests = filter;
       const filteredLocations = allLocations.filter((location) => {
