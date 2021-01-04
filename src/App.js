@@ -1,11 +1,9 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { ContextProvider } from './ContextProvider.js';
-import Header from './pages/components/Header.js';
-import Navbar from './pages/components/Navbar.js';
-import Welcome from './pages/Welcome.js';
-import Search from './pages/Search.js';
-// import Locations from './pages/Locations.js';
+import Header from './components/Header.js';
+import Navbar from './components/Navbar.js';
+const pages = require('./pages.js');
 
 const App = () => {
   return (
@@ -14,12 +12,13 @@ const App = () => {
         <div id='main'>
           <Header />
           <Switch>
-            <Route exact path='/' component={Welcome} />
-            <Route path='/search' component={Search} />
-            {/* <Route path='/locations' component={Locations} /> */}
-            {/* <Route path='/confirm' setTitle={setTitle} component={Confirm} /> */}
-            {/* <Route path='/appointments' setTitle={setTitle} component={Appointments} /> */}
-            {/* <Route path='/account' setTitle={setTitle} component={Account} /> */}
+            <Route exact path='/' component={pages.Welcome} />
+            <Route path='/search' component={pages.Search} />
+            <Route path='/selection' component={pages.Selection} />
+            <Route path='/appointments' component={pages.Appointments} />
+            <Route path='./account' component={pages.Account} />
+            <Route path='./about' component={pages.About} />
+            <Route path='./settings' component={pages.Settings} />
           </Switch>
           <Navbar />
         </div>

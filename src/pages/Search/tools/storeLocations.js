@@ -1,7 +1,6 @@
 import axios from 'axios';
-import { addAvailableTimes } from './searchTools.js';
-
-const ALL_LOCATIONS = 'ALL_LOCATIONS';
+import { addAvailableTimes } from './tools.js';
+import * as keys from '../../../storageKeys.js';
 
 const parseLocationsZips = (locations) => {
   let locationsZips = '';
@@ -16,7 +15,7 @@ export const storeLocations = async (date) => {
     const res = await axios.get(`http://localhost:8000/common/locations`);
     const allLocations = res.data;
     addAvailableTimes(allLocations, date);
-    sessionStorage.setItem(ALL_LOCATIONS, JSON.stringify(allLocations));
+    sessionStorage.setItem(keys.ALL_LOCATIONS, JSON.stringify(allLocations));
   } catch (e) {
     throw e;
   }
@@ -25,7 +24,7 @@ export const storeLocations = async (date) => {
 // add distance from zip to each location
 export const storeDistances = async (zip) => {
   try {
-    const locations = JSON.parse(sessionStorage.getItem(ALL_LOCATIONS));
+    const locations = JSON.parse(sessionStorage.getItem(keys.ALL_LOCATIONS));
     const locationsZips = parseLocationsZips(locations);
     const locationsPlusDistances = await axios.post(
       `http://localhost:8000/common/distances`,
@@ -36,7 +35,7 @@ export const storeDistances = async (zip) => {
       }
     );
     sessionStorage.setItem(
-      ALL_LOCATIONS,
+      keys.ALL_LOCATIONS,
       JSON.stringify(locationsPlusDistances.data)
     );
   } catch (e) {

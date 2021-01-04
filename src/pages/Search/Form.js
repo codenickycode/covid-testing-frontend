@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TESTS } from '../constants.js';
+import { TESTS } from './tools/constants.js';
 import Test from './components/Test.js';
 
 const SearchForm = ({ handleSubmit, error }) => {

@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import dayjs from 'dayjs';
-import * as tools from './searchTools.js';
-import * as store from './storeLocations.js';
-import SearchForm from './SearchForm.js';
-import SearchResults from './SearchResults.js';
-import LocationSelection from './components/LocationSelection.js';
+import * as tools from './Search/tools/tools.js';
+import {
+  storeLocations,
+  storeDistances,
+} from './Search/tools/storeLocations.js';
+import * as store from '../store.js';
+import SearchForm from './Search/Form.js';
+import SearchResults from './Search/Results.js';
 
 const Loading = () => <h1>Loading...</h1>;
 
@@ -14,17 +17,15 @@ const today = dayjs().format(format);
 const Search = () => {
   const [loading, setLoading] = useState(false);
   const [showResults, setShowResults] = useState(false);
-  const [showSelection, setShowSelection] = useState(false);
   const [error, setError] = useState('');
   const [date, setDate] = useState(today);
   const [locations, setLocations] = useState([]);
-  const [selectedLocation, setSelectedLocation] = useState(null);
 
   const handleSubmit = async (tests, zip) => {
     setLoading(true);
     try {
-      await store.storeLocations(date);
-      await store.storeDistances(zip);
+      await storeLocations(date);
+      await storeDistances(zip);
       const filtered = tools.filterLocationsBy('tests', tests);
       const sorted = tools.sortDistance(filtered);
       setLocations(sorted);
@@ -47,8 +48,8 @@ const Search = () => {
   const handleSelection = (selected) => {
     locations.forEach((location) => {
       if (location._id.toString() === selected) {
-        setSelectedLocation(location);
-        setShowSelection(true);
+        sessionStorage.setItem(store.SELECTED_LOCATION, location);
+        // history push to Selection
       }
     });
   };
@@ -66,8 +67,6 @@ const Search = () => {
 
   return loading ? (
     <Loading />
-  ) : showSelection ? (
-    <LocationSelection location={selectedLocation} date={date} />
   ) : showResults ? (
     <SearchResults
       locations={locations}
