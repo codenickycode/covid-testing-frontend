@@ -1,12 +1,19 @@
-import React, { useState } from 'react';
-import Times from './Times.js';
-import Modal from './Modal.js';
-import * as store from '../store.js';
+import React, { useState, useContext } from 'react';
+import Times from './components/Times.js';
+import Modal from './Modal/Modal.js';
+import {
+  SelectedLocationContext,
+  DateContext,
+  AppointmentContext,
+} from '../ContextProvider.js';
 
-const Selection = ({ location, date }) => {
+const Selection = () => {
+  const { selectedLocation } = useContext(SelectedLocationContext);
+  const { date } = useContext(DateContext);
+  const { setNewAppointment } = useContext(AppointmentContext);
   const [showModal, setShowModal] = useState(false);
 
-  const { name, phone, address, tests } = location;
+  const { name, phone, address, tests } = selectedLocation;
   let timeSelection = null;
   let testsSelection = [];
 
@@ -21,16 +28,13 @@ const Selection = ({ location, date }) => {
 
   const submit = (e) => {
     e.preventDefault();
-    let appointmentToStore = {
-      location: location._id,
+    const newAppointment = {
+      location: selectedLocation._id,
       date,
       time: timeSelection,
       tests: testsSelection,
     };
-    sessionStorage.setItem(
-      store.APPOINTMENT,
-      JSON.stringify(appointmentToStore)
-    );
+    setNewAppointment(newAppointment);
     setShowModal(true);
   };
 
@@ -53,7 +57,7 @@ const Selection = ({ location, date }) => {
             <p>{date}</p>
           </div>
           <div className='select-time'>
-            <Times times={location.available} selectTime={selectTime} />
+            <Times times={selectedLocation.available} selectTime={selectTime} />
           </div>
           <div className='location-tests'>
             <h4>Tests:</h4>

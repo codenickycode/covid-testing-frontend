@@ -1,34 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 import dayjs from 'dayjs';
 import * as tools from './Search/tools/tools.js';
-import {
-  storeLocations,
-  storeDistances,
-} from './Search/tools/storeLocations.js';
-import * as store from '../store.js';
+import useGetLocations from './Search/tools/useGetLocations.js';
 import SearchForm from './Search/Form.js';
 import SearchResults from './Search/Results.js';
+import { DateContext, SelectedLocationContext } from '../ContextProvider.js';
 
 const Loading = () => <h1>Loading...</h1>;
 
-const format = 'MMMM D, YYYY';
-const today = dayjs().format(format);
-
 const Search = () => {
+  const history = useHistory();
+  const {
+    storeLocations,
+    storeDistances,
+    filterLocationsBy,
+  } = useGetLocations();
+  const { setSelectedLocation } = useContext(SelectedLocationContext);
+  const { format, date, setDate } = useContext(DateContext);
   const [loading, setLoading] = useState(false);
   const [showResults, setShowResults] = useState(false);
   const [error, setError] = useState('');
-  const [date, setDate] = useState(today);
-  const [locations, setLocations] = useState([]);
+  const [results, setResults] = useState([]);
 
   const handleSubmit = async (tests, zip) => {
     setLoading(true);
     try {
       await storeLocations(date);
       await storeDistances(zip);
-      const filtered = tools.filterLocationsBy('tests', tests);
+      const filtered = filterLocationsBy('tests', tests);
       const sorted = tools.sortDistance(filtered);
-      setLocations(sorted);
+      setResults(sorted);
       setShowResults(true);
       setError('');
     } catch (e) {
@@ -40,16 +42,16 @@ const Search = () => {
   };
 
   const handleSortBy = (type) => {
-    let sorted = tools.sortDistance(locations);
+    let sorted = tools.sortDistance(results);
     if (type === 'time') sorted = tools.sortTime(sorted);
-    setLocations(sorted);
+    setResults(sorted);
   };
 
   const handleSelection = (selected) => {
-    locations.forEach((location) => {
+    results.forEach((location) => {
       if (location._id.toString() === selected) {
-        sessionStorage.setItem(store.SELECTED_LOCATION, location);
-        // history push to Selection
+        setSelectedLocation(location);
+        history.push('/selection');
       }
     });
   };
@@ -59,9 +61,9 @@ const Search = () => {
     newDate =
       type === 'dec' ? newDate.subtract(1, 'day') : newDate.add(1, 'day');
     newDate = newDate.format(format);
-    let newLocations = [...locations];
+    let newLocations = [...results];
     tools.addAvailableTimes(newLocations, newDate);
-    setLocations(newLocations);
+    setResults(newLocations);
     setDate(newDate);
   };
 
@@ -69,7 +71,7 @@ const Search = () => {
     <Loading />
   ) : showResults ? (
     <SearchResults
-      locations={locations}
+      locations={results}
       sortBy={handleSortBy}
       date={date}
       changeDate={changeDate}

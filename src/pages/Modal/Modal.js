@@ -1,14 +1,14 @@
 import React, { useState, useContext } from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
-import { AppContext } from '../../ContextProvider.js';
+import { UserContext } from '../../ContextProvider.js';
 import LoginModal from './Login/Login.js';
 import ConfirmationModal from './Booking/Confirmed';
 
 const Booking = () => <h1>Booking appointment...</h1>;
 
 const Modal = ({ closeModal }) => {
-  const { loggedIn } = useContext(AppContext);
+  const { user } = useContext(UserContext);
   const [booking, setBooking] = useState(false);
   const [confirmation, setConfirmation] = useState(null);
 
@@ -27,14 +27,11 @@ const Modal = ({ closeModal }) => {
     }
   };
 
-  //   const newAppointment = JSON.parse(sessionStorage.getItem(APPOINTMENT));
-  //   bookAppointment(newAppointment);
-  console.log(loggedIn);
   return ReactDOM.createPortal(
     <>
       <div className='overlay' onClick={closeModal}></div>
       <div className='modal'>
-        {!loggedIn && <LoginModal />}
+        {!user && <LoginModal />}
         {/*  
         {booking && <Booking />}
         {confirmation ? (

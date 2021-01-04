@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import axios from 'axios';
-import { AppContext } from '../../../ContextProvider.js';
+import { UserContext } from '../../../ContextProvider.js';
 
 const validPassword = (password) => {
   return password.match(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/);
@@ -9,7 +9,7 @@ const validPassword = (password) => {
 const Registering = () => <h1>Registering...</h1>;
 
 const Login = () => {
-  const { loggedIn, setLoggedIn } = useContext(AppContext);
+  const { user, setUser } = useContext(UserContext);
   const [signup, setSignup] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

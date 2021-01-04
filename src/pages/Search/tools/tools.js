@@ -1,7 +1,5 @@
 import dayjs from 'dayjs';
-import { TIMESLOTS } from '../constants.js';
-
-const ALL_LOCATIONS = 'ALL_LOCATIONS';
+import { TIMESLOTS } from './constants.js';
 
 export const addAvailableTimes = (locations, date) => {
   locations.forEach((location) => {
@@ -17,18 +15,12 @@ export const addAvailableTimes = (locations, date) => {
   });
 };
 
-export const filterLocationsBy = (type, filter) => {
-  if (type === 'tests') {
-    const tests = filter;
-    const allLocations = JSON.parse(sessionStorage.getItem(ALL_LOCATIONS));
-    const filteredLocations = allLocations.filter((location) => {
-      for (let [test] of Object.entries(tests)) {
-        if (tests[test] && location.tests.indexOf(test) === -1) return false;
-      }
-      return true;
-    });
-    return filteredLocations;
+export const parseLocationsZips = (locations) => {
+  let locationsZips = '';
+  for (let location of locations) {
+    locationsZips += location.address.zip + '|';
   }
+  return locationsZips;
 };
 
 export const sortDistance = (unsorted) => {
