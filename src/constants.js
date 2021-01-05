@@ -1,3 +1,5 @@
+export const URL = 'http://localhost:8000/common/';
+
 export const TESTS = {
   rapid: { name: 'Rapid', info: 'rapid test info' },
   pcr: { name: 'PCR', info: 'pcr test info' },
@@ -8,6 +10,17 @@ export const FILTER_INIT = {
   rapid: false,
   pcr: false,
   blood: false,
+};
+
+export const DATE_FORMAT = 'MMMM D, YYYY';
+
+export const KEYS = {
+  ALL_LOCATIONS: 'ALL_LOCATIONS',
+  SORTED_LOCATIONS: 'SORTED_LOCATIONS',
+  RESULTS: 'RESULTS',
+  NEW_APPOINTMENT: 'NEW_APPOINTMENT',
+  CONFIRMATION: 'CONFIRMATION',
+  USER: 'USER',
 };
 
 export const TIMESLOTS = [

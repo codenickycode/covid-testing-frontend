@@ -1,29 +1,49 @@
 import React from 'react';
 import dayjs from 'dayjs';
-import * as keys from './contextKeys.js';
+import { DATE_FORMAT } from './constants.js';
 
-const format = 'MMMM D, YYYY';
-const today = dayjs().format(format);
+export const today = dayjs().format(DATE_FORMAT);
 
-export const GetContext = React.createContext();
-export const SetContext = React.createContext();
+export const GetDate = React.createContext();
+export const SetDate = React.createContext();
+export const GetAllLocations = React.createContext();
+export const SetAllLocations = React.createContext();
+export const GetResults = React.createContext();
+export const SetResults = React.createContext();
+export const GetSelectedLocation = React.createContext();
+export const SetSelectedLocation = React.createContext();
 
 const ContextProvider = ({ children }) => {
-  const context = {
-    [keys.ALL_LOCATIONS]: null,
-    [keys.SELECTED_LOCATION]: null,
-    [keys.DATE]: today,
-    [keys.NEW_APPOINTMENT]: null,
-    [keys.CONFIRMATION]: null,
-    [keys.USER]: null,
-  };
-  const getContext = (key) => context[key];
-  const setContext = (key, value) => (context[key] = value);
+  let date = today;
+  const setDate = (input) => (date = input);
+
+  let allLocations = [];
+  const setAllLocations = (input) => (allLocations = [...input]);
+
+  let results = [];
+  const setResults = (input) => (results = [...input]);
+
+  let selectedLocation = null;
+  const setSelectedLocation = (input) => (selectedLocation = { ...input });
 
   return (
-    <GetContext.Provider value={getContext}>
-      <SetContext.Provider value={setContext}>{children}</SetContext.Provider>
-    </GetContext.Provider>
+    <GetDate.Provider value={date}>
+      <SetDate.Provider value={setDate}>
+        <GetAllLocations.Provider value={allLocations}>
+          <SetAllLocations.Provider value={setAllLocations}>
+            <GetResults.Provider value={results}>
+              <SetResults.Provider value={setResults}>
+                <GetSelectedLocation.Provider value={selectedLocation}>
+                  <SetSelectedLocation.Provider value={setSelectedLocation}>
+                    {children}
+                  </SetSelectedLocation.Provider>
+                </GetSelectedLocation.Provider>
+              </SetResults.Provider>
+            </GetResults.Provider>
+          </SetAllLocations.Provider>
+        </GetAllLocations.Provider>
+      </SetDate.Provider>
+    </GetDate.Provider>
   );
 };
 

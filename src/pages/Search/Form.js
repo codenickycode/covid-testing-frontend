@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { TESTS } from './tools/constants.js';
-import Test from './components/Test.js';
+import SearchFormJSX from './components/SearchFormJSX.js';
 
 const SearchForm = ({ handleSubmit, error }) => {
   const [zip, setZip] = useState('');
@@ -27,31 +26,13 @@ const SearchForm = ({ handleSubmit, error }) => {
   };
 
   return (
-    <form id='form-home' className='form' onSubmit={submit}>
-      {error && <h2 className='error'>{error}</h2>}
-      <h1>Hi!</h1>
-      <p>Please select which tests you are interested in...</p>
-      <div id='tests' className=''>
-        {Object.entries(TESTS).map((test, index) => {
-          return (
-            <Test key={index} onClick={(e) => toggleTest(e)} test={test} />
-          );
-        })}
-      </div>
-      <h2>Where?</h2>
-      <p>Select your search location...</p>
-      <input
-        type='text'
-        name='zip'
-        placeholder='Enter your zipcode'
-        maxLength='5'
-        value={zip}
-        onChange={(e) => handleZipInput(e)}
-      ></input>
-      <button type='submit' id='btn-search' className='btn' disabled={zip < 5}>
-        Search availability
-      </button>
-    </form>
+    <SearchFormJSX
+      toggleTest={toggleTest}
+      zip={zip}
+      handleZipInput={handleZipInput}
+      submit={submit}
+      error={error}
+    />
   );
 };
 

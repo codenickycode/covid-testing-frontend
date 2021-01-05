@@ -1,9 +1,20 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
+import useSearchTools from '../tools/useSearchTools.js';
 
-const LocationPreview = ({ location, select }) => {
+const LocationPreview = ({ location }) => {
+  const history = useHistory();
+  const tools = useSearchTools();
+
   const { name, phone, address, tests } = location;
+
+  const handleSelection = (selected) => {
+    tools.storeSelection(selected);
+    history.push('/selection');
+  };
+
   return (
-    <div className='location' onClick={() => select(location._id)}>
+    <div className='location' onClick={() => handleSelection(location._id)}>
       <div className='location-basic'>
         <h2>{name}</h2>
         <p>{phone}</p>

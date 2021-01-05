@@ -1,47 +1,51 @@
 import { useContext } from 'react';
 import axios from 'axios';
-import { GetContext, SetContext } from '../../../ContextProvider.js';
-import * as keys from '../../../contextKeys.js';
-import { addAvailableTimes, parseLocationsZips } from './tools.js';
-import { url } from '../../../url.js';
+import {
+  GetAllLocations,
+  SetAllLocations,
+  GetResults,
+  SetSelectedLocation,
+} from '../../../ContextProvider.js';
+import { URL } from '../../../constants.js';
 
 const useGetLocations = () => {
-  const getContext = useContext(GetContext);
-  const setContext = useContext(SetContext);
+  const allLocations = useContext(GetAllLocations);
+  const setAllLocations = useContext(SetAllLocations);
+  const results = useContext(GetResults);
+  const setSelectedLocation = useContext(SetSelectedLocation);
 
-  const storeLocations = async (date) => {
-    const res = await axios.get(url + 'locations');
-    let allLocations = res.data;
-    addAvailableTimes(allLocations, date);
-    setContext(keys.ALL_LOCATIONS, allLocations);
+  const storeLocations = async () => {
+    const res = await axios.get(URL + 'locations');
+    const locations = res.data;
+    setAllLocations(locations);
+    console.log('after set all: ', locations);
   };
 
   const storeDistances = async (zip) => {
-    const allLocations = getContext(keys.ALL_LOCATIONS);
+    console.log('start of storeDistnace: ', allLocations);
     const locationsZips = parseLocationsZips(allLocations);
-    const locationsPlusDistances = await axios.post(url + 'distances', {
+    const locationsPlusDistances = await axios.post(URL + 'distances', {
       zip,
       locationsZips,
       locations: allLocations,
     });
-    setContext(keys.ALL_LOCATIONS, locationsPlusDistances.data);
+    setAllLocations(locationsPlusDistances.data);
   };
 
-  const filterLocationsBy = (type, filter) => {
-    const allLocations = getContext(keys.ALL_LOCATIONS);
-    if (type === 'tests') {
-      const tests = filter;
-      const filteredLocations = allLocations.filter((location) => {
-        for (let [test] of Object.entries(tests)) {
-          if (tests[test] && location.tests.indexOf(test) === -1) return false;
-        }
-        return true;
-      });
-      return filteredLocations;
-    }
+  const storeSelection = (selected) => {
+    results.forEach((location) => {
+      if (location._id.toString() === selected) setSelectedLocation(location);
+    });
   };
+  return { storeLocations, storeDistances, storeSelection };
+};
 
-  return { storeLocations, storeDistances, filterLocationsBy };
+const parseLocationsZips = (locations) => {
+  let locationsZips = '';
+  for (let location of locations) {
+    locationsZips += location.address.zip + '|';
+  }
+  return locationsZips;
 };
 
 export default useGetLocations;

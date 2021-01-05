@@ -12,6 +12,7 @@ const Welcome = () => {
       <h2>NO MORE WAIT!</h2>
       <p>In four simple steps, you can book a COVID-19 testing appointment.</p>
       <button
+        autoFocus
         id='btn-start'
         className='btn'
         onClick={() => history.push('/search')}
