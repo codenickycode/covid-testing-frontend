@@ -1,13 +1,13 @@
 import React from 'react';
 
-const ConfirmationModal = ({ confirmation }) => {
-  //   console.log(confirmation);
+const Confirmed = ({ result }) => {
+  console.log(result);
   return (
     <>
       <h1>Confirmed!</h1>
-      <p>{confirmation}</p>
+      <p>{result}</p>
     </>
   );
 };
 
-export default ConfirmationModal;
+export default Confirmed;

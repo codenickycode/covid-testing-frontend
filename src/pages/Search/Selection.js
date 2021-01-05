@@ -20,6 +20,7 @@ const Selection = ({ selection, date, handleChangeDate }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!timeSelection || testsSelection.length === 0) return;
     const newAppointment = {
       location: selection._id,
       date,
@@ -37,7 +38,6 @@ const Selection = ({ selection, date, handleChangeDate }) => {
       {showModal && (
         <ConfirmationModal
           appointment={appointment}
-          selection={selection}
           closeModal={handleCloseModal}
         />
       )}

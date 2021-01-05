@@ -1,17 +1,17 @@
 import axios from 'axios';
 import dayjs from 'dayjs';
-import { URL, DATE_FORMAT, TIMESLOTS } from '../../../constants.js';
+import { DATE_FORMAT, TIMESLOTS } from '../../../constants.js';
 
 export const today = dayjs().format(DATE_FORMAT);
 
 export const getLocations = async () => {
-  const res = await axios.get(URL + 'locations');
+  const res = await axios.get('/common/locations');
   return res.data;
 };
 
 export const getDistances = async (zip, locations) => {
   const locationsZips = parseLocationsZips(locations);
-  const res = await axios.post(URL + 'distances', {
+  const res = await axios.post('/common/distances', {
     zip,
     locationsZips,
     locations,
