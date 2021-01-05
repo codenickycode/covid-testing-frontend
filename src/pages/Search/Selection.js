@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import SelectionJSX from './components/SelectionJSX.js';
 import ConfirmationModal from '../Modal/Confirmation.js';
 
-const Selection = ({ selection, date }) => {
+const Selection = ({ selection, date, handleChangeDate }) => {
   const [showModal, setShowModal] = useState(false);
   const [appointment, setAppointment] = useState(null);
 
@@ -44,6 +44,7 @@ const Selection = ({ selection, date }) => {
       <SelectionJSX
         selection={selection}
         date={date}
+        handleChangeDate={handleChangeDate}
         selectTime={selectTime}
         selectTest={selectTest}
         handleSubmit={handleSubmit}

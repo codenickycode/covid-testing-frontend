@@ -4,6 +4,7 @@ import Times from './Times.js';
 const SelectionJSX = ({
   selection,
   date,
+  handleChangeDate,
   selectTime,
   selectTest,
   handleSubmit,
@@ -22,9 +23,24 @@ const SelectionJSX = ({
             {address.city}, {address.state} {address.zip}
           </p>
         </div>
-        <div className='location-date'>
-          <h3>Date</h3>
-          <p>{date}</p>
+        <div className='center date-picker'>
+          <button
+            type='button'
+            id='date-dec'
+            className='btn-small'
+            onClick={() => handleChangeDate('dec')}
+          >
+            {'<'}
+          </button>
+          <p id='date'>{date}</p>
+          <button
+            type='button'
+            id='date-inc'
+            className='btn-small'
+            onClick={() => handleChangeDate('inc')}
+          >
+            {'>'}
+          </button>
         </div>
         <div className='select-time'>
           <Times times={available} selectTime={selectTime} />

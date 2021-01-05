@@ -31,7 +31,11 @@ const SearchResults = ({ results }) => {
   };
 
   return showSelection ? (
-    <Selection selection={selection} date={date} />
+    <Selection
+      selection={selection}
+      date={date}
+      handleChangeDate={handleChangeDate}
+    />
   ) : (
     <ResultsJSX
       date={date}
