@@ -15,9 +15,9 @@ const Search = () => {
   const handleSubmit = async (tests, zip) => {
     try {
       setLoading(true);
-      let locations =
-        allLocations.length > 0 ? allLocations : await tools.getLocations();
-      locations = tools.getDistances(zip, locations);
+      let locations = [...allLocations];
+      if (locations.length === 0) locations = await tools.getLocations();
+      locations = await tools.getDistances(zip, locations);
       let filtered = tools.filterLocationsBy('tests', tests, locations);
       tools.sortByDistance(filtered);
       setAllLocations(locations);

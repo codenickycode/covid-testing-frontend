@@ -46,4 +46,4 @@ const ConfirmationModal = ({ appointment, selection, closeModal }) => {
   );
 };
 
-export default Modal;
+export default ConfirmationModal;

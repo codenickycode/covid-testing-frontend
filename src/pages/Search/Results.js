@@ -10,7 +10,7 @@ const SearchResults = ({ results }) => {
   const [showSelection, setShowSelection] = useState(false);
 
   const handleChangeDate = (type) => {
-    let newDate = tools.changeDate(type);
+    let newDate = tools.changeDate(type, date);
     let newLocations = [...locations];
     tools.addAvailableTimes(newLocations, newDate);
     setDate(newDate);
