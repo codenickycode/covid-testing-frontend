@@ -1,7 +1,8 @@
 import React, { useState, useContext } from 'react';
+import axios from 'axios';
 import { User, SetUser } from '../../../Providers/User.js';
 
-const ConfirmUserInfo = ({ closeModal }) => {
+const ConfirmUserInfo = ({ setLoading, closeModal }) => {
   const user = useContext(User);
   const setUser = useContext(SetUser);
   const [name, setName] = useState(user.name || '');
@@ -10,6 +11,12 @@ const ConfirmUserInfo = ({ closeModal }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setLoading(true);
+    try {
+    } catch (e) {
+      console.log(e);
+    }
+    setLoading(false);
     setUser({ ...user, name, phone, dob });
   };
 

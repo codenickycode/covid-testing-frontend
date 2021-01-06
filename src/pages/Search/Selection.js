@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import SelectionJSX from './components/SelectionJSX.js';
 import ConfirmationModal from '../Modal/Confirmation.js';
 
-const Selection = ({ selection, date, handleChangeDate }) => {
+const Selection = ({ selection, date, handleChangeDate, refreshLocations }) => {
   const [showModal, setShowModal] = useState(false);
   const [appointment, setAppointment] = useState(null);
 
@@ -31,7 +31,10 @@ const Selection = ({ selection, date, handleChangeDate }) => {
     setShowModal(true);
   };
 
-  const handleCloseModal = () => setShowModal(false);
+  const handleCloseModal = () => {
+    refreshLocations(date);
+    setShowModal(false);
+  };
 
   return (
     <>

@@ -3,15 +3,13 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 import { User } from '../../Providers/User';
 import LoginModal from './Login.js';
-import Confirmed from './Confirmation/Confirmed.js';
-import Failed from './Confirmation/Failed.js';
 import ConfirmUserInfoModal from './Forms/ConfirmUserInfoModal.js';
 
-const Booking = () => <h1>Booking appointment...</h1>;
+const Loading = () => <h1>Loading...</h1>;
 
 const ConfirmationModal = ({ appointment, closeModal }) => {
   const [loading, setLoading] = useState(false);
-  const [booking, setBooking] = useState(true);
+  const [error, setError] = useState('');
   const [result, setResult] = useState(null);
   const [confirmed, setConfirmed] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
@@ -19,7 +17,7 @@ const ConfirmationModal = ({ appointment, closeModal }) => {
   const user = useContext(User);
 
   const bookAppointment = async (appointment) => {
-    setBooking(true);
+    setLoading(true);
     let newResult = [null, null];
     try {
       const res = await axios.post('/common/appointments', appointment);
@@ -27,11 +25,13 @@ const ConfirmationModal = ({ appointment, closeModal }) => {
       setConfirmed(true);
     } catch (e) {
       console.log(e);
-      newResult[0] = e.response.data || e.message;
+      const result = e.response.data || e.message;
+      newResult[0] = result;
+      setError(result);
       setConfirmed(false);
     } finally {
       setResult(newResult);
-      setBooking(false);
+      setLoading(false);
     }
   };
 
@@ -54,26 +54,32 @@ const ConfirmationModal = ({ appointment, closeModal }) => {
 
   return ReactDOM.createPortal(
     <>
-      {showLogin ? (
+      {loading ? (
+        <>
+          <div className='overlay'></div>
+          <div className='modal'>
+            <Loading />
+          </div>
+        </>
+      ) : showLogin ? (
         <LoginModal
           closeModal={closeModal}
           loading={loading}
           setLoading={setLoading}
+          error={error}
+          setError={setError}
         />
       ) : showConfirmUserInfo ? (
-        <ConfirmUserInfoModal closeModal={closeModal} />
+        <ConfirmUserInfoModal
+          loading={loading}
+          setLoading={setLoading}
+          closeModal={closeModal}
+          setError={setError}
+        />
       ) : (
         <>
-          <div className='overlay'></div>
-          <div className='modal'>
-            {booking ? (
-              <Booking />
-            ) : confirmed ? (
-              <Confirmed result={result} />
-            ) : (
-              <Failed result={result} />
-            )}
-          </div>
+          <div className='overlay' onClick={closeModal}></div>
+          <div className='modal'>{error}</div>
         </>
       )}
     </>,

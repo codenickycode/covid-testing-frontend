@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import * as tools from './tools/tools.js';
 import ResultsJSX from './components/ResultsJSX.js';
 import Selection from './Selection.js';
@@ -11,11 +11,17 @@ const SearchResults = ({ results }) => {
 
   const handleChangeDate = (type) => {
     let newDate = tools.changeDate(type, date);
+    refreshAvailable(newDate);
+    setDate(newDate);
+  };
+
+  const refreshAvailable = (newDate) => {
     let newLocations = [...locations];
     tools.addAvailableTimes(newLocations, newDate);
-    setDate(newDate);
     setLocations(newLocations);
   };
+
+  const refreshLocations = (date) => {};
 
   const handleSortBy = (type) => {
     let newLocations = [...locations];
@@ -30,11 +36,16 @@ const SearchResults = ({ results }) => {
     setShowSelection(true);
   };
 
+  useEffect(() => {
+    console.log(locations[0].available);
+  });
+
   return showSelection ? (
     <Selection
       selection={selection}
       date={date}
       handleChangeDate={handleChangeDate}
+      refreshLocations={refreshLocations}
     />
   ) : (
     <ResultsJSX

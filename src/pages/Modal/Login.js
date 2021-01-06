@@ -1,14 +1,11 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 import { SetUser } from '../../Providers/User.js';
 import LoginForm from './Forms/LoginForm.js';
 
-const Loading = () => <h1>Loading...</h1>;
-
-const Login = ({ closeModal, loading, setLoading }) => {
+const Login = ({ closeModal, setLoading, error, setError }) => {
   const setUser = useContext(SetUser);
-  const [invalid, setInvalid] = useState('');
 
   const registerUser = async (email, password) => {
     try {
@@ -17,11 +14,11 @@ const Login = ({ closeModal, loading, setLoading }) => {
         email,
         password,
       });
-      setInvalid('');
+      setError('');
       setUser(res.data);
     } catch (e) {
       const error = e.response.data || e.message;
-      setInvalid(error);
+      setError(error);
     } finally {
       setLoading(false);
     }
@@ -31,15 +28,8 @@ const Login = ({ closeModal, loading, setLoading }) => {
     <>
       <div className='overlay' onClick={closeModal}></div>
       <div className='modal'>
-        {loading ? (
-          <Loading />
-        ) : (
-          <LoginForm
-            registerUser={registerUser}
-            invalid={invalid}
-            setInvalid={setInvalid}
-          />
-        )}
+        {error && <h2>{error}</h2>}
+        <LoginForm registerUser={registerUser} setError={setError} />
       </div>
     </>,
     document.getElementById('portal')

@@ -29,6 +29,7 @@ const Search = () => {
       setError(error);
     } finally {
       setLoading(false);
+      sessionStorage.setItem('search', JSON.stringify({ tests, zip }));
     }
   };
 

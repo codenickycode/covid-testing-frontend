@@ -4,7 +4,7 @@ const validPassword = (password) => {
   return password.match(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/);
 };
 
-const LoginForm = ({ registerUser, invalid, setInvalid }) => {
+const LoginForm = ({ registerUser, setError }) => {
   const [signup, setSignup] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -16,10 +16,10 @@ const LoginForm = ({ registerUser, invalid, setInvalid }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!validPassword(password)) return setInvalid('Invalid password');
+    if (!validPassword(password)) return setError('Invalid password');
     if (password !== confirmation)
-      return setInvalid("Confirmation doesn't match");
-    setInvalid('');
+      return setError("Confirmation doesn't match");
+    setError('');
     registerUser(email, password);
   };
 
@@ -37,7 +37,6 @@ const LoginForm = ({ registerUser, invalid, setInvalid }) => {
       ) : (
         <h1>Login to your account</h1>
       )}
-      {invalid && <h2>{invalid}</h2>}
       <form id='form-signup' className='form' onSubmit={handleSubmit}>
         <label htmlFor='email'>Email</label>
         <input
