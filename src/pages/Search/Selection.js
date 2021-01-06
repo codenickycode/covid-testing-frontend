@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import SelectionJSX from './components/SelectionJSX.js';
-import ConfirmationModal from '../Modal/Confirmation.js';
+import ConfirmationModal from '../Modal/ConfirmationModal.js';
 
 const Selection = ({ selection, date, handleChangeDate, refreshLocations }) => {
   const [showModal, setShowModal] = useState(false);

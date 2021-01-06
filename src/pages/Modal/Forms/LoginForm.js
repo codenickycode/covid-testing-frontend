@@ -4,7 +4,7 @@ const validPassword = (password) => {
   return password.match(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/);
 };
 
-const LoginForm = ({ registerUser, setError }) => {
+const LoginForm = ({ submit, setError }) => {
   const [signup, setSignup] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -16,11 +16,15 @@ const LoginForm = ({ registerUser, setError }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!validPassword(password)) return setError('Invalid password');
-    if (password !== confirmation)
-      return setError("Confirmation doesn't match");
-    setError('');
-    registerUser(email, password);
+    if (signup) {
+      if (!validPassword(password)) return setError('Invalid password');
+      if (password !== confirmation)
+        return setError("Confirmation doesn't match");
+      setError('');
+      submit('register', email, password);
+    } else {
+      submit('login', email, password);
+    }
   };
 
   const forgotPassword = () => {

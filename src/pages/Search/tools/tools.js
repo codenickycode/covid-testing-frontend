@@ -2,7 +2,7 @@ import axios from 'axios';
 import dayjs from 'dayjs';
 import { DATE_FORMAT, TIMESLOTS } from '../../../constants.js';
 
-export const today = dayjs().format(DATE_FORMAT);
+export const TODAY = dayjs().format(DATE_FORMAT);
 
 export const getLocations = async () => {
   const res = await axios.get('/common/locations');
@@ -69,8 +69,8 @@ export const changeDate = (type, date) => {
   return newDate;
 };
 
-export const addAvailableTimes = (locations, date = today) => {
-  locations.forEach((location) => {
+export const addAvailableTimes = (input, date = TODAY) => {
+  const addAvailable = (location, date) => {
     location.available = [...TIMESLOTS];
     location.appointments.forEach((appointment) => {
       if (dayjs(appointment.date).isSame(dayjs(date), 'date')) {
@@ -80,5 +80,10 @@ export const addAvailableTimes = (locations, date = today) => {
         );
       }
     });
-  });
+  };
+  if (!Array.isArray(input)) {
+    addAvailable(input, date);
+  } else {
+    input.forEach((location) => addAvailable(location, date));
+  }
 };

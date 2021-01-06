@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 import { User } from '../../Providers/User';
-import LoginModal from './Login.js';
+import LoginModal from './LoginModal.js';
 import ConfirmUserInfoModal from './Forms/ConfirmUserInfoModal.js';
 
 const Loading = () => <h1>Loading...</h1>;
@@ -64,14 +64,12 @@ const ConfirmationModal = ({ appointment, closeModal }) => {
       ) : showLogin ? (
         <LoginModal
           closeModal={closeModal}
-          loading={loading}
           setLoading={setLoading}
           error={error}
           setError={setError}
         />
       ) : showConfirmUserInfo ? (
         <ConfirmUserInfoModal
-          loading={loading}
           setLoading={setLoading}
           closeModal={closeModal}
           setError={setError}

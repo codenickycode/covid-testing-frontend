@@ -1,9 +1,9 @@
 import React from 'react';
-import LocationPreview from './LocationPreview.js';
+import LocationPreview from './components/LocationPreview.js';
 
-const ResultsJSX = ({
+const SearchResults = ({
   date,
-  locations,
+  results,
   handleChangeDate,
   handleSortBy,
   handleSelection,
@@ -45,7 +45,7 @@ const ResultsJSX = ({
         </button>
       </div>
       <div id='div-locations'>
-        {locations.map((location, index) => {
+        {results.map((location, index) => {
           return (
             <LocationPreview
               key={index}
@@ -59,4 +59,4 @@ const ResultsJSX = ({
   );
 };
 
-export default ResultsJSX;
+export default SearchResults;

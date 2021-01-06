@@ -2,22 +2,30 @@ import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { User, SetUser } from '../../../Providers/User.js';
 
-const ConfirmUserInfo = ({ setLoading, closeModal }) => {
+const ConfirmUserInfo = ({ setLoading, closeModal, setError }) => {
   const user = useContext(User);
   const setUser = useContext(SetUser);
   const [name, setName] = useState(user.name || '');
   const [phone, setPhone] = useState(user.phone || '');
   const [dob, setDob] = useState(user.dob || '');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
     try {
+      setLoading(true);
+      const res = await axios.post('/common/update/basic', {
+        name,
+        phone,
+        dob,
+      });
+      setError('');
+      setUser(res.data);
     } catch (e) {
-      console.log(e);
+      const error = e.response.data || e.message;
+      setError(error);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
-    setUser({ ...user, name, phone, dob });
   };
 
   return (

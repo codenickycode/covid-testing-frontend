@@ -7,10 +7,10 @@ import LoginForm from './Forms/LoginForm.js';
 const Login = ({ closeModal, setLoading, error, setError }) => {
   const setUser = useContext(SetUser);
 
-  const registerUser = async (email, password) => {
+  const submit = async (type, email, password) => {
     try {
       setLoading(true);
-      const res = await axios.post('/common/register', {
+      const res = await axios.post(`/common/${type}`, {
         email,
         password,
       });
@@ -29,7 +29,7 @@ const Login = ({ closeModal, setLoading, error, setError }) => {
       <div className='overlay' onClick={closeModal}></div>
       <div className='modal'>
         {error && <h2>{error}</h2>}
-        <LoginForm registerUser={registerUser} setError={setError} />
+        <LoginForm submit={submit} setError={setError} />
       </div>
     </>,
     document.getElementById('portal')
