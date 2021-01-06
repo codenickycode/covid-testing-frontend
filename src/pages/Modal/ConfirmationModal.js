@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import ReactDOM from 'react-dom';
+import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import { User } from '../../Providers/User';
 import LoginModal from './LoginModal.js';
@@ -8,34 +9,27 @@ import ConfirmUserInfoModal from './Forms/ConfirmUserInfoModal.js';
 const Loading = () => <h1>Loading...</h1>;
 
 const ConfirmationModal = ({ appointment, closeModal }) => {
+  const history = useHistory();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [result, setResult] = useState(null);
-  const [confirmed, setConfirmed] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
   const [showConfirmUserInfo, setShowConfirmUserInfo] = useState(false);
   const user = useContext(User);
 
-  const bookAppointment = async (appointment) => {
-    setLoading(true);
-    let newResult = [null, null];
-    try {
-      const res = await axios.post('/common/appointments', appointment);
-      newResult[1] = res.data;
-      setConfirmed(true);
-    } catch (e) {
-      console.log(e);
-      const result = e.response.data || e.message;
-      newResult[0] = result;
-      setError(result);
-      setConfirmed(false);
-    } finally {
-      setResult(newResult);
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
+    const bookAppointment = async (appointment) => {
+      setLoading(true);
+      try {
+        await axios.post('/common/appointments', appointment);
+        history.push('/appointments');
+      } catch (e) {
+        console.log(e);
+        const error = e.response.data || e.message;
+        setError(error);
+        setLoading(false);
+      }
+    };
+
     if (!user) {
       setShowLogin(true);
     } else if (
@@ -50,7 +44,7 @@ const ConfirmationModal = ({ appointment, closeModal }) => {
       setShowConfirmUserInfo(false);
       bookAppointment(appointment);
     }
-  }, [user, appointment]);
+  }, [user, appointment, history]);
 
   return ReactDOM.createPortal(
     <>
