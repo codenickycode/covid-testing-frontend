@@ -8,6 +8,28 @@ import AppointmentsList from './Appointments/AppointmentsList.js';
 const Error = ({ error }) => <h1>{error}</h1>;
 const Loading = () => <h1>Loading...</h1>;
 
+const sortByTime = (appointments) => {
+  let dates = {};
+  appointments.sort((a, b) => dayjs(a.date).diff(dayjs(b.date)));
+  appointments.forEach((appointment) => {
+    if (!dates[appointment.date]) {
+      dates[appointment.date] = [appointment];
+    } else {
+      dates[appointment.date].push(appointment);
+    }
+  });
+  let sorted = [];
+  for (let [k, v] of Object.entries(dates)) {
+    if (v.length === 1) {
+      sorted.push(...v);
+    } else {
+      tools.sortAppointmentsByTime(v);
+      sorted.push(...v);
+    }
+  }
+  return sorted;
+};
+
 const sortAppointments = (appointments) => {
   let upcoming = [];
   let past = [];
@@ -18,7 +40,9 @@ const sortAppointments = (appointments) => {
       upcoming.push(appointment);
     }
   });
-  return [upcoming, past];
+  const upcomingSorted = sortByTime(upcoming);
+  const pastSorted = sortByTime(past);
+  return [upcomingSorted, pastSorted];
 };
 
 const Appointments = () => {

@@ -62,6 +62,14 @@ export const sortByTime = (locations) => {
   });
 };
 
+export const sortAppointmentsByTime = (locations) => {
+  locations.sort((a, b) => {
+    let aDate = dayjs(`2000-01-01 ${a.time}`);
+    let bDate = dayjs(`2000-01-01 ${b.time}`);
+    return aDate.diff(bDate);
+  });
+};
+
 export const changeDate = (type, date) => {
   let newDate = dayjs(date);
   newDate = type === 'dec' ? newDate.subtract(1, 'day') : newDate.add(1, 'day');

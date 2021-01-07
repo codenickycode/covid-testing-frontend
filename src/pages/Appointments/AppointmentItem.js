@@ -48,13 +48,12 @@ const AppointmentItem = ({ appointment, expand }) => {
           </div>
         </div>
       ) : (
-        <div className='appointment-preview'>
+        <div className='appointment-preview' onClick={() => expand(_id)}>
           <h1>
             {date}, {time}
           </h1>
           <p>
-            <span id='tests-span'>{testsSpan}</span>
-            in {city}
+            <span id='tests-span'>{testsSpan}</span> in {city}
           </p>
         </div>
       )}
