@@ -20,6 +20,7 @@ const Search = () => {
       setLoading(true);
       let locations = await tools.getLocations();
       locations = await tools.getDistances(zip, locations);
+      sessionStorage.setItem('allLocations', JSON.stringify(locations));
       let filtered = tools.filterLocationsBy('tests', tests, locations);
       tools.sortByDistance(filtered);
       filtered = refreshAvailable(filtered, date);
