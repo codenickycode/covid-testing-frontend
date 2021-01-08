@@ -4,6 +4,10 @@ import { DATE_FORMAT, TIMESLOTS } from '../../../constants.js';
 
 export const TODAY = dayjs().format(DATE_FORMAT);
 
+export const validPassword = (password) => {
+  return password.match(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/);
+};
+
 export const getLocations = async () => {
   const res = await axios.get('/common/locations');
   return res.data;

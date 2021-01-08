@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
-
-const validPassword = (password) => {
-  return password.match(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/);
-};
+import * as tools from '../../Search/tools/tools.js';
 
 const LoginForm = ({ submit, setError }) => {
   const [signup, setSignup] = useState(true);
@@ -17,7 +14,7 @@ const LoginForm = ({ submit, setError }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (signup) {
-      if (!validPassword(password)) return setError('Invalid password');
+      if (!tools.validPassword(password)) return setError('Invalid password');
       if (password !== confirmation)
         return setError("Confirmation doesn't match");
       setError('');
@@ -79,10 +76,15 @@ const LoginForm = ({ submit, setError }) => {
           </p>
         )}
       </form>
-      {signup && (
+      {signup ? (
         <>
           <p>Already have an account?</p>
           <button onClick={() => setSignup(false)}>Login</button>
+        </>
+      ) : (
+        <>
+          <p>Don't have an account?</p>
+          <button onClick={() => setSignup(true)}>Signup</button>
         </>
       )}
     </div>

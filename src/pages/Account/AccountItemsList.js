@@ -1,71 +1,58 @@
 import React from 'react';
 import AccountItem from './AccountItem.js';
 
-const AccountItemsList = ({ user, updates, setUpdates }) => {
+const AccountItemsList = () => {
+  const name = [
+    { type: 'text', label: 'First', key: 'firstName' },
+    { type: 'text', label: 'Last', key: 'lastName' },
+  ];
+  const address = [
+    { type: 'text', label: 'Street', key: 'street' },
+    { type: 'text', label: 'City', key: 'city' },
+    { type: 'text', label: 'State', key: 'state' },
+    { type: 'text', label: 'Zip', key: 'zip' },
+  ];
+  const phone = [{ type: 'tel', label: 'Phone', key: 'phone' }];
+  const dob = [{ type: 'date', label: 'Date of Birth', key: 'dob' }];
+  const email = [{ type: 'email', label: 'Email', key: 'email' }];
+  const password = [
+    { type: 'password', label: 'Current Password', key: 'currentPassword' },
+    { type: 'password', label: 'New Password', key: 'newPassword' },
+  ];
+  const insurance = [
+    { type: 'text', label: 'Provider', key: 'provider' },
+    { type: 'text', label: 'ID', key: 'id' },
+  ];
+  const emergency_contact = [
+    { type: 'text', label: 'Name', key: 'name' },
+    { type: 'tel', label: 'Phone', key: 'phone' },
+    { type: 'text', label: 'Relation', key: 'relation' },
+  ];
+
   return (
     <div id='account-items'>
-      <AccountItem
-        field='Name'
-        inputs={[user.firstName, user.lastName]}
-        updates={updates}
-        setUpdates={setUpdates}
-      />
+      <AccountItem field='Name' update='name' sub='' items={name} />
       <AccountItem
         field='Address'
-        inputs={[
-          user.address.street,
-          user.address.city,
-          user.address.state,
-          user.address.zip,
-        ]}
-        updates={updates}
-        setUpdates={setUpdates}
+        update='address'
+        sub='address'
+        items={address}
       />
+      <AccountItem field='Phone' update='phone' sub='' items={phone} />
+      <AccountItem field='Date of Birth' update='dob' sub='' items={dob} />
+      <AccountItem field='Email' update='email' sub='' items={email} />
+      <AccountItem field='Password' update='password' sub='' items={password} />
       <AccountItem
-        field='Phone'
-        inputs={[user.phone]}
-        updates={updates}
-        setUpdates={setUpdates}
-      />
-      <AccountItem
-        field='Date of Birth'
-        inputs={[user.dob]}
-        updates={updates}
-        setUpdates={setUpdates}
-      />
-      <AccountItem
-        field='Email'
-        inputs={[user.email]}
-        updates={updates}
-        setUpdates={setUpdates}
-      />
-      <AccountItem
-        field='Password'
-        inputs={[user.password]}
-        updates={updates}
-        setUpdates={setUpdates}
-      />
-      <AccountItem
-        field='Health Insurance'
-        inputs={[user.ins_provider, user.ins_id]}
-        updates={updates}
-        setUpdates={setUpdates}
+        field='Insurance'
+        update='insurance'
+        sub='insurance'
+        items={insurance}
       />
       <AccountItem
         field='Emergency Contact'
-        inputs={[
-          user.emergency_contact.name,
-          user.emergency_contact.phone,
-          user.emergency_contact.relation,
-        ]}
-        updates={updates}
-        setUpdates={setUpdates}
-      />
-      <AccountItem
-        field='Travel'
-        inputs={[user.travel]}
-        updates={updates}
-        setUpdates={setUpdates}
+        update='emergency_contact'
+        sub='emergency_contact'
+        items={emergency_contact}
       />
     </div>
   );

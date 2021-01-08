@@ -19,7 +19,7 @@ const sortByTime = (appointments) => {
     }
   });
   let sorted = [];
-  for (let [k, v] of Object.entries(dates)) {
+  for (let [, v] of Object.entries(dates)) {
     if (v.length === 1) {
       sorted.push(...v);
     } else {

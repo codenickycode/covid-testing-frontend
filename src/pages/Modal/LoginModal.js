@@ -1,11 +1,12 @@
 import React, { useContext } from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
-import { SetUser } from '../../Providers/User.js';
+import { SetUser, SetLoggedIn } from '../../Providers/User.js';
 import LoginForm from './Forms/LoginForm.js';
 
 const Login = ({ closeModal, setLoading, error, setError }) => {
   const setUser = useContext(SetUser);
+  const setLoggedIn = useContext(SetLoggedIn);
 
   const submit = async (type, email, password) => {
     try {
@@ -16,6 +17,7 @@ const Login = ({ closeModal, setLoading, error, setError }) => {
       });
       setError('');
       setUser(res.data);
+      setLoggedIn(true);
     } catch (e) {
       const error = e.response.data || e.message;
       setError(error);
