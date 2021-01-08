@@ -5,7 +5,8 @@ import { User, SetUser } from '../../../Providers/User.js';
 const ConfirmUserInfo = ({ setLoading, closeModal, setError }) => {
   const user = useContext(User);
   const setUser = useContext(SetUser);
-  const [name, setName] = useState(user.name || '');
+  const [firstName, setFirstName] = useState(user.firstName || '');
+  const [lastName, setLastName] = useState(user.lastName || '');
   const [phone, setPhone] = useState(user.phone || '');
   const [dob, setDob] = useState(user.dob || '');
 
@@ -14,7 +15,8 @@ const ConfirmUserInfo = ({ setLoading, closeModal, setError }) => {
     try {
       setLoading(true);
       const res = await axios.post('/common/update/basic', {
-        name,
+        firstName,
+        lastName,
         phone,
         dob,
       });
@@ -35,13 +37,21 @@ const ConfirmUserInfo = ({ setLoading, closeModal, setError }) => {
         <h1>Before confirming your appointment</h1>
         <p>We need a little info</p>
         <form id='form-reg-info' className='form' onSubmit={handleSubmit}>
-          <label htmlFor='name'>Full Name</label>
+          <div>Name:</div>
+          <label htmlFor='firstName'>First</label>
           <input
             autoFocus
             type='text'
-            name='name'
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            name='firstName'
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+          />
+          <label htmlFor='lastName'>Last</label>
+          <input
+            type='text'
+            name='lastName'
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
           />
           <label htmlFor='phone'>Phone</label>
           <input

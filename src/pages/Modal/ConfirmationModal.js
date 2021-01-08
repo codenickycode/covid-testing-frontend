@@ -33,7 +33,8 @@ const ConfirmationModal = ({ appointment, closeModal }) => {
     if (!user) {
       setShowLogin(true);
     } else if (
-      !user.hasOwnProperty('name') ||
+      !user.hasOwnProperty('firstName') ||
+      !user.hasOwnProperty('lastName') ||
       !user.hasOwnProperty('phone') ||
       !user.hasOwnProperty('dob')
     ) {
