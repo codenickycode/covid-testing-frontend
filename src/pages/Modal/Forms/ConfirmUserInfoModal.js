@@ -1,5 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
+import {
+  GetName,
+  GetPhone,
+  GetDob,
+  SetName,
+  SetPhone,
+  SetDob,
+} from '../../../Providers/providers.js';
 
 const ConfirmUserInfo = ({
   setLoading,
@@ -7,9 +15,12 @@ const ConfirmUserInfo = ({
   setConfirmedInfo,
   setError,
 }) => {
-  const name = JSON.parse(sessionStorage.getItem('name'));
-  const phone = JSON.parse(sessionStorage.getItem('phone'));
-  const dob = JSON.parse(sessionStorage.getItem('dob'));
+  const name = useContext(GetName);
+  const phone = useContext(GetPhone);
+  const dob = useContext(GetDob);
+  const setName = useContext(SetName);
+  const setPhone = useContext(SetPhone);
+  const setDob = useContext(SetDob);
 
   const [newFirstName, setNewFirstName] = useState(name.firstName || '');
   const [newLastName, setNewLastName] = useState(name.lastName || '');
@@ -32,6 +43,9 @@ const ConfirmUserInfo = ({
       for (let [key, val] of Object.entries(res.data)) {
         sessionStorage.setItem(key, JSON.stringify(val));
       }
+      setName(res.data.name);
+      setPhone(res.data.phone);
+      setDob(res.data.dob);
       setConfirmedInfo(true);
     } catch (e) {
       const error = e.response.data || e.message;

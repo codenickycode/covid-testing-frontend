@@ -4,21 +4,15 @@ import * as tools from '../Search/tools/tools.js';
 
 const Saving = () => <h1>Saving...</h1>;
 
-const getUserField = (key) => {
-  return JSON.parse(sessionStorage.getItem(key));
-};
+const AccountItem = ({ title, field, items, input, setContext, setUpdate }) => {
+  console.log('rendering: ' + field);
 
-const setUserField = (key, val) => {
-  sessionStorage.setItem(key, JSON.stringify(val));
-};
-
-const AccountItem = ({ title, field, items }) => {
   const [error, setError] = useState('');
   const [saving, setSaving] = useState(false);
   const [edit, setEdit] = useState(false);
   const [updated, setUpdated] = useState(false);
-  const [input, setInput] = useState(getUserField(field));
-  const [prevInput, setPrevInput] = useState(getUserField(field));
+
+  const [prevInput, setPrevInput] = useState(input);
   const [preview, setPreview] = useState('');
 
   useEffect(() => {
@@ -28,7 +22,7 @@ const AccountItem = ({ title, field, items }) => {
     } else {
       setPreview(input[items[0].key]);
     }
-  });
+  }, [field, input, items]);
 
   const toggleEdit = () => {
     if (saving) return;
@@ -66,7 +60,7 @@ const AccountItem = ({ title, field, items }) => {
     } else {
       setUpdated(true);
     }
-    setInput({ ...input, [key]: e.target.value });
+    setContext({ ...input, [key]: e.target.value });
   };
 
   const save = async () => {
@@ -74,9 +68,10 @@ const AccountItem = ({ title, field, items }) => {
       setSaving(true);
       const res = await axios.post(`/common/update/${field}`, input);
       if (field === 'password') {
-        setInput(getUserField(field));
+        setContext(prevInput);
       } else {
-        setUserField(field, res.data[field]);
+        if (field === 'name') setUpdate(true);
+        setContext(res.data[field]);
         setPrevInput(res.data[field]);
       }
       setUpdated(false);
@@ -90,7 +85,7 @@ const AccountItem = ({ title, field, items }) => {
 
   const cancel = (e) => {
     e.stopPropagation();
-    setInput(prevInput);
+    setContext(prevInput);
     setUpdated(false);
     setEdit(false);
   };

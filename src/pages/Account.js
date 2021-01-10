@@ -1,17 +1,21 @@
 import React, { useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 import { GetLoggedIn } from '../Providers/providers.js';
-// import AccountHeader from './Account/AccountHeader.js';
+import AccountHeader from './Account/AccountHeader.js';
 import AccountItemsList from './Account/AccountItemsList.js';
 import LoginModal from './Modal/LoginModal.js';
 
 const Account = () => {
+  const history = useHistory();
   const loggedIn = useContext(GetLoggedIn);
 
   return !loggedIn ? (
-    <LoginModal closeModal={null} />
+    <LoginModal closeModal={history.goBack} />
   ) : (
     <div id='account-div'>
-      {/* <AccountHeader /> */}
+      {/* <UserNameProvider> */}
+      <AccountHeader />
+      {/* </UserNameProvider> */}
       <AccountItemsList />
     </div>
   );
