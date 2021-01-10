@@ -1,26 +1,20 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
-import {
-  GetName,
-  SetName,
-  GetPhone,
-  SetPhone,
-  GetDob,
-  SetDob,
-} from '../../../Providers/providers.js';
 
-const ConfirmUserInfo = ({ setLoading, closeModal, setError }) => {
-  const getName = useContext(GetName);
-  const getPhone = useContext(GetPhone);
-  const getDob = useContext(GetDob);
-  const setNewName = useContext(SetName);
-  const setNewPhone = useContext(SetPhone);
-  const setNewDob = useContext(SetDob);
+const ConfirmUserInfo = ({
+  setLoading,
+  closeModal,
+  setConfirmedInfo,
+  setError,
+}) => {
+  const name = JSON.parse(sessionStorage.getItem('name'));
+  const phone = JSON.parse(sessionStorage.getItem('phone'));
+  const dob = JSON.parse(sessionStorage.getItem('dob'));
 
-  const [firstName, setFirstName] = useState(getName.firstName || '');
-  const [lastName, setLastName] = useState(getName.lastName || '');
-  const [phone, setPhone] = useState(getPhone.phone || '');
-  const [dob, setDob] = useState(getDob.dob || '');
+  const [newFirstName, setNewFirstName] = useState(name.firstName || '');
+  const [newLastName, setNewLastName] = useState(name.lastName || '');
+  const [newPhone, setNewPhone] = useState(phone.phone || '');
+  const [newDob, setNewDob] = useState(dob.dob || '');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,16 +22,17 @@ const ConfirmUserInfo = ({ setLoading, closeModal, setError }) => {
       setLoading(true);
       const res = await axios.post('/common/update/basic', {
         name: {
-          firstName,
-          lastName,
+          firstName: newFirstName,
+          lastName: newLastName,
         },
-        phone: { phone },
-        dob: { dob },
+        phone: { phone: newPhone },
+        dob: { dob: newDob },
       });
       setError('');
-      setNewName(res.data.name);
-      setNewPhone(res.data.phone);
-      setNewDob(res.data.dob);
+      for (let [key, val] of Object.entries(res.data)) {
+        sessionStorage.setItem(key, JSON.stringify(val));
+      }
+      setConfirmedInfo(true);
     } catch (e) {
       const error = e.response.data || e.message;
       setError(error);
@@ -59,29 +54,29 @@ const ConfirmUserInfo = ({ setLoading, closeModal, setError }) => {
             autoFocus
             type='text'
             name='firstName'
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
+            value={newFirstName}
+            onChange={(e) => setNewFirstName(e.target.value)}
           />
           <label htmlFor='lastName'>Last</label>
           <input
             type='text'
             name='lastName'
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
+            value={newLastName}
+            onChange={(e) => setNewLastName(e.target.value)}
           />
           <label htmlFor='phone'>Phone</label>
           <input
             type='tel'
             name='phone'
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
+            value={newPhone}
+            onChange={(e) => setNewPhone(e.target.value)}
           />
           <label htmlFor='dob'>Date Of Birth</label>
           <input
             type='date'
             name='dob'
-            value={dob}
-            onChange={(e) => setDob(e.target.value)}
+            value={newDob}
+            onChange={(e) => setNewDob(e.target.value)}
           />
           <button type='submit'>Confirm</button>
         </form>

@@ -2,12 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import ReactDOM from 'react-dom';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
-import {
-  GetLoggedIn,
-  GetName,
-  GetPhone,
-  GetDob,
-} from '../../Providers/providers';
+import { GetLoggedIn } from '../../Providers/providers';
 import LoginModal from './LoginModal.js';
 import ConfirmUserInfoModal from './Forms/ConfirmUserInfoModal.js';
 
@@ -17,14 +12,10 @@ const ConfirmationModal = ({ appointment, closeModal }) => {
   const history = useHistory();
 
   const loggedIn = useContext(GetLoggedIn);
-  const name = useContext(GetName);
-  const phone = useContext(GetPhone);
-  const dob = useContext(GetDob);
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [showLogin, setShowLogin] = useState(false);
-  const [showConfirmUserInfo, setShowConfirmUserInfo] = useState(false);
+  const [confirmedInfo, setConfirmedInfo] = useState(false);
 
   useEffect(() => {
     const bookAppointment = async (appointment) => {
@@ -39,31 +30,10 @@ const ConfirmationModal = ({ appointment, closeModal }) => {
         setLoading(false);
       }
     };
-
-    if (!loggedIn) {
-      setShowLogin(true);
-    } else if (
-      name.firstName === '' ||
-      name.lastName === '' ||
-      phone.phone === '' ||
-      dob.dob === ''
-    ) {
-      setShowLogin(false);
-      setShowConfirmUserInfo(true);
-    } else {
-      setShowLogin(false);
-      setShowConfirmUserInfo(false);
+    if (loggedIn && confirmedInfo) {
       bookAppointment(appointment);
     }
-  }, [
-    loggedIn,
-    name.firstName,
-    name.lastName,
-    phone.phone,
-    dob.dob,
-    appointment,
-    history,
-  ]);
+  }, [confirmedInfo, loggedIn, appointment, history]);
 
   return ReactDOM.createPortal(
     <>
@@ -74,17 +44,18 @@ const ConfirmationModal = ({ appointment, closeModal }) => {
             <Loading />
           </div>
         </>
-      ) : showLogin ? (
+      ) : !loggedIn ? (
         <LoginModal
           closeModal={closeModal}
           setLoading={setLoading}
           error={error}
           setError={setError}
         />
-      ) : showConfirmUserInfo ? (
+      ) : !confirmedInfo ? (
         <ConfirmUserInfoModal
           setLoading={setLoading}
           closeModal={closeModal}
+          setConfirmedInfo={setConfirmedInfo}
           setError={setError}
         />
       ) : (
