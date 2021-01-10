@@ -4,18 +4,31 @@ import * as tools from '../Search/tools/tools.js';
 
 const Saving = () => <h1>Saving...</h1>;
 
-const AccountItem = ({ title, preview, field, setField, items, inputs }) => {
+const getUserField = (key) => {
+  return JSON.parse(sessionStorage.getItem(key));
+};
+
+const setUserField = (key, val) => {
+  sessionStorage.setItem(key, JSON.stringify(val));
+};
+
+const AccountItem = ({ title, field, items }) => {
   const [error, setError] = useState('');
   const [saving, setSaving] = useState(false);
   const [edit, setEdit] = useState(false);
   const [updated, setUpdated] = useState(false);
-  const [input, setInput] = useState(inputs);
-  const [prevInput, setPrevInput] = useState(inputs);
+  const [input, setInput] = useState(getUserField(field));
+  const [prevInput, setPrevInput] = useState(getUserField(field));
+  const [preview, setPreview] = useState('');
 
   useEffect(() => {
-    setInput(inputs);
-    setPrevInput(inputs);
-  }, [inputs]);
+    if (field === 'password') return;
+    if (field === 'name') {
+      setPreview(`${input.firstName} ${input.lastName}`);
+    } else {
+      setPreview(input[items[0].key]);
+    }
+  });
 
   const toggleEdit = () => {
     if (saving) return;
@@ -35,8 +48,10 @@ const AccountItem = ({ title, preview, field, setField, items, inputs }) => {
     } else {
       if (!tools.validPassword(input.newPassword))
         return setError('Invalid password');
-      if (input.newPassword !== input.currentPassword)
+      if (input.newPassword !== input.confirmNewPassword)
         return setError("Confirmation doesn't match");
+      let submitInput = { ...input };
+      delete submitInput.confirmNewPassword;
       toggleEdit();
     }
   };
@@ -58,7 +73,13 @@ const AccountItem = ({ title, preview, field, setField, items, inputs }) => {
     try {
       setSaving(true);
       const res = await axios.post(`/common/update/${field}`, input);
-      setField(res.data[field]);
+      if (field === 'password') {
+        setInput(getUserField(field));
+      } else {
+        setUserField(field, res.data[field]);
+        setPrevInput(res.data[field]);
+      }
+      setUpdated(false);
     } catch (e) {
       const error = e.hasOwnProperty('response') ? e.response.data : e.message;
       setError(error);
@@ -69,6 +90,8 @@ const AccountItem = ({ title, preview, field, setField, items, inputs }) => {
 
   const cancel = (e) => {
     e.stopPropagation();
+    setInput(prevInput);
+    setUpdated(false);
     setEdit(false);
   };
 
@@ -100,6 +123,11 @@ const AccountItem = ({ title, preview, field, setField, items, inputs }) => {
                 type={item.type}
                 id={field + item.key}
                 maxLength={item.key === 'zip' ? '5' : '99'}
+                placeholder={
+                  item.key === 'currentPassword' || item.key === 'id'
+                    ? '[hidden]'
+                    : ''
+                }
                 value={input[item.key]}
                 onChange={(e) => handleInput(e, item.key)}
               />

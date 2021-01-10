@@ -2,58 +2,10 @@ import React, { useState, useContext } from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 import LoginForm from './Forms/LoginForm.js';
-import {
-  SetLoggedIn,
-  SetName,
-  SetAddress,
-  SetPhone,
-  SetDob,
-  SetEmail,
-  SetInsurance,
-  SetEmergencyContact,
-  SetTravel,
-  NameProvider,
-  AddressProvider,
-  PhoneProvider,
-  DobProvider,
-  EmailProvider,
-  InsuranceProvider,
-  EmergencyContactProvider,
-  TravelProvider,
-} from '../../Providers/providers.js';
-
-const LoginEntry = ({ closeModal }) => {
-  return (
-    <NameProvider>
-      <AddressProvider>
-        <PhoneProvider>
-          <DobProvider>
-            <EmailProvider>
-              <InsuranceProvider>
-                <EmergencyContactProvider>
-                  <TravelProvider>
-                    <Login closeModal={closeModal} />
-                  </TravelProvider>
-                </EmergencyContactProvider>
-              </InsuranceProvider>
-            </EmailProvider>
-          </DobProvider>
-        </PhoneProvider>
-      </AddressProvider>
-    </NameProvider>
-  );
-};
+import { SetLoggedIn } from '../../Providers/providers.js';
 
 const Login = ({ closeModal }) => {
   const setLoggedIn = useContext(SetLoggedIn);
-  const setName = useContext(SetName);
-  const setAddress = useContext(SetAddress);
-  const setPhone = useContext(SetPhone);
-  const setDob = useContext(SetDob);
-  const setEmail = useContext(SetEmail);
-  const setInsurance = useContext(SetInsurance);
-  const setEmergencyContact = useContext(SetEmergencyContact);
-  const setTravel = useContext(SetTravel);
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -65,14 +17,9 @@ const Login = ({ closeModal }) => {
         email,
         password,
       });
-      setName(res.data.name);
-      setAddress(res.data.address);
-      setPhone(res.data.phone);
-      setDob(res.data.dob);
-      setEmail(res.data.email);
-      setInsurance(res.data.insurance);
-      setEmergencyContact(res.data.emergency_contact);
-      setTravel(res.data.travel);
+      for (let [key, val] of Object.entries(res.data)) {
+        sessionStorage.setItem(key, JSON.stringify(val));
+      }
       setLoggedIn(true);
     } catch (e) {
       const error = e.response ? e.response.data : e.message;
@@ -98,4 +45,4 @@ const Login = ({ closeModal }) => {
     document.getElementById('portal')
   );
 };
-export default LoginEntry;
+export default Login;
