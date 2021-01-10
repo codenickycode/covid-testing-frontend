@@ -1,14 +1,15 @@
 import React, { useEffect, useContext } from 'react';
-import { User } from '../../Providers/User.js';
+import { GetLoggedIn, GetName } from '../../Providers/providers.js';
 import dayjs from 'dayjs';
 
 let greeting = '';
 
 const AccountHeader = () => {
-  const user = useContext(User);
+  const loggedIn = useContext(GetLoggedIn);
+  const name = useContext(GetName);
 
   useEffect(() => {
-    if (!user) return;
+    if (!loggedIn) return;
     const now = new dayjs();
     const time =
       now.$H > 3 && now.$H < 12
@@ -16,8 +17,8 @@ const AccountHeader = () => {
         : now.$H < 17
         ? 'afternoon'
         : 'evening';
-    greeting = `Good ${time}, ${user.firstName ? user.firstName : 'friend'}`;
-  }, [user]);
+    greeting = `Good ${time}, ${name.firstName ? name.firstName : 'friend'}`;
+  }, [loggedIn, name]);
 
   return (
     <div id='account-top'>

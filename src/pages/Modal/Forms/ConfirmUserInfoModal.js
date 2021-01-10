@@ -1,27 +1,43 @@
 import React, { useState, useContext } from 'react';
 import axios from 'axios';
-import { User, SetUser } from '../../../Providers/User.js';
+import {
+  GetName,
+  SetName,
+  GetPhone,
+  SetPhone,
+  GetDob,
+  SetDob,
+} from '../../../Providers/providers.js';
 
 const ConfirmUserInfo = ({ setLoading, closeModal, setError }) => {
-  const user = useContext(User);
-  const setUser = useContext(SetUser);
-  const [firstName, setFirstName] = useState(user.firstName || '');
-  const [lastName, setLastName] = useState(user.lastName || '');
-  const [phone, setPhone] = useState(user.phone || '');
-  const [dob, setDob] = useState(user.dob || '');
+  const getName = useContext(GetName);
+  const getPhone = useContext(GetPhone);
+  const getDob = useContext(GetDob);
+  const setNewName = useContext(SetName);
+  const setNewPhone = useContext(SetPhone);
+  const setNewDob = useContext(SetDob);
+
+  const [firstName, setFirstName] = useState(getName.firstName || '');
+  const [lastName, setLastName] = useState(getName.lastName || '');
+  const [phone, setPhone] = useState(getPhone.phone || '');
+  const [dob, setDob] = useState(getDob.dob || '');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       setLoading(true);
       const res = await axios.post('/common/update/basic', {
-        firstName,
-        lastName,
-        phone,
-        dob,
+        name: {
+          firstName,
+          lastName,
+        },
+        phone: { phone },
+        dob: { dob },
       });
       setError('');
-      setUser(res.data);
+      setNewName(res.data.name);
+      setNewPhone(res.data.phone);
+      setNewDob(res.data.dob);
     } catch (e) {
       const error = e.response.data || e.message;
       setError(error);

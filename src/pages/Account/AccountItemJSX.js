@@ -1,14 +1,13 @@
 import React from 'react';
 
 const AccountItemJSX = ({
+  title,
   field,
-  preview,
+  items,
   togglePassword,
   toggleEdit,
   edit,
   cancel,
-  items,
-  sub,
   input,
   handleInput,
   error,
@@ -18,17 +17,17 @@ const AccountItemJSX = ({
     <div className='account-item'>
       <div
         className='account-item-top'
-        onClick={field === 'Password' ? togglePassword : toggleEdit}
+        onClick={field === 'password' ? togglePassword : toggleEdit}
       >
         <div className='account-item-text'>
-          <h2>{field}</h2>
-          <p>
+          <h2>{title}</h2>
+          {/* <p>
             {field === 'Name'
               ? `${input.firstName} ${input.lastName}`
               : field === 'Password'
               ? 'XXXXXXXX'
               : preview || ''}
-          </p>
+          </p> */}
         </div>
         <button type='button'>{edit ? 'save' : 'edit'}</button>
         {edit && (
@@ -41,10 +40,10 @@ const AccountItemJSX = ({
         items.map((item, index) => {
           return (
             <div key={index} className='account-item-input-div'>
-              <label htmlFor={sub + item.key}>{item.label}</label>
+              <label htmlFor={field + item.key}>{item.label}</label>
               <input
                 type={item.type}
-                id={sub + item.key}
+                id={field + item.key}
                 maxLength={item.key === 'zip' ? '5' : '99'}
                 value={input[item.key]}
                 onChange={(e) => handleInput(e, item.key)}

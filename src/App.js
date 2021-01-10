@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import UserProvider from './Providers/User.js';
+import { LoggedInProvider } from './Providers/providers.js';
 import Header from './components/Header.js';
 import Navbar from './components/Navbar.js';
 import Welcome from './pages/Welcome.js';
@@ -12,7 +12,7 @@ import Account from './pages/Account.js';
 
 const App = () => {
   return (
-    <UserProvider>
+    <LoggedInProvider>
       <Router>
         <div id='main'>
           <Header />
@@ -27,7 +27,7 @@ const App = () => {
           <Navbar />
         </div>
       </Router>
-    </UserProvider>
+    </LoggedInProvider>
   );
 };
 

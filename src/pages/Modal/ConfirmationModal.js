@@ -2,7 +2,12 @@ import React, { useState, useEffect, useContext } from 'react';
 import ReactDOM from 'react-dom';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
-import { User } from '../../Providers/User';
+import {
+  GetLoggedIn,
+  GetName,
+  GetPhone,
+  GetDob,
+} from '../../Providers/providers';
 import LoginModal from './LoginModal.js';
 import ConfirmUserInfoModal from './Forms/ConfirmUserInfoModal.js';
 
@@ -10,11 +15,16 @@ const Loading = () => <h1>Loading...</h1>;
 
 const ConfirmationModal = ({ appointment, closeModal }) => {
   const history = useHistory();
+
+  const loggedIn = useContext(GetLoggedIn);
+  const name = useContext(GetName);
+  const phone = useContext(GetPhone);
+  const dob = useContext(GetDob);
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [showLogin, setShowLogin] = useState(false);
   const [showConfirmUserInfo, setShowConfirmUserInfo] = useState(false);
-  const user = useContext(User);
 
   useEffect(() => {
     const bookAppointment = async (appointment) => {
@@ -30,13 +40,13 @@ const ConfirmationModal = ({ appointment, closeModal }) => {
       }
     };
 
-    if (!user) {
+    if (!loggedIn) {
       setShowLogin(true);
     } else if (
-      !user.hasOwnProperty('firstName') ||
-      !user.hasOwnProperty('lastName') ||
-      !user.hasOwnProperty('phone') ||
-      !user.hasOwnProperty('dob')
+      name.firstName === '' ||
+      name.lastName === '' ||
+      phone.phone === '' ||
+      dob.dob === ''
     ) {
       setShowLogin(false);
       setShowConfirmUserInfo(true);
@@ -45,7 +55,15 @@ const ConfirmationModal = ({ appointment, closeModal }) => {
       setShowConfirmUserInfo(false);
       bookAppointment(appointment);
     }
-  }, [user, appointment, history]);
+  }, [
+    loggedIn,
+    name.firstName,
+    name.lastName,
+    phone.phone,
+    dob.dob,
+    appointment,
+    history,
+  ]);
 
   return ReactDOM.createPortal(
     <>

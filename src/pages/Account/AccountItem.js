@@ -1,48 +1,21 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import * as tools from '../Search/tools/tools.js';
-import {
-  User,
-  SetUser,
-  UserField,
-  SetUserField,
-} from '../../Providers/User.js';
-import AccountItemJSX from './AccountItemJSX';
 
-const AccountItem = ({ field, preview, update, sub, items }) => {
-  const userField = useContext(UserField);
-  const setUserField = useContext(SetUserField);
-  const user = useContext(User);
-  const setUser = useContext(SetUser);
-  const [userData, setUserData] = useState(user);
+const Saving = () => <h1>Saving...</h1>;
+
+const AccountItem = ({ title, preview, field, setField, items, inputs }) => {
   const [error, setError] = useState('');
   const [saving, setSaving] = useState(false);
-
   const [edit, setEdit] = useState(false);
   const [updated, setUpdated] = useState(false);
-  const [input, setInput] = useState({});
-  const [prevInput, setPrevInput] = useState({});
+  const [input, setInput] = useState(inputs);
+  const [prevInput, setPrevInput] = useState(inputs);
 
-  const save = async () => {
-    console.log(input);
-    try {
-      setSaving(true);
-      const res = await axios.post(`/common/update/${update}`, input);
-      setUser(res.data);
-      setUserData(res.data);
-      console.log(res.data);
-    } catch (e) {
-      const error = e.response.data || e.message;
-      setError(error);
-    } finally {
-      setSaving(false);
-    }
-  };
-
-  const cancel = (e) => {
-    e.stopPropagation();
-    setEdit(false);
-  };
+  useEffect(() => {
+    setInput(inputs);
+    setPrevInput(inputs);
+  }, [inputs]);
 
   const toggleEdit = () => {
     if (saving) return;
@@ -81,28 +54,60 @@ const AccountItem = ({ field, preview, update, sub, items }) => {
     setInput({ ...input, [key]: e.target.value });
   };
 
-  useEffect(() => {
-    const initial = {};
-    items.forEach((item) => {
-      initial[item.key] = userData[item.key] || '';
-    });
-    setInput({ ...initial });
-    setPrevInput({ ...initial });
-  }, [items, userData]);
+  const save = async () => {
+    try {
+      setSaving(true);
+      const res = await axios.post(`/common/update/${field}`, input);
+      setField(res.data[field]);
+    } catch (e) {
+      const error = e.hasOwnProperty('response') ? e.response.data : e.message;
+      setError(error);
+    } finally {
+      setSaving(false);
+    }
+  };
 
-  return (
-    <AccountItemJSX
-      field={field}
-      togglePassword={togglePassword}
-      toggleEdit={toggleEdit}
-      edit={edit}
-      cancel={cancel}
-      items={items}
-      sub={sub}
-      input={input}
-      handleInput={handleInput}
-      error={error}
-    />
+  const cancel = (e) => {
+    e.stopPropagation();
+    setEdit(false);
+  };
+
+  return saving ? (
+    <Saving />
+  ) : (
+    <div className='account-item'>
+      <div
+        className='account-item-top'
+        onClick={field === 'password' ? togglePassword : toggleEdit}
+      >
+        <div className='account-item-text'>
+          <h2>{title}</h2>
+          <p>{preview}</p>
+        </div>
+        <button type='button'>{edit ? 'save' : 'edit'}</button>
+        {edit && (
+          <button type='button' onClick={cancel}>
+            Cancel
+          </button>
+        )}
+      </div>
+      {edit &&
+        items.map((item, index) => {
+          return (
+            <div key={index} className='account-item-input-div'>
+              <label htmlFor={field + item.key}>{item.label}</label>
+              <input
+                type={item.type}
+                id={field + item.key}
+                maxLength={item.key === 'zip' ? '5' : '99'}
+                value={input[item.key]}
+                onChange={(e) => handleInput(e, item.key)}
+              />
+              {error && <p>{error}</p>}
+            </div>
+          );
+        })}
+    </div>
   );
 };
 

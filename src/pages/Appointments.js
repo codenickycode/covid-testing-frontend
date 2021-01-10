@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import dayjs from 'dayjs';
 import * as tools from './Search/tools/tools.js';
-import { User } from '../Providers/User.js';
+import { GetLoggedIn } from '../Providers/providers.js';
 import AppointmentsList from './Appointments/AppointmentsList.js';
 
 const Error = ({ error }) => <h1>{error}</h1>;
@@ -46,7 +46,7 @@ const sortAppointments = (appointments) => {
 };
 
 const Appointments = () => {
-  const user = useContext(User);
+  const loggedIn = useContext(GetLoggedIn);
   const [loading, setLoading] = useState(false);
   const [showPast, setShowPast] = useState(false);
   const [upcoming, setUpcoming] = useState([]);
@@ -54,7 +54,7 @@ const Appointments = () => {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    if (!user) return;
+    if (!loggedIn) return;
     const fetchAppointments = async () => {
       setLoading(true);
       try {
@@ -71,7 +71,7 @@ const Appointments = () => {
       }
     };
     fetchAppointments();
-  }, [user]);
+  }, [loggedIn]);
 
   return loading ? (
     <Loading />
