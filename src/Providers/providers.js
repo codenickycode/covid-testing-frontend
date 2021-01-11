@@ -1,8 +1,8 @@
 import React, { useState, useContext } from 'react';
 
 export const GetLoggedIn = React.createContext();
-export const SetLoggedIn = React.createContext();
-export const LoggedInProvider = ({ children }) => {
+const SetLoggedIn = React.createContext();
+const LoggedInProvider = ({ children }) => {
   const [loggedIn, setLoggedIn] = useState(false);
   return (
     <SetLoggedIn.Provider value={setLoggedIn}>
@@ -12,8 +12,8 @@ export const LoggedInProvider = ({ children }) => {
 };
 
 export const UpdateAccountHeader = React.createContext();
-export const SetUpdateAccountHeader = React.createContext();
-export const UpdateAccountHeaderProvider = ({ children }) => {
+const SetUpdateAccountHeader = React.createContext();
+const UpdateAccountHeaderProvider = ({ children }) => {
   const [update, setUpdate] = useState(true);
 
   return (
@@ -26,10 +26,10 @@ export const UpdateAccountHeaderProvider = ({ children }) => {
 };
 
 export const GetName = React.createContext();
-export const SetName = React.createContext();
-export const NameProvider = ({ children }) => {
+const SetName = React.createContext();
+const NameProvider = ({ children }) => {
   const [name, setName] = useState('');
-
+  console.log(name);
   return (
     <SetName.Provider value={setName}>
       <GetName.Provider value={name}>{children}</GetName.Provider>
@@ -38,8 +38,8 @@ export const NameProvider = ({ children }) => {
 };
 
 export const GetAddress = React.createContext();
-export const SetAddress = React.createContext();
-export const AddressProvider = ({ children }) => {
+const SetAddress = React.createContext();
+const AddressProvider = ({ children }) => {
   const [address, setAddress] = useState({});
   return (
     <SetAddress.Provider value={setAddress}>
@@ -49,8 +49,8 @@ export const AddressProvider = ({ children }) => {
 };
 
 export const GetPhone = React.createContext();
-export const SetPhone = React.createContext();
-export const PhoneProvider = ({ children }) => {
+const SetPhone = React.createContext();
+const PhoneProvider = ({ children }) => {
   const [phone, setPhone] = useState({});
   return (
     <SetPhone.Provider value={setPhone}>
@@ -60,8 +60,8 @@ export const PhoneProvider = ({ children }) => {
 };
 
 export const GetDob = React.createContext();
-export const SetDob = React.createContext();
-export const DobProvider = ({ children }) => {
+const SetDob = React.createContext();
+const DobProvider = ({ children }) => {
   const [dob, setDob] = useState({});
   return (
     <SetDob.Provider value={setDob}>
@@ -71,8 +71,8 @@ export const DobProvider = ({ children }) => {
 };
 
 export const GetEmail = React.createContext();
-export const SetEmail = React.createContext();
-export const EmailProvider = ({ children }) => {
+const SetEmail = React.createContext();
+const EmailProvider = ({ children }) => {
   const [email, setEmail] = useState({});
   return (
     <SetEmail.Provider value={setEmail}>
@@ -82,8 +82,8 @@ export const EmailProvider = ({ children }) => {
 };
 
 export const GetPassword = React.createContext();
-export const SetPassword = React.createContext();
-export const PasswordProvider = ({ children }) => {
+const SetPassword = React.createContext();
+const PasswordProvider = ({ children }) => {
   const [password, setPassword] = useState({});
   return (
     <SetPassword.Provider value={setPassword}>
@@ -93,8 +93,8 @@ export const PasswordProvider = ({ children }) => {
 };
 
 export const GetInsurance = React.createContext();
-export const SetInsurance = React.createContext();
-export const InsuranceProvider = ({ children }) => {
+const SetInsurance = React.createContext();
+const InsuranceProvider = ({ children }) => {
   const [insurance, setInsurance] = useState({});
   return (
     <SetInsurance.Provider value={setInsurance}>
@@ -106,8 +106,8 @@ export const InsuranceProvider = ({ children }) => {
 };
 
 export const GetEmergencyContact = React.createContext();
-export const SetEmergencyContact = React.createContext();
-export const EmergencyContactProvider = ({ children }) => {
+const SetEmergencyContact = React.createContext();
+const EmergencyContactProvider = ({ children }) => {
   const [emergency_contact, setEmergencyContact] = useState({});
   return (
     <SetEmergencyContact.Provider value={setEmergencyContact}>
@@ -119,8 +119,8 @@ export const EmergencyContactProvider = ({ children }) => {
 };
 
 export const GetTravel = React.createContext();
-export const SetTravel = React.createContext();
-export const TravelProvider = ({ children }) => {
+const SetTravel = React.createContext();
+const TravelProvider = ({ children }) => {
   const [travel, setTravel] = useState([]);
   return (
     <SetTravel.Provider value={setTravel}>
@@ -183,26 +183,27 @@ export const useSetContext = () => {
   };
 };
 
-export const setAllUserContext = (value) => {
-  const {
-    setName,
-    setAddress,
-    setPhone,
-    setDob,
-    setEmail,
-    setPassword,
-    setInsurance,
-    setEmergencyContact,
-    setTravel,
-  } = useSetContext;
+export const useSetAllUserContext = () => {
+  const setName = useContext(SetName);
+  const setAddress = useContext(SetAddress);
+  const setPhone = useContext(SetPhone);
+  const setDob = useContext(SetDob);
+  const setEmail = useContext(SetEmail);
+  const setPassword = useContext(SetPassword);
+  const setInsurance = useContext(SetInsurance);
+  const setEmergencyContact = useContext(SetEmergencyContact);
+  const setTravel = useContext(SetTravel);
 
-  setName(value.name);
-  setAddress(value.address);
-  setPhone(value.phone);
-  setDob(value.dob);
-  setEmail(value.email);
-  setPassword(value.password);
-  setInsurance(value.insurance);
-  setEmergencyContact(value.emergency_contact);
-  setTravel(value.travel);
+  const setAllUserContext = (value) => {
+    setName(value.name);
+    setAddress(value.address);
+    setPhone(value.phone);
+    setDob(value.dob);
+    setEmail(value.email);
+    setPassword(value.password);
+    setInsurance(value.insurance);
+    setEmergencyContact(value.emergency_contact);
+    setTravel(value.travel);
+  };
+  return setAllUserContext;
 };

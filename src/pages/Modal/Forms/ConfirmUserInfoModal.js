@@ -4,9 +4,7 @@ import {
   GetName,
   GetPhone,
   GetDob,
-  SetName,
-  SetPhone,
-  SetDob,
+  useSetAllUserContext,
 } from '../../../Providers/providers.js';
 
 const ConfirmUserInfo = ({
@@ -18,9 +16,7 @@ const ConfirmUserInfo = ({
   const name = useContext(GetName);
   const phone = useContext(GetPhone);
   const dob = useContext(GetDob);
-  const setName = useContext(SetName);
-  const setPhone = useContext(SetPhone);
-  const setDob = useContext(SetDob);
+  const setAllUserContext = useSetAllUserContext();
 
   const [newFirstName, setNewFirstName] = useState(name.firstName || '');
   const [newLastName, setNewLastName] = useState(name.lastName || '');
@@ -43,12 +39,10 @@ const ConfirmUserInfo = ({
       for (let [key, val] of Object.entries(res.data)) {
         sessionStorage.setItem(key, JSON.stringify(val));
       }
-      setName(res.data.name);
-      setPhone(res.data.phone);
-      setDob(res.data.dob);
+      setAllUserContext(res.data);
       setConfirmedInfo(true);
     } catch (e) {
-      const error = e.response.data || e.message;
+      const error = e.hasOwnProperty('response') ? e.response.data : e.message;
       setError(error);
     } finally {
       setLoading(false);
