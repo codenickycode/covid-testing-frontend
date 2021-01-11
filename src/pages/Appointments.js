@@ -2,13 +2,19 @@ import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import dayjs from 'dayjs';
 import * as tools from './Search/tools/tools.js';
-import { GetLoggedIn } from '../Providers/providers.js';
+import {
+  GetLoggedIn,
+  GetAllLocations,
+  GetAppointments,
+  useSetContext,
+} from '../Providers/providers.js';
 import AppointmentsList from './Appointments/AppointmentsList.js';
 
 const Error = ({ error }) => <h1>{error}</h1>;
 const Loading = () => <h1>Loading...</h1>;
 
 const sortByTime = (appointments) => {
+  if (appointments.length === 0) return appointments;
   let dates = {};
   appointments.sort((a, b) => dayjs(a.date).diff(dayjs(b.date)));
   appointments.forEach((appointment) => {
@@ -31,6 +37,7 @@ const sortByTime = (appointments) => {
 };
 
 const sortAppointments = (appointments) => {
+  if (appointments.length === 0) return [[], []];
   let upcoming = [];
   let past = [];
   appointments.forEach((appointment) => {
@@ -47,31 +54,69 @@ const sortAppointments = (appointments) => {
 
 const Appointments = () => {
   const loggedIn = useContext(GetLoggedIn);
-  const [loading, setLoading] = useState(false);
+  const allLocations = useContext(GetAllLocations);
+  const { appointments, appointmentsLoaded } = useContext(GetAppointments);
+  const {
+    setAllLocations,
+    setAppointments,
+    setAppointmentsLoaded,
+  } = useSetContext();
+
+  const [loading, setLoading] = useState(true);
   const [showPast, setShowPast] = useState(false);
-  const [upcoming, setUpcoming] = useState([]);
-  const [past, setPast] = useState([]);
   const [error, setError] = useState('');
 
   useEffect(() => {
+    const fetchLocations = async () => {
+      try {
+        setLoading(true);
+        const locations = await tools.getLocations;
+        setAllLocations(locations);
+      } catch (e) {
+        console.log(e);
+        const error = e.hasOwnProperty('response')
+          ? e.response.data
+          : e.message;
+        setError(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    if (allLocations.length === 0) fetchLocations();
+  }, [loading, allLocations, setAllLocations]);
+
+  useEffect(() => {
     if (!loggedIn) return;
+    if (allLocations.length === 0) return;
+    if (appointmentsLoaded) return;
     const fetchAppointments = async () => {
       setLoading(true);
       try {
         const res = await axios.get('/common/appointments');
-        const appointments = sortAppointments(res.data);
-        setUpcoming(appointments[0]);
-        setPast(appointments[1]);
+        const newAppointments = sortAppointments(res.data);
+        setAppointments({
+          upcoming: newAppointments[0],
+          past: newAppointments[1],
+        });
+        setAppointmentsLoaded(true);
       } catch (e) {
         console.log(e);
-        const error = e.response.data || e.message;
+        const error = e.hasOwnProperty('response')
+          ? e.response.data
+          : e.message;
         setError(error);
       } finally {
         setLoading(false);
       }
     };
     fetchAppointments();
-  }, [loggedIn]);
+  }, [
+    loggedIn,
+    allLocations,
+    setAppointments,
+    appointmentsLoaded,
+    setAppointmentsLoaded,
+  ]);
 
   return loading ? (
     <Loading />
@@ -88,9 +133,21 @@ const Appointments = () => {
         </div>
       </div>
       {showPast ? (
-        <AppointmentsList appointments={past} />
+        appointments.past.length === 0 ? (
+          <h1>No past appointments.</h1>
+        ) : (
+          <AppointmentsList
+            appointments={appointments.past}
+            allLocations={allLocations}
+          />
+        )
+      ) : appointments.upcoming.length === 0 ? (
+        <h1>No upcoming appointments.</h1>
       ) : (
-        <AppointmentsList appointments={upcoming} />
+        <AppointmentsList
+          appointments={appointments.upcoming}
+          allLocations={allLocations}
+        />
       )}
     </div>
   );

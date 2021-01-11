@@ -1,5 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import * as tools from './Search/tools/tools.js';
+import {
+  GetPrevSearch,
+  GetSearchResults,
+  useSetContext,
+} from '../Providers/providers.js';
 import SearchForm from './Search/SearchForm.js';
 import SearchResults from './Search/SearchResults.js';
 import Selection from './Search/Selection.js';
@@ -7,9 +12,12 @@ import Selection from './Search/Selection.js';
 const Loading = () => <h1>Loading...</h1>;
 
 const Search = () => {
+  const prevSearch = useContext(GetPrevSearch);
+  const searchResults = useContext(GetSearchResults);
+  const { setAllLocations, setSearchResults, setPrevSearch } = useSetContext();
+
   const [date, setDate] = useState(tools.TODAY);
   const [loading, setLoading] = useState(false);
-  const [results, setResults] = useState([]);
   const [showResults, setShowResults] = useState(false);
   const [showSelection, setShowSelection] = useState(false);
   const [selection, setSelection] = useState(null);
@@ -20,11 +28,11 @@ const Search = () => {
       setLoading(true);
       let locations = await tools.getLocations();
       locations = await tools.getDistances(zip, locations);
-      sessionStorage.setItem('allLocations', JSON.stringify(locations));
+      setAllLocations(locations);
       let filtered = tools.filterLocationsBy('tests', tests, locations);
       tools.sortByDistance(filtered);
       filtered = refreshAvailable(filtered, date);
-      setResults(filtered);
+      setSearchResults(filtered);
       setShowResults(true);
       setError('');
     } catch (e) {
@@ -32,32 +40,32 @@ const Search = () => {
       setError(error);
     } finally {
       setLoading(false);
-      sessionStorage.setItem('prevSearch', JSON.stringify({ tests, zip }));
+      setPrevSearch({ tests, zip });
     }
   };
 
   const handleSortBy = (type) => {
-    let newResults = [...results];
+    let newResults = [...searchResults];
     tools.sortByDistance(newResults);
     if (type === 'time') tools.sortByTime(newResults);
-    setResults(newResults);
+    setSearchResults(newResults);
   };
 
   const handleChangeDate = (type) => {
     let newDate = tools.changeDate(type, date);
-    const newResults = refreshAvailable(results, newDate);
+    const newResults = refreshAvailable(searchResults, newDate);
     setDate(newDate);
-    setResults(newResults);
+    setSearchResults(newResults);
   };
 
   const handleSelection = (selected) => {
-    const selectedLocation = tools.getSelection(selected, results);
+    const selectedLocation = tools.getSelection(selected, searchResults);
     setSelection(selectedLocation);
     setShowSelection(true);
   };
 
   const refreshLocations = (date) => {
-    const { tests, zip } = JSON.parse(sessionStorage.getItem('prevSearch'));
+    const { tests, zip } = prevSearch;
     fetchAllLocations(tests, zip, date);
   };
 
@@ -83,7 +91,7 @@ const Search = () => {
   ) : showResults ? (
     <SearchResults
       date={date}
-      results={results}
+      results={searchResults}
       handleChangeDate={handleChangeDate}
       handleSortBy={handleSortBy}
       handleSelection={handleSelection}

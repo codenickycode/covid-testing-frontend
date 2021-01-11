@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import * as tools from '../Search/tools/tools.js';
 import AppointmentItem from './AppointmentItem';
 
-const AppointmentsList = ({ appointments }) => {
+const AppointmentsList = ({ appointments, allLocations }) => {
   const [appointmentsPlus, setAppointmentsPlus] = useState([]);
 
   const expand = (_id) => {
@@ -15,9 +15,9 @@ const AppointmentsList = ({ appointments }) => {
   };
 
   useEffect(() => {
-    const locations = JSON.parse(sessionStorage.getItem('allLocations'));
+    console.log('list allLocations:\n', allLocations);
     const updatedAppointments = appointments.map((appointment) => {
-      const location = tools.getSelection(appointment.location, locations);
+      const location = tools.getSelection(appointment.location, allLocations);
       appointment.name = location.name;
       appointment.address = location.address;
       appointment.phone = location.phone;
@@ -25,7 +25,7 @@ const AppointmentsList = ({ appointments }) => {
       return appointment;
     });
     setAppointmentsPlus(updatedAppointments);
-  }, [appointments]);
+  }, [appointments, allLocations]);
 
   return (
     <div id='appointments-list-div'>
