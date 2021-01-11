@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 
 export const GetLoggedIn = React.createContext();
 export const SetLoggedIn = React.createContext();
@@ -127,4 +127,82 @@ export const TravelProvider = ({ children }) => {
       <GetTravel.Provider value={travel}>{children}</GetTravel.Provider>
     </SetTravel.Provider>
   );
+};
+
+export const ContextProvider = ({ children }) => {
+  return (
+    <LoggedInProvider>
+      <UpdateAccountHeaderProvider>
+        <NameProvider>
+          <AddressProvider>
+            <PhoneProvider>
+              <DobProvider>
+                <EmailProvider>
+                  <PasswordProvider>
+                    <InsuranceProvider>
+                      <EmergencyContactProvider>
+                        <TravelProvider>{children}</TravelProvider>
+                      </EmergencyContactProvider>
+                    </InsuranceProvider>
+                  </PasswordProvider>
+                </EmailProvider>
+              </DobProvider>
+            </PhoneProvider>
+          </AddressProvider>
+        </NameProvider>
+      </UpdateAccountHeaderProvider>
+    </LoggedInProvider>
+  );
+};
+
+export const useSetContext = () => {
+  const setLoggedIn = useContext(SetLoggedIn);
+  const setUpdateAccountHeader = useContext(SetUpdateAccountHeader);
+  const setName = useContext(SetName);
+  const setAddress = useContext(SetAddress);
+  const setPhone = useContext(SetPhone);
+  const setDob = useContext(SetDob);
+  const setEmail = useContext(SetEmail);
+  const setPassword = useContext(SetPassword);
+  const setInsurance = useContext(SetInsurance);
+  const setEmergencyContact = useContext(SetEmergencyContact);
+  const setTravel = useContext(SetTravel);
+
+  return {
+    setLoggedIn,
+    setUpdateAccountHeader,
+    setName,
+    setAddress,
+    setPhone,
+    setDob,
+    setEmail,
+    setPassword,
+    setInsurance,
+    setEmergencyContact,
+    setTravel,
+  };
+};
+
+export const setAllUserContext = (value) => {
+  const {
+    setName,
+    setAddress,
+    setPhone,
+    setDob,
+    setEmail,
+    setPassword,
+    setInsurance,
+    setEmergencyContact,
+    setTravel,
+  } = useSetContext;
+
+  setName(value.name);
+  setAddress(value.address);
+  setPhone(value.phone);
+  setDob(value.dob);
+  setEmail(value.email);
+  setPassword(value.password);
+  setInsurance(value.insurance);
+  setEmergencyContact(value.emergency_contact);
+  setTravel(value.travel);
 };

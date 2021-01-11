@@ -1,8 +1,8 @@
 import React, { useEffect, useContext } from 'react';
 import {
-  GetName,
-  SetUpdateAccountHeader,
   UpdateAccountHeader,
+  GetName,
+  useSetContext,
 } from '../../Providers/providers.js';
 import dayjs from 'dayjs';
 
@@ -10,11 +10,11 @@ let greeting = '';
 
 const AccountHeader = () => {
   const name = useContext(GetName);
-  const update = useContext(UpdateAccountHeader);
-  const setUpdate = useContext(SetUpdateAccountHeader);
+  const updateAccountHeader = useContext(UpdateAccountHeader);
+  const { setUpdateAccountHeader } = useSetContext();
 
   useEffect(() => {
-    if (update) {
+    if (updateAccountHeader) {
       const now = new dayjs();
       const time =
         now.$H > 3 && now.$H < 12
@@ -23,9 +23,9 @@ const AccountHeader = () => {
           ? 'afternoon'
           : 'evening';
       greeting = `Good ${time}${name.firstName ? `, ${name.firstName}!` : '!'}`;
-      setUpdate(false);
+      setUpdateAccountHeader(false);
     }
-  }, [update, setUpdate, name]);
+  }, [updateAccountHeader, setUpdateAccountHeader, name]);
 
   return (
     <div id='account-top'>

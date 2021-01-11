@@ -13,9 +13,7 @@ const Account = () => {
     <LoginModal closeModal={history.goBack} />
   ) : (
     <div id='account-div'>
-      {/* <UserNameProvider> */}
       <AccountHeader />
-      {/* </UserNameProvider> */}
       <AccountItemsList />
     </div>
   );
