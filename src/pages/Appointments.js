@@ -1,14 +1,14 @@
 import React, { useEffect, useState, useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import dayjs from 'dayjs';
 import * as tools from './Search/tools/tools.js';
 import {
-  GetLoggedIn,
-  GetAllLocations,
-  GetAppointments,
-  useSetContext,
-} from '../Providers/providers.js';
+  GetAppContext,
+  SetAppContext,
+} from '../Providers/AppContextProvider.js';
 import AppointmentsList from './Appointments/AppointmentsList.js';
+import LoginModal from './Modal/LoginModal.js';
 
 const Error = ({ error }) => <h1>{error}</h1>;
 const Loading = () => <h1>Loading...</h1>;
@@ -53,16 +53,20 @@ const sortAppointments = (appointments) => {
 };
 
 const Appointments = () => {
-  const loggedIn = useContext(GetLoggedIn);
-  const allLocations = useContext(GetAllLocations);
-  const { appointments, appointmentsLoaded } = useContext(GetAppointments);
+  const history = useHistory();
+  const {
+    loggedIn,
+    allLocations,
+    appointments,
+    appointmentsLoaded,
+  } = useContext(GetAppContext);
   const {
     setAllLocations,
     setAppointments,
     setAppointmentsLoaded,
-  } = useSetContext();
+  } = useContext(SetAppContext);
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [showPast, setShowPast] = useState(false);
   const [error, setError] = useState('');
 
@@ -88,7 +92,7 @@ const Appointments = () => {
   useEffect(() => {
     if (!loggedIn) return;
     if (allLocations.length === 0) return;
-    if (appointmentsLoaded) return;
+
     const fetchAppointments = async () => {
       setLoading(true);
       try {
@@ -109,7 +113,7 @@ const Appointments = () => {
         setLoading(false);
       }
     };
-    fetchAppointments();
+    if (!appointmentsLoaded) fetchAppointments();
   }, [
     loggedIn,
     allLocations,
@@ -118,7 +122,14 @@ const Appointments = () => {
     setAppointmentsLoaded,
   ]);
 
-  return loading ? (
+  return !loggedIn ? (
+    <LoginModal
+      closeModal={history.goBack}
+      setLoading={setLoading}
+      error={error}
+      setError={setError}
+    />
+  ) : loading ? (
     <Loading />
   ) : error ? (
     <Error error={error} />
@@ -132,23 +143,24 @@ const Appointments = () => {
           Past
         </div>
       </div>
-      {showPast ? (
-        appointments.past.length === 0 ? (
-          <h1>No past appointments.</h1>
+      {appointmentsLoaded &&
+        (showPast ? (
+          appointments.past.length === 0 ? (
+            <h1>No past appointments.</h1>
+          ) : (
+            <AppointmentsList
+              appointments={appointments.past}
+              allLocations={allLocations}
+            />
+          )
+        ) : appointments.upcoming.length === 0 ? (
+          <h1>No upcoming appointments.</h1>
         ) : (
           <AppointmentsList
-            appointments={appointments.past}
+            appointments={appointments.upcoming}
             allLocations={allLocations}
           />
-        )
-      ) : appointments.upcoming.length === 0 ? (
-        <h1>No upcoming appointments.</h1>
-      ) : (
-        <AppointmentsList
-          appointments={appointments.upcoming}
-          allLocations={allLocations}
-        />
-      )}
+        ))}
     </div>
   );
 };

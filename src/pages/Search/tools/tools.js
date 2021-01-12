@@ -2,6 +2,10 @@ import axios from 'axios';
 import dayjs from 'dayjs';
 import { DATE_FORMAT, TIMESLOTS } from '../../../constants.js';
 
+export const getLS = (field) => JSON.parse(localStorage.getItem(field));
+export const setLS = (field, value) =>
+  localStorage.setItem(field, JSON.stringify(value));
+
 export const TODAY = dayjs().format(DATE_FORMAT);
 
 export const validPassword = (password) => {

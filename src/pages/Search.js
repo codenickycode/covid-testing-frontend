@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
 import * as tools from './Search/tools/tools.js';
 import {
-  GetPrevSearch,
-  GetSearchResults,
-  useSetContext,
-} from '../Providers/providers.js';
+  GetAppContext,
+  SetAppContext,
+} from '../Providers/AppContextProvider.js';
 import SearchForm from './Search/SearchForm.js';
 import SearchResults from './Search/SearchResults.js';
 import Selection from './Search/Selection.js';
@@ -12,9 +11,13 @@ import Selection from './Search/Selection.js';
 const Loading = () => <h1>Loading...</h1>;
 
 const Search = () => {
-  const prevSearch = useContext(GetPrevSearch);
-  const searchResults = useContext(GetSearchResults);
-  const { setAllLocations, setSearchResults, setPrevSearch } = useSetContext();
+  const { prevSearch, searchResults } = useContext(GetAppContext);
+  const {
+    setAllLocations,
+    setSearchResults,
+    setPrevSearch,
+    setNavDisabled,
+  } = useContext(SetAppContext);
 
   const [date, setDate] = useState(tools.TODAY);
   const [loading, setLoading] = useState(false);
@@ -26,6 +29,7 @@ const Search = () => {
   const fetchAllLocations = async (tests, zip, date) => {
     try {
       setLoading(true);
+      setNavDisabled(true);
       let locations = await tools.getLocations();
       locations = await tools.getDistances(zip, locations);
       setAllLocations(locations);
@@ -40,6 +44,7 @@ const Search = () => {
       setError(error);
     } finally {
       setLoading(false);
+      setNavDisabled(false);
       setPrevSearch({ tests, zip });
     }
   };

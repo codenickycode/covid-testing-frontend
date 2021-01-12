@@ -8,8 +8,9 @@ import {
   GetPassword,
   GetInsurance,
   GetEmergencyContact,
-  useSetContext,
-} from '../../Providers/providers.js';
+  useSetAccountContext,
+} from '../../Providers/AccountContextProvider.js';
+import { SetAppContext } from '../../Providers/AppContextProvider';
 import AccountItem from './AccountItem.js';
 
 export default function AccountItemsList() {
@@ -30,7 +31,8 @@ export default function AccountItemsList() {
 
 const Name = () => {
   const name = useContext(GetName);
-  const { setName, setUpdateAccountHeader } = useSetContext();
+  const { setUpdateAH } = useContext(SetAppContext);
+  const { setName } = useSetAccountContext();
   const items = [
     { type: 'text', label: 'First', key: 'firstName' },
     { type: 'text', label: 'Last', key: 'lastName' },
@@ -42,14 +44,14 @@ const Name = () => {
       items={items}
       input={name}
       setContext={setName}
-      setUpdate={setUpdateAccountHeader}
+      setUpdate={setUpdateAH}
     />
   );
 };
 
 const Address = () => {
   const address = useContext(GetAddress);
-  const { setAddress } = useSetContext();
+  const { setAddress } = useSetAccountContext();
   const items = [
     { type: 'text', label: 'Street', key: 'street' },
     { type: 'text', label: 'City', key: 'city' },
@@ -69,7 +71,7 @@ const Address = () => {
 
 const Dob = () => {
   const dob = useContext(GetDob);
-  const { setDob } = useSetContext();
+  const { setDob } = useSetAccountContext();
   const items = [{ type: 'date', label: 'Date of Birth', key: 'dob' }];
   return (
     <AccountItem
@@ -84,7 +86,7 @@ const Dob = () => {
 
 const Email = () => {
   const email = useContext(GetEmail);
-  const { setEmail } = useSetContext();
+  const { setEmail } = useSetAccountContext();
   const items = [{ type: 'email', label: 'Email', key: 'email' }];
   return (
     <AccountItem
@@ -99,7 +101,7 @@ const Email = () => {
 
 const EmergencyContact = () => {
   const emergency_contact = useContext(GetEmergencyContact);
-  const { setEmergencyContact } = useSetContext();
+  const { setEmergencyContact } = useSetAccountContext();
   const items = [
     { type: 'text', label: 'Name', key: 'name' },
     { type: 'tel', label: 'Phone', key: 'phone' },
@@ -118,7 +120,7 @@ const EmergencyContact = () => {
 
 const Insurance = () => {
   const insurance = useContext(GetInsurance);
-  const { setInsurance } = useSetContext();
+  const { setInsurance } = useSetAccountContext();
   const items = [
     { type: 'text', label: 'Provider', key: 'provider' },
     { type: 'text', label: 'ID', key: 'id' },
@@ -136,7 +138,7 @@ const Insurance = () => {
 
 const Password = () => {
   const password = useContext(GetPassword);
-  const { setPassword } = useSetContext();
+  const { setPassword } = useSetAccountContext();
   const items = [
     { type: 'password', label: 'Current Password', key: 'currentPassword' },
     { type: 'password', label: 'New Password', key: 'newPassword' },
@@ -159,7 +161,7 @@ const Password = () => {
 
 const Phone = () => {
   const phone = useContext(GetPhone);
-  const { setPhone } = useSetContext();
+  const { setPhone } = useSetAccountContext();
   const items = [{ type: 'tel', label: 'Phone', key: 'phone' }];
   return (
     <AccountItem
@@ -174,7 +176,7 @@ const Phone = () => {
 
 // const Travel = () => {
 //   const { travel } = useGetContext();
-//   const { setTravel } = useSetContext();
+//   const { setTravel } = useSetAccountContext();
 //   const items = [];
 //   return (
 //     <AccountItem

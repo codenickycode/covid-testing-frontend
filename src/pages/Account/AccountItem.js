@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import * as tools from '../Search/tools/tools.js';
+import { SetAppContext } from '../../Providers/AppContextProvider.js';
 
 const Saving = () => <h1>Saving...</h1>;
 
 const AccountItem = ({ title, field, items, input, setContext, setUpdate }) => {
   console.log('rendering: ' + field);
+
+  const { setNavDisabled } = useContext(SetAppContext);
 
   const [error, setError] = useState('');
   const [saving, setSaving] = useState(false);
@@ -66,6 +69,7 @@ const AccountItem = ({ title, field, items, input, setContext, setUpdate }) => {
   const save = async () => {
     try {
       setSaving(true);
+      setNavDisabled(true);
       const res = await axios.post(`/common/update/${field}`, input);
       if (field === 'password') {
         setContext(prevInput);
@@ -80,6 +84,7 @@ const AccountItem = ({ title, field, items, input, setContext, setUpdate }) => {
       setError(error);
     } finally {
       setSaving(false);
+      setNavDisabled(false);
     }
   };
 

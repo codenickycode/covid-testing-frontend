@@ -1,15 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 import LoginForm from './Forms/LoginForm.js';
-import {
-  useSetAllUserContext,
-  useSetContext,
-} from '../../Providers/providers.js';
+import { SetAppContext } from '../../Providers/AppContextProvider.js';
+import { useSetAllAccountContext } from '../../Providers/AccountContextProvider.js';
 
 const Login = ({ closeModal }) => {
-  const { setLoggedIn } = useSetContext();
-  const setAllUserContext = useSetAllUserContext();
+  const { setLoggedIn, setNavDisabled } = useContext(SetAppContext);
+  const setAllAccountContext = useSetAllAccountContext();
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -17,16 +15,18 @@ const Login = ({ closeModal }) => {
   const submit = async (type, email, password) => {
     try {
       setLoading(true);
+      setNavDisabled(true);
       const res = await axios.post(`/common/${type}`, {
         email,
         password,
       });
-      setAllUserContext(res.data);
+      setAllAccountContext(res.data);
       setLoggedIn(true);
     } catch (e) {
       const error = e.response ? e.response.data : e.message;
       setError(error);
       setLoading(false);
+      setNavDisabled(false);
     }
   };
 

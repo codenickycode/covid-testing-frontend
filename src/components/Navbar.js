@@ -1,12 +1,24 @@
 import React, { useContext } from 'react';
 import axios from 'axios';
 import { Link, useHistory } from 'react-router-dom';
-import { GetLoggedIn, GetEmail } from '../Providers/providers.js';
+import {
+  GetAppContext,
+  useSetAllAppContext,
+  INIT_APP_CONTEXT,
+} from '../Providers/AppContextProvider.js';
+import {
+  GetEmail,
+  useSetAllAccountContext,
+  INIT_ACCOUNT_CONTEXT,
+} from '../Providers/AccountContextProvider.js';
 
 const Navbar = () => {
   const history = useHistory();
-  const loggedIn = useContext(GetLoggedIn);
+
+  const { loggedIn, navDisabled } = useContext(GetAppContext);
   const email = useContext(GetEmail);
+  const setAllAppContext = useSetAllAppContext();
+  const setAllAccountContext = useSetAllAccountContext();
 
   const logout = async () => {
     try {
@@ -16,7 +28,8 @@ const Navbar = () => {
       console.log(e);
       // const error = e.hasOwnProperty('response') ? e.response.data : e.message;
     } finally {
-      localStorage.clear();
+      setAllAppContext(INIT_APP_CONTEXT);
+      setAllAccountContext(INIT_ACCOUNT_CONTEXT);
       history.push('/');
     }
   };
@@ -32,14 +45,20 @@ const Navbar = () => {
       <button onClick={logout}>Logout</button>
       <nav className='navbar'>
         <ul className='nav-ul'>
-          <Link to='/account'>
-            <li className='nav-li'>Account</li>
+          <Link to={navDisabled ? '#' : '/account'}>
+            <li className={navDisabled ? 'nav-li navDisabled' : 'nav-li'}>
+              Account
+            </li>
           </Link>
-          <Link to='/appointments'>
-            <li className='nav-li'>Appointments</li>
+          <Link to={navDisabled ? '#' : '/appointments'}>
+            <li className={navDisabled ? 'nav-li navDisabled' : 'nav-li'}>
+              Appointments
+            </li>
           </Link>
-          <Link to='/settings'>
-            <li className='nav-li'>Settings</li>
+          <Link to={navDisabled ? '#' : '/settings'}>
+            <li className={navDisabled ? 'nav-li navDisabled' : 'nav-li'}>
+              Settings
+            </li>
           </Link>
         </ul>
       </nav>

@@ -4,8 +4,9 @@ import {
   GetName,
   GetPhone,
   GetDob,
-  useSetAllUserContext,
-} from '../../../Providers/providers.js';
+  useSetAllAccountContext,
+} from '../../../Providers/AccountContextProvider.js';
+import { SetAppContext } from '../../../Providers/AppContextProvider.js';
 
 const ConfirmUserInfo = ({
   setLoading,
@@ -16,7 +17,8 @@ const ConfirmUserInfo = ({
   const name = useContext(GetName);
   const phone = useContext(GetPhone);
   const dob = useContext(GetDob);
-  const setAllUserContext = useSetAllUserContext();
+  const setAllAccountContext = useSetAllAccountContext();
+  const { setNavDisabled } = useContext(SetAppContext);
 
   const [newFirstName, setNewFirstName] = useState(name.firstName || '');
   const [newLastName, setNewLastName] = useState(name.lastName || '');
@@ -27,6 +29,7 @@ const ConfirmUserInfo = ({
     e.preventDefault();
     try {
       setLoading(true);
+      setNavDisabled(true);
       const res = await axios.post('/common/update/basic', {
         name: {
           firstName: newFirstName,
@@ -39,13 +42,14 @@ const ConfirmUserInfo = ({
       for (let [key, val] of Object.entries(res.data)) {
         sessionStorage.setItem(key, JSON.stringify(val));
       }
-      setAllUserContext(res.data);
+      setAllAccountContext(res.data);
       setConfirmedInfo(true);
     } catch (e) {
       const error = e.hasOwnProperty('response') ? e.response.data : e.message;
       setError(error);
     } finally {
       setLoading(false);
+      setNavDisabled(false);
     }
   };
 
