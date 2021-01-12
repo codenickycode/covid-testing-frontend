@@ -7,8 +7,8 @@ import Welcome from './pages/Welcome.js';
 import Search from './pages/Search.js';
 import Appointments from './pages/Appointments.js';
 import Account from './pages/Account.js';
-import Information from './pages/Information.js';
 import Settings from './pages/Settings.js';
+import Information from './pages/Information.js';
 
 const App = () => {
   return (
@@ -21,8 +21,8 @@ const App = () => {
             <Route path='/search' component={Search} />
             <Route path='/appointments' component={Appointments} />
             <Route path='/account' component={Account} />
-            <Route path='/information' component={Information} />
             <Route path='/settings' component={Settings} />
+            <Route path='/information' component={Information} />
           </Switch>
           <Navbar />
         </div>

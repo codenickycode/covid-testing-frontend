@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import * as tools from '../Search/tools/tools.js';
+import * as tools from '../../tools/tools.js';
 import AppointmentItem from './AppointmentItem';
 
 const AppointmentsList = ({ appointments, allLocations }) => {

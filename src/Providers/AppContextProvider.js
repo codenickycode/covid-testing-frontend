@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { getLS, setLS } from '../pages/Search/tools/tools.js';
+import { getLS, setLS } from '../tools/tools.js';
 import AccountContextProvider from './AccountContextProvider.js';
 
 export const INIT_APP_CONTEXT = {
+  loading: false,
+  error: '',
   loggedIn: false,
   updateAH: true,
   allLocations: [],
@@ -16,6 +18,16 @@ export const INIT_APP_CONTEXT = {
 export const GetAppContext = React.createContext();
 export const SetAppContext = React.createContext();
 const AppContextProvider = ({ children }) => {
+  const [loading, setLoading] = useState(getLS('loading'));
+  useEffect(() => {
+    setLS('loading', loading);
+  }, [loading]);
+
+  const [error, setError] = useState(getLS('error'));
+  useEffect(() => {
+    setLS('error', error);
+  }, [error]);
+
   const [loggedIn, setLoggedIn] = useState(getLS('loggedIn'));
   useEffect(() => {
     setLS('loggedIn', loggedIn);
@@ -62,6 +74,8 @@ const AppContextProvider = ({ children }) => {
   return (
     <SetAppContext.Provider
       value={{
+        setLoading,
+        setError,
         setLoggedIn,
         setUpdateAH,
         setAllLocations,
@@ -74,6 +88,8 @@ const AppContextProvider = ({ children }) => {
     >
       <GetAppContext.Provider
         value={{
+          loading,
+          error,
           loggedIn,
           updateAH,
           allLocations,
@@ -93,6 +109,8 @@ const AppContextProvider = ({ children }) => {
 export const useSetAllAppContext = () => {
   const all = useContext(SetAppContext);
   const setAllAppContext = (value) => {
+    all.setLoading(value.loading);
+    all.setError(value.error);
     all.setLoggedIn(value.loggedIn);
     all.setUpdateAH(value.updateAH);
     all.setAllLocations(value.allLocations);

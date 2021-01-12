@@ -1,6 +1,6 @@
 import axios from 'axios';
 import dayjs from 'dayjs';
-import { DATE_FORMAT, TIMESLOTS } from '../../../constants.js';
+import { DATE_FORMAT, TIMESLOTS } from '../constants.js';
 
 export const getLS = (field) => JSON.parse(localStorage.getItem(field));
 export const setLS = (field, value) =>
@@ -27,7 +27,7 @@ export const getDistances = async (zip, locations) => {
   return res.data;
 };
 
-const parseLocationsZips = (locations) => {
+export const parseLocationsZips = (locations) => {
   let locationsZips = '';
   for (let location of locations) {
     locationsZips += location.address.zip + '|';

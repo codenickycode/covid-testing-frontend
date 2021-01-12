@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { getLS, setLS } from '../pages/Search/tools/tools.js';
+import { getLS, setLS } from '../tools/tools.js';
 
 export const INIT_ACCOUNT_CONTEXT = {
   name: {},

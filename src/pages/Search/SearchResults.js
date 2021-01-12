@@ -1,13 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { GetAppContext } from '../../Providers/AppContextProvider.js';
+import { useContextTools } from '../../tools/useContextTools.js';
 import LocationPreview from './components/LocationPreview.js';
 
-const SearchResults = ({
-  date,
-  results,
-  handleChangeDate,
-  handleSortBy,
-  handleSelection,
-}) => {
+const SearchResults = ({ date, handleChangeDate, handleSelection }) => {
+  const { searchResults } = useContext(GetAppContext);
+  const { sortResultsBy } = useContextTools();
+
   return (
     <div>
       <div className='center date-picker'>
@@ -32,20 +31,20 @@ const SearchResults = ({
         <button
           id='sort-time'
           className='btn'
-          onClick={() => handleSortBy('time')}
+          onClick={() => sortResultsBy('time')}
         >
           Time
         </button>
         <button
           id='sort-distance'
           className='btn'
-          onClick={() => handleSortBy('distance')}
+          onClick={() => sortResultsBy('distance')}
         >
           Distance
         </button>
       </div>
       <div id='div-locations'>
-        {results.map((location, index) => {
+        {searchResults.map((location, index) => {
           return (
             <LocationPreview
               key={index}
