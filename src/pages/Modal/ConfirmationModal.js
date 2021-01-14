@@ -1,76 +1,68 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, {
+  useRef,
+  useState,
+  useEffect,
+  useContext,
+  useCallback,
+} from 'react';
 import ReactDOM from 'react-dom';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
-import {
-  GetAppContext,
-  SetAppContext,
-} from '../../Providers/AppContextProvider';
+import { useSetAccount } from '../../Providers/AccountProvider.js';
+import { App, Info, SetApp } from '../../Providers/ContextProvider.js';
+import { useTryCatchFinally } from '../../tools/useTryCatchFinally.js';
 import LoginModal from './LoginModal.js';
 import ConfirmUserInfoModal from './Forms/ConfirmUserInfoModal.js';
 
-const Loading = () => <h1>Loading...</h1>;
-
-const ConfirmationModal = ({ appointment, closeModal }) => {
+const ConfirmationModal = ({ closeModal }) => {
   const history = useHistory();
+  const { loggedIn } = useContext(App);
+  const { appointment } = useContext(Info);
+  const setApp = useContext(SetApp);
+  const { setAppointments } = useSetAccount();
+  const tryCatchFinally = useTryCatchFinally();
 
-  const { loggedIn } = useContext(GetAppContext);
-  const { setNavDisabled } = useContext(SetAppContext);
+  const [infoIsConfirmed, setInfoIsConfirmed] = useState(false);
+  const bookingRef = useRef('');
 
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [confirmedInfo, setConfirmedInfo] = useState(false);
+  const bookAppointment = useCallback(() => {
+    history.push('/appointments');
+    tryCatchFinally(tryFunc, [appointment], catchFunc);
+    async function tryFunc(apptArg) {
+      const res = await axios.post('/common/appointments', apptArg);
+      setAppointments(res.data.appointments);
+      setApp((prevState) => ({
+        ...prevState,
+        confirmation: res.data.confirmation,
+      }));
+    }
+    function catchFunc(error) {
+      setApp((prevState) => ({ ...prevState, confirmation: error }));
+    }
+  }, [appointment, history, setApp, setAppointments, tryCatchFinally]);
 
   useEffect(() => {
-    const bookAppointment = async (appointment) => {
-      setLoading(true);
-      setNavDisabled(true);
-      try {
-        await axios.post('/common/appointments', appointment);
-        setNavDisabled(false);
-        history.push('/appointments');
-      } catch (e) {
-        console.log(e);
-        const error = e.hasOwnProperty('response')
-          ? e.response.data
-          : e.message;
-        setError(error);
-        setLoading(false);
-        setNavDisabled(false);
-      }
-    };
-    if (loggedIn && confirmedInfo) {
+    if (!bookingRef.current && loggedIn && infoIsConfirmed) {
+      bookingRef.current = 'Booking...';
       bookAppointment(appointment);
     }
-  }, [confirmedInfo, loggedIn, appointment, history, setNavDisabled]);
+  }, [bookingRef, bookAppointment, appointment, loggedIn, infoIsConfirmed]);
 
   return ReactDOM.createPortal(
     <>
-      {loading ? (
-        <>
-          <div className='overlay'></div>
-          <div className='modal'>
-            <Loading />
-          </div>
-        </>
-      ) : !loggedIn ? (
-        <LoginModal
-          closeModal={closeModal}
-          setLoading={setLoading}
-          error={error}
-          setError={setError}
-        />
-      ) : !confirmedInfo ? (
+      {!loggedIn ? (
+        <LoginModal closeModal={closeModal} />
+      ) : !infoIsConfirmed ? (
         <ConfirmUserInfoModal
-          setLoading={setLoading}
           closeModal={closeModal}
-          setConfirmedInfo={setConfirmedInfo}
-          setError={setError}
+          setInfoIsConfirmed={setInfoIsConfirmed}
         />
       ) : (
         <>
-          <div className='overlay' onClick={closeModal}></div>
-          <div className='modal'>{error}</div>
+          <div className='overlay'></div>
+          <div className='modal'>
+            <h1>{bookingRef.current}</h1>
+          </div>
         </>
       )}
     </>,

@@ -1,7 +1,8 @@
 import React from 'react';
 
 const AppointmentItem = ({ appointment, expand }) => {
-  const { _id, date, time, tests, name, address, phone } = appointment;
+  const { _id, date, time, location, tests } = appointment;
+  const { name, address, phone } = location;
   const { street, city, state, zip } = address;
 
   let testsSpan = '';

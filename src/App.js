@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import ContextProvider from './Providers/AppContextProvider.js';
-import Header from './components/Header.js';
-import Navbar from './components/Navbar.js';
+import ContextProvider from './Providers/ContextProvider.js';
+import Header from './sections/Header.js';
+import Navbar from './sections/Navbar.js';
 import Welcome from './pages/Welcome.js';
 import Search from './pages/Search.js';
 import Appointments from './pages/Appointments.js';

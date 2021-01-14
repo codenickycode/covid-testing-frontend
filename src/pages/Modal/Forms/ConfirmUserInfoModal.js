@@ -1,35 +1,36 @@
 import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import {
-  GetName,
-  GetPhone,
-  GetDob,
-  useSetAllAccountContext,
-} from '../../../Providers/AccountContextProvider.js';
-import { SetAppContext } from '../../../Providers/AppContextProvider.js';
+  Name,
+  Phone,
+  Dob,
+  useSetAllAccount,
+} from '../../../Providers/AccountProvider.js';
+import { App } from '../../../Providers/ContextProvider.js';
+import { useTryCatchFinally } from '../../../tools/useTryCatchFinally.js';
 
-const ConfirmUserInfo = ({
-  setLoading,
-  closeModal,
-  setConfirmedInfo,
-  setError,
-}) => {
-  const name = useContext(GetName);
-  const phone = useContext(GetPhone);
-  const dob = useContext(GetDob);
-  const setAllAccountContext = useSetAllAccountContext();
-  const { setNavDisabled } = useContext(SetAppContext);
+const ConfirmUserInfo = ({ closeModal, setInfoIsConfirmed }) => {
+  const name = useContext(Name);
+  const phone = useContext(Phone);
+  const dob = useContext(Dob);
+  const { loading } = useContext(App);
+  const setAllAccount = useSetAllAccount();
+  const tryCatchFinally = useTryCatchFinally();
 
+  const [userError, setUserError] = useState('');
   const [newFirstName, setNewFirstName] = useState(name.firstName || '');
   const [newLastName, setNewLastName] = useState(name.lastName || '');
   const [newPhone, setNewPhone] = useState(phone.phone || '');
   const [newDob, setNewDob] = useState(dob.dob || '');
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      setLoading(true);
-      setNavDisabled(true);
+    if (!newFirstName || !newLastName || !newPhone || !newDob) {
+      setUserError('All fields are required.');
+      return;
+    }
+    tryCatchFinally(tryFunc);
+    async function tryFunc() {
       const res = await axios.post('/common/update/basic', {
         name: {
           firstName: newFirstName,
@@ -38,18 +39,8 @@ const ConfirmUserInfo = ({
         phone: { phone: newPhone },
         dob: { dob: newDob },
       });
-      setError('');
-      for (let [key, val] of Object.entries(res.data)) {
-        sessionStorage.setItem(key, JSON.stringify(val));
-      }
-      setAllAccountContext(res.data);
-      setConfirmedInfo(true);
-    } catch (e) {
-      const error = e.hasOwnProperty('response') ? e.response.data : e.message;
-      setError(error);
-    } finally {
-      setLoading(false);
-      setNavDisabled(false);
+      setAllAccount({ ...res.data, headerName: res.data.name.firstName });
+      setInfoIsConfirmed(true);
     }
   };
 
@@ -57,8 +48,10 @@ const ConfirmUserInfo = ({
     <>
       <div className='overlay' onClick={closeModal}></div>
       <div className='modal'>
+        {loading && <h1>loading...</h1>}
         <h1>Before confirming your appointment</h1>
         <p>We need a little info</p>
+        {userError && <h2>{userError}</h2>}
         <form id='form-reg-info' className='form' onSubmit={handleSubmit}>
           <div>Name:</div>
           <label htmlFor='firstName'>First</label>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import * as tools from '../../../tools/tools.js';
 
-const LoginForm = ({ submit, setError }) => {
+const LoginForm = ({ submit, setUserError }) => {
   const [signup, setSignup] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -14,10 +14,11 @@ const LoginForm = ({ submit, setError }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (signup) {
-      if (!tools.validPassword(password)) return setError('Invalid password');
+      if (!tools.validPassword(password))
+        return setUserError('Invalid password');
       if (password !== confirmation)
-        return setError("Confirmation doesn't match");
-      setError('');
+        return setUserError("Confirmation doesn't match");
+      setUserError('');
       submit('register', email, password);
     } else {
       submit('login', email, password);

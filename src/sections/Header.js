@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
-import { GetAppContext } from '../Providers/AppContextProvider.js';
+import { NavDisabled } from '../Providers/ContextProvider.js';
 
 const Header = () => {
   const history = useHistory();
-  const { navDisabled } = useContext(GetAppContext);
+  const navDisabled = useContext(NavDisabled);
 
   return (
     <>

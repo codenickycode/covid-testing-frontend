@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { getLS, setLS } from '../tools/tools.js';
 
-export const INIT_ACCOUNT_CONTEXT = {
+export const INIT_ACCOUNT_STATE = {
+  headerName: '',
   name: {},
   address: {},
   phone: {},
@@ -11,141 +12,184 @@ export const INIT_ACCOUNT_CONTEXT = {
   insurance: {},
   emergency_contact: {},
   travel: {},
+  appointments: [],
 };
 
-export const GetName = React.createContext();
+export const HeaderName = React.createContext();
+const SetHeaderName = React.createContext();
+export const Name = React.createContext();
 const SetName = React.createContext();
 const NameProvider = ({ children }) => {
-  const [name, setName] = useState(getLS('name') || {});
+  const [headerName, setHeaderName] = useState(
+    getLS('headerName' || INIT_ACCOUNT_STATE.headerName)
+  );
+  useEffect(() => {
+    setLS('headerName', headerName);
+  }, [headerName]);
+
+  const [name, setName] = useState(getLS('name') || INIT_ACCOUNT_STATE.name);
   useEffect(() => {
     setLS('name', name);
   }, [name]);
   return (
-    <SetName.Provider value={setName}>
-      <GetName.Provider value={name}>{children}</GetName.Provider>
-    </SetName.Provider>
+    <SetHeaderName.Provider value={setHeaderName}>
+      <HeaderName.Provider value={headerName}>
+        <SetName.Provider value={setName}>
+          <Name.Provider value={name}>{children}</Name.Provider>
+        </SetName.Provider>
+      </HeaderName.Provider>
+    </SetHeaderName.Provider>
   );
 };
 
-export const GetAddress = React.createContext();
+export const Address = React.createContext();
 const SetAddress = React.createContext();
 const AddressProvider = ({ children }) => {
-  const [address, setAddress] = useState(getLS('address') || {});
+  const [address, setAddress] = useState(
+    getLS('address') || INIT_ACCOUNT_STATE.address
+  );
   useEffect(() => {
     setLS('address', address);
   }, [address]);
   return (
     <SetAddress.Provider value={setAddress}>
-      <GetAddress.Provider value={address}>{children}</GetAddress.Provider>
+      <Address.Provider value={address}>{children}</Address.Provider>
     </SetAddress.Provider>
   );
 };
 
-export const GetPhone = React.createContext();
+export const Phone = React.createContext();
 const SetPhone = React.createContext();
 const PhoneProvider = ({ children }) => {
-  const [phone, setPhone] = useState(getLS('phone') || {});
+  const [phone, setPhone] = useState(
+    getLS('phone') || INIT_ACCOUNT_STATE.phone
+  );
   useEffect(() => {
     setLS('phone', phone);
   }, [phone]);
   return (
     <SetPhone.Provider value={setPhone}>
-      <GetPhone.Provider value={phone}>{children}</GetPhone.Provider>
+      <Phone.Provider value={phone}>{children}</Phone.Provider>
     </SetPhone.Provider>
   );
 };
 
-export const GetDob = React.createContext();
+export const Dob = React.createContext();
 const SetDob = React.createContext();
 const DobProvider = ({ children }) => {
-  const [dob, setDob] = useState(getLS('dob') || {});
+  const [dob, setDob] = useState(getLS('dob') || INIT_ACCOUNT_STATE.dob);
   useEffect(() => {
     setLS('dob', dob);
   }, [dob]);
   return (
     <SetDob.Provider value={setDob}>
-      <GetDob.Provider value={dob}>{children}</GetDob.Provider>
+      <Dob.Provider value={dob}>{children}</Dob.Provider>
     </SetDob.Provider>
   );
 };
 
-export const GetEmail = React.createContext();
+export const Email = React.createContext();
 const SetEmail = React.createContext();
 const EmailProvider = ({ children }) => {
-  const [email, setEmail] = useState(getLS('email') || {});
+  const [email, setEmail] = useState(
+    getLS('email') || INIT_ACCOUNT_STATE.email
+  );
   useEffect(() => {
     setLS('email', email);
   }, [email]);
   return (
     <SetEmail.Provider value={setEmail}>
-      <GetEmail.Provider value={email}>{children}</GetEmail.Provider>
+      <Email.Provider value={email}>{children}</Email.Provider>
     </SetEmail.Provider>
   );
 };
 
-export const GetPassword = React.createContext();
+export const Password = React.createContext();
 const SetPassword = React.createContext();
 const PasswordProvider = ({ children }) => {
-  const [password, setPassword] = useState(getLS('password') || {});
+  const [password, setPassword] = useState(
+    getLS('password') || INIT_ACCOUNT_STATE.password
+  );
   useEffect(() => {
     setLS('password', password);
   }, [password]);
   return (
     <SetPassword.Provider value={setPassword}>
-      <GetPassword.Provider value={password}>{children}</GetPassword.Provider>
+      <Password.Provider value={password}>{children}</Password.Provider>
     </SetPassword.Provider>
   );
 };
 
-export const GetInsurance = React.createContext();
+export const Insurance = React.createContext();
 const SetInsurance = React.createContext();
 const InsuranceProvider = ({ children }) => {
-  const [insurance, setInsurance] = useState(getLS('insurance') || {});
+  const [insurance, setInsurance] = useState(
+    getLS('insurance') || INIT_ACCOUNT_STATE.insurance
+  );
   useEffect(() => {
     setLS('insurance', insurance);
   }, [insurance]);
   return (
     <SetInsurance.Provider value={setInsurance}>
-      <GetInsurance.Provider value={insurance}>
-        {children}
-      </GetInsurance.Provider>
+      <Insurance.Provider value={insurance}>{children}</Insurance.Provider>
     </SetInsurance.Provider>
   );
 };
 
-export const GetEmergencyContact = React.createContext();
+export const EmergencyContact = React.createContext();
 const SetEmergencyContact = React.createContext();
 const EmergencyContactProvider = ({ children }) => {
   const [emergency_contact, setEmergencyContact] = useState(
-    getLS('emergency_contact') || {}
+    getLS('emergency_contact') || INIT_ACCOUNT_STATE.emergency_contact
   );
   useEffect(() => {
     setLS('emergency_contact', emergency_contact);
   }, [emergency_contact]);
   return (
     <SetEmergencyContact.Provider value={setEmergencyContact}>
-      <GetEmergencyContact.Provider value={emergency_contact}>
+      <EmergencyContact.Provider value={emergency_contact}>
         {children}
-      </GetEmergencyContact.Provider>
+      </EmergencyContact.Provider>
     </SetEmergencyContact.Provider>
   );
 };
 
-export const GetTravel = React.createContext();
+export const Travel = React.createContext();
 const SetTravel = React.createContext();
 const TravelProvider = ({ children }) => {
-  const [travel, setTravel] = useState(getLS('travel') || {});
+  const [travel, setTravel] = useState(
+    getLS('travel') || INIT_ACCOUNT_STATE.travel
+  );
   useEffect(() => {
     setLS('travel', travel);
   }, [travel]);
   return (
     <SetTravel.Provider value={setTravel}>
-      <GetTravel.Provider value={travel}>{children}</GetTravel.Provider>
+      <Travel.Provider value={travel}>{children}</Travel.Provider>
     </SetTravel.Provider>
   );
 };
 
-export const useSetAccountContext = () => {
+export const Appointments = React.createContext();
+const SetAppointments = React.createContext();
+const AppointmentsProvider = ({ children }) => {
+  const [appointments, setAppointments] = useState(
+    getLS('appointments') || INIT_ACCOUNT_STATE.appointments
+  );
+  useEffect(() => {
+    setLS('appointments', appointments);
+  }, [appointments]);
+  return (
+    <SetAppointments.Provider value={setAppointments}>
+      <Appointments.Provider value={appointments}>
+        {children}
+      </Appointments.Provider>
+    </SetAppointments.Provider>
+  );
+};
+
+export const useSetAccount = () => {
+  const setHeaderName = useContext(SetHeaderName);
   const setName = useContext(SetName);
   const setAddress = useContext(SetAddress);
   const setPhone = useContext(SetPhone);
@@ -155,7 +199,9 @@ export const useSetAccountContext = () => {
   const setInsurance = useContext(SetInsurance);
   const setEmergencyContact = useContext(SetEmergencyContact);
   const setTravel = useContext(SetTravel);
+  const setAppointments = useContext(SetAppointments);
   return {
+    setHeaderName,
     setName,
     setAddress,
     setPhone,
@@ -165,12 +211,14 @@ export const useSetAccountContext = () => {
     setInsurance,
     setEmergencyContact,
     setTravel,
+    setAppointments,
   };
 };
 
-export const useSetAllAccountContext = () => {
-  const all = useSetAccountContext();
-  const setAllAccountContext = (value) => {
+export const useSetAllAccount = () => {
+  const all = useSetAccount();
+  const setAllAccount = (value) => {
+    all.setHeaderName(value.headerName);
     all.setName(value.name);
     all.setAddress(value.address);
     all.setPhone(value.phone);
@@ -180,11 +228,12 @@ export const useSetAllAccountContext = () => {
     all.setInsurance(value.insurance);
     all.setEmergencyContact(value.emergency_contact);
     all.setTravel(value.travel);
+    all.setAppointments(value.appointments);
   };
-  return setAllAccountContext;
+  return setAllAccount;
 };
 
-const AccountContextProvider = ({ children }) => {
+const AccountProvider = ({ children }) => {
   return (
     <NameProvider>
       <AddressProvider>
@@ -194,7 +243,9 @@ const AccountContextProvider = ({ children }) => {
               <PasswordProvider>
                 <InsuranceProvider>
                   <EmergencyContactProvider>
-                    <TravelProvider>{children}</TravelProvider>
+                    <TravelProvider>
+                      <AppointmentsProvider>{children}</AppointmentsProvider>
+                    </TravelProvider>
                   </EmergencyContactProvider>
                 </InsuranceProvider>
               </PasswordProvider>
@@ -206,4 +257,4 @@ const AccountContextProvider = ({ children }) => {
   );
 };
 
-export default AccountContextProvider;
+export default AccountProvider;

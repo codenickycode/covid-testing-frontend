@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
-import { GetAppContext } from '../Providers/AppContextProvider.js';
+import { App } from '../Providers/ContextProvider.js';
 import LoginModal from './Modal/LoginModal.js';
 
 const Settings = () => {
   const history = useHistory();
-  const { loggedIn } = useContext(GetAppContext);
+  const { loggedIn } = useContext(App);
 
   return !loggedIn ? (
     <LoginModal closeModal={history.goBack} />

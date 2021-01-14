@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { TESTS } from '../../constants.js';
 import Test from './components/Test.js';
 
-const SearchForm = ({ handleSubmit, error }) => {
+const SearchForm = ({ handleSubmit }) => {
   const [zip, setZip] = useState('');
 
   const toggleTest = (e) => {
@@ -28,7 +28,6 @@ const SearchForm = ({ handleSubmit, error }) => {
 
   return (
     <form id='form-home' className='form' onSubmit={submit}>
-      {error && <h2 className='error'>{error}</h2>}
       <h1>Hi!</h1>
       <p>Please select which tests you are interested in...</p>
       <div id='tests' className=''>

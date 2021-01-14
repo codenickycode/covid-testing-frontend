@@ -1,35 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import * as tools from '../../tools/tools.js';
+import React from 'react';
 import AppointmentItem from './AppointmentItem';
 
-const AppointmentsList = ({ appointments, allLocations }) => {
-  const [appointmentsPlus, setAppointmentsPlus] = useState([]);
-
+const AppointmentsList = ({ appointments, setAppointments }) => {
   const expand = (_id) => {
-    let updateExpanded = [...appointmentsPlus];
+    let updateExpanded = [...appointments];
     updateExpanded.forEach((appointment) => {
       if (appointment._id.toString() === _id.toString())
         appointment.expanded = !appointment.expanded;
     });
-    setAppointmentsPlus(updateExpanded);
+    setAppointments(updateExpanded);
   };
-
-  useEffect(() => {
-    console.log('list allLocations:\n', allLocations);
-    const updatedAppointments = appointments.map((appointment) => {
-      const location = tools.getSelection(appointment.location, allLocations);
-      appointment.name = location.name;
-      appointment.address = location.address;
-      appointment.phone = location.phone;
-      appointment.expanded = false;
-      return appointment;
-    });
-    setAppointmentsPlus(updatedAppointments);
-  }, [appointments, allLocations]);
 
   return (
     <div id='appointments-list-div'>
-      {appointmentsPlus.map((appointment, index) => {
+      {appointments.map((appointment, index) => {
         return (
           <AppointmentItem
             key={index}

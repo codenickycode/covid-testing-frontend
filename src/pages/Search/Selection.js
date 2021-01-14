@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { SetInfo } from '../../Providers/ContextProvider.js';
 import SelectionJSX from './components/SelectionJSX.js';
 import ConfirmationModal from '../Modal/ConfirmationModal.js';
 
 const Selection = ({ selection, date, handleChangeDate, refreshLocations }) => {
+  const setInfo = useContext(SetInfo);
+
   const [showModal, setShowModal] = useState(false);
-  const [appointment, setAppointment] = useState(null);
 
   let timeSelection = null;
   let testsSelection = [];
@@ -22,12 +24,12 @@ const Selection = ({ selection, date, handleChangeDate, refreshLocations }) => {
     e.preventDefault();
     if (!timeSelection || testsSelection.length === 0) return;
     const newAppointment = {
-      location: selection._id,
+      location: selection,
       date,
       time: timeSelection,
       tests: testsSelection,
     };
-    setAppointment(newAppointment);
+    setInfo((prevState) => ({ ...prevState, appointment: newAppointment }));
     setShowModal(true);
   };
 
@@ -38,12 +40,7 @@ const Selection = ({ selection, date, handleChangeDate, refreshLocations }) => {
 
   return (
     <>
-      {showModal && (
-        <ConfirmationModal
-          appointment={appointment}
-          closeModal={handleCloseModal}
-        />
-      )}
+      {showModal && <ConfirmationModal closeModal={handleCloseModal} />}
       <SelectionJSX
         selection={selection}
         date={date}

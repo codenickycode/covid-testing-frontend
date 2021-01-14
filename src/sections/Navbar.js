@@ -2,35 +2,41 @@ import React, { useContext } from 'react';
 import axios from 'axios';
 import { Link, useHistory } from 'react-router-dom';
 import {
-  GetAppContext,
-  useSetAllAppContext,
-  INIT_APP_CONTEXT,
-} from '../Providers/AppContextProvider.js';
+  App,
+  NavDisabled,
+  SetApp,
+  SetInfo,
+  INIT_APP_STATE,
+  INIT_INFO_STATE,
+} from '../Providers/ContextProvider.js';
 import {
-  GetEmail,
-  useSetAllAccountContext,
-  INIT_ACCOUNT_CONTEXT,
-} from '../Providers/AccountContextProvider.js';
+  Email,
+  useSetAllAccount,
+  INIT_ACCOUNT_STATE,
+} from '../Providers/AccountProvider.js';
+import { useTryCatchFinally } from '../tools/useTryCatchFinally.js';
 
 const Navbar = () => {
   const history = useHistory();
+  const tryCatchFinally = useTryCatchFinally();
+  const { loggedIn } = useContext(App);
+  const navDisabled = useContext(NavDisabled);
+  const email = useContext(Email);
+  const setApp = useContext(SetApp);
+  const setInfo = useContext(SetInfo);
+  const setAllAccount = useSetAllAccount();
 
-  const { loggedIn, navDisabled } = useContext(GetAppContext);
-  const email = useContext(GetEmail);
-  const setAllAppContext = useSetAllAppContext();
-  const setAllAccountContext = useSetAllAccountContext();
-
-  const logout = async () => {
-    try {
+  const logout = () => {
+    history.push('/');
+    tryCatchFinally(tryFunc, undefined, undefined, finallyFunc);
+    async function tryFunc() {
       const res = await axios.get('/common/logout');
       console.log(res.data);
-    } catch (e) {
-      console.log(e);
-      // const error = e.hasOwnProperty('response') ? e.response.data : e.message;
-    } finally {
-      setAllAppContext(INIT_APP_CONTEXT);
-      setAllAccountContext(INIT_ACCOUNT_CONTEXT);
-      history.push('/');
+    }
+    function finallyFunc() {
+      setApp(INIT_APP_STATE);
+      setInfo(INIT_INFO_STATE);
+      setAllAccount(INIT_ACCOUNT_STATE);
     }
   };
 

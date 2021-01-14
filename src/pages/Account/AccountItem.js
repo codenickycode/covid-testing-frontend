@@ -1,23 +1,23 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import * as tools from '../../tools/tools.js';
-import { SetAppContext } from '../../Providers/AppContextProvider.js';
+import { SetNavDisabled } from '../../Providers/ContextProvider.js';
 
 const Saving = () => <h1>Saving...</h1>;
 
-const AccountItem = ({ title, field, items, input, setContext, setUpdate }) => {
+const AccountItem = ({ title, field, items, input, setContext, setHeader }) => {
   console.log('rendering: ' + field);
 
-  const { setNavDisabled } = useContext(SetAppContext);
+  const setNavDisabled = useContext(SetNavDisabled);
 
-  const [error, setError] = useState('');
+  const [userError, setUserError] = useState('');
   const [saving, setSaving] = useState(false);
   const [edit, setEdit] = useState(false);
   const [updated, setUpdated] = useState(false);
-
   const [prevInput, setPrevInput] = useState(input);
   const [preview, setPreview] = useState('');
 
+  // preview item
   useEffect(() => {
     if (field === 'password') return;
     if (field === 'name') {
@@ -44,9 +44,9 @@ const AccountItem = ({ title, field, items, input, setContext, setUpdate }) => {
       toggleEdit();
     } else {
       if (!tools.validPassword(input.newPassword))
-        return setError('Invalid password');
+        return setUserError('Invalid password');
       if (input.newPassword !== input.confirmNewPassword)
-        return setError("Confirmation doesn't match");
+        return setUserError("Confirmation doesn't match");
       let submitInput = { ...input };
       delete submitInput.confirmNewPassword;
       toggleEdit();
@@ -54,16 +54,10 @@ const AccountItem = ({ title, field, items, input, setContext, setUpdate }) => {
   };
 
   const handleInput = (e, key) => {
-    if (key === 'zip') {
-      const val = e.target.value;
-      if (val && val[val.length - 1].match(/\D/)) return;
-    }
-    if (e.target.value === prevInput[key]) {
-      setUpdated(false);
-    } else {
-      setUpdated(true);
-    }
-    setContext({ ...input, [key]: e.target.value });
+    let val = e.target.value;
+    if (key === 'zip' && val && val[val.length - 1].match(/\D/)) return;
+    setUpdated(val !== prevInput[key]);
+    setContext({ ...input, [key]: val });
   };
 
   const save = async () => {
@@ -74,14 +68,16 @@ const AccountItem = ({ title, field, items, input, setContext, setUpdate }) => {
       if (field === 'password') {
         setContext(prevInput);
       } else {
-        if (field === 'name') setUpdate(true);
+        if (field === 'name') setHeader(res.data.name.firstName);
         setContext(res.data[field]);
         setPrevInput(res.data[field]);
       }
       setUpdated(false);
     } catch (e) {
-      const error = e.hasOwnProperty('response') ? e.response.data : e.message;
-      setError(error);
+      const userError = e.hasOwnProperty('response')
+        ? e.response.data
+        : e.message;
+      setUserError(userError);
     } finally {
       setSaving(false);
       setNavDisabled(false);
@@ -106,6 +102,7 @@ const AccountItem = ({ title, field, items, input, setContext, setUpdate }) => {
         <div className='account-item-text'>
           <h2>{title}</h2>
           <p>{preview}</p>
+          {userError && <p>{userError}</p>}
         </div>
         <button type='button'>{edit ? 'save' : 'edit'}</button>
         {edit && (
@@ -131,7 +128,6 @@ const AccountItem = ({ title, field, items, input, setContext, setUpdate }) => {
                 value={input[item.key]}
                 onChange={(e) => handleInput(e, item.key)}
               />
-              {error && <p>{error}</p>}
             </div>
           );
         })}
