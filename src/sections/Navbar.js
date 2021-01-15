@@ -22,7 +22,7 @@ import { ReactComponent as Settings } from '../icons/settings.svg';
 const Navbar = () => {
   const history = useHistory();
   const tryCatchFinally = useTryCatchFinally();
-  const { loggedIn } = useContext(App);
+  const { loggedIn, title } = useContext(App);
   const navDisabled = useContext(NavDisabled);
   const email = useContext(Email);
   const setApp = useContext(SetApp);
@@ -55,17 +55,41 @@ const Navbar = () => {
       <div className='footer'>
         <nav className='navbar'>
           <Link to={navDisabled ? '#' : '/account'}>
-            <div className={navDisabled ? 'icon navDisabled' : 'icon'}>
+            <div
+              className={
+                navDisabled
+                  ? 'icon-disabled'
+                  : title === 'Account'
+                  ? 'icon-active'
+                  : 'icon'
+              }
+            >
               <Account />
             </div>
           </Link>
           <Link to={navDisabled ? '#' : '/appointments'}>
-            <div className={navDisabled ? 'icon navDisabled' : 'icon'}>
+            <div
+              className={
+                navDisabled
+                  ? 'icon-disabled'
+                  : title === 'Appointments'
+                  ? 'icon-active'
+                  : 'icon'
+              }
+            >
               <Appointments />
             </div>
           </Link>
           <Link to={navDisabled ? '#' : '/settings'}>
-            <div className={navDisabled ? 'icon navDisabled' : 'icon'}>
+            <div
+              className={
+                navDisabled
+                  ? 'icon-disabled'
+                  : title === 'Settings'
+                  ? 'icon-active'
+                  : 'icon'
+              }
+            >
               <Settings />
             </div>
           </Link>

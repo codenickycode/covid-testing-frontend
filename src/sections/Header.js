@@ -12,16 +12,21 @@ const Header = () => {
   return (
     <>
       <header className='header'>
-        <button
-          className={navDisabled ? 'btn-small navDisabled' : 'btn-small'}
-          disabled={navDisabled}
-          onClick={history.goBack}
+        <div
+          className={navDisabled ? 'icon-disabled' : 'icon'}
+          onClick={navDisabled ? null : history.goBack}
         >
           <ArrowIcon />
-        </button>
+        </div>
         <h3 className='title'>{title}</h3>
         <div
-          className={navDisabled ? 'icon navDisabled' : 'icon'}
+          className={
+            navDisabled
+              ? 'icon-disabled'
+              : title === 'Information'
+              ? 'icon-active'
+              : 'icon'
+          }
           onClick={navDisabled ? null : () => history.push('/information')}
         >
           <InfoIcon />

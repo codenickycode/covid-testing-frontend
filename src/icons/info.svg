@@ -1,5 +1,5 @@
 <svg width="23" height="23" viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path fill-rule="evenodd" clip-rule="evenodd" d="M11.5 21.0833C16.7927 21.0833 21.0834 16.7927 21.0834 11.5C21.0834 6.20726 16.7927 1.91666 11.5 1.91666C6.20729 1.91666 1.91669 6.20726 1.91669 11.5C1.91669 16.7927 6.20729 21.0833 11.5 21.0833Z" stroke="#C4C4C4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M11.5 15.3333V11.5" stroke="#C4C4C4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M11.5 21.0833C16.7927 21.0833 21.0834 16.7927 21.0834 11.5C21.0834 6.20726 16.7927 1.91666 11.5 1.91666C6.20729 1.91666 1.91669 6.20726 1.91669 11.5C1.91669 16.7927 6.20729 21.0833 11.5 21.0833Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M11.5 15.3333V11.5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 <ellipse cx="11.5" cy="7.66668" rx="0.958333" ry="0.958334" fill="#C4C4C4"/>
 </svg>

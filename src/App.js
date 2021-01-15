@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import ContextProvider from './Providers/ContextProvider.js';
+import ScrollToTop from './tools/ScrollToTop.js';
 import Header from './sections/Header.js';
 import Navbar from './sections/Navbar.js';
 import Welcome from './pages/Welcome.js';
@@ -14,6 +15,7 @@ const App = () => {
   return (
     <ContextProvider>
       <Router>
+        <ScrollToTop />
         <div id='main'>
           <Header />
           <div id='pages'>

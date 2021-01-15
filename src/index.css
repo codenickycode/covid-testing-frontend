@@ -21,6 +21,7 @@
   --btn-disabled: #e4e7eb;
   --icon-default: #c4c4c4;
   --icon-active: #2f80ed;
+  --icon-disabled: #dadada;
   font-family: 'Mulish', sans-serif;
 }
 
@@ -202,9 +203,20 @@ p {
   background-color: var(--bg-secondary);
 }
 
-.icon {
+.icon,
+.icon-active,
+.icon-disabled {
   display: flex;
   align-items: center;
+  stroke: var(--icon-default);
+}
+
+.icon-active {
+  stroke: var(--icon-active);
+}
+
+.icon-disabled {
+  stroke: var(--icon-disabled);
 }
 
 .disabled {
