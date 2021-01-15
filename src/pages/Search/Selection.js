@@ -7,27 +7,24 @@ const Selection = ({ selection, date, handleChangeDate, refreshLocations }) => {
   const setInfo = useContext(SetInfo);
 
   const [showModal, setShowModal] = useState(false);
-
-  let timeSelection = null;
-  let testsSelection = [];
-
-  const selectTime = (selected) => {
-    timeSelection = selected;
-  };
+  const [time, setTime] = useState('');
+  const [selectedTests, setSelectedTests] = useState([]);
 
   const selectTest = (type) => {
-    const index = testsSelection.indexOf(type);
-    index === -1 ? testsSelection.push(type) : testsSelection.splice(index, 1);
+    let newTests = [...selectedTests];
+    const index = selectedTests.indexOf(type);
+    index === -1 ? newTests.push(type) : newTests.splice(index, 1);
+    setSelectedTests(newTests);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!timeSelection || testsSelection.length === 0) return;
+    if (!time || selectedTests.length === 0) return;
     const newAppointment = {
       location: selection,
       date,
-      time: timeSelection,
-      tests: testsSelection,
+      time: time,
+      tests: selectedTests,
     };
     setInfo((prevState) => ({ ...prevState, appointment: newAppointment }));
     setShowModal(true);
@@ -45,7 +42,9 @@ const Selection = ({ selection, date, handleChangeDate, refreshLocations }) => {
         selection={selection}
         date={date}
         handleChangeDate={handleChangeDate}
-        selectTime={selectTime}
+        time={time}
+        setTime={setTime}
+        selectedTests={selectedTests}
         selectTest={selectTest}
         handleSubmit={handleSubmit}
       />

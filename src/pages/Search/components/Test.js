@@ -1,26 +1,37 @@
 import React from 'react';
+import { ReactComponent as Arrow } from '../../../icons/arrow.svg';
 
-const Test = ({ onClick, test }) => {
+const Test = ({ test, selectedTests, selectTest, setInfo }) => {
   const testType = test[0];
   const { name, info } = test[1];
 
   return (
-    <label
-      className='card-small'
-      htmlFor={testType}
-      id={`label-${testType}`}
-      onClick={onClick}
+    <div
+      className={
+        selectedTests.indexOf(testType) !== -1
+          ? 'test-type test-selected'
+          : 'test-type'
+      }
+      onClick={(e) => selectTest(e, testType)}
     >
-      <h4>{name}</h4>
-      <p>{info}</p>
-      <input
-        type='checkbox'
-        id={testType}
-        className='checkbox'
-        name={testType}
-        value='true'
-      ></input>
-    </label>
+      <label
+        className='test-type-label'
+        htmlFor={testType}
+        id={`label-${testType}`}
+      >
+        {name}
+        <input
+          type='checkbox'
+          id={testType}
+          className='test-checkbox'
+          name={testType}
+          value='true'
+        />
+      </label>
+      <div className='icon deg180' onClick={() => setInfo(info)}>
+        <Arrow />
+      </div>
+    </div>
   );
 };
 

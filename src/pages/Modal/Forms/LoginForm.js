@@ -30,7 +30,7 @@ const LoginForm = ({ submit, setUserError }) => {
   };
 
   return (
-    <div className='login'>
+    <div className='login-form-div'>
       {signup ? (
         <>
           <h1>Create an account with CityMD</h1>
@@ -39,8 +39,11 @@ const LoginForm = ({ submit, setUserError }) => {
       ) : (
         <h1>Login to your account</h1>
       )}
-      <form id='form-signup' className='form' onSubmit={handleSubmit}>
-        <label htmlFor='email'>Email</label>
+      <form id='form-signup' className='form-modal' onSubmit={handleSubmit}>
+        <p className='info-small'>*required fields</p>
+        <label htmlFor='email' className='label-small'>
+          <span className='info-small'>*</span>Email
+        </label>
         <input
           autoFocus
           type='email'
@@ -49,7 +52,9 @@ const LoginForm = ({ submit, setUserError }) => {
           onChange={(e) => setEmail(e.target.value)}
           placeholder='Enter your email address'
         />
-        <label htmlFor='password'>Password</label>
+        <label htmlFor='password' className='label-small'>
+          <span className='info-small'>*</span>Password
+        </label>
         <input
           type='password'
           name='password'
@@ -59,7 +64,9 @@ const LoginForm = ({ submit, setUserError }) => {
         />
         {signup && (
           <>
-            <label htmlFor='confirmation'>Confirm</label>
+            <label htmlFor='confirmation' className='label-small'>
+              <span className='info-small'>*</span>Confirm
+            </label>
             <input
               type='password'
               name='confirmation'
@@ -69,7 +76,9 @@ const LoginForm = ({ submit, setUserError }) => {
             />
           </>
         )}
-        <button type='submit'>{signup ? 'Create An Account' : 'Login'}</button>
+        <button type='submit' className='btn'>
+          {signup ? 'Create An Account' : 'Login'}
+        </button>
         {!signup && (
           <p>
             Forgot your password?{' '}
@@ -80,12 +89,16 @@ const LoginForm = ({ submit, setUserError }) => {
       {signup ? (
         <>
           <p>Already have an account?</p>
-          <button onClick={() => setSignup(false)}>Login</button>
+          <button className='btn' onClick={() => setSignup(false)}>
+            Login
+          </button>
         </>
       ) : (
         <>
           <p>Don't have an account?</p>
-          <button onClick={() => setSignup(true)}>Signup</button>
+          <button className='btn' onClick={() => setSignup(true)}>
+            Signup
+          </button>
         </>
       )}
     </div>

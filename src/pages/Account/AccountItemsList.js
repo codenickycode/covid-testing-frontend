@@ -14,7 +14,7 @@ import AccountItem from './AccountItem.js';
 
 export default function AccountItemsList() {
   return (
-    <div id='account-items'>
+    <div>
       <NameItem />
       <AddressItem />
       <PhoneItem />

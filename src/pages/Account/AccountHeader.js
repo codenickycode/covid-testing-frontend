@@ -14,7 +14,7 @@ const AccountHeader = () => {
       : 'evening';
 
   return (
-    <div id='account-top'>
+    <div className='account-header'>
       <img src='#' alt='User' />
       <h1>{`Good ${time}${headerName ? `, ${headerName}!` : '!'}`}</h1>
     </div>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { ReactComponent as Arrow } from '../../icons/arrow.svg';
 
 const AppointmentItem = ({ appointment, expand }) => {
   const { _id, date, time, location, tests } = appointment;
@@ -16,33 +17,36 @@ const AppointmentItem = ({ appointment, expand }) => {
   }
 
   return (
-    <div className='appointment-item-div'>
+    <div>
       {appointment.expanded ? (
         <div className='appointment-full'>
-          <h1>{name}</h1>
-          <div className='appointment-info'>
-            <h2>Address:</h2>
+          <div className='appointment-item'>
+            <h4>Name</h4>
+            <p>{name}</p>
+          </div>
+          <div className='appointment-item'>
+            <h4>Address</h4>
             <p>{street}</p>
             <p>
               {city}, {state} {zip}
             </p>
           </div>
-          <div className='appointment-info'>
-            <h2>Phone:</h2>
+          <div className='appointment-item'>
+            <h4>Phone</h4>
             <p>{phone}</p>
           </div>
-          <div className='appointment-info'>
-            <h2>Time:</h2>
+          <div className='appointment-item'>
+            <h4>Time</h4>
             <p>{time}</p>
           </div>
-          <div className='appointment-info'>
-            <h2>Test&#40;s&#41;:</h2>
+          <div className='appointment-item'>
+            <h4>Test&#40;s&#41;</h4>
             <p>
-              <span id='tests-span'>{testsSpan}</span>
+              <span className='tests-span'>{testsSpan}</span>
             </p>
           </div>
-          <div className='appointment-info'>
-            <h2>Instructions:</h2>
+          <div className='appointment-item'>
+            <h4>Instructions</h4>
             <p>
               Please arrive 5 minutes before your scheduled appointment time.
             </p>
@@ -50,17 +54,17 @@ const AppointmentItem = ({ appointment, expand }) => {
         </div>
       ) : (
         <div className='appointment-preview' onClick={() => expand(_id)}>
-          <h1>
+          <h2>
             {date}, {time}
-          </h1>
+          </h2>
           <p>
-            <span id='tests-span'>{testsSpan}</span> in {city}
+            <span>{testsSpan}</span> in {city}
           </p>
         </div>
       )}
-      <button type='button' onClick={() => expand(_id)}>
-        V
-      </button>
+      <div onClick={() => expand(_id)}>
+        <Arrow />
+      </div>
     </div>
   );
 };

@@ -5,18 +5,14 @@ const Welcome = () => {
   const history = useHistory();
 
   return (
-    <div id='welcome-div'>
+    <div className='welcome-div'>
+      <img className='img-sml' src='/img/welcome1.jpg' alt='Illustration' />
       <h1>HELLO!</h1>
       <p>City MD is here to make your life easier during the pandemic.</p>
-      <img src='' alt='Illustration' />
-      <h2>NO MORE WAIT!</h2>
+      <img className='img-med ' src='/img/welcome2.jpg' alt='Illustration' />
+      <h1>NO MORE WAIT!</h1>
       <p>In four simple steps, you can book a COVID-19 testing appointment.</p>
-      <button
-        autoFocus
-        id='btn-start'
-        className='btn'
-        onClick={() => history.push('/search')}
-      >
+      <button autoFocus className='btn' onClick={() => history.push('/search')}>
         LET'S START
       </button>
     </div>

@@ -1,5 +1,6 @@
 import React from 'react';
 import LocationPreview from './components/LocationPreview.js';
+import { ReactComponent as Arrow } from '../../icons/arrow.svg';
 
 const SearchResults = ({
   searchResults,
@@ -9,42 +10,26 @@ const SearchResults = ({
   handleSelection,
 }) => {
   return (
-    <div>
-      <div className='center date-picker'>
-        <button
-          id='date-dec'
-          className='btn-small'
-          onClick={() => handleChangeDate('dec')}
-        >
-          {'<'}
-        </button>
-        <p id='date'>{date}</p>
-        <button
-          id='date-inc'
-          className='btn-small'
-          onClick={() => handleChangeDate('inc')}
-        >
-          {'>'}
-        </button>
+    <div className='search-results-div'>
+      <div className='date-picker'>
+        <div className='icon' onClick={() => handleChangeDate('dec')}>
+          <Arrow />
+        </div>
+        <p>{date}</p>
+        <div className='icon deg180' onClick={() => handleChangeDate('inc')}>
+          <Arrow />
+        </div>
       </div>
-      <div className='center sort-tests'>
-        <h2>Sort by:</h2>
-        <button
-          id='sort-time'
-          className='btn'
-          onClick={() => handleSortBy('time')}
-        >
+      <div className='sort-tests'>
+        <div className='select-label'>Sort by:</div>
+        <div className='select-small' onClick={() => handleSortBy('time')}>
           Time
-        </button>
-        <button
-          id='sort-distance'
-          className='btn'
-          onClick={() => handleSortBy('distance')}
-        >
+        </div>
+        <div className='select-small' onClick={() => handleSortBy('distance')}>
           Distance
-        </button>
+        </div>
       </div>
-      <div id='div-locations'>
+      <div>
         {searchResults.map((location, index) => {
           return (
             <LocationPreview

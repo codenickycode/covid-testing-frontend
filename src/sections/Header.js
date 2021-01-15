@@ -1,6 +1,8 @@
 import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import { NavDisabled } from '../Providers/ContextProvider.js';
+import { ReactComponent as InfoIcon } from '../icons/info.svg';
+import { ReactComponent as ArrowIcon } from '../icons/arrow.svg';
 
 const Header = () => {
   const history = useHistory();
@@ -10,22 +12,19 @@ const Header = () => {
     <>
       <header className='header'>
         <button
-          id='btn-back'
-          className={navDisabled ? 'btn navDisabled' : 'btn'}
+          className={navDisabled ? 'btn-small navDisabled' : 'btn-small'}
           disabled={navDisabled}
           onClick={history.goBack}
         >
-          Back
+          <ArrowIcon />
         </button>
-        <h1 className='title'>TITLE</h1>
-        <button
-          id='btn-info'
-          className={navDisabled ? 'btn navDisabled' : 'btn'}
-          disabled={navDisabled}
-          onClick={() => history.push('/information')}
+        <h3 className='title'>Page Title</h3>
+        <div
+          className={navDisabled ? 'icon navDisabled' : 'icon'}
+          onClick={navDisabled ? null : () => history.push('/information')}
         >
-          Information
-        </button>
+          <InfoIcon />
+        </div>
       </header>
     </>
   );

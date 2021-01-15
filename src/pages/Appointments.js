@@ -34,14 +34,15 @@ const AppointmentsPage = () => {
       {!loggedIn ? (
         <LoginModal closeModal={history.goBack} />
       ) : (
-        <div id='appointments-div'>
-          <div className='appointments-tabs'>
-            <div id='upcoming' onClick={() => setShowPast(false)}>
+        <div>
+          <div className='appointments-tab'>
+            <div
+              className='appointments-tab-selected'
+              onClick={() => setShowPast(false)}
+            >
               Upcoming
             </div>
-            <div id='past' onClick={() => setShowPast(true)}>
-              Past
-            </div>
+            <div onClick={() => setShowPast(true)}>Past</div>
           </div>
           {showPast ? (
             past.length === 0 ? (

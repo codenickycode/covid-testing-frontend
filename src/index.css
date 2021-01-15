@@ -1,51 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Mulish&display=swap');
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  /* border: 1px solid red; */
+  /* border: 1px dotted magenta; */
+}
+
+:root {
+  --overlay-transparent: rgba(22, 31, 39, 0.7);
+  --html-bg: #e8d4d4;
+  --bg-primary: #f5f7fa;
+  --bg-secondary: #e4e7eb;
+  --text-primary: #161f27;
+  --text-secondary: #1f2b36;
+  --text-light: #c4c4c4;
+  --highlight-red: #f80908;
+  --btn-enabled: #cbd2d9;
+  --btn-disabled: #e4e7eb;
+  --icon-default: #c4c4c4;
+  --icon-active: #2f80ed;
+  font-family: 'Mulish', sans-serif;
+}
+
+.deg90 {
+  transform: rotate(90deg);
+}
+
+.deg180 {
+  transform: rotate(180deg);
+}
+
+.deg270 {
+  transform: rotate(270deg);
 }
 
 html,
 body {
   width: 100%;
+  height: 100%;
 }
 
-.error {
-  color: red;
-}
-
-.editable {
-  margin: 0.5rem;
-  border: 1px dashed grey;
+body {
+  background-color: var(--html-bg);
 }
 
 #root {
   margin: 0 auto;
   width: 100%;
+  height: 150%;
   max-width: 500px;
+  background-color: var(--bg-primary);
 }
 
+/* wraps all jsx */
 #main {
+  padding: 1rem;
   width: 100%;
 }
 
-.modal {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: brown;
-  padding: 1rem;
-  z-index: 9999;
+#pages {
+  position: relative;
+  top: 96px;
+  height: 1000%;
+  min-height: 100%;
 }
 
-input,
-label {
-  display: block;
-}
-
-input {
-  margin-bottom: 1rem;
+.form {
+  margin: 1rem 0;
 }
 
 .overlay {
@@ -54,50 +76,472 @@ input {
   right: 0;
   bottom: 0;
   left: 0;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: var(--overlay-transparent);
   z-index: 9999;
 }
 
-.header,
-.center {
+.modal {
+  padding: 2rem;
+  position: fixed;
+  top: 50%;
+  width: 100%;
+  transform: translate(0, -50%);
+  background-color: var(--bg-secondary);
   padding: 1rem;
+  z-index: 9999;
+}
+
+/***********************************************************/
+/******************** General Styles ***********************/
+/***********************************************************/
+
+.text-center {
+  text-align: center;
+}
+
+.error {
+  color: var(--highlight-red);
+}
+
+h1 {
+  font-family: Mulish;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 32px;
+  line-height: 100%;
+  color: var(--text-primary);
+  padding: 0.5rem 0;
+}
+
+h2 {
+  font-family: Mulish;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 27px;
+  line-height: 112%;
+  color: var(--text-primary);
+  padding: 0.5rem 0;
+}
+
+h3 {
+  font-family: Mulish;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 120%;
+  text-align: center;
+  letter-spacing: 0.15px;
+  color: var(--text-primary);
+}
+
+h4 {
+  font-family: Mulish;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 120%;
+  color: var(--text-primary);
+}
+
+p {
+  font-family: Mulish;
+  font-style: normal;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 120%;
+  color: var(--text-primary);
+}
+
+.label-small {
+  font-family: Mulish;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 12px;
+  letter-spacing: 0px;
+  text-align: left;
+  color: var(--text-primary);
+}
+
+.info-small {
+  font-family: Mulish;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 9px;
+  line-height: 120%;
+  letter-spacing: 0.3px;
+  color: var(--text-light);
+}
+
+.btn,
+.btn-small {
+  display: block;
+  width: 80%;
+  height: 2rem;
+  border-radius: 10px;
+  border-style: none;
+  font-family: Mulish;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 0.9rem;
+  line-height: 100%;
+  text-align: center;
+  letter-spacing: 1.25px;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  background-color: var(--btn-enabled);
+}
+
+.btn {
+  margin: 0 auto;
+}
+
+.btn-small {
+  width: auto;
+  background-color: var(--bg-secondary);
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+}
+
+.disabled {
+  color: var(--text-secondary);
+  background-color: var(--btn-disabled);
+}
+
+.img-sml,
+.img-med {
+  padding: 0.5rem 0;
+}
+
+.img-sml {
+  height: 90px;
+}
+
+.img-med {
+  height: 150px;
+}
+
+input {
+  display: block;
+  margin: 0.25rem auto;
+  padding: 0.5rem;
+}
+
+input {
+  margin-bottom: 1rem;
+  width: 100%;
+  height: 37px;
+  border-radius: 10px;
+}
+
+/***********************************************************/
+/************************* Header **************************/
+/***********************************************************/
+
+.header {
+  z-index: 2;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 1rem;
+  height: 96px;
   width: 100%;
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  background-color: var(--bg-primary);
 }
 
-.navbar {
-  padding: 1rem;
+/***********************************************************/
+/************************ Welcome **************************/
+/***********************************************************/
+
+.welcome-div {
+  width: 100%;
+  border: 1px dotted magenta;
 }
 
-.nav-ul {
+.welcome-div > .btn {
+  margin: 2rem auto;
+}
+
+/***********************************************************/
+/********************** Search Form ************************/
+/***********************************************************/
+
+.search-form-div {
+  width: 100%;
+  border: 1px dotted magenta;
+}
+
+/* div for tests section */
+.test-div {
+  width: 100%;
+  display: flex;
+
+  border: 1px solid red;
+}
+
+/* div for test items */
+.test-items {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* div for each test */
+.test-type {
+  margin: 1rem 0;
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 43px;
+  border-radius: 10px;
+  font-family: Mulish;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 15px;
+  line-height: 120%;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  background-color: var(--bg-secondary);
 }
 
-.card-small {
-  display: inline-block;
-  width: 150px;
-  height: 150px;
-  border: 1px solid magenta;
+.test-type-label {
+  width: 100%;
+  text-align: center;
 }
 
-.select-active {
-  background-color: red;
-}
-
-.checkbox {
+.test-checkbox {
   display: none;
 }
 
-.location,
-.location-selection {
+.test-info > li {
+  margin: 0.5rem;
+}
+
+.test-selected {
+  background-color: var(--html-bg);
+}
+
+/* expanded test */
+.test-info {
   padding: 1rem;
+  display: inline-block;
+  width: 50%;
+  height: 214px;
+  border-radius: 10px;
+  font-family: Mulish;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 120%;
+  color: var(--text-primary);
+  /* background-color: var(--bg-secondary); */
+}
+
+/***********************************************************/
+/********************* Search Results **********************/
+/***********************************************************/
+
+.search-results-div {
+  height: 200%;
+}
+
+.date-picker,
+.date-picker-left {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 32px;
+  border-radius: 5px;
+  background-color: var(--bg-secondary);
+  font-family: Mulish;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 150%;
+  text-align: center;
+  color: var(--text-primary);
+}
+
+.sort-tests {
+  margin: 0.5rem 0;
+  width: 100%;
   display: flex;
   justify-content: space-evenly;
 }
 
-.location-selection {
-  flex-direction: column;
+/* sort by */
+.select-label {
+  font-family: Mulish;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 14px;
+  letter-spacing: 0px;
+  color: var(--text-primary);
+}
+
+/* Time | Distance */
+.select-small {
+  font-family: Mulish;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 14px;
+  letter-spacing: 0px;
+  text-align: center;
+  color: var(--text-primary);
+}
+
+.location-preview {
+  width: 100%;
+  height: 180px;
+  margin: 1rem 0;
+  display: flex;
+}
+
+.location-preview img {
+  width: 100px;
+}
+
+.location-preview .location-info {
+  width: 100%;
+  padding: 0.5rem;
+}
+
+.location-info h4 {
+  font-size: 0.85rem;
+}
+
+.location-info p {
+  font-size: 0.8rem;
+}
+
+.location-tests ul {
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  border: 1px solid blue;
+}
+
+.location-tests li span {
+  position: relative;
+  left: -0.5rem;
+}
+
+.next-available {
+  border: 1px solid red;
+}
+
+/***********************************************************/
+/*********************** Selection *************************/
+/***********************************************************/
+
+.selection-div {
+  padding: 1rem;
+}
+
+.selection-info {
+  width: 100%;
+}
+
+.appointment-item {
+  margin: 0.5rem 0;
+  padding: 0.5rem;
+  border-radius: 10px;
+  background-color: var(--bg-secondary);
+}
+
+.appointment-time {
+  display: flex;
+  justify-content: space-between;
+}
+
+.appointment-item ul {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.time-selected,
+.test-selected {
+  border: 1px solid purple;
+}
+
+/***********************************************************/
+/********************** Login Form *************************/
+/***********************************************************/
+
+.form-modal {
+  margin: 1rem 0;
+  padding: 1rem;
+}
+
+.login-form-div p,
+.login-form-div h1 {
+  text-align: center;
+}
+
+/***********************************************************/
+/********************* Appointments ************************/
+/***********************************************************/
+
+.appointments-tab {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.appointments-tab-selected {
+  border-top: 3px solid;
+  border-top-color: var(--highlight-red);
+}
+
+/***********************************************************/
+/************************ Account***************************/
+/***********************************************************/
+
+.account-header {
+  width: 100%;
+  height: 300px;
+  display: flex;
+}
+
+.account-header > img {
+  width: 100px;
+}
+
+/***********************************************************/
+/************************ Navbar ***************************/
+/***********************************************************/
+
+.info-footer {
+  position: fixed;
+  bottom: 80px;
+}
+
+.footer {
+  z-index: 2;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1rem;
+  width: 100%;
+  height: 80px;
+  background-color: var(--bg-primary);
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
 }

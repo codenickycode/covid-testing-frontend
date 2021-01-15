@@ -16,25 +16,6 @@ export const INIT_INFO_STATE = {
   confirmation: '',
 };
 
-export const App = React.createContext();
-export const SetApp = React.createContext();
-const AppProvider = ({ children }) => {
-  const [app, setApp] = useState(getLS('app') || INIT_APP_STATE);
-
-  useEffect(() => {
-    setLS('loading', app.loading);
-    setLS('error', app.error);
-    setLS('loggedIn', app.loggedIn);
-    setLS('navDisabled', app.navDisabled);
-  }, [app]);
-
-  return (
-    <SetApp.Provider value={setApp}>
-      <App.Provider value={app}>{children}</App.Provider>
-    </SetApp.Provider>
-  );
-};
-
 export const NavDisabled = React.createContext();
 export const SetNavDisabled = React.createContext();
 const NavDisabledProvider = ({ children }) => {
@@ -50,6 +31,24 @@ const NavDisabledProvider = ({ children }) => {
         {children}
       </NavDisabled.Provider>
     </SetNavDisabled.Provider>
+  );
+};
+
+export const App = React.createContext();
+export const SetApp = React.createContext();
+const AppProvider = ({ children }) => {
+  const [app, setApp] = useState(getLS('app') || INIT_APP_STATE);
+
+  useEffect(() => {
+    setLS('loading', app.loading);
+    setLS('error', app.error);
+    setLS('loggedIn', app.loggedIn);
+  }, [app]);
+
+  return (
+    <SetApp.Provider value={setApp}>
+      <App.Provider value={app}>{children}</App.Provider>
+    </SetApp.Provider>
   );
 };
 

@@ -101,7 +101,7 @@ const AccountItem = ({ title, field, items, input, setContext, setHeader }) => {
       >
         <div className='account-item-text'>
           <h2>{title}</h2>
-          <p>{preview}</p>
+          <p className='info-small'>{preview}</p>
           {userError && <p>{userError}</p>}
         </div>
         <button type='button'>{edit ? 'save' : 'edit'}</button>
@@ -115,7 +115,9 @@ const AccountItem = ({ title, field, items, input, setContext, setHeader }) => {
         items.map((item, index) => {
           return (
             <div key={index} className='account-item-input-div'>
-              <label htmlFor={field + item.key}>{item.label}</label>
+              <label htmlFor={field + item.key} className='label-small'>
+                {item.label}
+              </label>
               <input
                 type={item.type}
                 id={field + item.key}

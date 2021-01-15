@@ -15,6 +15,9 @@ import {
   INIT_ACCOUNT_STATE,
 } from '../Providers/AccountProvider.js';
 import { useTryCatchFinally } from '../tools/useTryCatchFinally.js';
+import { ReactComponent as Account } from '../icons/account.svg';
+import { ReactComponent as Appointments } from '../icons/appointments.svg';
+import { ReactComponent as Settings } from '../icons/settings.svg';
 
 const Navbar = () => {
   const history = useHistory();
@@ -42,32 +45,32 @@ const Navbar = () => {
 
   return (
     <>
-      <div id='loggedIn-display' className='error'>
-        {loggedIn ? 'Logged in.' : 'Not logged in.'}
+      <div className='info-footer'>
+        <div className='error'>
+          {loggedIn ? 'Logged in.' : 'Not logged in.'}
+        </div>
+        <div className='error'>{email.email || 'No email.'}</div>
+        <button onClick={logout}>Logout</button>
       </div>
-      <div id='email-display' className='error'>
-        {email.email || 'No email.'}
-      </div>
-      <button onClick={logout}>Logout</button>
-      <nav className='navbar'>
-        <ul className='nav-ul'>
+      <div className='footer'>
+        <nav className='navbar'>
           <Link to={navDisabled ? '#' : '/account'}>
-            <li className={navDisabled ? 'nav-li navDisabled' : 'nav-li'}>
-              Account
-            </li>
+            <div className={navDisabled ? 'icon navDisabled' : 'icon'}>
+              <Account />
+            </div>
           </Link>
           <Link to={navDisabled ? '#' : '/appointments'}>
-            <li className={navDisabled ? 'nav-li navDisabled' : 'nav-li'}>
-              Appointments
-            </li>
+            <div className={navDisabled ? 'icon navDisabled' : 'icon'}>
+              <Appointments />
+            </div>
           </Link>
           <Link to={navDisabled ? '#' : '/settings'}>
-            <li className={navDisabled ? 'nav-li navDisabled' : 'nav-li'}>
-              Settings
-            </li>
+            <div className={navDisabled ? 'icon navDisabled' : 'icon'}>
+              <Settings />
+            </div>
           </Link>
-        </ul>
-      </nav>
+        </nav>
+      </div>
     </>
   );
 };

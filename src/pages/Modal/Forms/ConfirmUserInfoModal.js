@@ -53,8 +53,11 @@ const ConfirmUserInfo = ({ closeModal, setInfoIsConfirmed }) => {
         <p>We need a little info</p>
         {userError && <h2>{userError}</h2>}
         <form id='form-reg-info' className='form' onSubmit={handleSubmit}>
+          <p className='info-small'>*Required fields</p>
           <div>Name:</div>
-          <label htmlFor='firstName'>First</label>
+          <label htmlFor='firstName' className='label-small'>
+            <span className='info-small'>*</span>First
+          </label>
           <input
             autoFocus
             type='text'
@@ -62,28 +65,36 @@ const ConfirmUserInfo = ({ closeModal, setInfoIsConfirmed }) => {
             value={newFirstName}
             onChange={(e) => setNewFirstName(e.target.value)}
           />
-          <label htmlFor='lastName'>Last</label>
+          <label htmlFor='lastName' className='label-small'>
+            <span className='info-small'>*</span>Last
+          </label>
           <input
             type='text'
             name='lastName'
             value={newLastName}
             onChange={(e) => setNewLastName(e.target.value)}
           />
-          <label htmlFor='phone'>Phone</label>
+          <label htmlFor='phone' className='label-small'>
+            <span className='info-small'>*</span>Phone
+          </label>
           <input
             type='tel'
             name='phone'
             value={newPhone}
             onChange={(e) => setNewPhone(e.target.value)}
           />
-          <label htmlFor='dob'>Date Of Birth</label>
+          <label htmlFor='dob' className='label-small'>
+            Date Of <span className='info-small'>*</span>Birth
+          </label>
           <input
             type='date'
             name='dob'
             value={newDob}
             onChange={(e) => setNewDob(e.target.value)}
           />
-          <button type='submit'>Confirm</button>
+          <button type='submit' className='btn'>
+            Confirm
+          </button>
         </form>
       </div>
     </>

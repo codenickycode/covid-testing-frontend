@@ -12,7 +12,7 @@ const AppointmentsList = ({ appointments, setAppointments }) => {
   };
 
   return (
-    <div id='appointments-list-div'>
+    <div>
       {appointments.map((appointment, index) => {
         return (
           <AppointmentItem
