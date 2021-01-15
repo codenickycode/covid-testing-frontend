@@ -1,10 +1,15 @@
 import React, { useState, useContext } from 'react';
-import { SetInfo } from '../../Providers/ContextProvider.js';
+import { App, SetApp, SetInfo } from '../../Providers/ContextProvider.js';
 import SelectionJSX from './components/SelectionJSX.js';
 import ConfirmationModal from '../Modal/ConfirmationModal.js';
 
 const Selection = ({ selection, date, handleChangeDate, refreshLocations }) => {
+  const { title } = useContext(App);
+  const setApp = useContext(SetApp);
   const setInfo = useContext(SetInfo);
+
+  if (title !== 'Book Appointment')
+    setApp((prevState) => ({ ...prevState, title: 'Book Appointment' }));
 
   const [showModal, setShowModal] = useState(false);
   const [time, setTime] = useState('');

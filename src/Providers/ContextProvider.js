@@ -6,6 +6,7 @@ export const INIT_APP_STATE = {
   loading: false,
   error: '',
   loggedIn: false,
+  title: '',
 };
 
 export const INIT_INFO_STATE = {
@@ -43,6 +44,7 @@ const AppProvider = ({ children }) => {
     setLS('loading', app.loading);
     setLS('error', app.error);
     setLS('loggedIn', app.loggedIn);
+    setLS('title', app.title);
   }, [app]);
 
   return (

@@ -17,7 +17,7 @@ const AppointmentItem = ({ appointment, expand }) => {
   }
 
   return (
-    <div>
+    <div className='appointment-item-div'>
       {appointment.expanded ? (
         <div className='appointment-full'>
           <div className='appointment-item'>
@@ -42,7 +42,7 @@ const AppointmentItem = ({ appointment, expand }) => {
           <div className='appointment-item'>
             <h4>Test&#40;s&#41;</h4>
             <p>
-              <span className='tests-span'>{testsSpan}</span>
+              <span className='appointment-tests-span'>{testsSpan}</span>
             </p>
           </div>
           <div className='appointment-item'>
@@ -62,9 +62,15 @@ const AppointmentItem = ({ appointment, expand }) => {
           </p>
         </div>
       )}
-      <div onClick={() => expand(_id)}>
-        <Arrow />
-      </div>
+
+      <Arrow
+        className={
+          appointment.expanded
+            ? 'btn-small icon deg90'
+            : 'btn-small icon deg270'
+        }
+        onClick={() => expand(_id)}
+      />
     </div>
   );
 };

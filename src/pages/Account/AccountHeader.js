@@ -15,7 +15,9 @@ const AccountHeader = () => {
 
   return (
     <div className='account-header'>
-      <img src='#' alt='User' />
+      <div className='avatar'>
+        <img src='#' alt='User' />
+      </div>
       <h1>{`Good ${time}${headerName ? `, ${headerName}!` : '!'}`}</h1>
     </div>
   );

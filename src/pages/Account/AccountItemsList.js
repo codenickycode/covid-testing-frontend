@@ -73,7 +73,7 @@ const DobItem = () => {
   const items = [{ type: 'date', label: 'Date of Birth', key: 'dob' }];
   return (
     <AccountItem
-      title='Dob'
+      title='Date of Birth'
       field='dob'
       items={items}
       input={dob}
@@ -107,7 +107,7 @@ const EmergencyContactItem = () => {
   ];
   return (
     <AccountItem
-      title='EmergencyContact'
+      title='Emergency Contact'
       field='emergency_contact'
       items={items}
       input={emergency_contact}

@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import * as tools from '../tools/tools.js';
-import { App } from '../Providers/ContextProvider.js';
+import { App, SetApp } from '../Providers/ContextProvider.js';
 import { Appointments } from '../Providers/AccountProvider.js';
 import AppointmentsList from './Appointments/AppointmentsList.js';
 import LoginModal from './Modal/LoginModal.js';
@@ -11,7 +11,12 @@ const Loading = () => <h1>Loading...</h1>;
 
 const AppointmentsPage = () => {
   const history = useHistory();
-  const { loading, error, loggedIn } = useContext(App);
+  const { loading, error, loggedIn, title } = useContext(App);
+
+  const setApp = useContext(SetApp);
+  if (title !== 'Appointments')
+    setApp((prevState) => ({ ...prevState, title: 'Appointments' }));
+
   const appointments = useContext(Appointments);
 
   const [showPast, setShowPast] = useState(false);
@@ -35,14 +40,23 @@ const AppointmentsPage = () => {
         <LoginModal closeModal={history.goBack} />
       ) : (
         <div>
-          <div className='appointments-tab'>
+          <div className='appointments-tabs'>
             <div
-              className='appointments-tab-selected'
+              className={
+                showPast ? 'appointments-tab' : 'appointments-tab-selected'
+              }
               onClick={() => setShowPast(false)}
             >
               Upcoming
             </div>
-            <div onClick={() => setShowPast(true)}>Past</div>
+            <div
+              className={
+                showPast ? 'appointments-tab-selected' : 'appointments-tab'
+              }
+              onClick={() => setShowPast(true)}
+            >
+              Past
+            </div>
           </div>
           {showPast ? (
             past.length === 0 ? (

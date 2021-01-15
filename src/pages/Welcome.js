@@ -1,7 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
+import { App, SetApp } from '../Providers/ContextProvider.js';
 
 const Welcome = () => {
+  const { title } = useContext(App);
+  const setApp = useContext(SetApp);
+  if (title !== 'Welcome')
+    setApp((prevState) => ({ ...prevState, title: 'Welcome' }));
+
   const history = useHistory();
 
   return (

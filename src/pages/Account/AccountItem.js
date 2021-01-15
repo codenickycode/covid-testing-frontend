@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useRef, useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import * as tools from '../../tools/tools.js';
 import { SetNavDisabled } from '../../Providers/ContextProvider.js';
@@ -10,12 +10,21 @@ const AccountItem = ({ title, field, items, input, setContext, setHeader }) => {
 
   const setNavDisabled = useContext(SetNavDisabled);
 
+  const itemRef = useRef(null);
+
   const [userError, setUserError] = useState('');
   const [saving, setSaving] = useState(false);
   const [edit, setEdit] = useState(false);
   const [updated, setUpdated] = useState(false);
   const [prevInput, setPrevInput] = useState(input);
   const [preview, setPreview] = useState('');
+
+  // if user error, re-edit
+  useEffect(() => {
+    if (userError) {
+      setEdit(true);
+    }
+  }, [userError, setEdit]);
 
   // preview item
   useEffect(() => {
@@ -38,6 +47,16 @@ const AccountItem = ({ title, field, items, input, setContext, setHeader }) => {
       setEdit(false);
     }
   };
+
+  // scroll edit field into view
+  useEffect(() => {
+    if (edit) {
+      itemRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+      });
+    }
+  }, [edit, itemRef]);
 
   const togglePassword = () => {
     if (!edit) {
@@ -73,6 +92,7 @@ const AccountItem = ({ title, field, items, input, setContext, setHeader }) => {
         setPrevInput(res.data[field]);
       }
       setUpdated(false);
+      setUserError('');
     } catch (e) {
       const userError = e.hasOwnProperty('response')
         ? e.response.data
@@ -100,21 +120,25 @@ const AccountItem = ({ title, field, items, input, setContext, setHeader }) => {
         onClick={field === 'password' ? togglePassword : toggleEdit}
       >
         <div className='account-item-text'>
-          <h2>{title}</h2>
-          <p className='info-small'>{preview}</p>
+          <h4>{title}</h4>
+          <p className='label-small'>{preview}</p>
           {userError && <p>{userError}</p>}
         </div>
-        <button type='button'>{edit ? 'save' : 'edit'}</button>
-        {edit && (
-          <button type='button' onClick={cancel}>
+        {edit ? (
+          <button type='button' className='btn-small' onClick={cancel}>
             Cancel
           </button>
+        ) : (
+          <div></div>
         )}
+        <button type='button' className='btn-small'>
+          {edit ? 'save' : 'edit'}
+        </button>
       </div>
       {edit &&
         items.map((item, index) => {
           return (
-            <div key={index} className='account-item-input-div'>
+            <div key={index} ref={itemRef} className='account-item-input-div'>
               <label htmlFor={field + item.key} className='label-small'>
                 {item.label}
               </label>

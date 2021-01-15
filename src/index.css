@@ -12,6 +12,7 @@
   --html-bg: #e8d4d4;
   --bg-primary: #f5f7fa;
   --bg-secondary: #e4e7eb;
+  --bg-tertiary: #cbd2d9;
   --text-primary: #161f27;
   --text-secondary: #1f2b36;
   --text-light: #c4c4c4;
@@ -262,7 +263,6 @@ input {
 
 .welcome-div {
   width: 100%;
-  border: 1px dotted magenta;
 }
 
 .welcome-div > .btn {
@@ -275,15 +275,12 @@ input {
 
 .search-form-div {
   width: 100%;
-  border: 1px dotted magenta;
 }
 
 /* div for tests section */
 .test-div {
   width: 100%;
   display: flex;
-
-  border: 1px solid red;
 }
 
 /* div for test items */
@@ -430,7 +427,6 @@ input {
   width: 100%;
   display: flex;
   justify-content: space-evenly;
-  border: 1px solid blue;
 }
 
 .location-tests li span {
@@ -439,7 +435,7 @@ input {
 }
 
 .next-available {
-  border: 1px solid red;
+  border-radius: 10px;
 }
 
 /***********************************************************/
@@ -471,8 +467,15 @@ input {
   justify-content: space-evenly;
 }
 
+.appointment-item li {
+  text-transform: uppercase;
+}
+
 .time-selected,
 .test-selected {
+  padding: 0.25rem;
+  border-radius: 10px;
+  background-color: var(--bg-tertiary);
   border: 1px solid purple;
 }
 
@@ -494,15 +497,38 @@ input {
 /********************* Appointments ************************/
 /***********************************************************/
 
-.appointments-tab {
+.appointment-item-div {
+  width: 100%;
+}
+
+.appointment-item-div .icon {
+  margin: 0 auto;
+}
+
+.appointments-tabs {
+  margin-bottom: 1.5rem;
   width: 100%;
   display: flex;
+  justify-content: space-evenly;
   align-items: center;
 }
 
+.appointments-tab,
+.appointments-tab-selected {
+  width: 30%;
+  font-family: Mulish;
+  font-style: normal;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-align: center;
+}
 .appointments-tab-selected {
   border-top: 3px solid;
   border-top-color: var(--highlight-red);
+}
+
+.appointment-tests-span {
+  text-transform: capitalize;
 }
 
 /***********************************************************/
@@ -511,12 +537,34 @@ input {
 
 .account-header {
   width: 100%;
-  height: 300px;
+  height: auto;
   display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.account-header > img {
-  width: 100px;
+.avatar > img {
+  margin: 1rem;
+  background-color: var(--btn-enabled);
+  border-radius: 50%;
+}
+
+.account-item {
+  margin: 0.5rem;
+  padding: 0.5rem;
+  background-color: var(--btn-enabled);
+}
+
+.account-item-text {
+  overflow: hidden;
+}
+
+.account-item-top {
+  padding: 0.5rem;
+  width: 100%;
+  display: grid;
+  column-gap: 0.5rem;
+  grid-template-columns: 2fr 1fr 1fr;
 }
 
 /***********************************************************/

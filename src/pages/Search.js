@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import * as tools from '../tools/tools.js';
 import { useTryCatchFinally } from '../tools/useTryCatchFinally.js';
-import { App, Info, SetInfo } from '../Providers/ContextProvider.js';
+import { App, SetApp, Info, SetInfo } from '../Providers/ContextProvider.js';
 import SearchForm from './Search/SearchForm.js';
 import SearchResults from './Search/SearchResults.js';
 import Selection from './Search/Selection.js';
@@ -9,8 +9,9 @@ import Selection from './Search/Selection.js';
 const Loading = () => <h1>Loading...</h1>;
 
 const Search = () => {
-  const { loading, error } = useContext(App);
+  const { loading, error, title } = useContext(App);
   const { searchResults, prevSearch } = useContext(Info);
+  const setApp = useContext(SetApp);
   const setInfo = useContext(SetInfo);
   const tryCatchFinally = useTryCatchFinally();
 
@@ -18,6 +19,9 @@ const Search = () => {
   const [showResults, setShowResults] = useState(false);
   const [showSelection, setShowSelection] = useState(false);
   const [selection, setSelection] = useState(null);
+
+  if (title !== 'Search' && !showSelection)
+    setApp((prevState) => ({ ...prevState, title: 'Search' }));
 
   const search = (...tryArgs) => {
     tryCatchFinally(tryFunc, tryArgs);
