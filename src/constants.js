@@ -1,3 +1,8 @@
+export const SCROLL_OPTIONS = {
+  behavior: 'smooth',
+  block: 'center',
+};
+
 export const TESTS = {
   rapid: {
     name: 'Rapid',

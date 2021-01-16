@@ -11,7 +11,7 @@ const LocationPreview = ({ location, handleSelection }) => {
     >
       <img
         src={`/img/locations/preview/${location._id.toString()}.jpg`}
-        alt='Branch photo'
+        alt='Branch'
       />
       <div className='location-info'>
         <div className='location-basic'>

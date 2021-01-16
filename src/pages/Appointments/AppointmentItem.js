@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { ReactComponent as Arrow } from '../../icons/arrow.svg';
+import { SCROLL_OPTIONS } from '../../constants.js';
 
 const AppointmentItem = ({ appointment, expand }) => {
+  const previewRef = useRef(null);
+  const fullRef = useRef(null);
+
   const { _id, date, time, location, tests } = appointment;
   const { name, address, phone } = location;
   const { street, city, state, zip } = address;
@@ -16,10 +20,28 @@ const AppointmentItem = ({ appointment, expand }) => {
     testsSpan = testsSpan.substr(0, testsSpan.length - 2) + ' tests';
   }
 
+  useEffect(() => {
+    fullRef.current
+      ? fullRef.current.scrollIntoView(SCROLL_OPTIONS)
+      : previewRef.current.scrollIntoView(SCROLL_OPTIONS);
+  }, [appointment.expanded]);
+
+  const handleExpand = () => {
+    expand(_id);
+  };
+
   return (
     <div className='appointment-item-div'>
-      {appointment.expanded ? (
-        <div className='appointment-full'>
+      <div ref={previewRef} className='appointment-preview'>
+        <h3>
+          {date}, {time}
+        </h3>
+        <p>
+          <span>{testsSpan}</span> in {city}
+        </p>
+      </div>
+      {appointment.expanded && (
+        <div ref={fullRef} className='appointment-full'>
           <div className='appointment-item'>
             <h4>Name</h4>
             <p>{name}</p>
@@ -52,15 +74,6 @@ const AppointmentItem = ({ appointment, expand }) => {
             </p>
           </div>
         </div>
-      ) : (
-        <div className='appointment-preview' onClick={() => expand(_id)}>
-          <h2>
-            {date}, {time}
-          </h2>
-          <p>
-            <span>{testsSpan}</span> in {city}
-          </p>
-        </div>
       )}
 
       <Arrow
@@ -69,7 +82,7 @@ const AppointmentItem = ({ appointment, expand }) => {
             ? 'btn-small icon deg90'
             : 'btn-small icon deg270'
         }
-        onClick={() => expand(_id)}
+        onClick={handleExpand}
       />
     </div>
   );

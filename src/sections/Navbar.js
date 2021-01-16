@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import axios from 'axios';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory, NavLink } from 'react-router-dom';
 import {
   App,
   NavDisabled,
@@ -15,14 +15,14 @@ import {
   INIT_ACCOUNT_STATE,
 } from '../Providers/AccountProvider.js';
 import { useTryCatchFinally } from '../tools/useTryCatchFinally.js';
-import { ReactComponent as Account } from '../icons/account.svg';
-import { ReactComponent as Appointments } from '../icons/appointments.svg';
-import { ReactComponent as Settings } from '../icons/settings.svg';
+import { ReactComponent as AccountIcon } from '../icons/account.svg';
+import { ReactComponent as AppointmentsIcon } from '../icons/appointments.svg';
+import { ReactComponent as SettingsIcon } from '../icons/settings.svg';
 
 const Navbar = () => {
   const history = useHistory();
   const tryCatchFinally = useTryCatchFinally();
-  const { loggedIn, title } = useContext(App);
+  const { loggedIn } = useContext(App);
   const navDisabled = useContext(NavDisabled);
   const email = useContext(Email);
   const setApp = useContext(SetApp);
@@ -54,45 +54,29 @@ const Navbar = () => {
       </div>
       <div className='footer'>
         <nav className='navbar'>
-          <Link to={navDisabled ? '#' : '/account'}>
-            <div
-              className={
-                navDisabled
-                  ? 'icon-disabled'
-                  : title === 'Account'
-                  ? 'icon-active'
-                  : 'icon'
-              }
-            >
-              <Account />
-            </div>
-          </Link>
-          <Link to={navDisabled ? '#' : '/appointments'}>
-            <div
-              className={
-                navDisabled
-                  ? 'icon-disabled'
-                  : title === 'Appointments'
-                  ? 'icon-active'
-                  : 'icon'
-              }
-            >
-              <Appointments />
-            </div>
-          </Link>
-          <Link to={navDisabled ? '#' : '/settings'}>
-            <div
-              className={
-                navDisabled
-                  ? 'icon-disabled'
-                  : title === 'Settings'
-                  ? 'icon-active'
-                  : 'icon'
-              }
-            >
-              <Settings />
-            </div>
-          </Link>
+          <NavLink
+            to={navDisabled ? '#' : '/account'}
+            className={navDisabled ? 'icon-disabled' : 'icon'}
+            activeClassName='icon-active'
+          >
+            <AccountIcon />
+          </NavLink>
+
+          <NavLink
+            to={navDisabled ? '#' : '/appointments'}
+            className={navDisabled ? 'icon-disabled' : 'icon'}
+            activeClassName='icon-active'
+          >
+            <AppointmentsIcon />
+          </NavLink>
+
+          <NavLink
+            to={navDisabled ? '#' : '/settings'}
+            className={navDisabled ? 'icon-disabled' : 'icon'}
+            activeClassName='icon-active'
+          >
+            <SettingsIcon />
+          </NavLink>
         </nav>
       </div>
     </>

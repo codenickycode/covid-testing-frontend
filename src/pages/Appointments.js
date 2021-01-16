@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import * as tools from '../tools/tools.js';
-import { App, SetApp } from '../Providers/ContextProvider.js';
+import { App } from '../Providers/ContextProvider.js';
 import { Appointments } from '../Providers/AccountProvider.js';
 import AppointmentsList from './Appointments/AppointmentsList.js';
 import LoginModal from './Modal/LoginModal.js';
@@ -11,11 +11,7 @@ const Loading = () => <h1>Loading...</h1>;
 
 const AppointmentsPage = () => {
   const history = useHistory();
-  const { loading, error, loggedIn, title } = useContext(App);
-
-  const setApp = useContext(SetApp);
-  if (title !== 'Appointments')
-    setApp((prevState) => ({ ...prevState, title: 'Appointments' }));
+  const { loading, error, loggedIn } = useContext(App);
 
   const appointments = useContext(Appointments);
 

@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import * as tools from '../../tools/tools.js';
+import { SCROLL_OPTIONS } from '../../constants.js';
 import { SetNavDisabled } from '../../Providers/ContextProvider.js';
 
 const Saving = () => <h1>Saving...</h1>;
@@ -10,7 +11,7 @@ const AccountItem = ({ title, field, items, input, setContext, setHeader }) => {
 
   const setNavDisabled = useContext(SetNavDisabled);
 
-  const itemRef = useRef(null);
+  const editRef = useRef(null);
 
   const [userError, setUserError] = useState('');
   const [saving, setSaving] = useState(false);
@@ -48,15 +49,11 @@ const AccountItem = ({ title, field, items, input, setContext, setHeader }) => {
     }
   };
 
-  // scroll edit field into view
   useEffect(() => {
     if (edit) {
-      itemRef.current.scrollIntoView({
-        behavior: 'smooth',
-        block: 'center',
-      });
+      editRef.current.scrollIntoView(SCROLL_OPTIONS);
     }
-  }, [edit, itemRef]);
+  }, [edit, editRef]);
 
   const togglePassword = () => {
     if (!edit) {
@@ -138,7 +135,7 @@ const AccountItem = ({ title, field, items, input, setContext, setHeader }) => {
       {edit &&
         items.map((item, index) => {
           return (
-            <div key={index} ref={itemRef} className='account-item-input-div'>
+            <div key={index} ref={editRef} className='account-item-input-div'>
               <label htmlFor={field + item.key} className='label-small'>
                 {item.label}
               </label>

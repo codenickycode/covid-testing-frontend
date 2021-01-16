@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
+import { Route, useHistory, useRouteMatch } from 'react-router-dom';
 import * as tools from '../tools/tools.js';
 import { useTryCatchFinally } from '../tools/useTryCatchFinally.js';
-import { App, SetApp, Info, SetInfo } from '../Providers/ContextProvider.js';
+import { App, Info, SetInfo } from '../Providers/ContextProvider.js';
 import SearchForm from './Search/SearchForm.js';
 import SearchResults from './Search/SearchResults.js';
 import Selection from './Search/Selection.js';
@@ -9,23 +10,22 @@ import Selection from './Search/Selection.js';
 const Loading = () => <h1>Loading...</h1>;
 
 const Search = () => {
-  const { loading, error, title } = useContext(App);
+  const history = useHistory();
+  const { url } = useRouteMatch();
+
+  const { loading, error } = useContext(App);
   const { searchResults, prevSearch } = useContext(Info);
-  const setApp = useContext(SetApp);
   const setInfo = useContext(SetInfo);
+
   const tryCatchFinally = useTryCatchFinally();
 
   const [date, setDate] = useState(tools.TODAY);
-  const [showResults, setShowResults] = useState(false);
-  const [showSelection, setShowSelection] = useState(false);
   const [selection, setSelection] = useState(null);
-
-  if (title !== 'Search' && !showSelection)
-    setApp((prevState) => ({ ...prevState, title: 'Search' }));
 
   const search = (...tryArgs) => {
     tryCatchFinally(tryFunc, tryArgs);
     async function tryFunc(tests, zip, date, sortBy = 'distance') {
+      history.push(`${url}/results`);
       let locations = await tools.getLocations();
       locations = await tools.getDistances(zip, locations);
       let filtered = tools.filterLocationsBy('tests', tests, locations);
@@ -37,7 +37,6 @@ const Search = () => {
         searchResults: filtered,
         prevSearch: { tests, zip, sortBy },
       }));
-      setShowResults(true);
     }
   };
 
@@ -60,10 +59,17 @@ const Search = () => {
     setDate(newDate);
   };
 
+  const getSelected = useCallback(
+    (selected) => {
+      const selectedLocation = tools.getSelection(selected, searchResults);
+      setSelection(selectedLocation);
+    },
+    [searchResults]
+  );
+
   const handleSelection = (selected) => {
-    const selectedLocation = tools.getSelection(selected, searchResults);
-    setSelection(selectedLocation);
-    setShowSelection(true);
+    history.push(`${url}/selection`);
+    getSelected(selected);
   };
 
   const refreshLocations = (date) => {
@@ -72,21 +78,17 @@ const Search = () => {
   };
 
   useEffect(() => {
-    if (showSelection) handleSelection(selection._id);
-  });
+    if (selection) getSelected(selection._id);
+  }, [selection, getSelected]);
 
   return (
     <>
       {loading && <Loading />}
       {error && <h1>{error}</h1>}
-      {showSelection ? (
-        <Selection
-          selection={selection}
-          date={date}
-          refreshLocations={refreshLocations}
-          handleChangeDate={handleChangeDate}
-        />
-      ) : showResults ? (
+      <Route path={`${url}/form`}>
+        <SearchForm handleSubmit={search} />
+      </Route>
+      <Route path={`${url}/results`}>
         <SearchResults
           searchResults={searchResults}
           date={date}
@@ -94,9 +96,16 @@ const Search = () => {
           handleChangeDate={handleChangeDate}
           handleSelection={handleSelection}
         />
-      ) : (
-        <SearchForm handleSubmit={search} />
-      )}
+      </Route>
+
+      <Route path={`${url}/selection`}>
+        <Selection
+          selection={selection}
+          date={date}
+          refreshLocations={refreshLocations}
+          handleChangeDate={handleChangeDate}
+        />
+      </Route>
     </>
   );
 };

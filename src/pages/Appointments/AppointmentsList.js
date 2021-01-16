@@ -5,14 +5,15 @@ const AppointmentsList = ({ appointments, setAppointments }) => {
   const expand = (_id) => {
     let updateExpanded = [...appointments];
     updateExpanded.forEach((appointment) => {
-      if (appointment._id.toString() === _id.toString())
+      if (appointment._id.toString() === _id.toString()) {
         appointment.expanded = !appointment.expanded;
+      }
     });
     setAppointments(updateExpanded);
   };
 
   return (
-    <div>
+    <div className='appointments-list-div'>
       {appointments.map((appointment, index) => {
         return (
           <AppointmentItem
