@@ -10,10 +10,15 @@ import {
   EmergencyContact,
   useSetAccount,
 } from '../../Providers/AccountProvider.js';
+import { App } from '../../Providers/ContextProvider.js';
 import AccountItem from './AccountItem.js';
+import { AccountSkeleton } from '../Skeletons.js';
 
 export default function AccountItemsList() {
-  return (
+  const { loading } = useContext(App);
+  return loading ? (
+    <AccountSkeleton />
+  ) : (
     <div>
       <NameItem />
       <AddressItem />

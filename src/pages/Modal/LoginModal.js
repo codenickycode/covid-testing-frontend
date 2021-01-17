@@ -8,7 +8,7 @@ import { useSetAllAccount } from '../../Providers/AccountProvider.js';
 
 const Login = ({ closeModal }) => {
   const tryCatchFinally = useTryCatchFinally();
-  const { loading, error } = useContext(App);
+  const { error, loading } = useContext(App);
   const setApp = useContext(SetApp);
   const setAllAccount = useSetAllAccount();
 
@@ -33,8 +33,7 @@ const Login = ({ closeModal }) => {
     <>
       <div className='overlay' onClick={closeModal}></div>
       <div className='modal'>
-        {loading && <h1>loading...</h1>}
-        {error && <h2>{error}</h2>}
+        {error && !loading && <h2>{error}</h2>}
         {userError && <h2>{userError}</h2>}
         <LoginForm submit={submit} setUserError={setUserError} />
       </div>

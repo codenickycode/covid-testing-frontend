@@ -7,6 +7,7 @@ import {
   useSetAllAccount,
 } from '../../../Providers/AccountProvider.js';
 import { App } from '../../../Providers/ContextProvider.js';
+import { LoginSkeleton } from '../../Skeletons.js';
 import { useTryCatchFinally } from '../../../tools/useTryCatchFinally.js';
 
 const ConfirmUserInfo = ({ closeModal, setInfoIsConfirmed }) => {
@@ -48,54 +49,62 @@ const ConfirmUserInfo = ({ closeModal, setInfoIsConfirmed }) => {
     <>
       <div className='overlay' onClick={closeModal}></div>
       <div className='modal'>
-        {loading && <h1>loading...</h1>}
-        <h1>Before confirming your appointment</h1>
-        <p>We need a little info</p>
-        {userError && <h2>{userError}</h2>}
-        <form id='form-reg-info' className='form' onSubmit={handleSubmit}>
-          <p className='info-small'>*Required fields</p>
-          <div>Name:</div>
-          <label htmlFor='firstName' className='label-small'>
-            <span className='info-small'>*</span>First
-          </label>
-          <input
-            autoFocus
-            type='text'
-            name='firstName'
-            value={newFirstName}
-            onChange={(e) => setNewFirstName(e.target.value)}
+        {loading ? (
+          <LoginSkeleton
+            header='Booking...'
+            message='Please wait while we book your appointment.'
           />
-          <label htmlFor='lastName' className='label-small'>
-            <span className='info-small'>*</span>Last
-          </label>
-          <input
-            type='text'
-            name='lastName'
-            value={newLastName}
-            onChange={(e) => setNewLastName(e.target.value)}
-          />
-          <label htmlFor='phone' className='label-small'>
-            <span className='info-small'>*</span>Phone
-          </label>
-          <input
-            type='tel'
-            name='phone'
-            value={newPhone}
-            onChange={(e) => setNewPhone(e.target.value)}
-          />
-          <label htmlFor='dob' className='label-small'>
-            Date Of <span className='info-small'>*</span>Birth
-          </label>
-          <input
-            type='date'
-            name='dob'
-            value={newDob}
-            onChange={(e) => setNewDob(e.target.value)}
-          />
-          <button type='submit' className='btn'>
-            Confirm
-          </button>
-        </form>
+        ) : (
+          <>
+            <h1>Before confirming your appointment</h1>
+            <p>We need a little info</p>
+            {userError && <h2>{userError}</h2>}
+            <form id='form-reg-info' className='form' onSubmit={handleSubmit}>
+              <p className='info-small'>*Required fields</p>
+              <div>Name:</div>
+              <label htmlFor='firstName' className='label-small'>
+                <span className='info-small'>*</span>First
+              </label>
+              <input
+                autoFocus
+                type='text'
+                name='firstName'
+                value={newFirstName}
+                onChange={(e) => setNewFirstName(e.target.value)}
+              />
+              <label htmlFor='lastName' className='label-small'>
+                <span className='info-small'>*</span>Last
+              </label>
+              <input
+                type='text'
+                name='lastName'
+                value={newLastName}
+                onChange={(e) => setNewLastName(e.target.value)}
+              />
+              <label htmlFor='phone' className='label-small'>
+                <span className='info-small'>*</span>Phone
+              </label>
+              <input
+                type='tel'
+                name='phone'
+                value={newPhone}
+                onChange={(e) => setNewPhone(e.target.value)}
+              />
+              <label htmlFor='dob' className='label-small'>
+                Date Of <span className='info-small'>*</span>Birth
+              </label>
+              <input
+                type='date'
+                name='dob'
+                value={newDob}
+                onChange={(e) => setNewDob(e.target.value)}
+              />
+              <button type='submit' className='btn'>
+                Confirm
+              </button>
+            </form>
+          </>
+        )}
       </div>
     </>
   );

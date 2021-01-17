@@ -1,5 +1,6 @@
 import React from 'react';
 import { TESTS } from '../../../constants.js';
+import Image from '../../../components/Image.js';
 
 const LocationPreview = ({ location, handleSelection }) => {
   const { name, phone, address, tests } = location;
@@ -9,7 +10,9 @@ const LocationPreview = ({ location, handleSelection }) => {
       className='location-preview'
       onClick={() => handleSelection(location._id)}
     >
-      <img
+      <Image
+        size='sml'
+        style='img-sml'
         src={`/img/locations/preview/${location._id.toString()}.jpg`}
         alt='Branch'
       />

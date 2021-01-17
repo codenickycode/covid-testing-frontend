@@ -11,6 +11,8 @@ import Account from './pages/Account.js';
 import Settings from './pages/Settings.js';
 import Information from './pages/Information.js';
 
+import Skeleton from './pages/Skeletons.js';
+
 const App = () => {
   return (
     <ContextProvider>
@@ -26,6 +28,7 @@ const App = () => {
               <Route path='/account' component={Account} />
               <Route path='/settings' component={Settings} />
               <Route path='/information' component={Information} />
+              <Route path='/skeleton' component={Skeleton} />
             </Switch>
           </div>
           <Navbar />

@@ -83,7 +83,7 @@ const Search = () => {
 
   return (
     <>
-      {loading && <Loading />}
+      {/* {loading && <Loading />} */}
       {error && <h1>{error}</h1>}
       <Route path={`${url}/form`}>
         <SearchForm handleSubmit={search} />

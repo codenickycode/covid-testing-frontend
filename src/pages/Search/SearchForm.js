@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { TESTS } from '../../constants.js';
 import Test from './components/Test.js';
+import Image from '../../components/Image.js';
 
 const SearchForm = ({ handleSubmit }) => {
   const [zip, setZip] = useState('');
   const [tests, setTests] = useState([]);
-  const [info, setInfo] = useState([]);
 
   const selectTest = (e, type) => {
     let newTests = [...tests];
@@ -22,44 +22,36 @@ const SearchForm = ({ handleSubmit }) => {
 
   const submit = (e) => {
     e.preventDefault();
-    const values = document.querySelectorAll('#form-home input');
-    let tests = {};
-    for (let i = 0; i < values.length - 1; i++) {
-      tests[values[i].name] = values[i].checked;
+    let testsFilter = {};
+    for (let key of Object.keys(TESTS)) {
+      testsFilter[key] = tests.includes(key);
     }
-    handleSubmit(tests, zip);
+    handleSubmit(testsFilter, zip);
   };
 
   return (
     <div className='search-form-div'>
-      <img className='img-sml' src='/img/welcome1.jpg' alt='Covid-19 test' />
+      <Image
+        size='sml'
+        style='img-sml'
+        src='/img/welcome1.jpg'
+        alt='Covid-19 test'
+      />
       <form id='form-home' onSubmit={submit}>
         <h2>Choose the testing type</h2>
         <p>Which tests are you interested in?</p>
         <p>Select all that apply:</p>
-        <div className='test-div'>
-          <div id='tests' className='test-items'>
-            {Object.entries(TESTS).map((test, index) => {
-              return (
-                <Test
-                  key={index}
-                  selectedTests={tests}
-                  selectTest={selectTest}
-                  test={test}
-                  setInfo={setInfo}
-                />
-              );
-            })}
-          </div>
-          <ul className='test-info'>
-            {info.map((item, index) => {
-              return (
-                <li key={index} className='.info-small'>
-                  {item}
-                </li>
-              );
-            })}
-          </ul>
+        <div id='tests' className='test-items'>
+          {Object.entries(TESTS).map((test, index) => {
+            return (
+              <Test
+                key={index}
+                selectedTests={tests}
+                selectTest={selectTest}
+                test={test}
+              />
+            );
+          })}
         </div>
         <h2>What's your location?</h2>
         <p>Enter your zipcode to find a CityMD nearby</p>

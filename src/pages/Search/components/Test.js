@@ -1,9 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ReactComponent as Arrow } from '../../../icons/arrow.svg';
 
-const Test = ({ test, selectedTests, selectTest, setInfo }) => {
+const Test = ({ test, selectedTests, selectTest }) => {
+  const [showInfo, setShowInfo] = useState(false);
+
   const testType = test[0];
   const { name, info } = test[1];
+
+  const handleIconClick = (e) => {
+    e.stopPropagation();
+    setShowInfo(!showInfo);
+  };
 
   return (
     <div
@@ -28,8 +35,19 @@ const Test = ({ test, selectedTests, selectTest, setInfo }) => {
           value='true'
         />
       </label>
-      <div className='icon deg180' onClick={() => setInfo(info)}>
-        <Arrow />
+      {showInfo && (
+        <ul className='test-info'>
+          {info.map((item, index) => {
+            return (
+              <li key={index} className='.info-small'>
+                {item}
+              </li>
+            );
+          })}
+        </ul>
+      )}
+      <div className='icon-div' onClick={handleIconClick}>
+        <Arrow className={showInfo ? 'icon deg90' : 'icon deg270'} />
       </div>
     </div>
   );

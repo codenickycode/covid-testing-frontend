@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { NavLink, useHistory, useLocation } from 'react-router-dom';
-import { NavDisabled } from '../Providers/ContextProvider.js';
+import { App, NavDisabled } from '../Providers/ContextProvider.js';
 import { ReactComponent as InfoIcon } from '../icons/info.svg';
 import { ReactComponent as ArrowIcon } from '../icons/arrow.svg';
+import { HeaderSkeleton } from '../pages/Skeletons.js';
 
 const Header = () => {
   const history = useHistory();
   const location = useLocation();
+  const { loading } = useContext(App);
   const navDisabled = useContext(NavDisabled);
   const [title, setTitle] = useState('');
 
@@ -41,26 +43,26 @@ const Header = () => {
     }
   }, [location]);
 
-  return (
-    <>
-      <header className='header'>
-        <div
-          className={navDisabled ? 'icon-disabled' : 'icon'}
-          onClick={navDisabled ? null : history.goBack}
-        >
-          <ArrowIcon />
-        </div>
-        <h3 className='title'>{title}</h3>
+  return loading ? (
+    <HeaderSkeleton />
+  ) : (
+    <header className='header'>
+      <div
+        className={navDisabled ? 'icon-disabled' : 'icon'}
+        onClick={navDisabled ? null : history.goBack}
+      >
+        <ArrowIcon />
+      </div>
+      <h3 className='title'>{title}</h3>
 
-        <NavLink
-          to={navDisabled ? '#' : '/information'}
-          className={navDisabled ? 'icon-disabled' : 'icon'}
-          activeClassName='icon-active'
-        >
-          <InfoIcon />
-        </NavLink>
-      </header>
-    </>
+      <NavLink
+        to={navDisabled ? '#' : '/information'}
+        className={navDisabled ? 'icon-disabled' : 'icon'}
+        activeClassName='icon-active'
+      >
+        <InfoIcon />
+      </NavLink>
+    </header>
   );
 };
 

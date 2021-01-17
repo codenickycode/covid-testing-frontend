@@ -3,8 +3,7 @@ import axios from 'axios';
 import * as tools from '../../tools/tools.js';
 import { SCROLL_OPTIONS } from '../../constants.js';
 import { SetNavDisabled } from '../../Providers/ContextProvider.js';
-
-const Saving = () => <h1>Saving...</h1>;
+import { AccountItemSkeleton } from '../Skeletons.js';
 
 const AccountItem = ({ title, field, items, input, setContext, setHeader }) => {
   console.log('rendering: ' + field);
@@ -109,7 +108,7 @@ const AccountItem = ({ title, field, items, input, setContext, setHeader }) => {
   };
 
   return saving ? (
-    <Saving />
+    <AccountItemSkeleton message='Saving...' />
   ) : (
     <div className='account-item'>
       <div

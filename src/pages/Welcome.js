@@ -1,15 +1,31 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
+import { App } from '../Providers/ContextProvider.js';
+import Image from '../components/Image.js';
+import { WelcomeSkeleton } from './Skeletons.js';
 
 const Welcome = () => {
   const history = useHistory();
+  const { loading } = useContext(App);
 
-  return (
+  return loading ? (
+    <WelcomeSkeleton />
+  ) : (
     <div className='welcome-div'>
-      <img className='img-sml' src='/img/welcome1.jpg' alt='Illustration' />
+      <Image
+        style='img-sml'
+        src='/img/welcome1.jpg'
+        alt='Illustration'
+        size='sml'
+      />
       <h1>Hello</h1>
       <p>City MD is here to make your life easier during the pandemic.</p>
-      <img className='img-med ' src='/img/welcome2.jpg' alt='Illustration' />
+      <Image
+        style='img-med '
+        src='/img/welcome2.jpg'
+        alt='Illustration'
+        size='med'
+      />
       <h1>No more waiting!</h1>
       <p>In four simple steps, you can book a COVID-19 testing appointment.</p>
       <button

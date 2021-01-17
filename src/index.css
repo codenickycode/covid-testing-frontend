@@ -25,6 +25,180 @@
   font-family: 'Mulish', sans-serif;
 }
 
+/***********************************************************/
+/*********************** Skeletons *************************/
+/***********************************************************/
+
+.skeleton-relative {
+  position: relative;
+  overflow: hidden;
+}
+
+.skeleton-icon {
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid var(--btn-enabled);
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: var(--bg-secondary);
+}
+
+.skeleton-div,
+.skeleton-div-column,
+.skeleton-div-row {
+  position: relative;
+  margin: 0.5rem 0;
+  padding: 0.5rem;
+  width: 100%;
+  border: 1px solid var(--btn-enabled);
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: var(--bg-primary);
+}
+
+.skeleton-div-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.skeleton-div-row,
+.skeleton-div-account-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.skeleton-div-account-item {
+  margin: 2rem;
+}
+
+.skeleton-spacer {
+  width: 100%;
+  height: 2rem;
+}
+
+.skeleton-wide,
+.skeleton-btn {
+  margin: 0.5rem 0;
+  position: relative;
+  width: 100%;
+  height: 1.5rem;
+  border: 1px solid var(--btn-enabled);
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: var(--bg-secondary);
+}
+
+.skeleton-btn {
+  width: 80%;
+}
+
+.skeleton-left,
+.skeleton-right,
+.skeleton-mid {
+  width: 25%;
+  height: 1rem;
+  border: 1px solid var(--btn-enabled);
+  border-radius: 10px;
+  background-color: var(--bg-secondary);
+}
+
+.skeleton-img,
+.skeleton-img-sml,
+.skeleton-img-med,
+.skeleton-img-lrg {
+  margin: 0 0.5rem;
+  width: 75px;
+  height: 50px;
+  border: 1px solid var(--btn-enabled);
+  border-radius: 10px;
+  background-color: var(--bg-secondary);
+}
+
+.skeleton-img-sml {
+  width: 6.25rem;
+  height: 4rem;
+}
+
+.skeleton-img-med {
+  margin: 0.5rem 0;
+  width: 12rem;
+  height: 8rem;
+}
+
+.skeleton-img-lrg {
+  width: 15rem;
+  height: 12rem;
+}
+
+.skeleton-h {
+  margin: 0.5rem 0;
+  padding: 0.5rem;
+  width: 100%;
+  height: 1.5rem;
+  border: 1px solid var(--btn-enabled);
+  border-radius: 10px;
+  background-color: var(--bg-secondary);
+}
+
+.skeleton-h1text {
+  height: auto;
+}
+
+.skeleton-p {
+  margin: 0.5rem 0;
+  padding: 0.5rem;
+  width: 100%;
+  height: 1rem;
+  border: 1px solid var(--btn-enabled);
+  border-radius: 10px;
+  background-color: var(--bg-secondary);
+}
+
+.skeleton-ptext {
+  height: auto;
+}
+
+.skeleton-hidden {
+  border: none;
+}
+
+.shimmer-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  animation: loading 1s ease-in-out infinite;
+  overflow: hidden;
+}
+
+@keyframes loading {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(+100%);
+  }
+}
+
+.shimmer {
+  width: 50%;
+  height: 100%;
+  background-color: var(--bg-tertiary);
+  opacity: 0.25;
+  transform: skewX(-20deg);
+}
+/***********************************************************/
+/******************** General Styles ***********************/
+/***********************************************************/
+
+.display-none {
+  display: none;
+}
+
 .deg90 {
   transform: rotate(90deg);
 }
@@ -92,10 +266,6 @@ body {
   padding: 1rem;
   z-index: 9999;
 }
-
-/***********************************************************/
-/******************** General Styles ***********************/
-/***********************************************************/
 
 .text-center {
   text-align: center;
@@ -287,15 +457,10 @@ input {
   width: 100%;
 }
 
-/* div for tests section */
-.test-div {
-  width: 100%;
-  display: flex;
-}
-
 /* div for test items */
 .test-items {
-  width: 50%;
+  margin-top: 0.7rem;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -303,12 +468,12 @@ input {
 
 /* div for each test */
 .test-type {
-  margin: 1rem 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  margin: 0.5rem 0;
+  padding-top: 0.5rem;
   width: 100%;
-  height: 43px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   border-radius: 10px;
   font-family: Mulish;
   font-style: normal;
@@ -321,7 +486,7 @@ input {
 }
 
 .test-type-label {
-  width: 100%;
+  margin: 0.25rem;
   text-align: center;
 }
 
@@ -341,8 +506,7 @@ input {
 .test-info {
   padding: 1rem;
   display: inline-block;
-  width: 50%;
-  height: 214px;
+  width: 100%;
   border-radius: 10px;
   font-family: Mulish;
   font-style: normal;
@@ -350,7 +514,6 @@ input {
   font-size: 12px;
   line-height: 120%;
   color: var(--text-primary);
-  /* background-color: var(--bg-secondary); */
 }
 
 /***********************************************************/
@@ -560,6 +723,8 @@ input {
 
 .avatar > img {
   margin: 1rem;
+  width: 75px;
+  height: 75px;
   background-color: var(--btn-enabled);
   border-radius: 50%;
 }

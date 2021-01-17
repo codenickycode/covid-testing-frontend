@@ -5,9 +5,9 @@ import { App } from '../Providers/ContextProvider.js';
 import { Appointments } from '../Providers/AccountProvider.js';
 import AppointmentsList from './Appointments/AppointmentsList.js';
 import LoginModal from './Modal/LoginModal.js';
+import { AppointmentsSkeleton } from './Skeletons.js';
 
 const Error = ({ error }) => <h1>{error}</h1>;
-const Loading = () => <h1>Loading...</h1>;
 
 const AppointmentsPage = () => {
   const history = useHistory();
@@ -28,9 +28,10 @@ const AppointmentsPage = () => {
     setPast(sorted[1]);
   }, [loggedIn, appointments]);
 
-  return (
+  return loading ? (
+    <AppointmentsSkeleton />
+  ) : (
     <>
-      {loading && <Loading />}
       {error && <Error error={error} />}
       {!loggedIn ? (
         <LoginModal closeModal={history.goBack} />

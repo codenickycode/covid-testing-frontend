@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { App } from '../../Providers/ContextProvider.js';
 import LocationPreview from './components/LocationPreview.js';
 import { ReactComponent as Arrow } from '../../icons/arrow.svg';
+import { SearchResultsSkeleton } from '../Skeletons.js';
 
 const SearchResults = ({
   searchResults,
@@ -9,7 +11,10 @@ const SearchResults = ({
   handleChangeDate,
   handleSelection,
 }) => {
-  return (
+  const { loading } = useContext(App);
+  return loading ? (
+    <SearchResultsSkeleton />
+  ) : (
     <div className='search-results-div'>
       <div className='date-picker'>
         <div className='icon' onClick={() => handleChangeDate('dec')}>

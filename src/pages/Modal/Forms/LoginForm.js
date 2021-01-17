@@ -1,7 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { App } from '../../../Providers/ContextProvider.js';
 import * as tools from '../../../tools/tools.js';
+import { LoginSkeleton } from '../../Skeletons.js';
 
 const LoginForm = ({ submit, setUserError }) => {
+  const { loading } = useContext(App);
+
   const [signup, setSignup] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -29,7 +33,12 @@ const LoginForm = ({ submit, setUserError }) => {
     console.log('forgot password');
   };
 
-  return (
+  return loading ? (
+    <LoginSkeleton
+      header={signup ? 'Registering...' : 'Logging In...'}
+      message='Please wait while we complete your request.'
+    />
+  ) : (
     <div className='login-form-div'>
       {signup ? (
         <>
