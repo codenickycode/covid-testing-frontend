@@ -7,13 +7,11 @@ import SearchForm from './Search/SearchForm.js';
 import SearchResults from './Search/SearchResults.js';
 import Selection from './Search/Selection.js';
 
-const Loading = () => <h1>Loading...</h1>;
-
 const Search = () => {
   const history = useHistory();
   const { url } = useRouteMatch();
 
-  const { loading, error } = useContext(App);
+  const { error } = useContext(App);
   const { searchResults, prevSearch } = useContext(Info);
   const setInfo = useContext(SetInfo);
 

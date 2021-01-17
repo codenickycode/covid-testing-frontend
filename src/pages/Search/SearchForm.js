@@ -33,7 +33,7 @@ const SearchForm = ({ handleSubmit }) => {
     <div className='search-form-div'>
       <Image
         size='sml'
-        style='img-sml'
+        classStyle='img-sml'
         src='/img/welcome1.jpg'
         alt='Covid-19 test'
       />

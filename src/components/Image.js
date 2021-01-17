@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { ImageSkeleton } from '../pages/Skeletons.js';
 
-export default function ({ src, alt, style, size }) {
+export default function Image({ src, alt, classStyle, size }) {
   const [showImg, setShowImg] = useState(false);
   return (
     <>
       {!showImg && <ImageSkeleton size={size} />}
       <img
-        className={showImg ? style : 'display-none'}
+        className={showImg ? classStyle : 'display-none'}
         src={src}
         alt={alt}
         onLoad={() => setShowImg(true)}

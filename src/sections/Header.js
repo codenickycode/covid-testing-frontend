@@ -3,7 +3,6 @@ import { NavLink, useHistory, useLocation } from 'react-router-dom';
 import { App, NavDisabled } from '../Providers/ContextProvider.js';
 import { ReactComponent as InfoIcon } from '../icons/info.svg';
 import { ReactComponent as ArrowIcon } from '../icons/arrow.svg';
-import { HeaderSkeleton } from '../pages/Skeletons.js';
 
 const Header = () => {
   const history = useHistory();
@@ -43,9 +42,7 @@ const Header = () => {
     }
   }, [location]);
 
-  return loading ? (
-    <HeaderSkeleton />
-  ) : (
+  return (
     <header className='header'>
       <div
         className={navDisabled ? 'icon-disabled' : 'icon'}
@@ -53,7 +50,12 @@ const Header = () => {
       >
         <ArrowIcon />
       </div>
-      <h3 className='title'>{title}</h3>
+
+      {loading ? (
+        <div className='skeleton-h1text'>Loading...</div>
+      ) : (
+        <h3 className='title'>{title}</h3>
+      )}
 
       <NavLink
         to={navDisabled ? '#' : '/information'}

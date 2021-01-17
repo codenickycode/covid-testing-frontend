@@ -13,7 +13,7 @@ const Welcome = () => {
   ) : (
     <div className='welcome-div'>
       <Image
-        style='img-sml'
+        classStyle='img-sml'
         src='/img/welcome1.jpg'
         alt='Illustration'
         size='sml'
@@ -21,7 +21,7 @@ const Welcome = () => {
       <h1>Hello</h1>
       <p>City MD is here to make your life easier during the pandemic.</p>
       <Image
-        style='img-med '
+        classStyle='img-med '
         src='/img/welcome2.jpg'
         alt='Illustration'
         size='med'

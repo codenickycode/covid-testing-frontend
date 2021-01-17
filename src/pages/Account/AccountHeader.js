@@ -1,12 +1,10 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import { HeaderName } from '../../Providers/AccountProvider.js';
 import dayjs from 'dayjs';
-import { ImageSkeleton } from '../Skeletons.js';
+import Image from '../../components/Image.js';
 
 const AccountHeader = () => {
   const headerName = useContext(HeaderName);
-
-  const [showImg, setShowImg] = useState(false);
 
   const now = new dayjs();
   const time =
@@ -19,12 +17,11 @@ const AccountHeader = () => {
   return (
     <div className='account-header'>
       <div className='avatar'>
-        {!showImg && <ImageSkeleton size='sml' />}
-        <img
-          className={showImg ? '' : 'display-none'}
+        <Image
+          classStyle='avatar-img'
           src='/img/salad-cat.png'
           alt='User'
-          onLoad={() => setShowImg(true)}
+          size='sml'
         />
       </div>
       <h1>{`Good ${time}${headerName ? `, ${headerName}!` : '!'}`}</h1>

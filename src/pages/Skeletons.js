@@ -39,7 +39,7 @@ export const WelcomeSkeleton = () => {
       <div className='skeleton-img-sml' />
       <div className='skeleton-spacer'></div>
       <div className='skeleton-h1'></div>
-      <p className='skeleton-p'></p>
+      <div className='skeleton-p'></div>
       <div className='skeleton-img-med' />
       <div className='skeleton-h1'></div>
       <p className='skeleton-p'></p>
@@ -68,10 +68,10 @@ export const LocationPreviewSkeleton = () => {
     <div className='skeleton-div-row'>
       <div className='skeleton-img' />
       <div className='skeleton-div skeleton-hidden'>
-        <h4 className='skeleton-h'></h4>
-        <p className='skeleton-p'></p>
-        <p className='skeleton-p'></p>
-        <p className='skeleton-p'></p>
+        <div className='skeleton-h'></div>
+        <div className='skeleton-p'></div>
+        <div className='skeleton-p'></div>
+        <div className='skeleton-p'></div>
       </div>
       <Shimmer />
     </div>
@@ -101,15 +101,15 @@ export const LoginSkeleton = ({ header, message }) => {
 export const AppointmentsSkeleton = () => {
   return (
     <div className='skeleton-div skeleton-hidden'>
-      <h1 className='skeleton-h1'></h1>
-      <p className='skeleton-wide'></p>
+      <div className='skeleton-h1'></div>
+      <div className='skeleton-wide'></div>
       <div className='skeleton-spacer'></div>
       <div className='skeleton-div'>
-        <h4 className='skeleton-h'></h4>
-        <p className='skeleton-p'></p>
+        <div className='skeleton-h'></div>
+        <div className='skeleton-p'></div>
         <div className='skeleton-spacer'></div>
-        <h4 className='skeleton-h'></h4>
-        <p className='skeleton-p'></p>
+        <div className='skeleton-h'></div>
+        <div className='skeleton-p'></div>
       </div>
       <Shimmer />
     </div>
@@ -121,7 +121,7 @@ export const AccountSkeleton = () => {
     <div className='skeleton-div'>
       <div className='skeleton-div-row'>
         <div className='skeleton-img' />
-        <h1 className='skeleton-h'></h1>
+        <div className='skeleton-h'></div>
       </div>
       <div className='skeleton-spacer'></div>
       <div className='skeleton-div'>
@@ -142,7 +142,7 @@ export const AccountSkeleton = () => {
 
 export const AccountItemSkeleton = ({ message }) => {
   return (
-    <div className='skeleton-div-account-item'>
+    <div className='skeleton-div-account-item skeleton-relative'>
       <div className='skeleton-left'></div>
       <p className='skeleton-ptext'>{message || ''}</p>
       <div className='skeleton-right'></div>

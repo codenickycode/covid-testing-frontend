@@ -12,7 +12,7 @@ const LocationPreview = ({ location, handleSelection }) => {
     >
       <Image
         size='sml'
-        style='img-sml'
+        classStyle='img-sml'
         src={`/img/locations/preview/${location._id.toString()}.jpg`}
         alt='Branch'
       />
