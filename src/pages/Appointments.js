@@ -7,7 +7,7 @@ import AppointmentsList from './Appointments/AppointmentsList.js';
 import LoginModal from './Modal/LoginModal.js';
 import { AppointmentsSkeleton } from './Skeletons.js';
 
-const Error = ({ error }) => <h1>{error}</h1>;
+const Error = ({ error }) => <h1 className='error'>{error}</h1>;
 
 const AppointmentsPage = () => {
   const history = useHistory();

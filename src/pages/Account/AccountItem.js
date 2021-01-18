@@ -75,6 +75,14 @@ const AccountItem = ({ title, field, items, input, setContext, setHeader }) => {
     setContext({ ...input, [key]: val });
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      if (field === 'password') togglePassword();
+      else toggleEdit();
+    }
+    if (e.key === 'Escape') cancel(e);
+  };
+
   const save = async () => {
     try {
       setSaving(true);
@@ -104,6 +112,7 @@ const AccountItem = ({ title, field, items, input, setContext, setHeader }) => {
     e.stopPropagation();
     setContext(prevInput);
     setUpdated(false);
+    setUserError('');
     setEdit(false);
   };
 
@@ -118,7 +127,7 @@ const AccountItem = ({ title, field, items, input, setContext, setHeader }) => {
         <div className='account-item-text'>
           <h4>{title}</h4>
           <p className='label-small'>{preview}</p>
-          {userError && <p>{userError}</p>}
+          {userError && <p className='error'>{userError}</p>}
         </div>
         {edit ? (
           <button type='button' className='btn-small' onClick={cancel}>
@@ -149,6 +158,7 @@ const AccountItem = ({ title, field, items, input, setContext, setHeader }) => {
                 }
                 value={input[item.key]}
                 onChange={(e) => handleInput(e, item.key)}
+                onKeyDown={handleKeyDown}
               />
             </div>
           );

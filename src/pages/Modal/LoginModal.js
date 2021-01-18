@@ -33,8 +33,8 @@ const Login = ({ closeModal }) => {
     <>
       <div className='overlay' onClick={closeModal}></div>
       <div className='modal'>
-        {error && !loading && <h2>{error}</h2>}
-        {userError && <h2>{userError}</h2>}
+        {error && !loading && <h2 className='error'>{error}</h2>}
+        {userError && <h2 className='error'>{userError}</h2>}
         <LoginForm submit={submit} setUserError={setUserError} />
       </div>
     </>,

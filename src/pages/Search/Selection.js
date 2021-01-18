@@ -32,8 +32,8 @@ const Selection = ({ selection, date, handleChangeDate, refreshLocations }) => {
   };
 
   const handleCloseModal = () => {
-    refreshLocations(date);
     setShowModal(false);
+    refreshLocations(date);
   };
 
   return !selection ? (

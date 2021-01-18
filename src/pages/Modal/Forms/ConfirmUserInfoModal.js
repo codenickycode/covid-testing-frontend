@@ -58,7 +58,7 @@ const ConfirmUserInfo = ({ closeModal, setInfoIsConfirmed }) => {
           <>
             <h1>Before confirming your appointment</h1>
             <p>We need a little info</p>
-            {userError && <h2>{userError}</h2>}
+            {userError && <h2 className='error'>{userError}</h2>}
             <form id='form-reg-info' className='form' onSubmit={handleSubmit}>
               <p className='info-small'>*Required fields</p>
               <div>Name:</div>

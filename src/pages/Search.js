@@ -23,7 +23,6 @@ const Search = () => {
   const search = (...tryArgs) => {
     tryCatchFinally(tryFunc, tryArgs);
     async function tryFunc(tests, zip, date, sortBy = 'distance') {
-      history.push(`${url}/results`);
       let locations = await tools.getLocations();
       locations = await tools.getDistances(zip, locations);
       let filtered = tools.filterLocationsBy('tests', tests, locations);
@@ -36,6 +35,11 @@ const Search = () => {
         prevSearch: { tests, zip, sortBy },
       }));
     }
+  };
+
+  const handleSubmit = (tests, zip) => {
+    history.push(`${url}/results`);
+    search(tests, zip);
   };
 
   const handleSortBy = (sortBy) => {
@@ -81,10 +85,9 @@ const Search = () => {
 
   return (
     <>
-      {/* {loading && <Loading />} */}
-      {error && <h1>{error}</h1>}
+      {error && <h1 className='error'>{error}</h1>}
       <Route path={`${url}/form`}>
-        <SearchForm handleSubmit={search} />
+        <SearchForm handleSubmit={handleSubmit} />
       </Route>
       <Route path={`${url}/results`}>
         <SearchResults

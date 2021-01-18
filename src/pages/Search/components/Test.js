@@ -21,20 +21,7 @@ const Test = ({ test, selectedTests, selectTest }) => {
       }
       onClick={(e) => selectTest(e, testType)}
     >
-      <label
-        className='test-type-label'
-        htmlFor={testType}
-        id={`label-${testType}`}
-      >
-        {name}
-        <input
-          type='checkbox'
-          id={testType}
-          className='test-checkbox'
-          name={testType}
-          value='true'
-        />
-      </label>
+      <div className='test-type-label'>{name}</div>
       {showInfo && (
         <ul className='test-info'>
           {info.map((item, index) => {
