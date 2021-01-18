@@ -17,6 +17,8 @@ export const useTryCatchFinally = () => {
     } catch (e) {
       console.log(e);
       error = e.hasOwnProperty('response') ? e.response.data : e.message;
+      if (e.status === 401)
+        setApp((prevState) => ({ ...prevState, loggedIn: false }));
       if (c) c(error);
     } finally {
       setNavDisabled(false);

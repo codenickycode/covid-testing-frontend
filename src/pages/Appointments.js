@@ -1,17 +1,15 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { useHistory } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import * as tools from '../tools/tools.js';
-import { App } from '../Providers/ContextProvider.js';
+import { App, Refresh } from '../Providers/ContextProvider.js';
 import { Appointments } from '../Providers/AccountProvider.js';
 import AppointmentsList from './Appointments/AppointmentsList.js';
-import LoginModal from './Modal/LoginModal.js';
-import { AppointmentsSkeleton } from './Skeletons.js';
 
 const Error = ({ error }) => <h1 className='error'>{error}</h1>;
 
 const AppointmentsPage = () => {
-  const history = useHistory();
-  const { loading, error, loggedIn } = useContext(App);
+  const { error, loggedIn } = useContext(App);
+  const refresh = useContext(Refresh);
 
   const appointments = useContext(Appointments);
 
@@ -20,57 +18,52 @@ const AppointmentsPage = () => {
   const [past, setPast] = useState([]);
 
   useEffect(() => {
-    if (!loggedIn) return;
     let updated = [...appointments];
     updated.forEach((appointment) => (appointment.expanded = false));
     const sorted = tools.sortAppointments(updated);
     setUpcoming(sorted[0]);
     setPast(sorted[1]);
-  }, [loggedIn, appointments]);
+  }, [appointments]);
 
-  return loading ? (
-    <AppointmentsSkeleton />
+  return !loggedIn || refresh ? (
+    <Redirect to='/gateway/appointments' />
   ) : (
     <>
       {error && <Error error={error} />}
-      {!loggedIn ? (
-        <LoginModal closeModal={history.goBack} />
-      ) : (
-        <div>
-          <div className='appointments-tabs'>
-            <div
-              className={
-                showPast ? 'appointments-tab' : 'appointments-tab-selected'
-              }
-              onClick={() => setShowPast(false)}
-            >
-              Upcoming
-            </div>
-            <div
-              className={
-                showPast ? 'appointments-tab-selected' : 'appointments-tab'
-              }
-              onClick={() => setShowPast(true)}
-            >
-              Past
-            </div>
+      <div>
+        <div className='appointments-tabs'>
+          <div
+            className={
+              showPast ? 'appointments-tab' : 'appointments-tab-selected'
+            }
+            onClick={() => setShowPast(false)}
+          >
+            Upcoming
           </div>
-          {showPast ? (
-            past.length === 0 ? (
-              <h1>No past appointments.</h1>
-            ) : (
-              <AppointmentsList appointments={past} setAppointments={setPast} />
-            )
-          ) : upcoming.length === 0 ? (
-            <h1>No upcoming appointments.</h1>
-          ) : (
-            <AppointmentsList
-              appointments={upcoming}
-              setAppointments={setUpcoming}
-            />
-          )}
+          <div
+            className={
+              showPast ? 'appointments-tab-selected' : 'appointments-tab'
+            }
+            onClick={() => setShowPast(true)}
+          >
+            Past
+          </div>
         </div>
-      )}
+        {showPast ? (
+          past.length === 0 ? (
+            <h1>No past appointments.</h1>
+          ) : (
+            <AppointmentsList appointments={past} setAppointments={setPast} />
+          )
+        ) : upcoming.length === 0 ? (
+          <h1>No upcoming appointments.</h1>
+        ) : (
+          <AppointmentsList
+            appointments={upcoming}
+            setAppointments={setUpcoming}
+          />
+        )}
+      </div>
     </>
   );
 };

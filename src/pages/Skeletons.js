@@ -151,4 +151,17 @@ export const AccountItemSkeleton = ({ message }) => {
   );
 };
 
+export const SettingsSkeleton = () => {
+  return (
+    <div className='skeleton-div skeleton-relative'>
+      <div className='skeleton-wide'></div>
+      <div className='skeleton-spacer'></div>
+      <div className='skeleton-wide'></div>
+      <div className='skeleton-spacer'></div>
+      <div className='skeleton-wide'></div>
+      <Shimmer />
+    </div>
+  );
+};
+
 export default AccountSkeleton;

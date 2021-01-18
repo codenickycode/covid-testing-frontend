@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { getLS, setLS } from '../tools/tools.js';
+import React, { useState, useEffect, useContext } from 'react';
+import { getLS, setLS, getSS, setSS, useStorage } from '../tools/tools.js';
 import AccountProvider from './AccountProvider.js';
 
 export const INIT_APP_STATE = {
@@ -7,6 +7,7 @@ export const INIT_APP_STATE = {
   error: '',
   loggedIn: false,
   title: '',
+  dark: false,
 };
 
 export const INIT_INFO_STATE = {
@@ -17,14 +18,39 @@ export const INIT_INFO_STATE = {
   confirmation: '',
 };
 
+export const Remember = React.createContext();
+export const SetRemember = React.createContext();
+const RememberProvider = ({ children }) => {
+  const [remember, setRemember] = useState(false);
+  return (
+    <SetRemember.Provider value={setRemember}>
+      <Remember.Provider value={remember}>{children}</Remember.Provider>
+    </SetRemember.Provider>
+  );
+};
+
+export const Refresh = React.createContext();
+export const SetRefresh = React.createContext();
+const RefreshProvider = ({ children }) => {
+  const [refresh, setRefresh] = useState(true);
+  return (
+    <SetRefresh.Provider value={setRefresh}>
+      <Refresh.Provider value={refresh}>{children}</Refresh.Provider>
+    </SetRefresh.Provider>
+  );
+};
+
 export const NavDisabled = React.createContext();
 export const SetNavDisabled = React.createContext();
 const NavDisabledProvider = ({ children }) => {
-  const [navDisabled, setNavDisabled] = useState(getLS('navDisabled') || false);
+  const { getStorage, setStorage } = useStorage();
+  const [navDisabled, setNavDisabled] = useState(
+    getStorage('navDisabled') || false
+  );
 
   useEffect(() => {
-    setLS('navDisabled', navDisabled);
-  }, [navDisabled]);
+    setStorage('navDisabled', navDisabled);
+  }, [navDisabled, setStorage]);
 
   return (
     <SetNavDisabled.Provider value={setNavDisabled}>
@@ -38,14 +64,13 @@ const NavDisabledProvider = ({ children }) => {
 export const App = React.createContext();
 export const SetApp = React.createContext();
 const AppProvider = ({ children }) => {
-  const [app, setApp] = useState(getLS('app') || INIT_APP_STATE);
-
+  const { getStorage, setStorage } = useStorage();
+  const [app, setApp] = useState(getStorage('app') || INIT_APP_STATE);
   useEffect(() => {
-    setLS('loading', app.loading);
-    setLS('error', app.error);
-    setLS('loggedIn', app.loggedIn);
-    setLS('title', app.title);
-  }, [app]);
+    console.log(getStorage('app'));
+
+    setStorage('app', app);
+  }, [app, getStorage, setStorage]);
 
   return (
     <SetApp.Provider value={setApp}>
@@ -57,15 +82,12 @@ const AppProvider = ({ children }) => {
 export const Info = React.createContext();
 export const SetInfo = React.createContext();
 const InfoProvider = ({ children }) => {
-  const [info, setInfo] = useState(getLS('info') || INIT_INFO_STATE);
+  const { getStorage, setStorage } = useStorage();
+  const [info, setInfo] = useState(getStorage('info') || INIT_INFO_STATE);
 
   useEffect(() => {
-    setLS('allLocations', info.allLocations);
-    setLS('searchResults', info.searchResults);
-    setLS('prevSearch', info.prevSearch);
-    setLS('appointment', info.appointment);
-    setLS('confirmation', info.confirmation);
-  }, [info]);
+    setStorage('info', info);
+  }, [info, setStorage]);
 
   return (
     <SetInfo.Provider value={setInfo}>
@@ -79,7 +101,11 @@ const ContextProvider = ({ children }) => {
     <AppProvider>
       <InfoProvider>
         <AccountProvider>
-          <NavDisabledProvider>{children}</NavDisabledProvider>
+          <NavDisabledProvider>
+            <RefreshProvider>
+              <RememberProvider>{children}</RememberProvider>
+            </RefreshProvider>
+          </NavDisabledProvider>
         </AccountProvider>
       </InfoProvider>
     </AppProvider>

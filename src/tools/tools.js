@@ -1,10 +1,38 @@
+import { useContext, useCallback } from 'react';
+import { Remember } from '../Providers/ContextProvider.js';
 import axios from 'axios';
 import dayjs from 'dayjs';
 import { DATE_FORMAT, TIMESLOTS } from '../constants.js';
 
+export const useStorage = () => {
+  const remember = useContext(Remember);
+  const getStorage = useCallback(
+    (field) => {
+      if (remember) {
+        return getLS(field);
+      } else {
+        return getSS(field);
+      }
+    },
+    [remember]
+  );
+  const setStorage = useCallback(
+    (field, value) => {
+      if (remember) setLS(field, value);
+      else setSS(field, value);
+    },
+    [remember]
+  );
+  return { getStorage, setStorage };
+};
+
 export const getLS = (field) => JSON.parse(localStorage.getItem(field));
 export const setLS = (field, value) =>
   localStorage.setItem(field, JSON.stringify(value));
+
+export const getSS = (field) => JSON.parse(sessionStorage.getItem(field));
+export const setSS = (field, value) =>
+  sessionStorage.setItem(field, JSON.stringify(value));
 
 export const TODAY = dayjs().format(DATE_FORMAT);
 

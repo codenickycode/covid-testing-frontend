@@ -8,6 +8,8 @@ import {
   SetInfo,
   INIT_APP_STATE,
   INIT_INFO_STATE,
+  SetRefresh,
+  Remember,
 } from '../Providers/ContextProvider.js';
 import {
   Email,
@@ -23,10 +25,12 @@ const Navbar = () => {
   const history = useHistory();
   const tryCatchFinally = useTryCatchFinally();
   const { loggedIn } = useContext(App);
+  const remember = useContext(Remember);
   const navDisabled = useContext(NavDisabled);
   const email = useContext(Email);
   const setApp = useContext(SetApp);
   const setInfo = useContext(SetInfo);
+  const setRefresh = useContext(SetRefresh);
   const setAllAccount = useSetAllAccount();
 
   const logout = () => {
@@ -39,6 +43,7 @@ const Navbar = () => {
     function finallyFunc() {
       setApp(INIT_APP_STATE);
       setInfo(INIT_INFO_STATE);
+      setRefresh(true);
       setAllAccount(INIT_ACCOUNT_STATE);
     }
   };
@@ -46,6 +51,9 @@ const Navbar = () => {
   return (
     <>
       <div className='info-footer'>
+        <div className='error'>
+          {remember ? 'REMEMBER: TRUE' : 'REMEMBER: FALSE'}
+        </div>
         <div className='error'>
           {loggedIn ? 'Logged in.' : 'Not logged in.'}
         </div>
@@ -55,7 +63,7 @@ const Navbar = () => {
       <div className='footer'>
         <nav className='navbar'>
           <NavLink
-            to={navDisabled ? '#' : '/account'}
+            to={navDisabled ? '#' : '/gateway/account'}
             className={navDisabled ? 'icon-disabled' : 'icon'}
             activeClassName='icon-active'
           >
@@ -63,7 +71,7 @@ const Navbar = () => {
           </NavLink>
 
           <NavLink
-            to={navDisabled ? '#' : '/appointments'}
+            to={navDisabled ? '#' : '/gateway/appointments'}
             className={navDisabled ? 'icon-disabled' : 'icon'}
             activeClassName='icon-active'
           >
@@ -71,7 +79,7 @@ const Navbar = () => {
           </NavLink>
 
           <NavLink
-            to={navDisabled ? '#' : '/settings'}
+            to={navDisabled ? '#' : '/gateway/settings'}
             className={navDisabled ? 'icon-disabled' : 'icon'}
             activeClassName='icon-active'
           >

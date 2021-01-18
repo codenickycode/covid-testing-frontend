@@ -10,6 +10,7 @@ import Appointments from './pages/Appointments.js';
 import Account from './pages/Account.js';
 import Settings from './pages/Settings.js';
 import Information from './pages/Information.js';
+import Gateway from './pages/Gateway.js';
 
 import Skeleton from './pages/Skeletons.js';
 
@@ -28,6 +29,7 @@ const App = () => {
               <Route path='/account' component={Account} />
               <Route path='/settings' component={Settings} />
               <Route path='/information' component={Information} />
+              <Route path='/gateway/:to' component={Gateway} />
               <Route path='/skeleton' component={Skeleton} />
             </Switch>
           </div>
