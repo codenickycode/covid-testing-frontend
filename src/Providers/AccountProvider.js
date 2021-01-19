@@ -1,4 +1,6 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
+import { getLS, setLS } from '../tools/tools.js';
+import { DARK_THEME, LIGHT_THEME } from '../constants.js';
 
 export const INIT_ACCOUNT_STATE = {
   headerName: '',
@@ -12,6 +14,36 @@ export const INIT_ACCOUNT_STATE = {
   emergency_contact: {},
   travel: {},
   appointments: [],
+  preferences: {
+    dark: false,
+    remember: false,
+    notifications: false,
+  },
+};
+
+export const Preferences = React.createContext();
+const SetPreferences = React.createContext();
+const PreferencesProvider = ({ children }) => {
+  const [preferences, setPreferences] = useState(
+    INIT_ACCOUNT_STATE.preferences
+  );
+  useEffect(() => {
+    setLS('remember', preferences.remember);
+  }, [preferences.remember]);
+
+  useEffect(() => {
+    const style = document.querySelector(':root').style;
+    style.cssText += ';' + (preferences.dark ? DARK_THEME : LIGHT_THEME);
+    console.log(style.cssText);
+    console.log(preferences.dark);
+  }, [preferences.dark]);
+  return (
+    <SetPreferences.Provider value={setPreferences}>
+      <Preferences.Provider value={preferences}>
+        {children}
+      </Preferences.Provider>
+    </SetPreferences.Provider>
+  );
 };
 
 export const HeaderName = React.createContext();
@@ -151,6 +183,7 @@ export const useSetAccount = () => {
   const setEmergencyContact = useContext(SetEmergencyContact);
   const setTravel = useContext(SetTravel);
   const setAppointments = useContext(SetAppointments);
+  const setPreferences = useContext(SetPreferences);
   return {
     setHeaderName,
     setName,
@@ -163,6 +196,7 @@ export const useSetAccount = () => {
     setEmergencyContact,
     setTravel,
     setAppointments,
+    setPreferences,
   };
 };
 
@@ -180,31 +214,34 @@ export const useSetAllAccount = () => {
     all.setEmergencyContact(value.emergency_contact);
     all.setTravel(value.travel);
     all.setAppointments(value.appointments);
+    all.setPreferences(value.preferences);
   };
   return setAllAccount;
 };
 
 const AccountProvider = ({ children }) => {
   return (
-    <NameProvider>
-      <AddressProvider>
-        <PhoneProvider>
-          <DobProvider>
-            <EmailProvider>
-              <PasswordProvider>
-                <InsuranceProvider>
-                  <EmergencyContactProvider>
-                    <TravelProvider>
-                      <AppointmentsProvider>{children}</AppointmentsProvider>
-                    </TravelProvider>
-                  </EmergencyContactProvider>
-                </InsuranceProvider>
-              </PasswordProvider>
-            </EmailProvider>
-          </DobProvider>
-        </PhoneProvider>
-      </AddressProvider>
-    </NameProvider>
+    <PreferencesProvider>
+      <NameProvider>
+        <AddressProvider>
+          <PhoneProvider>
+            <DobProvider>
+              <EmailProvider>
+                <PasswordProvider>
+                  <InsuranceProvider>
+                    <EmergencyContactProvider>
+                      <TravelProvider>
+                        <AppointmentsProvider>{children}</AppointmentsProvider>
+                      </TravelProvider>
+                    </EmergencyContactProvider>
+                  </InsuranceProvider>
+                </PasswordProvider>
+              </EmailProvider>
+            </DobProvider>
+          </PhoneProvider>
+        </AddressProvider>
+      </NameProvider>
+    </PreferencesProvider>
   );
 };
 

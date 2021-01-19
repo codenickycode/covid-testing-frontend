@@ -22,6 +22,11 @@
   --icon-default: #c4c4c4;
   --icon-active: #2f80ed;
   --icon-disabled: #dadada;
+  --white: white;
+  --blue: blue;
+  --gray: gray;
+  --green: green;
+  --pink: pink;
   font-family: 'Mulish', sans-serif;
 }
 

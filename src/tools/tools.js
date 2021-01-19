@@ -1,30 +1,6 @@
-import { useContext, useCallback } from 'react';
-import { Remember } from '../Providers/ContextProvider.js';
 import axios from 'axios';
 import dayjs from 'dayjs';
 import { DATE_FORMAT, TIMESLOTS } from '../constants.js';
-
-export const useStorage = () => {
-  const remember = useContext(Remember);
-  const getStorage = useCallback(
-    (field) => {
-      if (remember) {
-        return getLS(field);
-      } else {
-        return getSS(field);
-      }
-    },
-    [remember]
-  );
-  const setStorage = useCallback(
-    (field, value) => {
-      if (remember) setLS(field, value);
-      else setSS(field, value);
-    },
-    [remember]
-  );
-  return { getStorage, setStorage };
-};
 
 export const getLS = (field) => JSON.parse(localStorage.getItem(field));
 export const setLS = (field, value) =>

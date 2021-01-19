@@ -12,7 +12,7 @@ export const useTryCatchFinally = () => {
         ...prevState,
         loading: true,
       }));
-      setNavDisabled(true);
+      // setNavDisabled(true);
       await t(...tArgs);
     } catch (e) {
       console.log(e);
@@ -21,7 +21,7 @@ export const useTryCatchFinally = () => {
         setApp((prevState) => ({ ...prevState, loggedIn: false }));
       if (c) c(error);
     } finally {
-      setNavDisabled(false);
+      // setNavDisabled(false);
       setApp((prevState) => ({
         ...prevState,
         loading: false,

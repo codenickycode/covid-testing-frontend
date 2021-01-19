@@ -86,7 +86,7 @@ const AccountItem = ({ title, field, items, input, setContext, setHeader }) => {
   const save = async () => {
     try {
       setSaving(true);
-      setNavDisabled(true);
+      // setNavDisabled(true);
       const res = await axios.post(`/common/update/${field}`, input);
       if (field === 'password') {
         setContext(prevInput);
@@ -104,7 +104,7 @@ const AccountItem = ({ title, field, items, input, setContext, setHeader }) => {
       setUserError(userError);
     } finally {
       setSaving(false);
-      setNavDisabled(false);
+      // setNavDisabled(false);
     }
   };
 

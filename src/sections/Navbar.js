@@ -9,12 +9,12 @@ import {
   INIT_APP_STATE,
   INIT_INFO_STATE,
   SetRefresh,
-  Remember,
 } from '../Providers/ContextProvider.js';
 import {
   Email,
   useSetAllAccount,
   INIT_ACCOUNT_STATE,
+  Preferences,
 } from '../Providers/AccountProvider.js';
 import { useTryCatchFinally } from '../tools/useTryCatchFinally.js';
 import { ReactComponent as AccountIcon } from '../icons/account.svg';
@@ -25,8 +25,8 @@ const Navbar = () => {
   const history = useHistory();
   const tryCatchFinally = useTryCatchFinally();
   const { loggedIn } = useContext(App);
-  const remember = useContext(Remember);
   const navDisabled = useContext(NavDisabled);
+  const { remember } = useContext(Preferences);
   const email = useContext(Email);
   const setApp = useContext(SetApp);
   const setInfo = useContext(SetInfo);
