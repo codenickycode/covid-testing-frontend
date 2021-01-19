@@ -5,6 +5,7 @@ import LoginForm from './Forms/LoginForm.js';
 import { useTryCatchFinally } from '../../tools/useTryCatchFinally.js';
 import { App, SetApp } from '../../Providers/ContextProvider.js';
 import { useSetAllAccount } from '../../Providers/AccountProvider.js';
+import { setLS } from '../../tools/tools.js';
 
 const Login = ({ closeModal }) => {
   const tryCatchFinally = useTryCatchFinally();
@@ -26,6 +27,8 @@ const Login = ({ closeModal }) => {
         ...prevState,
         loggedIn: true,
       }));
+      setLS('remember', res.data.preferences.remember);
+      setLS('dark', res.data.preferences.dark);
     }
   };
 

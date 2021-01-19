@@ -1,22 +1,28 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
-import axios from 'axios';
 import { App, Refresh } from '../Providers/ContextProvider.js';
-import { Preferences, useSetAccount } from '../Providers/AccountProvider.js';
+import { Preferences, SetPreferences } from '../Providers/AccountProvider.js';
+import { setLS } from '../tools/tools.js';
 
 const Settings = () => {
   const { loggedIn } = useContext(App);
   const refresh = useContext(Refresh);
   const preferences = useContext(Preferences);
-  const { setPreferences } = useSetAccount();
-
+  const { setPreferences, updated } = useContext(SetPreferences);
   const [prevPref, setPrevPref] = useState(preferences);
 
   const handleCheck = (field) => {
     const update = { ...prevPref, [field]: !prevPref[field] };
+    console.log(update);
     setPreferences(update);
     setPrevPref(update);
-    axios.post('/common/update/preferences', update);
+    if (!update.remember) {
+      setLS('dark', false);
+    } else {
+      setLS('dark', update.dark);
+    }
+    setLS('remember', update.remember);
+    updated();
   };
 
   return !loggedIn || refresh ? (

@@ -1,8 +1,13 @@
 import React, { useState, useContext, useEffect, useCallback } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import axios from 'axios';
-import { App, Refresh, SetRefresh } from '../Providers/ContextProvider.js';
-import { useSetAllAccount } from '../Providers/AccountProvider.js';
+import {
+  App,
+  Refresh,
+  SetApp,
+  SetRefresh,
+} from '../Providers/ContextProvider.js';
+import { Preferences, useSetAllAccount } from '../Providers/AccountProvider.js';
 import { useTryCatchFinally } from '../tools/useTryCatchFinally';
 import LoginModal from './Modal/LoginModal';
 import {
@@ -15,6 +20,8 @@ const Gateway = () => {
   const history = useHistory();
   const { to } = useParams();
   const { loggedIn } = useContext(App);
+  const setApp = useContext(SetApp);
+  const { remember } = useContext(Preferences);
   const refresh = useContext(Refresh);
   const setRefresh = useContext(SetRefresh);
   const setAllAccount = useSetAllAccount();
@@ -23,29 +30,41 @@ const Gateway = () => {
   const [initial, setInitial] = useState(true);
 
   const getClient = useCallback(() => {
-    tryCatchFinally(tryFunc, undefined, catchFunc, finallyFunc);
+    tryCatchFinally(tryFunc, undefined, catchFunc);
     async function tryFunc() {
       const res = await axios.get('/common/user');
       setAllAccount({ ...res.data, headerName: res.data.name.firstName });
+      setApp((prevState) => ({ ...prevState, loggedIn: true }));
+      setRefresh(false);
     }
     function catchFunc() {
       history.push('/');
-    }
-    function finallyFunc() {
-      setRefresh(false);
+      setInitial(true);
     }
   }, [history, setAllAccount, setRefresh, tryCatchFinally]);
 
   useEffect(() => {
-    if (loggedIn && refresh && initial) {
-      setInitial(false);
-      getClient();
-    } else if (loggedIn && !refresh) {
+    if (initial) {
+      if ((loggedIn && refresh) || (!loggedIn && remember)) {
+        setInitial(false);
+        getClient();
+      }
+    }
+    if (loggedIn && !refresh) {
       history.push(`/${to}`);
     }
-  }, [loggedIn, refresh, initial, setInitial, getClient, history, to]);
+  }, [
+    loggedIn,
+    remember,
+    refresh,
+    initial,
+    setInitial,
+    getClient,
+    history,
+    to,
+  ]);
 
-  return !loggedIn ? (
+  return !loggedIn && !remember ? (
     <LoginModal
       closeModal={
         history.globalHistory ? history.goBack : () => history.push('/')

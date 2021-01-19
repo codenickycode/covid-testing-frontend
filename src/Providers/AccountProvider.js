@@ -1,6 +1,10 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { getLS, setLS } from '../tools/tools.js';
+import React, { useState, useContext, useEffect, useRef } from 'react';
+import axios from 'axios';
+import { getLS } from '../tools/tools.js';
 import { DARK_THEME, LIGHT_THEME } from '../constants.js';
+
+const init_dark = getLS('dark');
+const init_remember = getLS('remember');
 
 export const INIT_ACCOUNT_STATE = {
   headerName: '',
@@ -15,30 +19,47 @@ export const INIT_ACCOUNT_STATE = {
   travel: {},
   appointments: [],
   preferences: {
-    dark: false,
-    remember: false,
-    notifications: false,
+    dark: init_dark !== undefined ? init_dark : false,
+    remember: init_remember !== undefined ? init_remember : false,
   },
 };
 
 export const Preferences = React.createContext();
-const SetPreferences = React.createContext();
+export const SetPreferences = React.createContext();
 const PreferencesProvider = ({ children }) => {
   const [preferences, setPreferences] = useState(
     INIT_ACCOUNT_STATE.preferences
   );
   useEffect(() => {
-    setLS('remember', preferences.remember);
-  }, [preferences.remember]);
-
-  useEffect(() => {
     const style = document.querySelector(':root').style;
     style.cssText += ';' + (preferences.dark ? DARK_THEME : LIGHT_THEME);
-    console.log(style.cssText);
-    console.log(preferences.dark);
   }, [preferences.dark]);
+
+  const [timer, setTimer] = useState(0);
+  let interval = useRef(null);
+
+  function updated() {
+    clearInterval(interval.current);
+    setTimer(0);
+    interval.current = setInterval(
+      () => setTimer((prevTime) => prevTime + 1),
+      1000
+    );
+  }
+
+  useEffect(() => {
+    if (timer > 1) {
+      updateAccount();
+      clearInterval(interval.current);
+    }
+  }, [timer]);
+
+  function updateAccount() {
+    axios.post('/common/update/preferences', preferences);
+  }
+
   return (
-    <SetPreferences.Provider value={setPreferences}>
+    <SetPreferences.Provider value={{ setPreferences, updated }}>
       <Preferences.Provider value={preferences}>
         {children}
       </Preferences.Provider>
@@ -183,7 +204,7 @@ export const useSetAccount = () => {
   const setEmergencyContact = useContext(SetEmergencyContact);
   const setTravel = useContext(SetTravel);
   const setAppointments = useContext(SetAppointments);
-  const setPreferences = useContext(SetPreferences);
+  const { setPreferences } = useContext(SetPreferences);
   return {
     setHeaderName,
     setName,

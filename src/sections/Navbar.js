@@ -15,6 +15,7 @@ import {
   useSetAllAccount,
   INIT_ACCOUNT_STATE,
   Preferences,
+  SetPreferences,
 } from '../Providers/AccountProvider.js';
 import { useTryCatchFinally } from '../tools/useTryCatchFinally.js';
 import { ReactComponent as AccountIcon } from '../icons/account.svg';
@@ -32,6 +33,7 @@ const Navbar = () => {
   const setInfo = useContext(SetInfo);
   const setRefresh = useContext(SetRefresh);
   const setAllAccount = useSetAllAccount();
+  const { setPreferences } = useContext(SetPreferences);
 
   const logout = () => {
     history.push('/');
@@ -45,6 +47,11 @@ const Navbar = () => {
       setInfo(INIT_INFO_STATE);
       setRefresh(true);
       setAllAccount(INIT_ACCOUNT_STATE);
+      setPreferences({
+        dark: false,
+        remember: false,
+      });
+      localStorage.clear();
     }
   };
 
