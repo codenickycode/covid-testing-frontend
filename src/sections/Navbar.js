@@ -55,6 +55,25 @@ const Navbar = () => {
     }
   };
 
+  const alertError = () => {
+    setApp((prevState) => ({ ...prevState, error: 'I am an error!' }));
+  };
+  const alertConfirm = () => {
+    setApp((prevState) => ({
+      ...prevState,
+      confirmation: 'I am a confirmation!',
+    }));
+  };
+  const clearError = () => {
+    setApp((prevState) => ({ ...prevState, error: '' }));
+  };
+  const clearConfirm = () => {
+    setApp((prevState) => ({
+      ...prevState,
+      confirmation: '',
+    }));
+  };
+
   return (
     <>
       <div className='info-footer'>
@@ -66,6 +85,10 @@ const Navbar = () => {
         </div>
         <div className='error'>{email.email || 'No email.'}</div>
         <button onClick={logout}>Logout</button>
+        <button onClick={alertError}>Set Error</button>
+        <button onClick={clearError}>Clear Error</button>
+        <button onClick={alertConfirm}>Set Confirmation</button>
+        <button onClick={clearConfirm}>Clear Confirmation</button>
       </div>
       <div className='footer'>
         <nav className='navbar'>

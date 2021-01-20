@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import { getSS, setSS } from '../tools/tools.js';
 import AccountProvider from './AccountProvider.js';
 
@@ -35,6 +35,29 @@ const AppProvider = ({ children }) => {
   useEffect(() => {
     setSS('app', app);
   }, [app]);
+
+  const [timer, setTimer] = useState(0);
+  let interval = useRef(null);
+
+  useEffect(() => {
+    clearInterval(interval.current);
+    setTimer(0);
+    if (app.confirmation || app.error) {
+      interval.current = setInterval(
+        () => setTimer((prevTime) => prevTime + 1),
+        1000
+      );
+    }
+  }, [app.confirmation, app.error]);
+
+  useEffect(() => {
+    if (timer === 4) {
+      clearInterval(interval.current);
+      setTimer(0);
+      setApp((prevState) => ({ ...prevState, confirmation: '', error: '' }));
+    }
+  }, [timer]);
+
   return (
     <SetApp.Provider value={setApp}>
       <App.Provider value={app}>{children}</App.Provider>
