@@ -52,11 +52,10 @@ const PreferencesProvider = ({ children }) => {
       updateAccount();
       clearInterval(interval.current);
     }
-  }, [timer]);
-
-  function updateAccount() {
-    axios.post('/common/update/preferences', preferences);
-  }
+    function updateAccount() {
+      axios.post('/common/update/preferences', preferences);
+    }
+  }, [timer, preferences]);
 
   return (
     <SetPreferences.Provider value={{ setPreferences, updated }}>

@@ -1,6 +1,6 @@
 export const SCROLL_OPTIONS = {
   behavior: 'smooth',
-  block: 'center',
+  block: 'end',
 };
 
 export const TESTS = {

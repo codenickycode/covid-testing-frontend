@@ -70,7 +70,7 @@ const Navbar = () => {
       <div className='footer'>
         <nav className='navbar'>
           <NavLink
-            to={navDisabled ? '#' : '/gateway/account'}
+            to={navDisabled ? '#' : loggedIn ? '/account' : '/gateway/account'}
             className={navDisabled ? 'icon-disabled' : 'icon'}
             activeClassName='icon-active'
           >
@@ -78,7 +78,13 @@ const Navbar = () => {
           </NavLink>
 
           <NavLink
-            to={navDisabled ? '#' : '/gateway/appointments'}
+            to={
+              navDisabled
+                ? '#'
+                : loggedIn
+                ? '/appointments'
+                : '/gateway/appointments'
+            }
             className={navDisabled ? 'icon-disabled' : 'icon'}
             activeClassName='icon-active'
           >
@@ -86,7 +92,9 @@ const Navbar = () => {
           </NavLink>
 
           <NavLink
-            to={navDisabled ? '#' : '/gateway/settings'}
+            to={
+              navDisabled ? '#' : loggedIn ? '/settings' : '/gateway/settings'
+            }
             className={navDisabled ? 'icon-disabled' : 'icon'}
             activeClassName='icon-active'
           >

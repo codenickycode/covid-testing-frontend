@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import { Redirect } from 'react-router-dom';
 import { App, Refresh } from '../Providers/ContextProvider.js';
 import { Preferences, SetPreferences } from '../Providers/AccountProvider.js';

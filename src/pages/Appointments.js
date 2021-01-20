@@ -4,6 +4,7 @@ import * as tools from '../tools/tools.js';
 import { App, Refresh } from '../Providers/ContextProvider.js';
 import { Appointments } from '../Providers/AccountProvider.js';
 import AppointmentsList from './Appointments/AppointmentsList.js';
+import { AppointmentsSkeleton } from './Skeletons.js';
 
 const Error = ({ error }) => <h1 className='error'>{error}</h1>;
 
@@ -13,16 +14,19 @@ const AppointmentsPage = () => {
 
   const appointments = useContext(Appointments);
 
+  const [loading, setLoading] = useState(true);
   const [showPast, setShowPast] = useState(false);
   const [upcoming, setUpcoming] = useState([]);
   const [past, setPast] = useState([]);
 
   useEffect(() => {
+    setLoading(true);
     let updated = [...appointments];
     updated.forEach((appointment) => (appointment.expanded = false));
     const sorted = tools.sortAppointments(updated);
     setUpcoming(sorted[0]);
     setPast(sorted[1]);
+    setLoading(false);
   }, [appointments]);
 
   return !loggedIn || refresh ? (
@@ -49,7 +53,9 @@ const AppointmentsPage = () => {
             Past
           </div>
         </div>
-        {showPast ? (
+        {loading ? (
+          <AppointmentsSkeleton />
+        ) : showPast ? (
           past.length === 0 ? (
             <h1>No past appointments.</h1>
           ) : (

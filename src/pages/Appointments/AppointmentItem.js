@@ -1,10 +1,11 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { ReactComponent as Arrow } from '../../icons/arrow.svg';
 import { SCROLL_OPTIONS } from '../../constants.js';
 
 const AppointmentItem = ({ appointment, expand }) => {
   const previewRef = useRef(null);
   const fullRef = useRef(null);
+  const [clicked, setClicked] = useState(false);
 
   const { _id, date, time, location, tests } = appointment;
   const { name, address, phone } = location;
@@ -21,12 +22,24 @@ const AppointmentItem = ({ appointment, expand }) => {
   }
 
   useEffect(() => {
-    fullRef.current
-      ? fullRef.current.scrollIntoView(SCROLL_OPTIONS)
-      : previewRef.current.scrollIntoView(SCROLL_OPTIONS);
-  }, [appointment.expanded]);
+    if (clicked) {
+      let itemBottom = fullRef.current
+        ? fullRef.current.getBoundingClientRect().bottom
+        : previewRef.current.getBoundingClientRect().bottom;
+      let viewHeight = window.innerHeight;
+      fullRef.current
+        ? fullRef.current.scrollIntoView(SCROLL_OPTIONS)
+        : previewRef.current.scrollIntoView(SCROLL_OPTIONS);
+      window.scrollBy({
+        left: 0,
+        top: itemBottom - viewHeight + 160,
+        behavior: 'smooth',
+      });
+    }
+  }, [clicked, appointment.expanded]);
 
   const handleExpand = () => {
+    setClicked(true);
     expand(_id);
   };
 

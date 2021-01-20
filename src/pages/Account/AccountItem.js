@@ -50,7 +50,14 @@ const AccountItem = ({ title, field, items, input, setContext, setHeader }) => {
 
   useEffect(() => {
     if (edit) {
+      let itemBottom = editRef.current.getBoundingClientRect().bottom;
+      let viewHeight = window.innerHeight;
       editRef.current.scrollIntoView(SCROLL_OPTIONS);
+      window.scrollBy({
+        left: 0,
+        top: itemBottom - viewHeight + 160,
+        behavior: 'smooth',
+      });
     }
   }, [edit, editRef]);
 
@@ -86,7 +93,7 @@ const AccountItem = ({ title, field, items, input, setContext, setHeader }) => {
   const save = async () => {
     try {
       setSaving(true);
-      // setNavDisabled(true);
+      setNavDisabled(true);
       const res = await axios.post(`/common/update/${field}`, input);
       if (field === 'password') {
         setContext(prevInput);
@@ -104,7 +111,7 @@ const AccountItem = ({ title, field, items, input, setContext, setHeader }) => {
       setUserError(userError);
     } finally {
       setSaving(false);
-      // setNavDisabled(false);
+      setNavDisabled(false);
     }
   };
 

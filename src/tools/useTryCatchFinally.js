@@ -1,9 +1,8 @@
 import { useContext } from 'react';
-import { SetApp, SetNavDisabled } from '../Providers/ContextProvider.js';
+import { SetApp } from '../Providers/ContextProvider.js';
 
 export const useTryCatchFinally = () => {
   const setApp = useContext(SetApp);
-  const setNavDisabled = useContext(SetNavDisabled);
 
   const tryCatchFinally = async (t, tArgs = [], c, f) => {
     let error = '';
@@ -12,7 +11,6 @@ export const useTryCatchFinally = () => {
         ...prevState,
         loading: true,
       }));
-      // setNavDisabled(true);
       await t(...tArgs);
     } catch (e) {
       console.log(e);
@@ -21,7 +19,6 @@ export const useTryCatchFinally = () => {
         setApp((prevState) => ({ ...prevState, loggedIn: false }));
       if (c) c(error);
     } finally {
-      // setNavDisabled(false);
       setApp((prevState) => ({
         ...prevState,
         loading: false,

@@ -1,11 +1,16 @@
 import React, { useState, useContext } from 'react';
 import { Redirect } from 'react-router-dom';
-import { SetInfo } from '../../Providers/ContextProvider.js';
+import { App, SetInfo } from '../../Providers/ContextProvider.js';
 import SelectionJSX from './components/SelectionJSX.js';
 import ConfirmationModal from '../Modal/ConfirmationModal.js';
+import { Preferences } from '../../Providers/AccountProvider.js';
+import { useGetClient } from '../../tools/useGetClient.js';
 
 const Selection = ({ selection, date, handleChangeDate, refreshLocations }) => {
   const setInfo = useContext(SetInfo);
+  const { remember } = useContext(Preferences);
+  const { loggedIn } = useContext(App);
+  const getClient = useGetClient();
 
   const [showModal, setShowModal] = useState(false);
   const [time, setTime] = useState('');
@@ -18,9 +23,10 @@ const Selection = ({ selection, date, handleChangeDate, refreshLocations }) => {
     setSelectedTests(newTests);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!time || selectedTests.length === 0) return;
+    if (!loggedIn && remember) await getClient();
     const newAppointment = {
       location: selection,
       date,
