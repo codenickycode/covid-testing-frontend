@@ -440,6 +440,10 @@ body {
   text-align: center;
 }
 
+.invalid-field {
+  border: 1px solid var(--red);
+}
+
 .error {
   color: var(--highlight-red);
 }

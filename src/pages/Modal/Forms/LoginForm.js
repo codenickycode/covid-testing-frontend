@@ -1,44 +1,36 @@
-import React, { useState, useContext } from 'react';
-import { App } from '../../../Providers/ContextProvider.js';
-import * as tools from '../../../tools/tools.js';
-import { LoginSkeleton } from '../../Skeletons.js';
+import React, { useRef, useEffect } from 'react';
 
-const LoginForm = ({ submit, setUserError }) => {
-  const { loading } = useContext(App);
-
-  const [signup, setSignup] = useState(true);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmation, setConfirmation] = useState('');
-
-  const inputPassword = (e) => {
-    setPassword(e.target.value);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (signup) {
-      if (!tools.validPassword(password))
-        return setUserError('Invalid password');
-      if (password !== confirmation)
-        return setUserError("Confirmation doesn't match");
-      setUserError('');
-      submit('register', email, password);
-    } else {
-      submit('login', email, password);
-    }
-  };
+const LoginForm = ({
+  handleSubmit,
+  signup,
+  setSignup,
+  handleInput,
+  input,
+  inputRefs,
+  invalid,
+  userError,
+  fields,
+  setFields,
+}) => {
+  const { email, password, confirmation } = fields;
 
   const forgotPassword = () => {
     console.log('forgot password');
   };
 
-  return loading ? (
-    <LoginSkeleton
-      header={signup ? 'Registering...' : 'Logging In...'}
-      message='Please wait while we complete your request.'
-    />
-  ) : (
+  const emailRef = useRef();
+  const passwordRef = useRef();
+  const confirmationRef = useRef();
+
+  useEffect(() => {
+    inputRefs.current = {
+      email: emailRef,
+      password: passwordRef,
+      confirmation: confirmationRef,
+    };
+  }, [inputRefs, emailRef, passwordRef, confirmationRef]);
+
+  return (
     <div className='login-form-div'>
       {signup ? (
         <>
@@ -50,37 +42,48 @@ const LoginForm = ({ submit, setUserError }) => {
       )}
       <form id='form-signup' className='form-modal' onSubmit={handleSubmit}>
         <p className='info-small'>*required fields</p>
+        {email.error && <h3 className='error'>{email.error}</h3>}
         <label htmlFor='email' className='label-small'>
           <span className='info-small'>*</span>Email
         </label>
         <input
           autoFocus
+          ref={emailRef}
           type='email'
           name='email'
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          className={email.error ? 'invalid-field' : ''}
+          value={email.input || ''}
+          onChange={(e) => handleInput(e, 'email')}
           placeholder='Enter your email address'
         />
+        {password.error && <h3 className='error'>{password.error}</h3>}
         <label htmlFor='password' className='label-small'>
           <span className='info-small'>*</span>Password
         </label>
         <input
+          ref={passwordRef}
           type='password'
           name='password'
-          value={password}
-          onChange={inputPassword}
+          className={password.error ? 'invalid-field' : ''}
+          value={password.input || ''}
+          onChange={(e) => handleInput(e, 'password')}
           placeholder={signup ? 'Create your password' : 'Enter your password'}
         />
         {signup && (
           <>
+            {confirmation.error && (
+              <h3 className='error'>{confirmation.error}</h3>
+            )}
             <label htmlFor='confirmation' className='label-small'>
               <span className='info-small'>*</span>Confirm
             </label>
             <input
+              ref={confirmationRef}
               type='password'
               name='confirmation'
-              value={confirmation}
-              onChange={(e) => setConfirmation(e.target.value)}
+              className={confirmation.error ? 'invalid-field' : ''}
+              value={confirmation.input || ''}
+              onChange={(e) => handleInput(e, 'confirmation')}
               placeholder='Confirm your password'
             />
           </>
