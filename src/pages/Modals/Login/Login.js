@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import * as tools from '../../../tools/tools.js';
+import tools from '../../../tools/index.js';
 import LoginForm from './Form.js';
 import useCustomHooks from './customHooks.js';
 import { LoginSkeleton } from '../../../components/Skeletons.js';

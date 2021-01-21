@@ -1,31 +1,31 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
-import { App, Refresh } from '../../Providers/Context.js';
-import { Preferences, SetPreferences } from '../../Providers/Account.js';
-import { setLS } from '../../tools/tools.js';
+import { setLS } from '../../tools/storage';
+import useCustomHooks from './customHooks';
+import { ButtonSkeleton } from '../../components/Skeletons';
 
 const Settings = () => {
-  const { loggedIn } = useContext(App);
-  const refresh = useContext(Refresh);
-  const preferences = useContext(Preferences);
-  const { setPreferences, updated } = useContext(SetPreferences);
-  const [prevPref, setPrevPref] = useState(preferences);
+  const use = useCustomHooks();
+  const [prevPref, setPrevPref] = useState(use.preferences);
+  const [fetching, setFetching] = useState(false);
 
-  const handleCheck = (field) => {
-    const update = { ...prevPref, [field]: !prevPref[field] };
-    console.log(update);
-    setPreferences(update);
+  const handleCheck = (e) => {
+    const { name } = e.target;
+    const update = { ...prevPref, [name]: !prevPref[name] };
+    use.setPreferences(update);
     setPrevPref(update);
-    if (!update.remember) {
-      setLS('dark', false);
-    } else {
-      setLS('dark', update.dark);
-    }
+    setLS('dark', !update.remember ? false : update.dark);
     setLS('remember', update.remember);
-    updated();
+    use.setUpdated(true);
   };
 
-  return !loggedIn || refresh ? (
+  useEffect(() => {
+    setFetching(true);
+    const timer = setTimeout(() => setFetching(false), 2000);
+    return () => clearTimeout(timer);
+  }, [use.preferences]);
+
+  return !use.loggedIn || use.refresh ? (
     <Redirect to='/gateway/settings' />
   ) : (
     <div id='settings-div'>
@@ -34,8 +34,9 @@ const Settings = () => {
           <input
             type='checkbox'
             id='toggle-dark'
-            checked={preferences.dark}
-            onChange={() => handleCheck('dark')}
+            name='dark'
+            checked={use.preferences.dark}
+            onChange={handleCheck}
           />
           <label htmlFor='toggle-dark'>
             <span>Dark Mode</span>
@@ -46,8 +47,9 @@ const Settings = () => {
           <input
             type='checkbox'
             id='toggle-remember'
-            checked={preferences.remember}
-            onChange={() => handleCheck('remember')}
+            name='remember'
+            checked={use.preferences.remember}
+            onChange={handleCheck}
           />
           <label htmlFor='toggle-remember'>
             <span>Keep me logged in!</span>
@@ -58,8 +60,9 @@ const Settings = () => {
           <input
             type='checkbox'
             id='toggle-notifications'
-            checked={preferences.notifications}
-            onChange={() => handleCheck('notifications')}
+            name='notifications'
+            checked={use.preferences.notifications}
+            onChange={handleCheck}
           />
           <label htmlFor='toggle-notifications'>
             <span>E-mail notifications</span>
@@ -67,6 +70,18 @@ const Settings = () => {
           </label>
         </li>
       </ol>
+      {fetching ? (
+        <ButtonSkeleton />
+      ) : (
+        <button
+          type='button'
+          className='btn'
+          onClick={use.logout}
+          disabled={fetching}
+        >
+          Logout
+        </button>
+      )}
     </div>
   );
 };

@@ -1,13 +1,10 @@
 import React, { useRef, useState, useEffect, useContext } from 'react';
 import axios from 'axios';
-import * as tools from '../../tools/tools.js';
-import { SCROLL_OPTIONS } from '../../tools/constants.js';
+import tools from '../../tools/index.js';
 import { SetNavDisabled } from '../../Providers/Context.js';
 import { AccountItemSkeleton } from '../../components/Skeletons.js';
 
 const AccountItem = ({ title, field, items, input, setContext, setHeader }) => {
-  console.log('rendering: ' + field);
-
   const setNavDisabled = useContext(SetNavDisabled);
 
   const editRef = useRef(null);
@@ -49,16 +46,7 @@ const AccountItem = ({ title, field, items, input, setContext, setHeader }) => {
   };
 
   useEffect(() => {
-    if (edit) {
-      let itemBottom = editRef.current.getBoundingClientRect().bottom;
-      let viewHeight = window.innerHeight;
-      editRef.current.scrollIntoView(SCROLL_OPTIONS);
-      window.scrollBy({
-        left: 0,
-        top: itemBottom - viewHeight + 160,
-        behavior: 'smooth',
-      });
-    }
+    if (edit) tools.scrollIntoView(editRef);
   }, [edit, editRef]);
 
   const togglePassword = () => {

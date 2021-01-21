@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { Redirect } from 'react-router-dom';
-import * as tools from '../../tools/tools.js';
+import tools from '../../tools/index.js';
 import { App, Refresh } from '../../Providers/Context.js';
 import { Appointments } from '../../Providers/Account.js';
 import AppointmentsList from './List.js';

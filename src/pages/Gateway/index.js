@@ -3,13 +3,13 @@ import { useHistory, useParams } from 'react-router-dom';
 import { App, Refresh } from '../../Providers/Context.js';
 import { Preferences } from '../../Providers/Account.js';
 import { useTryCatchFinally } from '../../tools/useTryCatchFinally';
+import { useGetClient } from '../../tools/fetching';
 import LoginModal from '../Modals/Login/Login';
 import {
   AccountSkeleton,
   AppointmentsSkeleton,
   SettingsSkeleton,
 } from '../../components/Skeletons.js';
-import { useGetClient } from '../../tools/useGetClient.js';
 
 const Gateway = () => {
   const history = useHistory();

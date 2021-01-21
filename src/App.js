@@ -1,10 +1,10 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import ContextProvider from './Providers/Context.js';
-import ScrollToTop from './tools/ScrollToTop.js';
+import { ScrollToTop } from './tools/scrolling.js';
 import Alert from './components/Alert.js';
-import Header from './sections/Header.js';
-import Navbar from './sections/Navbar.js';
+import Header from './sections/Header';
+import Navbar from './sections/Navbar';
 import Welcome from './pages/Welcome';
 import Search from './pages/Search';
 import Appointments from './pages/Appointments';

@@ -9,18 +9,18 @@ import {
   INIT_APP_STATE,
   INIT_INFO_STATE,
   SetRefresh,
-} from '../Providers/Context.js';
+} from '../../Providers/Context.js';
 import {
   Email,
   useSetAllAccount,
   INIT_ACCOUNT_STATE,
   Preferences,
   SetPreferences,
-} from '../Providers/Account.js';
-import { useTryCatchFinally } from '../tools/useTryCatchFinally.js';
-import { ReactComponent as AccountIcon } from '../icons/account.svg';
-import { ReactComponent as AppointmentsIcon } from '../icons/appointments.svg';
-import { ReactComponent as SettingsIcon } from '../icons/settings.svg';
+} from '../../Providers/Account.js';
+import { useTryCatchFinally } from '../../tools/useTryCatchFinally.js';
+import { ReactComponent as AccountIcon } from '../../icons/account.svg';
+import { ReactComponent as AppointmentsIcon } from '../../icons/appointments.svg';
+import { ReactComponent as SettingsIcon } from '../../icons/settings.svg';
 
 const Navbar = () => {
   const history = useHistory();

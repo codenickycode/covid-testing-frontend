@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { scrollIntoView } from '../../tools/scrolling.js';
 import { ReactComponent as Arrow } from '../../icons/arrow.svg';
-import { SCROLL_OPTIONS } from '../../tools/constants.js';
 
 const AppointmentItem = ({ appointment, expand }) => {
   const previewRef = useRef(null);
@@ -23,18 +23,11 @@ const AppointmentItem = ({ appointment, expand }) => {
 
   useEffect(() => {
     if (clicked) {
-      let itemBottom = fullRef.current
-        ? fullRef.current.getBoundingClientRect().bottom
-        : previewRef.current.getBoundingClientRect().bottom;
-      let viewHeight = window.innerHeight;
-      fullRef.current
-        ? fullRef.current.scrollIntoView(SCROLL_OPTIONS)
-        : previewRef.current.scrollIntoView(SCROLL_OPTIONS);
-      window.scrollBy({
-        left: 0,
-        top: itemBottom - viewHeight + 160,
-        behavior: 'smooth',
-      });
+      if (fullRef.current) {
+        scrollIntoView(fullRef);
+      } else {
+        scrollIntoView(previewRef);
+      }
     }
   }, [clicked, appointment.expanded]);
 

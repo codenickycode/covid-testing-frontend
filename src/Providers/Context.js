@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
-import { getSS, setSS } from '../tools/tools.js';
+import { getSS, setSS } from '../tools/storage.js';
 import AccountProvider from './Account.js';
 
 export const INIT_APP_STATE = {

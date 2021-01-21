@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect, useRef } from 'react';
 import axios from 'axios';
-import { getLS } from '../tools/tools.js';
-import { DARK_THEME, LIGHT_THEME } from '../tools/constants.js';
+import { getLS } from '../tools/storage.js';
+import { DARK_THEME, LIGHT_THEME } from '../tools/themes.js';
 
 const init_dark = getLS('dark');
 const init_remember = getLS('remember');
@@ -30,35 +30,38 @@ const PreferencesProvider = ({ children }) => {
   const [preferences, setPreferences] = useState(
     INIT_ACCOUNT_STATE.preferences
   );
+  const [previous, setPrevious] = useState(preferences);
+  const [updated, setUpdated] = useState(false);
+
   useEffect(() => {
     const style = document.querySelector(':root').style;
     style.cssText += ';' + (preferences.dark ? DARK_THEME : LIGHT_THEME);
   }, [preferences.dark]);
 
-  const [timer, setTimer] = useState(0);
-  let interval = useRef(null);
-
-  function updated() {
-    clearInterval(interval.current);
-    setTimer(0);
-    interval.current = setInterval(
-      () => setTimer((prevTime) => prevTime + 1),
-      1000
-    );
-  }
+  let timer = useRef(null);
 
   useEffect(() => {
-    if (timer > 1) {
-      updateAccount();
-      clearInterval(interval.current);
+    if (updated) {
+      timer.current = clearTimeout(timer.current);
+      timer.current = setTimeout(updateAccount, 2000);
     }
+
     function updateAccount() {
-      axios.post('/common/update/preferences', preferences);
+      for (let key of Object.keys(preferences)) {
+        if (preferences[key] !== previous[key]) {
+          axios.post('/common/update/preferences', preferences);
+          setPrevious(preferences);
+          setUpdated(false);
+          break;
+        }
+      }
     }
-  }, [timer, preferences]);
+
+    return () => clearTimeout(timer.current);
+  }, [updated, preferences, previous]);
 
   return (
-    <SetPreferences.Provider value={{ setPreferences, updated }}>
+    <SetPreferences.Provider value={{ setPreferences, setUpdated }}>
       <Preferences.Provider value={preferences}>
         {children}
       </Preferences.Provider>

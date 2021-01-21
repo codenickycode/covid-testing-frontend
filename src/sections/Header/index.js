@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { NavLink, useHistory, useLocation } from 'react-router-dom';
-import { App, NavDisabled } from '../Providers/Context.js';
-import { ReactComponent as InfoIcon } from '../icons/info.svg';
-import { ReactComponent as ArrowIcon } from '../icons/arrow.svg';
+import { App, NavDisabled } from '../../Providers/Context.js';
+import { ReactComponent as InfoIcon } from '../../icons/info.svg';
+import { ReactComponent as ArrowIcon } from '../../icons/arrow.svg';
 
 const Header = () => {
   const history = useHistory();

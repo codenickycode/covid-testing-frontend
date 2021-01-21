@@ -12,6 +12,16 @@ export const IconSkeleton = () => {
   return <div className='skeleton-icon'></div>;
 };
 
+export const ButtonSkeleton = () => {
+  return (
+    <div className='skeleton-div-row skeleton-relative'>
+      <div className='skeleton-btn'>
+        <Shimmer />
+      </div>
+    </div>
+  );
+};
+
 export const ImageSkeleton = ({ size }) => {
   return (
     <div className='skeleton-relative'>
