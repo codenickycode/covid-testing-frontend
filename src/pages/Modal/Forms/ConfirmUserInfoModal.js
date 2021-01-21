@@ -1,78 +1,53 @@
-import React, { useState, useContext, useRef } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
-import {
-  Name,
-  Phone,
-  Dob,
-  useSetAllAccount,
-} from '../../../Providers/AccountProvider.js';
-import { App, SetApp } from '../../../Providers/ContextProvider.js';
-import { LoginSkeleton } from '../../Skeletons.js';
-import { useTryCatchFinally } from '../../../tools/useTryCatchFinally.js';
+import { useCustomHooks } from './confirmCustomHooks.js';
 import UserInfoField from './UserInfoField.js';
+import { LoginSkeleton } from '../../Skeletons.js';
 
 const ConfirmUserInfo = ({ closeModal, setInfoIsConfirmed }) => {
-  const name = useContext(Name);
-  const phone = useContext(Phone);
-  const dob = useContext(Dob);
-  const { loading } = useContext(App);
-  const setApp = useContext(SetApp);
-  const setAllAccount = useSetAllAccount();
-  const tryCatchFinally = useTryCatchFinally();
+  const use = useCustomHooks();
+  const [inputs, setInputs] = useState(use.USER_BASIC.inputs);
+  const [errors, setErrors] = useState(use.USER_BASIC.errors);
 
-  const INIT_FIELDS = {
-    inputs: {
-      newFirst: name.firstName || '',
-      newLast: name.lastName || '',
-      newPhone: phone.phone || '',
-      newDob: dob.dob || '',
-    },
-    labels: {
-      newFirst: 'First',
-      newLast: 'Last',
-      newPhone: 'Phone',
-      newDob: 'Date of Birth',
-    },
-  };
-  Object.keys(INIT_FIELDS.inputs).forEach((field) => (INIT_FIELDS.errors = ''));
-  const [inputs, setInputs] = useState(INIT_FIELDS.inputs);
-  const [errors, setErrors] = useState(INIT_FIELDS.errors);
-
-  const handleInput = (e, field) => {
-    const val = e.target.value;
-    if (field === 'newPhone' && val && val[val.length - 1].match(/\D/)) return;
-    setErrors((prev) => ({ ...prev, [field]: '' }));
-    setInputs((prev) => ({ ...prev, [field]: val }));
+  const handleInput = (e) => {
+    const { name, value } = e.target;
+    if (name === 'phone' && value && value[value.length - 1].match(/\D/))
+      return;
+    setErrors((prev) => ({ ...prev, [name]: '' }));
+    setInputs((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    let tempErrors = INIT_FIELDS;
+
+    let tempErrors = {};
     let interupt = false;
-    for (let [key, val] of Object.entries(inputs)) {
+    for (let [name, val] of Object.entries(inputs)) {
       if (!val) {
-        tempErrors[key] = 'required';
+        tempErrors[name] = 'required';
+        document.querySelector(`input[name=${name}]`).focus();
         interupt = true;
       } else {
-        tempErrors[key] = '';
+        tempErrors[name] = '';
       }
     }
     setErrors(tempErrors);
     if (interupt) return;
-    const { newFirst, newLast, newPhone, newDob } = inputs;
-    tryCatchFinally(tryFunc);
+
+    const { firstName, lastName, phone, dob } = inputs;
+    use.tryCatchFinally(tryFunc);
     async function tryFunc() {
       const res = await axios.post('/common/update/basic', {
-        name: {
-          firstName: newFirst,
-          lastName: newLast,
-        },
-        phone: { phone: newPhone },
-        dob: { dob: newDob },
+        name: { firstName, lastName },
+        phone: { phone },
+        dob: { dob },
       });
-      setAllAccount({ ...res.data, headerName: res.data.name.firstName });
+      use.setAllAccount({ ...res.data, headerName: res.data.name.firstName });
       setInfoIsConfirmed(true);
-      setApp((prev) => ({ ...prev, confirmation: 'Appointment confirmed!' }));
+      use.setApp((prev) => ({
+        ...prev,
+        confirmation: 'Appointment confirmed!',
+      }));
     }
   };
 
@@ -80,7 +55,7 @@ const ConfirmUserInfo = ({ closeModal, setInfoIsConfirmed }) => {
     <>
       <div className='overlay' onClick={closeModal}></div>
       <div className='modal'>
-        {loading ? (
+        {use.loading ? (
           <LoginSkeleton
             header='Booking...'
             message='Please wait while we book your appointment.'
@@ -92,11 +67,11 @@ const ConfirmUserInfo = ({ closeModal, setInfoIsConfirmed }) => {
             <form id='form-reg-info' className='form' onSubmit={handleSubmit}>
               <p className='info-small'>*Required fields</p>
               <div>Name:</div>
-              {Object.keys(INIT_FIELDS.inputs).map((field) => (
+              {Object.keys(use.USER_BASIC.inputs).map((field) => (
                 <UserInfoField
                   key={field}
                   field={field}
-                  label={INIT_FIELDS.labels[field]}
+                  label={use.USER_BASIC.labels[field]}
                   input={inputs[field]}
                   error={errors[field]}
                   handleInput={handleInput}

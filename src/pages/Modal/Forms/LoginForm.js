@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React from 'react';
 
 const LoginForm = ({
   handleSubmit,
@@ -7,23 +7,10 @@ const LoginForm = ({
   handleInput,
   inputs,
   errors,
-  inputRefs,
 }) => {
   const forgotPassword = () => {
     console.log('forgot password');
   };
-
-  const emailRef = useRef();
-  const passwordRef = useRef();
-  const confirmationRef = useRef();
-
-  useEffect(() => {
-    inputRefs.current = {
-      email: emailRef,
-      password: passwordRef,
-      confirmation: confirmationRef,
-    };
-  }, [inputRefs, emailRef, passwordRef, confirmationRef]);
 
   return (
     <div className='login-form-div'>
@@ -43,7 +30,6 @@ const LoginForm = ({
         </label>
         <input
           autoFocus
-          ref={emailRef}
           type='email'
           name='email'
           className={errors.email ? 'invalid-field' : ''}
@@ -56,7 +42,6 @@ const LoginForm = ({
           <span className='info-small'>*</span>Password
         </label>
         <input
-          ref={passwordRef}
           type='password'
           name='password'
           className={errors.password ? 'invalid-field' : ''}
@@ -73,7 +58,6 @@ const LoginForm = ({
               <span className='info-small'>*</span>Confirm
             </label>
             <input
-              ref={confirmationRef}
               type='password'
               name='confirmation'
               className={errors.confirmation ? 'invalid-field' : ''}

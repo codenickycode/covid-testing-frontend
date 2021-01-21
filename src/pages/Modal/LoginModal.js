@@ -1,4 +1,4 @@
-import React, { useState, useContext, useRef, useEffect } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 import * as tools from '../../tools/tools.js';
@@ -19,15 +19,14 @@ const Login = ({ closeModal }) => {
   const [signup, setSignup] = useState(true);
   const [inputs, setInputs] = useState(INIT_FIELDS);
   const [errors, setErrors] = useState(INIT_FIELDS);
-  const inputRefs = useRef({});
 
   const setError = (field, error) => {
     setErrors((prev) => ({ ...prev, [field]: error }));
   };
 
-  const submit = (...tryArgs) => {
-    tryCatchFinally(tryFunc, tryArgs);
-    async function tryFunc(type, email, password) {
+  const submit = (type, email, password) => {
+    tryCatchFinally(login);
+    async function login() {
       const res = await axios.post(`/common/${type}`, {
         email,
         password,
@@ -38,8 +37,8 @@ const Login = ({ closeModal }) => {
         loggedIn: true,
         confirmation: 'Success!',
       }));
-      tools.setLS('remember', res.data.preferences.remember);
-      tools.setLS('dark', res.data.preferences.dark);
+      localStorage.remember = res.data.preferences.remember;
+      localStorage.dark = res.data.preferences.dark;
     }
   };
 
@@ -48,12 +47,13 @@ const Login = ({ closeModal }) => {
     if (signup) {
       if (!tools.validPassword(inputs.password)) {
         setError('password', 'Invalid password');
-        inputRefs.current.password.current.focus();
+        document.querySelector('input[name="password"]').focus();
         return;
       }
       if (inputs.password !== inputs.confirmation) {
         setError('confirmation', "Confirmation doesn't match");
-        inputRefs.current.confirmation.current.focus();
+        document.querySelector('input[name="confirmation"]').focus();
+
         return;
       }
       setErrors(INIT_FIELDS);
@@ -66,7 +66,7 @@ const Login = ({ closeModal }) => {
   useEffect(() => {
     if (error === 'User already registered.') {
       setError('email', error);
-      inputRefs.current.email.current.focus();
+      document.querySelector('input[name="email"]').focus();
     }
   }, [error]);
 
@@ -96,7 +96,6 @@ const Login = ({ closeModal }) => {
             handleSubmit={handleSubmit}
             inputs={inputs}
             errors={errors}
-            inputRefs={inputRefs}
           />
         )}
       </div>

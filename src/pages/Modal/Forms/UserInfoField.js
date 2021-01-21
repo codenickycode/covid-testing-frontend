@@ -16,12 +16,10 @@ export default function UserInfoField({
       </label>
       <input
         className={error ? 'invalid-field' : ''}
-        type={
-          field === 'newDate' ? 'date' : field === 'newPhone' ? 'tel' : 'text'
-        }
+        type={field === 'date' ? 'date' : field === 'phone' ? 'tel' : 'text'}
         name={field}
         value={input}
-        onChange={(e) => handleInput(e, field)}
+        onChange={handleInput}
       />
     </>
   );
