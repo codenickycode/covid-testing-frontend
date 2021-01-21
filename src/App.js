@@ -5,13 +5,13 @@ import ScrollToTop from './tools/ScrollToTop.js';
 import Alert from './components/Alert.js';
 import Header from './sections/Header.js';
 import Navbar from './sections/Navbar.js';
-import Welcome from './pages/Welcome.js';
-import Search from './pages/Search.js';
-import Appointments from './pages/Appointments.js';
-import Account from './pages/Account.js';
-import Settings from './pages/Settings.js';
-import Information from './pages/Information.js';
-import Gateway from './pages/Gateway.js';
+import Welcome from './pages/Welcome';
+import Search from './pages/Search';
+import Appointments from './pages/Appointments';
+import Account from './pages/Account';
+import Settings from './pages/Settings';
+import Information from './pages/Information';
+import Gateway from './pages/Gateway';
 
 import Skeleton from './components/Skeletons.js';
 

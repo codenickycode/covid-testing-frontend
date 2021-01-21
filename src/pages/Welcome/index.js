@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
-import { App } from '../Providers/Context.js';
-import Image from '../components/Image.js';
-import { WelcomeSkeleton } from '../components/Skeletons.js';
+import { App } from '../../Providers/Context.js';
+import Image from '../../components/Image.js';
+import { WelcomeSkeleton } from '../../components/Skeletons.js';
 
 const Welcome = () => {
   const history = useHistory();

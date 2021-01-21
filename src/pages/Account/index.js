@@ -10,10 +10,10 @@ import {
   Insurance,
   EmergencyContact,
   useSetAccount,
-} from '../Providers/Account.js';
-import { App, Refresh } from '../Providers/Context.js';
-import AccountHeader from './Account/Header';
-import AccountItem from './Account/Item.js';
+} from '../../Providers/Account.js';
+import { App, Refresh } from '../../Providers/Context.js';
+import AccountHeader from './Header';
+import AccountItem from './Item.js';
 
 export default function Account() {
   const refresh = useContext(Refresh);

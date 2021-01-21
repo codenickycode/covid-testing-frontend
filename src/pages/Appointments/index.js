@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { Redirect } from 'react-router-dom';
-import * as tools from '../tools/tools.js';
-import { App, Refresh } from '../Providers/Context.js';
-import { Appointments } from '../Providers/Account.js';
-import AppointmentsList from './Appointments/List.js';
-import { AppointmentsSkeleton } from '../components/Skeletons.js';
+import * as tools from '../../tools/tools.js';
+import { App, Refresh } from '../../Providers/Context.js';
+import { Appointments } from '../../Providers/Account.js';
+import AppointmentsList from './List.js';
+import { AppointmentsSkeleton } from '../../components/Skeletons.js';
 
 const Error = ({ error }) => <h1 className='error'>{error}</h1>;
 

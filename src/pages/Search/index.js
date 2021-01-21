@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useContext, useCallback } from 'react';
 import { Route, useHistory, useRouteMatch } from 'react-router-dom';
-import * as tools from '../tools/tools.js';
-import { useTryCatchFinally } from '../tools/useTryCatchFinally.js';
-import { App, Info, SetInfo } from '../Providers/Context.js';
-import SearchForm from './Search/Form.js';
-import SearchResults from './Search/Results.js';
-import Selection from './Search/Selection.js';
+import * as tools from '../../tools/tools.js';
+import { useTryCatchFinally } from '../../tools/useTryCatchFinally.js';
+import { App, Info, SetInfo } from '../../Providers/Context.js';
+import SearchForm from './Form.js';
+import SearchResults from './Results.js';
+import Selection from './Selection.js';
 
 const Search = () => {
   const history = useHistory();
