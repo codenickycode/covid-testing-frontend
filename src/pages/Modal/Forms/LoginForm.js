@@ -5,15 +5,10 @@ const LoginForm = ({
   signup,
   setSignup,
   handleInput,
-  input,
+  inputs,
+  errors,
   inputRefs,
-  invalid,
-  userError,
-  fields,
-  setFields,
 }) => {
-  const { email, password, confirmation } = fields;
-
   const forgotPassword = () => {
     console.log('forgot password');
   };
@@ -42,7 +37,7 @@ const LoginForm = ({
       )}
       <form id='form-signup' className='form-modal' onSubmit={handleSubmit}>
         <p className='info-small'>*required fields</p>
-        {email.error && <h3 className='error'>{email.error}</h3>}
+        {errors.email && <h3 className='error'>{errors.email}</h3>}
         <label htmlFor='email' className='label-small'>
           <span className='info-small'>*</span>Email
         </label>
@@ -51,12 +46,12 @@ const LoginForm = ({
           ref={emailRef}
           type='email'
           name='email'
-          className={email.error ? 'invalid-field' : ''}
-          value={email.input || ''}
+          className={errors.email ? 'invalid-field' : ''}
+          value={inputs.email || ''}
           onChange={(e) => handleInput(e, 'email')}
           placeholder='Enter your email address'
         />
-        {password.error && <h3 className='error'>{password.error}</h3>}
+        {errors.password && <h3 className='error'>{errors.password}</h3>}
         <label htmlFor='password' className='label-small'>
           <span className='info-small'>*</span>Password
         </label>
@@ -64,15 +59,15 @@ const LoginForm = ({
           ref={passwordRef}
           type='password'
           name='password'
-          className={password.error ? 'invalid-field' : ''}
-          value={password.input || ''}
+          className={errors.password ? 'invalid-field' : ''}
+          value={inputs.password || ''}
           onChange={(e) => handleInput(e, 'password')}
           placeholder={signup ? 'Create your password' : 'Enter your password'}
         />
         {signup && (
           <>
-            {confirmation.error && (
-              <h3 className='error'>{confirmation.error}</h3>
+            {errors.confirmation && (
+              <h3 className='error'>{errors.confirmation}</h3>
             )}
             <label htmlFor='confirmation' className='label-small'>
               <span className='info-small'>*</span>Confirm
@@ -81,8 +76,8 @@ const LoginForm = ({
               ref={confirmationRef}
               type='password'
               name='confirmation'
-              className={confirmation.error ? 'invalid-field' : ''}
-              value={confirmation.input || ''}
+              className={errors.confirmation ? 'invalid-field' : ''}
+              value={inputs.confirmation || ''}
               onChange={(e) => handleInput(e, 'confirmation')}
               placeholder='Confirm your password'
             />

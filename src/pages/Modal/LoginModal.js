@@ -8,6 +8,8 @@ import { App, SetApp } from '../../Providers/ContextProvider.js';
 import { useSetAllAccount } from '../../Providers/AccountProvider.js';
 import { LoginSkeleton } from '../Skeletons.js';
 
+const INIT_FIELDS = { email: '', password: '', confirmation: '' };
+
 const Login = ({ closeModal }) => {
   const tryCatchFinally = useTryCatchFinally();
   const { loading, error } = useContext(App);
@@ -15,27 +17,13 @@ const Login = ({ closeModal }) => {
   const setAllAccount = useSetAllAccount();
 
   const [signup, setSignup] = useState(true);
-
-  const [fields, setFields] = useState({
-    email: { input: '', error: '' },
-    password: { input: '', error: '' },
-    confirmation: { input: '', error: '' },
-  });
-
-  const clearErrors = () => {
-    console.log(fields.email.input);
-    setFields((prev) => ({
-      email: { ...prev.email, error: '' },
-      password: { ...prev.password, error: '' },
-      confirmation: { ...prev.confirmation, error: '' },
-    }));
-  };
+  const [inputs, setInputs] = useState(INIT_FIELDS);
+  const [errors, setErrors] = useState(INIT_FIELDS);
+  const inputRefs = useRef({});
 
   const setError = (field, error) => {
-    setFields((prev) => ({ ...prev, [field]: { ...prev[field], error } }));
+    setErrors((prev) => ({ ...prev, [field]: error }));
   };
-
-  const inputRefs = useRef({});
 
   const submit = (...tryArgs) => {
     tryCatchFinally(tryFunc, tryArgs);
@@ -48,6 +36,7 @@ const Login = ({ closeModal }) => {
       setApp((prevState) => ({
         ...prevState,
         loggedIn: true,
+        confirmation: 'Success!',
       }));
       tools.setLS('remember', res.data.preferences.remember);
       tools.setLS('dark', res.data.preferences.dark);
@@ -56,22 +45,21 @@ const Login = ({ closeModal }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const { email, password, confirmation } = fields;
     if (signup) {
-      if (!tools.validPassword(password.input)) {
+      if (!tools.validPassword(inputs.password)) {
         setError('password', 'Invalid password');
         inputRefs.current.password.current.focus();
         return;
       }
-      if (password.input !== confirmation.input) {
+      if (inputs.password !== inputs.confirmation) {
         setError('confirmation', "Confirmation doesn't match");
         inputRefs.current.confirmation.current.focus();
         return;
       }
-      clearErrors();
-      submit('register', email.input, password.input);
+      setErrors(INIT_FIELDS);
+      submit('register', inputs.email, inputs.password);
     } else {
-      submit('login', email.input, password.input);
+      submit('login', inputs.email, inputs.password);
     }
   };
 
@@ -83,14 +71,12 @@ const Login = ({ closeModal }) => {
   }, [error]);
 
   const handleInput = (e, field) => {
-    setFields((prev) => ({
-      ...prev,
-      [field]: { ...prev[field], error: '', input: e.target.value },
-    }));
+    setErrors((prev) => ({ ...prev, [field]: '' }));
+    setInputs((prev) => ({ ...prev, [field]: e.target.value }));
   };
 
   useEffect(() => {
-    clearErrors();
+    setErrors(INIT_FIELDS);
   }, [signup]);
 
   return ReactDOM.createPortal(
@@ -104,13 +90,13 @@ const Login = ({ closeModal }) => {
           />
         ) : (
           <LoginForm
-            handleSubmit={handleSubmit}
             signup={signup}
             setSignup={setSignup}
-            inputRefs={inputRefs}
             handleInput={handleInput}
-            fields={fields}
-            setFields={setFields}
+            handleSubmit={handleSubmit}
+            inputs={inputs}
+            errors={errors}
+            inputRefs={inputRefs}
           />
         )}
       </div>

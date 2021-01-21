@@ -51,7 +51,7 @@ const AppProvider = ({ children }) => {
   }, [app.confirmation, app.error]);
 
   useEffect(() => {
-    if (timer === 4) {
+    if (timer === 3) {
       clearInterval(interval.current);
       setTimer(0);
       setApp((prevState) => ({ ...prevState, confirmation: '', error: '' }));

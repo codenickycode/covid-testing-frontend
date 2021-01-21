@@ -77,7 +77,12 @@ const AccountItem = ({ title, field, items, input, setContext, setHeader }) => {
 
   const handleInput = (e, key) => {
     let val = e.target.value;
-    if (key === 'zip' && val && val[val.length - 1].match(/\D/)) return;
+    if (
+      (key === 'zip' || key === 'phone') &&
+      val &&
+      val[val.length - 1].match(/\D/)
+    )
+      return;
     setUpdated(val !== prevInput[key]);
     setContext({ ...input, [key]: val });
   };
