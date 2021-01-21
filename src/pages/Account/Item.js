@@ -1,9 +1,9 @@
 import React, { useRef, useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import * as tools from '../../tools/tools.js';
-import { SCROLL_OPTIONS } from '../../constants.js';
-import { SetNavDisabled } from '../../Providers/ContextProvider.js';
-import { AccountItemSkeleton } from '../Skeletons.js';
+import { SCROLL_OPTIONS } from '../../tools/constants.js';
+import { SetNavDisabled } from '../../Providers/Context.js';
+import { AccountItemSkeleton } from '../../components/Skeletons.js';
 
 const AccountItem = ({ title, field, items, input, setContext, setHeader }) => {
   console.log('rendering: ' + field);
@@ -26,7 +26,7 @@ const AccountItem = ({ title, field, items, input, setContext, setHeader }) => {
     }
   }, [userError, setEdit]);
 
-  // preview item
+  // set preview item
   useEffect(() => {
     if (field === 'password') return;
     if (field === 'name') {

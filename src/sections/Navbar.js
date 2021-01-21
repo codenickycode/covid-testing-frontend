@@ -9,14 +9,14 @@ import {
   INIT_APP_STATE,
   INIT_INFO_STATE,
   SetRefresh,
-} from '../Providers/ContextProvider.js';
+} from '../Providers/Context.js';
 import {
   Email,
   useSetAllAccount,
   INIT_ACCOUNT_STATE,
   Preferences,
   SetPreferences,
-} from '../Providers/AccountProvider.js';
+} from '../Providers/Account.js';
 import { useTryCatchFinally } from '../tools/useTryCatchFinally.js';
 import { ReactComponent as AccountIcon } from '../icons/account.svg';
 import { ReactComponent as AppointmentsIcon } from '../icons/appointments.svg';
@@ -37,7 +37,7 @@ const Navbar = () => {
 
   const logout = () => {
     history.push('/');
-    tryCatchFinally(tryFunc, undefined, undefined, finallyFunc);
+    tryCatchFinally(tryFunc, undefined, finallyFunc);
     async function tryFunc() {
       const res = await axios.get('/common/logout');
       console.log(res.data);

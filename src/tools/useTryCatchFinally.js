@@ -1,17 +1,17 @@
 import { useContext } from 'react';
-import { SetApp } from '../Providers/ContextProvider.js';
+import { SetApp } from '../Providers/Context.js';
 
 export const useTryCatchFinally = () => {
   const setApp = useContext(SetApp);
 
-  const tryCatchFinally = async (t, tArgs = [], c, f) => {
+  const tryCatchFinally = async (t, c, f) => {
     let error = '';
     try {
       setApp((prevState) => ({
         ...prevState,
         loading: true,
       }));
-      await t(...tArgs);
+      await t();
     } catch (e) {
       console.log(e);
       error = e.hasOwnProperty('response') ? e.response.data : e.message;

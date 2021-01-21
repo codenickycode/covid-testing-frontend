@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useCustomHooks } from './confirmCustomHooks.js';
+import useCustomHooks from './customHooks.js';
 import UserInfoField from './UserInfoField.js';
-import { LoginSkeleton } from '../../Skeletons.js';
+import { LoginSkeleton } from '../../../components/Skeletons.js';
 
 const ConfirmUserInfo = ({ closeModal, setInfoIsConfirmed }) => {
   const use = useCustomHooks();
@@ -35,8 +35,8 @@ const ConfirmUserInfo = ({ closeModal, setInfoIsConfirmed }) => {
     if (interupt) return;
 
     const { firstName, lastName, phone, dob } = inputs;
-    use.tryCatchFinally(tryFunc);
-    async function tryFunc() {
+    use.tryCatchFinally(updateBasic);
+    async function updateBasic() {
       const res = await axios.post('/common/update/basic', {
         name: { firstName, lastName },
         phone: { phone },

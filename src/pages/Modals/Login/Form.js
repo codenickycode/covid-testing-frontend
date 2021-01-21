@@ -34,7 +34,7 @@ const LoginForm = ({
           name='email'
           className={errors.email ? 'invalid-field' : ''}
           value={inputs.email || ''}
-          onChange={(e) => handleInput(e, 'email')}
+          onChange={handleInput}
           placeholder='Enter your email address'
         />
         {errors.password && <h3 className='error'>{errors.password}</h3>}
@@ -46,7 +46,7 @@ const LoginForm = ({
           name='password'
           className={errors.password ? 'invalid-field' : ''}
           value={inputs.password || ''}
-          onChange={(e) => handleInput(e, 'password')}
+          onChange={handleInput}
           placeholder={signup ? 'Create your password' : 'Enter your password'}
         />
         {signup && (
@@ -62,7 +62,7 @@ const LoginForm = ({
               name='confirmation'
               className={errors.confirmation ? 'invalid-field' : ''}
               value={inputs.confirmation || ''}
-              onChange={(e) => handleInput(e, 'confirmation')}
+              onChange={handleInput}
               placeholder='Confirm your password'
             />
           </>

@@ -1,5 +1,5 @@
 import React from 'react';
-import AppointmentItem from './AppointmentItem';
+import AppointmentItem from './Item';
 
 const AppointmentsList = ({ appointments, setAppointments }) => {
   const expand = (_id) => {

@@ -1,14 +1,14 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-import { App, Refresh } from '../Providers/ContextProvider.js';
-import { Preferences } from '../Providers/AccountProvider.js';
+import { App, Refresh } from '../Providers/Context.js';
+import { Preferences } from '../Providers/Account.js';
 import { useTryCatchFinally } from '../tools/useTryCatchFinally';
-import LoginModal from './Modal/LoginModal';
+import LoginModal from './Modals/Login/Login';
 import {
   AccountSkeleton,
   AppointmentsSkeleton,
   SettingsSkeleton,
-} from './Skeletons.js';
+} from '../components/Skeletons.js';
 import { useGetClient } from '../tools/useGetClient.js';
 
 const Gateway = () => {
@@ -26,7 +26,7 @@ const Gateway = () => {
     if (initial) {
       if ((loggedIn && refresh) || (!loggedIn && remember)) {
         setInitial(false);
-        tryCatchFinally(getClient, undefined, catchFunc);
+        tryCatchFinally(getClient, catchFunc);
       }
     }
     if (loggedIn && !refresh) {

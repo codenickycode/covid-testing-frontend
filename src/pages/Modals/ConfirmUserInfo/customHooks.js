@@ -4,8 +4,8 @@ import {
   Phone,
   Dob,
   useSetAllAccount,
-} from '../../../Providers/AccountProvider.js';
-import { App, SetApp } from '../../../Providers/ContextProvider.js';
+} from '../../../Providers/Account.js';
+import { App, SetApp } from '../../../Providers/Context.js';
 import { useTryCatchFinally } from '../../../tools/useTryCatchFinally.js';
 
 const useUserBasic = () => {
@@ -35,7 +35,7 @@ const useUserBasic = () => {
   return USER_BASIC;
 };
 
-export const useCustomHooks = () => {
+export default function useCustomHooks() {
   const { loading } = useContext(App);
   const setApp = useContext(SetApp);
   const setAllAccount = useSetAllAccount();
@@ -49,4 +49,4 @@ export const useCustomHooks = () => {
     tryCatchFinally,
     USER_BASIC,
   };
-};
+}

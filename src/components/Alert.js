@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import ReactDOM from 'react-dom';
-import { App } from '../Providers/ContextProvider.js';
+import { App } from '../Providers/Context.js';
 
 export default function Alert() {
   const { error, confirmation } = useContext(App);

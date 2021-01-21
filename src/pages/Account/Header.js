@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { HeaderName } from '../../Providers/AccountProvider.js';
+import { HeaderName } from '../../Providers/Account.js';
 import dayjs from 'dayjs';
 import Image from '../../components/Image.js';
 

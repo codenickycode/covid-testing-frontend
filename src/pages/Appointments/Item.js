@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ReactComponent as Arrow } from '../../icons/arrow.svg';
-import { SCROLL_OPTIONS } from '../../constants.js';
+import { SCROLL_OPTIONS } from '../../tools/constants.js';
 
 const AppointmentItem = ({ appointment, expand }) => {
   const previewRef = useRef(null);

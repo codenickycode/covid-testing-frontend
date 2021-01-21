@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import axios from 'axios';
-import { SetApp, SetRefresh } from '../Providers/ContextProvider.js';
-import { useSetAllAccount } from '../Providers/AccountProvider.js';
+import { SetApp, SetRefresh } from '../Providers/Context.js';
+import { useSetAllAccount } from '../Providers/Account.js';
 import { useTryCatchFinally } from './useTryCatchFinally.js';
 
 export const useGetClient = () => {
@@ -11,8 +11,8 @@ export const useGetClient = () => {
   const setAllAccount = useSetAllAccount();
 
   function getClient() {
-    tryCatchFinally(tryFunc);
-    async function tryFunc() {
+    tryCatchFinally(tryGetClient);
+    async function tryGetClient() {
       const res = await axios.get('/common/user');
       setAllAccount({ ...res.data, headerName: res.data.name.firstName });
       setApp((prevState) => ({ ...prevState, loggedIn: true }));

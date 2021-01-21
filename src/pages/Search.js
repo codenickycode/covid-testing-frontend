@@ -2,9 +2,9 @@ import React, { useState, useEffect, useContext, useCallback } from 'react';
 import { Route, useHistory, useRouteMatch } from 'react-router-dom';
 import * as tools from '../tools/tools.js';
 import { useTryCatchFinally } from '../tools/useTryCatchFinally.js';
-import { App, Info, SetInfo } from '../Providers/ContextProvider.js';
-import SearchForm from './Search/SearchForm.js';
-import SearchResults from './Search/SearchResults.js';
+import { App, Info, SetInfo } from '../Providers/Context.js';
+import SearchForm from './Search/Form.js';
+import SearchResults from './Search/Results.js';
 import Selection from './Search/Selection.js';
 
 const Search = () => {
@@ -20,9 +20,9 @@ const Search = () => {
   const [date, setDate] = useState(tools.TODAY);
   const [selection, setSelection] = useState(null);
 
-  const search = (...tryArgs) => {
-    tryCatchFinally(tryFunc, tryArgs);
-    async function tryFunc(tests, zip, date, sortBy = 'distance') {
+  const search = (tests, zip, date, sortBy = 'distance') => {
+    tryCatchFinally(trySearch);
+    async function trySearch() {
       let locations = await tools.getLocations();
       locations = await tools.getDistances(zip, locations);
       let filtered = tools.filterLocationsBy('tests', tests, locations);

@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import ContextProvider from './Providers/ContextProvider.js';
+import ContextProvider from './Providers/Context.js';
 import ScrollToTop from './tools/ScrollToTop.js';
 import Alert from './components/Alert.js';
 import Header from './sections/Header.js';
@@ -13,7 +13,7 @@ import Settings from './pages/Settings.js';
 import Information from './pages/Information.js';
 import Gateway from './pages/Gateway.js';
 
-import Skeleton from './pages/Skeletons.js';
+import Skeleton from './components/Skeletons.js';
 
 const App = () => {
   return (

@@ -102,7 +102,9 @@ export const AppointmentsSkeleton = () => {
   return (
     <div className='skeleton-div skeleton-hidden'>
       <div className='skeleton-h1'></div>
-      <div className='skeleton-wide'></div>
+      <div className='skeleton-wide'>
+        <Shimmer />
+      </div>
       <div className='skeleton-spacer'></div>
       <div className='skeleton-div'>
         <div className='skeleton-h'></div>
@@ -110,8 +112,8 @@ export const AppointmentsSkeleton = () => {
         <div className='skeleton-spacer'></div>
         <div className='skeleton-h'></div>
         <div className='skeleton-p'></div>
+        <Shimmer />
       </div>
-      <Shimmer />
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { Redirect } from 'react-router-dom';
-import { App, Refresh } from '../Providers/ContextProvider.js';
-import { Preferences, SetPreferences } from '../Providers/AccountProvider.js';
+import { App, Refresh } from '../Providers/Context.js';
+import { Preferences, SetPreferences } from '../Providers/Account.js';
 import { setLS } from '../tools/tools.js';
 
 const Settings = () => {

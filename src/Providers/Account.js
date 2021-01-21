@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { getLS } from '../tools/tools.js';
-import { DARK_THEME, LIGHT_THEME } from '../constants.js';
+import { DARK_THEME, LIGHT_THEME } from '../tools/constants.js';
 
 const init_dark = getLS('dark');
 const init_remember = getLS('remember');

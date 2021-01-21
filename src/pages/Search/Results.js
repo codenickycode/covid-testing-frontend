@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
-import { App } from '../../Providers/ContextProvider.js';
-import LocationPreview from './components/LocationPreview.js';
+import { App } from '../../Providers/Context.js';
+import LocationPreview from './Results/LocationPreview.js';
 import { ReactComponent as Arrow } from '../../icons/arrow.svg';
-import { SearchResultsSkeleton } from '../Skeletons.js';
+import { SearchResultsSkeleton } from '../../components/Skeletons.js';
 
 const SearchResults = ({
   searchResults,

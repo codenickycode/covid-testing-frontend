@@ -1,9 +1,9 @@
 import React, { useState, useContext } from 'react';
 import { Redirect } from 'react-router-dom';
-import { App, SetInfo } from '../../Providers/ContextProvider.js';
-import SelectionJSX from './components/SelectionJSX.js';
-import ConfirmationModal from '../Modal/ConfirmationModal.js';
-import { Preferences } from '../../Providers/AccountProvider.js';
+import { App, SetInfo } from '../../Providers/Context.js';
+import SelectionJSX from './Selection/SelectionJSX.js';
+import ConfirmationModal from '../Modals/Confirmation/Confirmation.js';
+import { Preferences } from '../../Providers/Account.js';
 import { useGetClient } from '../../tools/useGetClient.js';
 
 const Selection = ({ selection, date, handleChangeDate, refreshLocations }) => {

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import dayjs from 'dayjs';
-import { DATE_FORMAT, TIMESLOTS } from '../constants.js';
+import { DATE_FORMAT, TIMESLOTS } from './constants.js';
 
 export const getLS = (field) => JSON.parse(localStorage.getItem(field));
 export const setLS = (field, value) =>

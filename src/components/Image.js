@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ImageSkeleton } from '../pages/Skeletons.js';
+import { ImageSkeleton } from './Skeletons.js';
 
 export default function Image({ src, alt, classStyle, size }) {
   const [showImg, setShowImg] = useState(false);
