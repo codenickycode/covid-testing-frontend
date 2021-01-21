@@ -4,7 +4,7 @@ import { App, SetInfo } from '../../Providers/Context.js';
 import SelectionJSX from './Selection/SelectionJSX.js';
 import ConfirmationModal from '../Modals/Confirmation/Confirmation.js';
 import { Preferences } from '../../Providers/Account.js';
-import { useGetClient } from '../../tools/useGetClient.js';
+import { useGetClient } from '../../tools/fetching.js';
 
 const Selection = ({ selection, date, handleChangeDate, refreshLocations }) => {
   const setInfo = useContext(SetInfo);

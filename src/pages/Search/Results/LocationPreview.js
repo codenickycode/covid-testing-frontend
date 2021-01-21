@@ -1,5 +1,5 @@
 import React from 'react';
-import { TESTS } from '../../../tools/constants.js';
+import { TESTS } from '../../../tools/info/TESTS';
 import Image from '../../../components/Image.js';
 
 const LocationPreview = ({ location, handleSelection }) => {

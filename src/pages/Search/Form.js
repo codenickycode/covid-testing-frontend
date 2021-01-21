@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TESTS } from '../../tools/constants.js';
+import { TESTS } from '../../tools/info/TESTS';
 import Test from './Form/Test.js';
 import Image from '../../components/Image.js';
 
