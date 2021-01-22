@@ -1,29 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { Redirect } from 'react-router-dom';
-import { setLS } from '../../tools/storage';
 import useCustomHooks from './customHooks';
 import { ButtonSkeleton } from '../../components/Skeletons';
+import { Preferences, SetPreferences } from '../../Providers/Preferences';
 
 const Settings = () => {
   const use = useCustomHooks();
-  const [prevPref, setPrevPref] = useState(use.preferences);
-  const [fetching, setFetching] = useState(false);
+
+  const { preferences, fetching } = useContext(Preferences);
+  const { setPreferences, setUpdated } = useContext(SetPreferences);
 
   const handleCheck = (e) => {
     const { name } = e.target;
-    const update = { ...prevPref, [name]: !prevPref[name] };
-    use.setPreferences(update);
-    setPrevPref(update);
-    setLS('dark', !update.remember ? false : update.dark);
-    setLS('remember', update.remember);
-    use.setUpdated(true);
+    const update = { ...preferences, [name]: !preferences[name] };
+    setPreferences(update);
+    setUpdated(true);
   };
-
-  useEffect(() => {
-    setFetching(true);
-    const timer = setTimeout(() => setFetching(false), 2000);
-    return () => clearTimeout(timer);
-  }, [use.preferences]);
 
   return !use.loggedIn || use.refresh ? (
     <Redirect to='/gateway/settings' />
@@ -35,7 +27,7 @@ const Settings = () => {
             type='checkbox'
             id='toggle-dark'
             name='dark'
-            checked={use.preferences.dark}
+            checked={preferences.dark}
             onChange={handleCheck}
           />
           <label htmlFor='toggle-dark'>
@@ -48,7 +40,7 @@ const Settings = () => {
             type='checkbox'
             id='toggle-remember'
             name='remember'
-            checked={use.preferences.remember}
+            checked={preferences.remember}
             onChange={handleCheck}
           />
           <label htmlFor='toggle-remember'>
@@ -61,7 +53,7 @@ const Settings = () => {
             type='checkbox'
             id='toggle-notifications'
             name='notifications'
-            checked={use.preferences.notifications}
+            checked={preferences.notifications}
             onChange={handleCheck}
           />
           <label htmlFor='toggle-notifications'>

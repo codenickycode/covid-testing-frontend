@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
-import { getSS, setSS } from '../tools/storage.js';
-import AccountProvider from './Account.js';
+import { getSS, setSS } from '../tools/storage';
+import AccountProvider from './Account';
+import PreferencesProvider from './Preferences';
 
 export const INIT_APP_STATE = {
   loading: false,
@@ -101,15 +102,17 @@ const InfoProvider = ({ children }) => {
 
 const ContextProvider = ({ children }) => {
   return (
-    <AppProvider>
-      <InfoProvider>
-        <AccountProvider>
-          <NavDisabledProvider>
-            <RefreshProvider>{children}</RefreshProvider>
-          </NavDisabledProvider>
-        </AccountProvider>
-      </InfoProvider>
-    </AppProvider>
+    <AccountProvider>
+      <PreferencesProvider>
+        <AppProvider>
+          <InfoProvider>
+            <NavDisabledProvider>
+              <RefreshProvider>{children}</RefreshProvider>
+            </NavDisabledProvider>
+          </InfoProvider>
+        </AppProvider>
+      </PreferencesProvider>
+    </AccountProvider>
   );
 };
 

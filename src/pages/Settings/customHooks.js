@@ -10,12 +10,8 @@ import {
   Refresh,
   SetRefresh,
 } from '../../Providers/Context';
-import {
-  useSetAllAccount,
-  INIT_ACCOUNT_STATE,
-  Preferences,
-  SetPreferences,
-} from '../../Providers/Account';
+import { useSetAllAccount, INIT_ACCOUNT_STATE } from '../../Providers/Account';
+import { Preferences, SetPreferences } from '../../Providers/Preferences';
 import { useTryCatchFinally } from '../../tools/useTryCatchFinally';
 
 export default function useCustomHooks() {

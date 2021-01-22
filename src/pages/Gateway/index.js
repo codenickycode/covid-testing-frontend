@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { App, Refresh } from '../../Providers/Context.js';
-import { Preferences } from '../../Providers/Account.js';
+import { Preferences } from '../../Providers/Preferences.js';
 import { useTryCatchFinally } from '../../tools/useTryCatchFinally';
 import { useGetClient } from '../../tools/fetching';
 import LoginModal from '../Modals/Login/Login';

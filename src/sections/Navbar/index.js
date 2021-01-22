@@ -9,14 +9,13 @@ import {
   INIT_APP_STATE,
   INIT_INFO_STATE,
   SetRefresh,
-} from '../../Providers/Context.js';
+} from '../../Providers/Context';
 import {
   Email,
   useSetAllAccount,
   INIT_ACCOUNT_STATE,
-  Preferences,
-  SetPreferences,
-} from '../../Providers/Account.js';
+} from '../../Providers/Account';
+import { Preferences, SetPreferences } from '../../Providers/Preferences';
 import { useTryCatchFinally } from '../../tools/useTryCatchFinally.js';
 import { ReactComponent as AccountIcon } from '../../icons/account.svg';
 import { ReactComponent as AppointmentsIcon } from '../../icons/appointments.svg';
@@ -35,61 +34,8 @@ const Navbar = () => {
   const setAllAccount = useSetAllAccount();
   const { setPreferences } = useContext(SetPreferences);
 
-  const logout = () => {
-    history.push('/');
-    tryCatchFinally(tryFunc, undefined, finallyFunc);
-    async function tryFunc() {
-      const res = await axios.get('/common/logout');
-      console.log(res.data);
-    }
-    function finallyFunc() {
-      setApp(INIT_APP_STATE);
-      setInfo(INIT_INFO_STATE);
-      setRefresh(true);
-      setAllAccount(INIT_ACCOUNT_STATE);
-      setPreferences({
-        dark: false,
-        remember: false,
-      });
-      localStorage.clear();
-    }
-  };
-
-  const alertError = () => {
-    setApp((prevState) => ({ ...prevState, error: 'I am an error!' }));
-  };
-  const alertConfirm = () => {
-    setApp((prevState) => ({
-      ...prevState,
-      confirmation: 'I am a confirmation!',
-    }));
-  };
-  const clearError = () => {
-    setApp((prevState) => ({ ...prevState, error: '' }));
-  };
-  const clearConfirm = () => {
-    setApp((prevState) => ({
-      ...prevState,
-      confirmation: '',
-    }));
-  };
-
   return (
     <>
-      <div className='info-footer'>
-        <div className='error'>
-          {remember ? 'REMEMBER: TRUE' : 'REMEMBER: FALSE'}
-        </div>
-        <div className='error'>
-          {loggedIn ? 'Logged in.' : 'Not logged in.'}
-        </div>
-        <div className='error'>{email.email || 'No email.'}</div>
-        <button onClick={logout}>Logout</button>
-        <button onClick={alertError}>Set Error</button>
-        <button onClick={clearError}>Clear Error</button>
-        <button onClick={alertConfirm}>Set Confirmation</button>
-        <button onClick={clearConfirm}>Clear Confirmation</button>
-      </div>
       <div className='footer'>
         <nav className='navbar'>
           <NavLink

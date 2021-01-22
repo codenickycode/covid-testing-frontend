@@ -1,10 +1,4 @@
-import React, { useState, useContext, useEffect, useRef } from 'react';
-import axios from 'axios';
-import { getLS } from '../tools/storage.js';
-import { DARK_THEME, LIGHT_THEME } from '../tools/themes.js';
-
-const init_dark = getLS('dark');
-const init_remember = getLS('remember');
+import React, { useState, useContext } from 'react';
 
 export const INIT_ACCOUNT_STATE = {
   headerName: '',
@@ -18,55 +12,6 @@ export const INIT_ACCOUNT_STATE = {
   emergency_contact: {},
   travel: {},
   appointments: [],
-  preferences: {
-    dark: init_dark !== undefined ? init_dark : false,
-    remember: init_remember !== undefined ? init_remember : false,
-  },
-};
-
-export const Preferences = React.createContext();
-export const SetPreferences = React.createContext();
-const PreferencesProvider = ({ children }) => {
-  const [preferences, setPreferences] = useState(
-    INIT_ACCOUNT_STATE.preferences
-  );
-  const [previous, setPrevious] = useState(preferences);
-  const [updated, setUpdated] = useState(false);
-
-  useEffect(() => {
-    const style = document.querySelector(':root').style;
-    style.cssText += ';' + (preferences.dark ? DARK_THEME : LIGHT_THEME);
-  }, [preferences.dark]);
-
-  let timer = useRef(null);
-
-  useEffect(() => {
-    if (updated) {
-      timer.current = clearTimeout(timer.current);
-      timer.current = setTimeout(updateAccount, 2000);
-    }
-
-    function updateAccount() {
-      for (let key of Object.keys(preferences)) {
-        if (preferences[key] !== previous[key]) {
-          axios.post('/common/update/preferences', preferences);
-          setPrevious(preferences);
-          setUpdated(false);
-          break;
-        }
-      }
-    }
-
-    return () => clearTimeout(timer.current);
-  }, [updated, preferences, previous]);
-
-  return (
-    <SetPreferences.Provider value={{ setPreferences, setUpdated }}>
-      <Preferences.Provider value={preferences}>
-        {children}
-      </Preferences.Provider>
-    </SetPreferences.Provider>
-  );
 };
 
 export const HeaderName = React.createContext();
@@ -206,7 +151,6 @@ export const useSetAccount = () => {
   const setEmergencyContact = useContext(SetEmergencyContact);
   const setTravel = useContext(SetTravel);
   const setAppointments = useContext(SetAppointments);
-  const { setPreferences } = useContext(SetPreferences);
   return {
     setHeaderName,
     setName,
@@ -219,7 +163,6 @@ export const useSetAccount = () => {
     setEmergencyContact,
     setTravel,
     setAppointments,
-    setPreferences,
   };
 };
 
@@ -237,34 +180,31 @@ export const useSetAllAccount = () => {
     all.setEmergencyContact(value.emergency_contact);
     all.setTravel(value.travel);
     all.setAppointments(value.appointments);
-    all.setPreferences(value.preferences);
   };
   return setAllAccount;
 };
 
 const AccountProvider = ({ children }) => {
   return (
-    <PreferencesProvider>
-      <NameProvider>
-        <AddressProvider>
-          <PhoneProvider>
-            <DobProvider>
-              <EmailProvider>
-                <PasswordProvider>
-                  <InsuranceProvider>
-                    <EmergencyContactProvider>
-                      <TravelProvider>
-                        <AppointmentsProvider>{children}</AppointmentsProvider>
-                      </TravelProvider>
-                    </EmergencyContactProvider>
-                  </InsuranceProvider>
-                </PasswordProvider>
-              </EmailProvider>
-            </DobProvider>
-          </PhoneProvider>
-        </AddressProvider>
-      </NameProvider>
-    </PreferencesProvider>
+    <NameProvider>
+      <AddressProvider>
+        <PhoneProvider>
+          <DobProvider>
+            <EmailProvider>
+              <PasswordProvider>
+                <InsuranceProvider>
+                  <EmergencyContactProvider>
+                    <TravelProvider>
+                      <AppointmentsProvider>{children}</AppointmentsProvider>
+                    </TravelProvider>
+                  </EmergencyContactProvider>
+                </InsuranceProvider>
+              </PasswordProvider>
+            </EmailProvider>
+          </DobProvider>
+        </PhoneProvider>
+      </AddressProvider>
+    </NameProvider>
   );
 };
 
