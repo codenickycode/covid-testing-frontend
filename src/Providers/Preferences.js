@@ -3,18 +3,23 @@ import axios from 'axios';
 import { getLS, setLS } from '../tools/storage.js';
 import { DARK_THEME, LIGHT_THEME } from '../tools/themes.js';
 
-const init_dark = getLS('dark');
-const init_remember = getLS('remember');
+export const INIT_PREFERENCES = {
+  dark: false,
+  remember: false,
+  notifications: false,
+};
+
+const LS_PREFERENCES = {
+  dark: getLS('dark') || false,
+  remember: getLS('remember') || false,
+  notifications: false,
+};
 
 export const Preferences = React.createContext();
 export const SetPreferences = React.createContext();
 
 export default function PreferencesProvider({ children }) {
-  const [preferences, setPreferences] = useState({
-    dark: init_dark !== undefined ? init_dark : false,
-    remember: init_remember !== undefined ? init_remember : false,
-    notifications: false,
-  });
+  const [preferences, setPreferences] = useState(LS_PREFERENCES);
   const [previous, setPrevious] = useState(preferences);
   const [updated, setUpdated] = useState(false);
   const [fetching, setFetching] = useState(false);

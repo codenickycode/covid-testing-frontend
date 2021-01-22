@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import useCustomHooks from './customHooks.js';
+import React, { useState, useContext } from 'react';
+import useFunctions from './useFunctions.js';
 import UserInfoField from './UserInfoField.js';
 import { LoginSkeleton } from '../../../components/Skeletons.js';
+import { App } from '../../../Providers/Context.js';
 
 const ConfirmUserInfo = ({ closeModal, setInfoIsConfirmed }) => {
-  const use = useCustomHooks();
-  const [inputs, setInputs] = useState(use.USER_BASIC.inputs);
-  const [errors, setErrors] = useState(use.USER_BASIC.errors);
+  const { loading } = useContext(App);
+  const { USER_BASIC, checkValid, updateAccountBasic } = useFunctions();
+
+  const [inputs, setInputs] = useState(USER_BASIC.inputs);
+  const [errors, setErrors] = useState(USER_BASIC.errors);
 
   const handleInput = (e) => {
     const { name, value } = e.target;
@@ -19,43 +21,17 @@ const ConfirmUserInfo = ({ closeModal, setInfoIsConfirmed }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    let tempErrors = {};
-    let interupt = false;
-    for (let [name, val] of Object.entries(inputs)) {
-      if (!val) {
-        tempErrors[name] = 'required';
-        document.querySelector(`input[name=${name}]`).focus();
-        interupt = true;
-      } else {
-        tempErrors[name] = '';
-      }
-    }
-    setErrors(tempErrors);
+    const [newErrors, interupt] = checkValid(inputs);
+    setErrors(newErrors);
     if (interupt) return;
-
-    const { firstName, lastName, phone, dob } = inputs;
-    use.tryCatchFinally(updateBasic);
-    async function updateBasic() {
-      const res = await axios.post('/common/update/basic', {
-        name: { firstName, lastName },
-        phone: { phone },
-        dob: { dob },
-      });
-      use.setAllAccount({ ...res.data, headerName: res.data.name.firstName });
-      setInfoIsConfirmed(true);
-      use.setApp((prev) => ({
-        ...prev,
-        confirmation: 'Appointment confirmed!',
-      }));
-    }
+    updateAccountBasic(inputs, () => setInfoIsConfirmed(true));
   };
 
   return (
     <>
       <div className='overlay' onClick={closeModal}></div>
       <div className='modal'>
-        {use.loading ? (
+        {loading ? (
           <LoginSkeleton
             header='Booking...'
             message='Please wait while we book your appointment.'
@@ -67,11 +43,11 @@ const ConfirmUserInfo = ({ closeModal, setInfoIsConfirmed }) => {
             <form id='form-reg-info' className='form' onSubmit={handleSubmit}>
               <p className='info-small'>*Required fields</p>
               <div>Name:</div>
-              {Object.keys(use.USER_BASIC.inputs).map((field) => (
+              {Object.keys(USER_BASIC.inputs).map((field) => (
                 <UserInfoField
                   key={field}
                   field={field}
-                  label={use.USER_BASIC.labels[field]}
+                  label={USER_BASIC.labels[field]}
                   input={inputs[field]}
                   error={errors[field]}
                   handleInput={handleInput}

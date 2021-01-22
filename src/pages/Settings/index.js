@@ -1,12 +1,12 @@
 import React, { useContext } from 'react';
 import { Redirect } from 'react-router-dom';
-import { useLogout } from './customHooks';
+import useCustomHooks from '../../tools/useCustomHooks';
 import { ButtonSkeleton } from '../../components/Skeletons';
 import { useRedirect } from '../../Providers/Context';
 import { Preferences, SetPreferences } from '../../Providers/Preferences';
 
 const Settings = () => {
-  const logout = useLogout();
+  const { logout } = useCustomHooks();
   const redirect = useRedirect();
   const { preferences, fetching } = useContext(Preferences);
   const { setPreferences, setUpdated } = useContext(SetPreferences);
@@ -66,12 +66,7 @@ const Settings = () => {
       {fetching ? (
         <ButtonSkeleton />
       ) : (
-        <button
-          type='button'
-          className='btn'
-          onClick={logout}
-          disabled={fetching}
-        >
+        <button type='button' className='btn' onClick={logout}>
           Logout
         </button>
       )}

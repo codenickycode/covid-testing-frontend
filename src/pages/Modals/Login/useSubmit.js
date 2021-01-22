@@ -1,12 +1,11 @@
 import { useContext } from 'react';
 import axios from 'axios';
-import { useTryCatchFinally } from '../../../tools/useTryCatchFinally.js';
-import { App, SetApp } from '../../../Providers/Context.js';
+import useCustomHooks from '../../../tools/useCustomHooks.js';
+import { SetApp } from '../../../Providers/Context.js';
 import { useSetAllAccount } from '../../../Providers/Account.js';
 
-export default function useCustomHooks() {
-  const tryCatchFinally = useTryCatchFinally();
-  const { loading, error } = useContext(App);
+export default function useSubmit() {
+  const { tryCatchFinally } = useCustomHooks();
   const setApp = useContext(SetApp);
   const setAllAccount = useSetAllAccount();
 
@@ -28,9 +27,5 @@ export default function useCustomHooks() {
     }
   };
 
-  return {
-    loading,
-    error,
-    submit,
-  };
+  return submit;
 }

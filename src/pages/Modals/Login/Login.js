@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import tools from '../../../tools/index.js';
 import LoginForm from './Form.js';
-import useCustomHooks from './customHooks.js';
+import useSubmit from './useSubmit.js';
 import { LoginSkeleton } from '../../../components/Skeletons.js';
+import { App } from '../../../Providers/Context.js';
 
 const INIT = { email: '', password: '', confirmation: '' };
 
 const Login = ({ closeModal }) => {
-  const { loading, error, submit } = useCustomHooks();
+  const { loading, error } = useContext(App);
+  const submit = useSubmit();
 
   const [signup, setSignup] = useState(true);
   const [inputs, setInputs] = useState(INIT);

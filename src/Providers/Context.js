@@ -3,14 +3,14 @@ import { getSS, setSS } from '../tools/storage';
 import AccountProvider from './Account';
 import PreferencesProvider from './Preferences';
 
-export const INIT_APP_STATE = {
+export const INIT_APP = {
   loading: false,
   error: '',
   loggedIn: false,
   title: '',
 };
 
-export const INIT_INFO_STATE = {
+export const INIT_INFO = {
   allLocations: [],
   searchResults: [],
   prevSearch: {},
@@ -32,7 +32,7 @@ const RefreshProvider = ({ children }) => {
 export const App = React.createContext();
 export const SetApp = React.createContext();
 const AppProvider = ({ children }) => {
-  const [app, setApp] = useState(getSS('app') || INIT_APP_STATE);
+  const [app, setApp] = useState(getSS('app') || INIT_APP);
   useEffect(() => {
     setSS('app', app);
   }, [app]);
@@ -96,7 +96,7 @@ const NavDisabledProvider = ({ children }) => {
 export const Info = React.createContext();
 export const SetInfo = React.createContext();
 const InfoProvider = ({ children }) => {
-  const [info, setInfo] = useState(getSS('info') || INIT_INFO_STATE);
+  const [info, setInfo] = useState(getSS('info') || INIT_INFO);
   useEffect(() => {
     setSS('info', info);
   }, [info]);

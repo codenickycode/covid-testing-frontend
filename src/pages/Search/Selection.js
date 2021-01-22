@@ -4,13 +4,13 @@ import { App, SetInfo } from '../../Providers/Context.js';
 import SelectionJSX from './Selection/SelectionJSX.js';
 import ConfirmationModal from '../Modals/Confirmation/Confirmation.js';
 import { Preferences } from '../../Providers/Preferences.js';
-import { useGetClient } from '../../tools/fetching.js';
+import useCustomHooks from '../../tools/useCustomHooks';
 
 const Selection = ({ selection, date, handleChangeDate, refreshLocations }) => {
   const setInfo = useContext(SetInfo);
-  const { remember } = useContext(Preferences);
+  const { preferences } = useContext(Preferences);
   const { loggedIn } = useContext(App);
-  const getClient = useGetClient();
+  const { getClient } = useCustomHooks();
 
   const [showModal, setShowModal] = useState(false);
   const [time, setTime] = useState('');
@@ -26,7 +26,7 @@ const Selection = ({ selection, date, handleChangeDate, refreshLocations }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!time || selectedTests.length === 0) return;
-    if (!loggedIn && remember) await getClient();
+    if (loggedIn || preferences.remember) await getClient();
     const newAppointment = {
       location: selection,
       date,

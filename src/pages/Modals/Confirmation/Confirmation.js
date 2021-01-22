@@ -1,11 +1,15 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useContext, useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import useCustomHooks from './customHooks.js';
+import useCustomHooks from '../../../tools/useCustomHooks';
 import LoginModal from '../Login/Login.js';
 import ConfirmUserInfoModal from '../ConfirmUserInfo/ConfirmUserInfo.js';
+import { App, Info } from '../../../Providers/Context';
 
 const ConfirmationModal = ({ closeModal }) => {
-  const { loggedIn, appointment, bookAppointment } = useCustomHooks();
+  const { bookAppointment } = useCustomHooks();
+  const { loggedIn } = useContext(App);
+  const { appointment } = useContext(Info);
+
   const [infoIsConfirmed, setInfoIsConfirmed] = useState(false);
   const bookingRef = useRef('');
 

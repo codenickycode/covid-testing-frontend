@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext, useCallback } from 'react';
 import { Route, useHistory, useRouteMatch } from 'react-router-dom';
 import tools from '../../tools/index.js';
+import useCustomHooks from '../../tools/useCustomHooks';
 import { App, Info, SetInfo } from '../../Providers/Context.js';
 import SearchForm from './Form.js';
 import SearchResults from './Results.js';
@@ -14,7 +15,7 @@ const Search = () => {
   const { searchResults, prevSearch } = useContext(Info);
   const setInfo = useContext(SetInfo);
 
-  const tryCatchFinally = tools.useTryCatchFinally();
+  const { tryCatchFinally } = useCustomHooks();
 
   const [date, setDate] = useState(tools.TODAY);
   const [selection, setSelection] = useState(null);
