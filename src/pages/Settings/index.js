@@ -1,12 +1,13 @@
 import React, { useContext } from 'react';
 import { Redirect } from 'react-router-dom';
-import useCustomHooks from './customHooks';
+import { useLogout } from './customHooks';
 import { ButtonSkeleton } from '../../components/Skeletons';
+import { useRedirect } from '../../Providers/Context';
 import { Preferences, SetPreferences } from '../../Providers/Preferences';
 
 const Settings = () => {
-  const use = useCustomHooks();
-
+  const logout = useLogout();
+  const redirect = useRedirect();
   const { preferences, fetching } = useContext(Preferences);
   const { setPreferences, setUpdated } = useContext(SetPreferences);
 
@@ -17,7 +18,7 @@ const Settings = () => {
     setUpdated(true);
   };
 
-  return !use.loggedIn || use.refresh ? (
+  return redirect ? (
     <Redirect to='/gateway/settings' />
   ) : (
     <div id='settings-div'>
@@ -68,7 +69,7 @@ const Settings = () => {
         <button
           type='button'
           className='btn'
-          onClick={use.logout}
+          onClick={logout}
           disabled={fetching}
         >
           Logout

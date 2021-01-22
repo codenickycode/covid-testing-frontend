@@ -11,15 +11,13 @@ import {
   EmergencyContact,
   useSetAccount,
 } from '../../Providers/Account.js';
-import { App, Refresh } from '../../Providers/Context.js';
+import { useRedirect } from '../../Providers/Context.js';
 import AccountHeader from './Header';
 import AccountItem from './Item.js';
 
 export default function Account() {
-  const refresh = useContext(Refresh);
-  const { loggedIn } = useContext(App);
-
-  return !loggedIn || refresh ? (
+  const redirect = useRedirect();
+  return redirect ? (
     <Redirect to='/gateway/account' />
   ) : (
     <div id='account-div'>

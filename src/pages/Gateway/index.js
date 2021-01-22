@@ -15,7 +15,7 @@ const Gateway = () => {
   const history = useHistory();
   const { to } = useParams();
   const { loggedIn } = useContext(App);
-  const { remember } = useContext(Preferences);
+  const { preferences } = useContext(Preferences);
   const refresh = useContext(Refresh);
   const tryCatchFinally = useTryCatchFinally();
   const getClient = useGetClient();
@@ -24,7 +24,7 @@ const Gateway = () => {
 
   useEffect(() => {
     if (initial) {
-      if ((loggedIn && refresh) || (!loggedIn && remember)) {
+      if ((loggedIn && refresh) || (!loggedIn && preferences.remember)) {
         setInitial(false);
         tryCatchFinally(getClient, catchFunc);
       }
@@ -39,7 +39,7 @@ const Gateway = () => {
     }
   }, [
     loggedIn,
-    remember,
+    preferences.remember,
     refresh,
     initial,
     setInitial,
@@ -49,7 +49,7 @@ const Gateway = () => {
     tryCatchFinally,
   ]);
 
-  return !loggedIn && !remember ? (
+  return !loggedIn && !preferences.remember ? (
     <LoginModal
       closeModal={
         history.globalHistory ? history.goBack : () => history.push('/')

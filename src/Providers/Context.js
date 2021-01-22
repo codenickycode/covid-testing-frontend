@@ -66,6 +66,13 @@ const AppProvider = ({ children }) => {
   );
 };
 
+export const useRedirect = () => {
+  const { loggedIn } = useContext(App);
+  const refresh = useContext(Refresh);
+  const redirect = !loggedIn || refresh;
+  return redirect;
+};
+
 export const NavDisabled = React.createContext();
 export const SetNavDisabled = React.createContext();
 const NavDisabledProvider = ({ children }) => {

@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { Redirect } from 'react-router-dom';
 import tools from '../../tools/index.js';
-import { App, Refresh } from '../../Providers/Context.js';
+import { App, useRedirect } from '../../Providers/Context.js';
 import { Appointments } from '../../Providers/Account.js';
 import AppointmentsList from './List.js';
 import { AppointmentsSkeleton } from '../../components/Skeletons.js';
@@ -9,9 +9,8 @@ import { AppointmentsSkeleton } from '../../components/Skeletons.js';
 const Error = ({ error }) => <h1 className='error'>{error}</h1>;
 
 const AppointmentsPage = () => {
-  const { error, loggedIn } = useContext(App);
-  const refresh = useContext(Refresh);
-
+  const redirect = useRedirect();
+  const { error } = useContext(App);
   const appointments = useContext(Appointments);
 
   const [loading, setLoading] = useState(true);
@@ -29,7 +28,7 @@ const AppointmentsPage = () => {
     setLoading(false);
   }, [appointments]);
 
-  return !loggedIn || refresh ? (
+  return redirect ? (
     <Redirect to='/gateway/appointments' />
   ) : (
     <>
