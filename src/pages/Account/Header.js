@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import dayjs from 'dayjs';
 import Image from '../../components/Image.js';
-import { App } from '../../Providers/FullContextProvider';
+import { App } from '../../Providers/Context';
 
 const AccountHeader = () => {
   const { headerName } = useContext(App);

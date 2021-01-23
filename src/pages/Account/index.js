@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { Redirect } from 'react-router-dom';
+import { App } from '../../Providers/Context';
 import AccountHeader from './Header';
 import AccountItem from './Item.js';
 
@@ -37,16 +38,7 @@ const NameItem = ({ user }) => {
     { type: 'text', label: 'First', key: 'firstName' },
     { type: 'text', label: 'Last', key: 'lastName' },
   ];
-  return (
-    <AccountItem
-      title='Name'
-      field='name'
-      items={items}
-      initial={name}
-      setContext={setName}
-      setHeader={setHeaderName}
-    />
-  );
+  return <AccountItem title='Name' field='name' items={items} initial={name} />;
 };
 
 const AddressItem = ({ user }) => {
@@ -63,7 +55,6 @@ const AddressItem = ({ user }) => {
       field='address'
       items={items}
       initial={address}
-      setContext={setAddress}
     />
   );
 };
@@ -77,7 +68,6 @@ const DobItem = ({ user }) => {
       field='dob'
       items={items}
       initial={dob}
-      setContext={setDob}
     />
   );
 };
@@ -86,13 +76,7 @@ const EmailItem = ({ user }) => {
   const { email = {} } = user;
   const items = [{ type: 'email', label: 'Email', key: 'email' }];
   return (
-    <AccountItem
-      title='Email'
-      field='email'
-      items={items}
-      initial={email}
-      setContext={setEmail}
-    />
+    <AccountItem title='Email' field='email' items={items} initial={email} />
   );
 };
 
@@ -109,7 +93,6 @@ const EmergencyContactItem = ({ user }) => {
       field='emergency_contact'
       items={items}
       initial={emergency_contact}
-      setContext={setEmergencyContact}
     />
   );
 };
@@ -126,7 +109,6 @@ const InsuranceItem = ({ user }) => {
       field='insurance'
       items={items}
       initial={insurance}
-      setContext={setInsurance}
     />
   );
 };
@@ -148,7 +130,6 @@ const PasswordItem = ({ user }) => {
       field='password'
       items={items}
       initial={password}
-      setContext={setPassword}
     />
   );
 };
@@ -157,12 +138,6 @@ const PhoneItem = ({ user }) => {
   const { phone = {} } = user;
   const items = [{ type: 'tel', label: 'Phone', key: 'phone' }];
   return (
-    <AccountItem
-      title='Phone'
-      field='phone'
-      items={items}
-      initial={phone}
-      setContext={setPhone}
-    />
+    <AccountItem title='Phone' field='phone' items={items} initial={phone} />
   );
 };

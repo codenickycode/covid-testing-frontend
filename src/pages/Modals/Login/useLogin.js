@@ -29,6 +29,7 @@ export default function useLogin() {
         error,
         confirmation,
         user,
+        settings: { ...user.preferences },
       }));
     }
   };

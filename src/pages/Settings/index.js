@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { Redirect } from 'react-router-dom';
 import useLogout from './useLogout';
 import { ButtonSkeleton } from '../../components/Skeletons';
-import { App, SetApp } from '../../Providers/FullContextProvider';
+import { App, SetApp } from '../../Providers/Context';
 
 const Settings = () => {
   const logout = useLogout();

@@ -8,7 +8,6 @@ import { AppointmentsSkeleton } from '../../components/Skeletons.js';
 const AppointmentsPage = () => {
   const { user } = useContext(App);
   const setApp = useContext(SetApp);
-  const appointments = user?.appointments || [];
 
   const [loading, setLoading] = useState(true);
   const [showPast, setShowPast] = useState(false);
@@ -16,6 +15,7 @@ const AppointmentsPage = () => {
   const [past, setPast] = useState([]);
 
   useEffect(() => {
+    const appointments = user?.appointments || [];
     setApp((prev) => ({ ...prev, loading: true }));
     let updated = [...appointments];
     updated.forEach((appointment) => (appointment.expanded = false));
@@ -23,7 +23,7 @@ const AppointmentsPage = () => {
     setUpcoming(sorted[0]);
     setPast(sorted[1]);
     setLoading(false);
-  }, [appointments]);
+  }, [user, setApp]);
 
   return !user ? (
     <Redirect to='/gateway/appointments' />

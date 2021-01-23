@@ -1,4 +1,10 @@
-import React, { useRef, useState, useEffect, useContext } from 'react';
+import React, {
+  useRef,
+  useState,
+  useEffect,
+  useContext,
+  useCallback,
+} from 'react';
 import axios from 'axios';
 import tools from '../../tools/index.js';
 import { SetApp } from '../../Providers/Context';
@@ -27,14 +33,17 @@ const AccountItem = ({ title, field, items, initial }) => {
     [PREVIEW]: '',
   });
 
-  const setOne = (key, val) => setState((prev) => ({ ...prev, [key]: val }));
+  const setOne = useCallback(
+    (key, val) => setState((prev) => ({ ...prev, [key]: val })),
+    [setState]
+  );
 
   // if user error, re-edit
   useEffect(() => {
     if (state[USER_ERROR]) {
       setOne(EDIT, true);
     }
-  }, [state[USER_ERROR], setOne]);
+  }, [state, setOne]);
 
   // set preview item
   useEffect(() => {
@@ -44,7 +53,7 @@ const AccountItem = ({ title, field, items, initial }) => {
     } else {
       setOne(PREVIEW, items[0].key);
     }
-  }, [field, initial, items]);
+  }, [field, initial, items, setOne]);
 
   const toggleEdit = () => {
     if (state[SAVING]) return;
@@ -60,15 +69,15 @@ const AccountItem = ({ title, field, items, initial }) => {
 
   useEffect(() => {
     if (state[EDIT]) tools.scrollIntoView(editRef);
-  }, [state[EDIT], editRef]);
+  }, [state, editRef]);
 
   const togglePassword = () => {
     if (!state[EDIT]) {
       toggleEdit();
     } else {
-      if (!tools.validPassword(input.newPassword))
+      if (!tools.validPassword(state[INPUT].newPassword))
         return setOne(USER_ERROR, 'Invalid password');
-      if (input.newPassword !== input.confirmNewPassword)
+      if (state[INPUT].newPassword !== state[INPUT].confirmNewPassword)
         return setOne(USER_ERROR, "Confirmation doesn't match");
       toggleEdit();
     }
@@ -93,7 +102,7 @@ const AccountItem = ({ title, field, items, initial }) => {
   };
 
   const save = async () => {
-    let newField = prevInput,
+    let newField = state[PREV_INPUT],
       newError = '';
     try {
       setOne(SAVING, true);

@@ -1,99 +1,91 @@
-import React, { useState, useEffect, useContext, useRef } from 'react';
-import { getLS, getSS, setSS } from '../tools/storage';
-import AccountProvider from './Account';
-import PreferencesProvider from './Preferences';
+import React, { useState, useEffect, useRef } from 'react';
+import axios from 'axios';
+import { DARK_THEME, LIGHT_THEME } from '../tools/themes.js';
+import { getLS, setLS, getSS, setSS } from '../tools/storage';
 
 export const INIT_APP = {
-  title: '',
-  loggedIn: getLS('remember') || false,
   loading: false,
+  navDisabled: false,
   error: '',
   confirmation: '',
   allLocations: [],
   searchResults: [],
   prevSearch: {},
   appointment: null,
+  settings: {
+    dark: getLS('dark') || false,
+    remember: getLS('remember') || false,
+  },
+  user: null,
+  headerName: '',
 };
 
 export const App = React.createContext();
 export const SetApp = React.createContext();
-const AppProvider = ({ children }) => {
+const ContextProvider = ({ children }) => {
   const [app, setApp] = useState(getSS('app') || INIT_APP);
+
   useEffect(() => {
     setSS('app', app);
   }, [app]);
 
-  const [timer, setTimer] = useState(0);
-  let interval = useRef(null);
-
+  let alertTimer = useRef(null);
   useEffect(() => {
-    clearInterval(interval.current);
-    setTimer(0);
     if (app.confirmation || app.error) {
-      interval.current = setInterval(
-        () => setTimer((prevTime) => prevTime + 1),
-        1000
+      clearTimeout(alertTimer.current);
+      alertTimer.current = setTimeout(
+        () => setApp((prev) => ({ ...prev, confirmation: '', error: '' })),
+        3000
       );
     }
+    return () => clearTimeout(alertTimer.current);
   }, [app.confirmation, app.error]);
 
+  // update storage
   useEffect(() => {
-    if (timer === 3) {
-      clearInterval(interval.current);
-      setTimer(0);
-      setApp((prevState) => ({ ...prevState, confirmation: '', error: '' }));
+    setLS('dark', !app.settings.remember ? false : app.settings.dark);
+    setLS('remember', app.settings.remember);
+  }, [app.settings]);
+
+  // change theme
+  useEffect(() => {
+    const style = document.querySelector(':root').style;
+    style.cssText += ';' + (app.settings.dark ? DARK_THEME : LIGHT_THEME);
+  }, [app.settings.dark]);
+
+  // 2s delay while user toggles before updating server
+  let settingsTimer = useRef(null);
+  useEffect(() => {
+    if (app.settingsUpdated) {
+      setApp((prev) => ({ ...prev, settingsFetching: true }));
+      clearTimeout(settingsTimer.current);
+      settingsTimer.current = setTimeout(updateDB, 2000);
     }
-  }, [timer]);
+    async function updateDB() {
+      let newPrevious = app.settings;
+      let newUpdated = true;
+      for (let key of Object.keys(app.settings)) {
+        if (app.user.preferences[key] !== app.settings[key]) {
+          await axios.post('/common/update/preferences', app.user.preferences);
+          newPrevious = app.user.preferences;
+          newUpdated = false;
+          break;
+        }
+      }
+      setApp((prev) => ({
+        ...prev,
+        settings: newPrevious,
+        settingsUpdated: newUpdated,
+        settingsFetching: false,
+      }));
+    }
+    return () => clearTimeout(settingsTimer.current);
+  }, [app.settingsUpdated, app.settings, app.user]);
 
   return (
     <SetApp.Provider value={setApp}>
       <App.Provider value={app}>{children}</App.Provider>
     </SetApp.Provider>
-  );
-};
-
-export const Refresh = React.createContext();
-export const SetRefresh = React.createContext();
-const RefreshProvider = ({ children }) => {
-  const [refresh, setRefresh] = useState(true);
-  return (
-    <SetRefresh.Provider value={setRefresh}>
-      <Refresh.Provider value={refresh}>{children}</Refresh.Provider>
-    </SetRefresh.Provider>
-  );
-};
-
-export const NavDisabled = React.createContext();
-export const SetNavDisabled = React.createContext();
-const NavDisabledProvider = ({ children }) => {
-  const { loading } = useContext(App);
-  const [navDisabled, setNavDisabled] = useState(getSS('navDisabled') || false);
-  useEffect(() => {
-    setSS('navDisabled', navDisabled);
-  }, [navDisabled]);
-  useEffect(() => {
-    setNavDisabled(loading);
-  }, [loading]);
-  return (
-    <SetNavDisabled.Provider value={setNavDisabled}>
-      <NavDisabled.Provider value={navDisabled}>
-        {children}
-      </NavDisabled.Provider>
-    </SetNavDisabled.Provider>
-  );
-};
-
-const ContextProvider = ({ children }) => {
-  return (
-    <AccountProvider>
-      <PreferencesProvider>
-        <AppProvider>
-          <NavDisabledProvider>
-            <RefreshProvider>{children}</RefreshProvider>
-          </NavDisabledProvider>
-        </AppProvider>
-      </PreferencesProvider>
-    </AccountProvider>
   );
 };
 
