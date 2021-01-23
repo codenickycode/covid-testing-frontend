@@ -3,13 +3,31 @@ import useFunctions from './useFunctions.js';
 import UserInfoField from './UserInfoField.js';
 import { LoginSkeleton } from '../../../components/Skeletons.js';
 import { App } from '../../../Providers/Context.js';
+import { useAccount } from '../../../Providers/Account';
 
 const ConfirmUserInfo = ({ closeModal, setInfoIsConfirmed }) => {
   const { loading } = useContext(App);
-  const { USER_BASIC, checkValid, updateAccountBasic } = useFunctions();
+  const { name, phone, dob } = useAccount();
+  const { checkValid, updateAccountBasic } = useFunctions();
 
-  const [inputs, setInputs] = useState(USER_BASIC.inputs);
-  const [errors, setErrors] = useState(USER_BASIC.errors);
+  const [inputs, setInputs] = useState({
+    firstName: name.firstName || '',
+    lastName: name.lastName || '',
+    phone: phone.phone || '',
+    dob: dob.dob || '',
+  });
+  const [errors, setErrors] = useState({
+    firstName: '',
+    lastName: '',
+    phone: '',
+    dob: '',
+  });
+  const labels = {
+    firstName: 'First',
+    lastName: 'Last',
+    phone: 'Phone',
+    dob: 'Date of Birth',
+  };
 
   const handleInput = (e) => {
     const { name, value } = e.target;
@@ -43,11 +61,11 @@ const ConfirmUserInfo = ({ closeModal, setInfoIsConfirmed }) => {
             <form id='form-reg-info' className='form' onSubmit={handleSubmit}>
               <p className='info-small'>*Required fields</p>
               <div>Name:</div>
-              {Object.keys(USER_BASIC.inputs).map((field) => (
+              {Object.keys(inputs).map((field) => (
                 <UserInfoField
                   key={field}
                   field={field}
-                  label={USER_BASIC.labels[field]}
+                  label={labels[field]}
                   input={inputs[field]}
                   error={errors[field]}
                   handleInput={handleInput}

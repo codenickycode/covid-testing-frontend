@@ -1,15 +1,17 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { Redirect } from 'react-router-dom';
 import tools from '../../tools/index.js';
-import { App, useRedirect } from '../../Providers/Context.js';
+import { App } from '../../Providers/Context.js';
 import { Appointments } from '../../Providers/Account.js';
+import useCustomHooks from '../../tools/useCustomHooks';
 import AppointmentsList from './List.js';
 import { AppointmentsSkeleton } from '../../components/Skeletons.js';
 
 const Error = ({ error }) => <h1 className='error'>{error}</h1>;
 
 const AppointmentsPage = () => {
-  const redirect = useRedirect();
+  const { redirect } = useCustomHooks();
+
   const { error } = useContext(App);
   const appointments = useContext(Appointments);
 

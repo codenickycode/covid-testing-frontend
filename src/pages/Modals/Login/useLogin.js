@@ -4,12 +4,12 @@ import useCustomHooks from '../../../tools/useCustomHooks.js';
 import { SetApp } from '../../../Providers/Context.js';
 import { useSetAllAccount } from '../../../Providers/Account.js';
 
-export default function useSubmit() {
+export default function useLogin() {
   const { tryCatchFinally } = useCustomHooks();
   const setApp = useContext(SetApp);
   const setAllAccount = useSetAllAccount();
 
-  const submit = (type, email, password) => {
+  const login = (type, email, password) => {
     tryCatchFinally(login);
     async function login() {
       const res = await axios.post(`/common/${type}`, {
@@ -27,5 +27,5 @@ export default function useSubmit() {
     }
   };
 
-  return submit;
+  return login;
 }

@@ -1,32 +1,18 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
-import { getSS, setSS } from '../tools/storage';
+import { getLS, getSS, setSS } from '../tools/storage';
 import AccountProvider from './Account';
 import PreferencesProvider from './Preferences';
 
 export const INIT_APP = {
+  title: '',
+  loggedIn: getLS('remember') || false,
   loading: false,
   error: '',
-  loggedIn: false,
-  title: '',
-};
-
-export const INIT_INFO = {
+  confirmation: '',
   allLocations: [],
   searchResults: [],
   prevSearch: {},
   appointment: null,
-  confirmation: '',
-};
-
-export const Refresh = React.createContext();
-export const SetRefresh = React.createContext();
-const RefreshProvider = ({ children }) => {
-  const [refresh, setRefresh] = useState(true);
-  return (
-    <SetRefresh.Provider value={setRefresh}>
-      <Refresh.Provider value={refresh}>{children}</Refresh.Provider>
-    </SetRefresh.Provider>
-  );
 };
 
 export const App = React.createContext();
@@ -66,11 +52,15 @@ const AppProvider = ({ children }) => {
   );
 };
 
-export const useRedirect = () => {
-  const { loggedIn } = useContext(App);
-  const refresh = useContext(Refresh);
-  const redirect = !loggedIn || refresh;
-  return redirect;
+export const Refresh = React.createContext();
+export const SetRefresh = React.createContext();
+const RefreshProvider = ({ children }) => {
+  const [refresh, setRefresh] = useState(true);
+  return (
+    <SetRefresh.Provider value={setRefresh}>
+      <Refresh.Provider value={refresh}>{children}</Refresh.Provider>
+    </SetRefresh.Provider>
+  );
 };
 
 export const NavDisabled = React.createContext();
@@ -93,30 +83,14 @@ const NavDisabledProvider = ({ children }) => {
   );
 };
 
-export const Info = React.createContext();
-export const SetInfo = React.createContext();
-const InfoProvider = ({ children }) => {
-  const [info, setInfo] = useState(getSS('info') || INIT_INFO);
-  useEffect(() => {
-    setSS('info', info);
-  }, [info]);
-  return (
-    <SetInfo.Provider value={setInfo}>
-      <Info.Provider value={info}>{children}</Info.Provider>
-    </SetInfo.Provider>
-  );
-};
-
 const ContextProvider = ({ children }) => {
   return (
     <AccountProvider>
       <PreferencesProvider>
         <AppProvider>
-          <InfoProvider>
-            <NavDisabledProvider>
-              <RefreshProvider>{children}</RefreshProvider>
-            </NavDisabledProvider>
-          </InfoProvider>
+          <NavDisabledProvider>
+            <RefreshProvider>{children}</RefreshProvider>
+          </NavDisabledProvider>
         </AppProvider>
       </PreferencesProvider>
     </AccountProvider>

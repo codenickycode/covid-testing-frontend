@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext, useCallback } from 'react';
 import { Route, useHistory, useRouteMatch } from 'react-router-dom';
 import tools from '../../tools/index.js';
 import useCustomHooks from '../../tools/useCustomHooks';
-import { App, Info, SetInfo } from '../../Providers/Context.js';
+import { App, SetApp } from '../../Providers/Context.js';
 import SearchForm from './Form.js';
 import SearchResults from './Results.js';
 import Selection from './Selection.js';
@@ -11,9 +11,8 @@ const Search = () => {
   const history = useHistory();
   const { url } = useRouteMatch();
 
-  const { error } = useContext(App);
-  const { searchResults, prevSearch } = useContext(Info);
-  const setInfo = useContext(SetInfo);
+  const { error, searchResults, prevSearch } = useContext(App);
+  const setApp = useContext(SetApp);
 
   const { tryCatchFinally } = useCustomHooks();
 
@@ -28,7 +27,7 @@ const Search = () => {
       let filtered = tools.filterLocationsBy('tests', tests, locations);
       tools.addAvailableTimes(filtered, date);
       tools.sortLocationsBy(sortBy, filtered);
-      setInfo((prevState) => ({
+      setApp((prevState) => ({
         ...prevState,
         allLocations: locations,
         searchResults: filtered,
@@ -45,7 +44,7 @@ const Search = () => {
   const handleSortBy = (sortBy) => {
     let results = [...searchResults];
     tools.sortLocationsBy(sortBy, results);
-    setInfo((prevState) => ({
+    setApp((prevState) => ({
       ...prevState,
       searchResults: results,
       prevSearch: { ...prevState.prevSearch, sortBy },
@@ -57,7 +56,7 @@ const Search = () => {
     let newResults = [...searchResults];
     tools.addAvailableTimes(newResults, newDate);
     tools.sortLocationsBy(prevSearch.sortBy, newResults);
-    setInfo((prevState) => ({ ...prevState, searchResults: newResults }));
+    setApp((prevState) => ({ ...prevState, searchResults: newResults }));
     setDate(newDate);
   };
 

@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
-import { SetApp, SetRefresh } from '../Providers/Context';
+import { App, Refresh, SetApp, SetRefresh } from '../Providers/Context';
 import { useSetAllAccount, useSetAccount } from '../Providers/Account';
 import { SetPreferences } from '../Providers/Preferences';
 
@@ -12,6 +12,10 @@ export default function useCustomHooks() {
   const setRefresh = useContext(SetRefresh);
   const setAllAccount = useSetAllAccount();
   const { setPreferences } = useContext(SetPreferences);
+  const { loggedIn } = useContext(App);
+  const refresh = useContext(Refresh);
+
+  const redirect = !loggedIn || refresh;
 
   async function tryCatchFinally(t, c, f) {
     let error = '';
@@ -55,5 +59,5 @@ export default function useCustomHooks() {
       setApp((prev) => ({ ...prev, error }));
     }
   };
-  return { getClient, tryCatchFinally, bookAppointment };
+  return { redirect, getClient, tryCatchFinally, bookAppointment };
 }

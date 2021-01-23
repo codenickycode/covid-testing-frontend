@@ -8,14 +8,12 @@ import {
   AppointmentsSkeleton,
   SettingsSkeleton,
 } from '../../components/Skeletons.js';
-import { Preferences } from '../../Providers/Preferences.js';
 
 const Gateway = () => {
   const history = useHistory();
   const { to } = useParams();
   const { loggedIn } = useContext(App);
   const refresh = useContext(Refresh);
-  const { preferences } = useContext(Preferences);
   const { getClient } = useCustomHooks();
 
   const [initial, setInitial] = useState(true);
@@ -26,20 +24,12 @@ const Gateway = () => {
     }
 
     if (initial) {
-      if ((!loggedIn && preferences.remember) || (loggedIn && refresh)) {
+      if (loggedIn && refresh) {
         setInitial(false);
         getClient();
       }
     }
-  }, [
-    loggedIn,
-    refresh,
-    history,
-    to,
-    initial,
-    preferences.remember,
-    getClient,
-  ]);
+  }, [loggedIn, refresh, history, to, initial, getClient]);
 
   return !loggedIn ? (
     <LoginModal

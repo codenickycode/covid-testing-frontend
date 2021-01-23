@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import axios from 'axios';
-import { useAccount, useSetAllAccount } from '../../../Providers/Account.js';
+import { useSetAllAccount } from '../../../Providers/Account.js';
 import { SetApp } from '../../../Providers/Context.js';
 import useCustomHooks from '../../../tools/useCustomHooks';
 
@@ -8,26 +8,6 @@ export default function useFunctions() {
   const setApp = useContext(SetApp);
   const setAllAccount = useSetAllAccount();
   const { tryCatchFinally } = useCustomHooks();
-  const { name, phone, dob } = useAccount();
-
-  const USER_BASIC = {
-    inputs: {
-      firstName: name.firstName || '',
-      lastName: name.lastName || '',
-      phone: phone.phone || '',
-      dob: dob.dob || '',
-    },
-    errors: {},
-    labels: {
-      firstName: 'First',
-      lastName: 'Last',
-      phone: 'Phone',
-      dob: 'Date of Birth',
-    },
-  };
-  Object.keys(USER_BASIC.inputs).forEach(
-    (field) => (USER_BASIC.errors[field] = '')
-  );
 
   const checkValid = (inputs) => {
     let errors = {};
@@ -62,5 +42,5 @@ export default function useFunctions() {
     }
   };
 
-  return { USER_BASIC, checkValid, updateAccountBasic };
+  return { checkValid, updateAccountBasic };
 }

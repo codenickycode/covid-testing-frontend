@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import tools from '../../../tools/index.js';
 import LoginForm from './Form.js';
-import useSubmit from './useSubmit.js';
+import useLogin from './useLogin.js';
 import { LoginSkeleton } from '../../../components/Skeletons.js';
 import { App } from '../../../Providers/Context.js';
 
@@ -10,7 +10,7 @@ const INIT = { email: '', password: '', confirmation: '' };
 
 const Login = ({ closeModal }) => {
   const { loading, error } = useContext(App);
-  const submit = useSubmit();
+  const login = useLogin();
 
   const [signup, setSignup] = useState(true);
   const [inputs, setInputs] = useState(INIT);
@@ -40,9 +40,9 @@ const Login = ({ closeModal }) => {
       if (inputs.password !== inputs.confirmation)
         return setInvalid('confirmation', "Confirmation doesn't match");
       setErrors(INIT);
-      submit('register', inputs.email, inputs.password);
+      login('register', inputs.email, inputs.password);
     } else {
-      submit('login', inputs.email, inputs.password);
+      login('login', inputs.email, inputs.password);
     }
   };
 

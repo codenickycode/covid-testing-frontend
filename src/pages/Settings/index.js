@@ -2,12 +2,13 @@ import React, { useContext } from 'react';
 import { Redirect } from 'react-router-dom';
 import useLogout from './useLogout';
 import { ButtonSkeleton } from '../../components/Skeletons';
-import { useRedirect } from '../../Providers/Context';
+import useCustomHooks from '../../tools/useCustomHooks';
 import { Preferences, SetPreferences } from '../../Providers/Preferences';
 
 const Settings = () => {
   const logout = useLogout();
-  const redirect = useRedirect();
+  const { redirect } = useCustomHooks();
+
   const { preferences, fetching } = useContext(Preferences);
   const { setPreferences, setUpdated } = useContext(SetPreferences);
 

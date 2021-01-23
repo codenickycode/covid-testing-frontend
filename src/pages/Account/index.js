@@ -11,12 +11,12 @@ import {
   EmergencyContact,
   useSetAccount,
 } from '../../Providers/Account.js';
-import { useRedirect } from '../../Providers/Context.js';
+import useCustomHooks from '../../tools/useCustomHooks';
 import AccountHeader from './Header';
 import AccountItem from './Item.js';
 
 export default function Account() {
-  const redirect = useRedirect();
+  const { redirect } = useCustomHooks();
   return redirect ? (
     <Redirect to='/gateway/account' />
   ) : (
