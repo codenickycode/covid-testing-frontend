@@ -6,16 +6,21 @@ import { App, SetApp } from '../../Providers/Context';
 
 const Settings = () => {
   const logout = useLogout();
-  const { user, settings, settingsFetching } = useContext(App);
-  const { setApp } = useContext(SetApp);
+  const { user, loading } = useContext(App);
+  const setApp = useContext(SetApp);
 
   const handleCheck = (e) => {
     const { name } = e.target;
-    const update = { ...settings, [name]: !settings[name] };
     setApp((prev) => ({
       ...prev,
       settingsUpdated: true,
-      user: { ...prev.user, preferences: update },
+      user: {
+        ...prev.user,
+        preferences: {
+          ...prev.user.preferences,
+          [name]: !prev.user.preferences[name],
+        },
+      },
     }));
   };
 
@@ -29,7 +34,7 @@ const Settings = () => {
             type='checkbox'
             id='toggle-dark'
             name='dark'
-            checked={user.preferences.dark}
+            checked={user.preferences?.dark}
             onChange={handleCheck}
           />
           <label htmlFor='toggle-dark'>
@@ -42,7 +47,7 @@ const Settings = () => {
             type='checkbox'
             id='toggle-remember'
             name='remember'
-            checked={user.preferences.remember}
+            checked={user.preferences?.remember}
             onChange={handleCheck}
           />
           <label htmlFor='toggle-remember'>
@@ -55,7 +60,7 @@ const Settings = () => {
             type='checkbox'
             id='toggle-notifications'
             name='notifications'
-            checked={user.preferences.notifications}
+            checked={user.preferences?.notifications}
             onChange={handleCheck}
           />
           <label htmlFor='toggle-notifications'>
@@ -64,7 +69,7 @@ const Settings = () => {
           </label>
         </li>
       </ol>
-      {settingsFetching ? (
+      {loading ? (
         <ButtonSkeleton />
       ) : (
         <button type='button' className='btn' onClick={logout}>

@@ -41,34 +41,41 @@ const ContextProvider = ({ children }) => {
     return () => clearTimeout(alertTimer.current);
   }, [app.confirmation, app.error]);
 
-  // update storage
+  // update storage & change theme
   useEffect(() => {
-    setLS('dark', !app.settings.remember ? false : app.settings.dark);
-    setLS('remember', app.settings.remember);
-  }, [app.settings]);
-
-  // change theme
-  useEffect(() => {
-    const style = document.querySelector(':root').style;
-    style.cssText += ';' + (app.settings.dark ? DARK_THEME : LIGHT_THEME);
-  }, [app.settings.dark]);
+    if (app.user) {
+      const { remember, dark } = app.user.preferences;
+      setLS('dark', !remember ? false : dark);
+      setLS('remember', remember);
+      const style = document.querySelector(':root').style;
+      style.cssText += ';' + (dark ? DARK_THEME : LIGHT_THEME);
+    }
+  }, [app.user]);
 
   // 2s delay while user toggles before updating server
   let settingsTimer = useRef(null);
   useEffect(() => {
     if (app.settingsUpdated) {
-      setApp((prev) => ({ ...prev, settingsFetching: true }));
+      setApp((prev) => ({ ...prev, loading: true }));
       clearTimeout(settingsTimer.current);
       settingsTimer.current = setTimeout(updateDB, 2000);
     }
     async function updateDB() {
       let newPrevious = app.settings;
       let newUpdated = true;
-      for (let key of Object.keys(app.settings)) {
+      let error = '';
+      for (let key of Object.keys(app.user.preferences)) {
         if (app.user.preferences[key] !== app.settings[key]) {
-          await axios.post('/common/update/preferences', app.user.preferences);
-          newPrevious = app.user.preferences;
-          newUpdated = false;
+          try {
+            await axios.post(
+              '/common/update/preferences',
+              app.user.preferences
+            );
+            newPrevious = app.user.preferences;
+            newUpdated = false;
+          } catch (e) {
+            error = e.response?.data || e.message;
+          }
           break;
         }
       }
@@ -76,10 +83,14 @@ const ContextProvider = ({ children }) => {
         ...prev,
         settings: newPrevious,
         settingsUpdated: newUpdated,
-        settingsFetching: false,
+        loading: false,
+        error,
       }));
     }
-    return () => clearTimeout(settingsTimer.current);
+    return () => {
+      clearTimeout(settingsTimer.current);
+      setApp((prev) => ({ ...prev, loading: false }));
+    };
   }, [app.settingsUpdated, app.settings, app.user]);
 
   return (

@@ -25,6 +25,7 @@ export default function useFunctions() {
       error = '',
       confirmation = '';
     try {
+      setApp((prev) => ({ ...prev, loading: true }));
       const { firstName, lastName, phone, dob } = inputs;
       const res = await axios.post('/common/update/basic', {
         name: { firstName, lastName },

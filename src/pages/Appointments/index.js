@@ -16,7 +16,7 @@ const AppointmentsPage = () => {
 
   useEffect(() => {
     const appointments = user?.appointments || [];
-    setApp((prev) => ({ ...prev, loading: true }));
+    setLoading(true);
     let updated = [...appointments];
     updated.forEach((appointment) => (appointment.expanded = false));
     const sorted = tools.sortAppointments(updated);
