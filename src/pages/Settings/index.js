@@ -2,24 +2,24 @@ import React, { useContext } from 'react';
 import { Redirect } from 'react-router-dom';
 import useLogout from './useLogout';
 import { ButtonSkeleton } from '../../components/Skeletons';
-import useCustomHooks from '../../tools/useCustomHooks';
-import { Preferences, SetPreferences } from '../../Providers/Preferences';
+import { App, SetApp } from '../../Providers/FullContextProvider';
 
 const Settings = () => {
   const logout = useLogout();
-  const { redirect } = useCustomHooks();
-
-  const { preferences, fetching } = useContext(Preferences);
-  const { setPreferences, setUpdated } = useContext(SetPreferences);
+  const { user, settings, settingsFetching } = useContext(App);
+  const { setApp } = useContext(SetApp);
 
   const handleCheck = (e) => {
     const { name } = e.target;
-    const update = { ...preferences, [name]: !preferences[name] };
-    setPreferences(update);
-    setUpdated(true);
+    const update = { ...settings, [name]: !settings[name] };
+    setApp((prev) => ({
+      ...prev,
+      settingsUpdated: true,
+      user: { ...prev.user, preferences: update },
+    }));
   };
 
-  return redirect ? (
+  return !user ? (
     <Redirect to='/gateway/settings' />
   ) : (
     <div id='settings-div'>
@@ -29,7 +29,7 @@ const Settings = () => {
             type='checkbox'
             id='toggle-dark'
             name='dark'
-            checked={preferences.dark}
+            checked={user.preferences.dark}
             onChange={handleCheck}
           />
           <label htmlFor='toggle-dark'>
@@ -42,7 +42,7 @@ const Settings = () => {
             type='checkbox'
             id='toggle-remember'
             name='remember'
-            checked={preferences.remember}
+            checked={user.preferences.remember}
             onChange={handleCheck}
           />
           <label htmlFor='toggle-remember'>
@@ -55,7 +55,7 @@ const Settings = () => {
             type='checkbox'
             id='toggle-notifications'
             name='notifications'
-            checked={preferences.notifications}
+            checked={user.preferences.notifications}
             onChange={handleCheck}
           />
           <label htmlFor='toggle-notifications'>
@@ -64,7 +64,7 @@ const Settings = () => {
           </label>
         </li>
       </ol>
-      {fetching ? (
+      {settingsFetching ? (
         <ButtonSkeleton />
       ) : (
         <button type='button' className='btn' onClick={logout}>

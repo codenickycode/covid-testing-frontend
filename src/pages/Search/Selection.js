@@ -1,17 +1,14 @@
 import React, { useState, useContext } from 'react';
 import { Redirect } from 'react-router-dom';
-import { App, Refresh, SetApp } from '../../Providers/Context.js';
+import { App, SetApp } from '../../Providers/Context.js';
 import SelectionJSX from './Selection/SelectionJSX.js';
 import ConfirmationModal from '../Modals/Confirmation/Confirmation.js';
-import { Preferences } from '../../Providers/Preferences.js';
-import useCustomHooks from '../../tools/useCustomHooks';
+import useGetClient from '../../tools/useGetClient';
 
 const Selection = ({ selection, date, handleChangeDate, refreshLocations }) => {
   const setApp = useContext(SetApp);
-  const { preferences } = useContext(Preferences);
-  const { loggedIn } = useContext(App);
-  const refresh = useContext(Refresh);
-  const { getClient } = useCustomHooks();
+  const { user, settings } = useContext(App);
+  const getClient = useGetClient();
 
   const [showModal, setShowModal] = useState(false);
   const [time, setTime] = useState('');
@@ -27,16 +24,23 @@ const Selection = ({ selection, date, handleChangeDate, refreshLocations }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!time || selectedTests.length === 0) return;
-    if (loggedIn && refresh) await getClient();
+    if (!user && settings.remember) {
+      getClient(confirm);
+    } else {
+      confirm();
+    }
+  };
+
+  function confirm() {
     const newAppointment = {
       location: selection,
       date,
       time: time,
       tests: selectedTests,
     };
-    setApp((prevState) => ({ ...prevState, appointment: newAppointment }));
+    setApp((prev) => ({ ...prev, appointment: newAppointment }));
     setShowModal(true);
-  };
+  }
 
   const handleCloseModal = () => {
     setShowModal(false);

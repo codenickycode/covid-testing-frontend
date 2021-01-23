@@ -1,18 +1,18 @@
 const alertError = () => {
-  setApp((prevState) => ({ ...prevState, error: 'I am an error!' }));
+  setApp((prev) => ({ ...prev, error: 'I am an error!' }));
 };
 const alertConfirm = () => {
-  setApp((prevState) => ({
-    ...prevState,
+  setApp((prev) => ({
+    ...prev,
     confirmation: 'I am a confirmation!',
   }));
 };
 const clearError = () => {
-  setApp((prevState) => ({ ...prevState, error: '' }));
+  setApp((prev) => ({ ...prev, error: '' }));
 };
 const clearConfirm = () => {
-  setApp((prevState) => ({
-    ...prevState,
+  setApp((prev) => ({
+    ...prev,
     confirmation: '',
   }));
 };

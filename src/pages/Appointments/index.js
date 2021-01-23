@@ -1,19 +1,14 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { Redirect } from 'react-router-dom';
 import tools from '../../tools/index.js';
-import { App } from '../../Providers/Context.js';
-import { Appointments } from '../../Providers/Account.js';
-import useCustomHooks from '../../tools/useCustomHooks';
+import { App, SetApp } from '../../Providers/Context.js';
 import AppointmentsList from './List.js';
 import { AppointmentsSkeleton } from '../../components/Skeletons.js';
 
-const Error = ({ error }) => <h1 className='error'>{error}</h1>;
-
 const AppointmentsPage = () => {
-  const { redirect } = useCustomHooks();
-
-  const { error } = useContext(App);
-  const appointments = useContext(Appointments);
+  const { user } = useContext(App);
+  const setApp = useContext(SetApp);
+  const appointments = user?.appointments || [];
 
   const [loading, setLoading] = useState(true);
   const [showPast, setShowPast] = useState(false);
@@ -21,7 +16,7 @@ const AppointmentsPage = () => {
   const [past, setPast] = useState([]);
 
   useEffect(() => {
-    setLoading(true);
+    setApp((prev) => ({ ...prev, loading: true }));
     let updated = [...appointments];
     updated.forEach((appointment) => (appointment.expanded = false));
     const sorted = tools.sortAppointments(updated);
@@ -30,11 +25,10 @@ const AppointmentsPage = () => {
     setLoading(false);
   }, [appointments]);
 
-  return redirect ? (
+  return !user ? (
     <Redirect to='/gateway/appointments' />
   ) : (
     <>
-      {error && <Error error={error} />}
       <div>
         <div className='appointments-tabs'>
           <div

@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
 import dayjs from 'dayjs';
-import { HeaderName } from '../../Providers/Account.js';
 import Image from '../../components/Image.js';
+import { App } from '../../Providers/FullContextProvider';
 
 const AccountHeader = () => {
-  const headerName = useContext(HeaderName);
+  const { headerName } = useContext(App);
 
   const now = new dayjs();
   const time =

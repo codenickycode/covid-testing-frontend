@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { TESTS } from '../../tools/info/TESTS';
 import Test from './Form/Test.js';
 import Image from '../../components/Image.js';
+import tools from '../../tools';
 
 const SearchForm = ({ handleSubmit }) => {
   const [zip, setZip] = useState('');
@@ -17,7 +18,7 @@ const SearchForm = ({ handleSubmit }) => {
 
   const handleZipInput = (e) => {
     const val = e.target.value;
-    if (val && val[val.length - 1].match(/\D/)) return;
+    if (!tools.validNum(val)) return;
     setZip(e.target.value);
   };
 

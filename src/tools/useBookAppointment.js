@@ -1,24 +1,22 @@
 import { useContext } from 'react';
 import axios from 'axios';
-import { SetApp } from '../../../Providers/Context.js';
+import { useHistory } from 'react-router-dom';
+import { SetApp } from '../Providers/Context';
 
-export default function useLogin() {
+export default function useBookAppointment() {
+  const history = useHistory();
   const setApp = useContext(SetApp);
 
-  const login = async (type, email, password) => {
+  async function bookAppointment(appointment) {
+    history.push('/appointments');
     let user = null,
       error = '',
       confirmation = '';
     try {
       setApp((prev) => ({ ...prev, loading: true }));
-      const res = await axios.post(`/common/${type}`, {
-        email,
-        password,
-      });
-      user = res.data;
-      confirmation = 'Logged In!';
-      localStorage.remember = user.preferences.remember;
-      localStorage.dark = user.preferences.dark;
+      const res = await axios.post('/common/appointments', appointment);
+      user = res.data.user;
+      confirmation = res.data.confirmation;
     } catch (e) {
       console.log(e);
       error = e.response?.data || e.message;
@@ -31,7 +29,6 @@ export default function useLogin() {
         user,
       }));
     }
-  };
-
-  return login;
+  }
+  return bookAppointment;
 }

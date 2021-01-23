@@ -1,27 +1,27 @@
 import React, { useRef, useState, useContext, useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import useCustomHooks from '../../../tools/useCustomHooks';
+import useBookAppointment from '../../../tools/useBookAppointment';
 import LoginModal from '../Login/Login.js';
 import ConfirmUserInfoModal from '../ConfirmUserInfo/ConfirmUserInfo.js';
 import { App } from '../../../Providers/Context';
 
 const ConfirmationModal = ({ closeModal }) => {
-  const { bookAppointment } = useCustomHooks();
-  const { loggedIn, appointment } = useContext(App);
+  const bookAppointment = useBookAppointment();
+  const { user, appointment } = useContext(App);
 
   const [infoIsConfirmed, setInfoIsConfirmed] = useState(false);
   const bookingRef = useRef('');
 
   useEffect(() => {
-    if (!bookingRef.current && loggedIn && infoIsConfirmed) {
+    if (!bookingRef.current && user && infoIsConfirmed) {
       bookingRef.current = 'Booking...';
       bookAppointment(appointment);
     }
-  }, [bookingRef, bookAppointment, appointment, loggedIn, infoIsConfirmed]);
+  }, [bookingRef, bookAppointment, appointment, user, infoIsConfirmed]);
 
   return ReactDOM.createPortal(
     <>
-      {!loggedIn ? (
+      {!user ? (
         <LoginModal closeModal={closeModal} />
       ) : !infoIsConfirmed ? (
         <ConfirmUserInfoModal

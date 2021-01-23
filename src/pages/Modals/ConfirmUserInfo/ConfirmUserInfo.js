@@ -3,18 +3,17 @@ import useFunctions from './useFunctions.js';
 import UserInfoField from './UserInfoField.js';
 import { LoginSkeleton } from '../../../components/Skeletons.js';
 import { App } from '../../../Providers/Context.js';
-import { useAccount } from '../../../Providers/Account';
+import tools from '../../../tools/index.js';
 
 const ConfirmUserInfo = ({ closeModal, setInfoIsConfirmed }) => {
-  const { loading } = useContext(App);
-  const { name, phone, dob } = useAccount();
+  const { loading, user } = useContext(App);
   const { checkValid, updateAccountBasic } = useFunctions();
 
   const [inputs, setInputs] = useState({
-    firstName: name.firstName || '',
-    lastName: name.lastName || '',
-    phone: phone.phone || '',
-    dob: dob.dob || '',
+    firstName: user?.name?.firstName || '',
+    lastName: user?.name?.lastName || '',
+    phone: user?.phone?.phone || '',
+    dob: user?.dob?.dob || '',
   });
   const [errors, setErrors] = useState({
     firstName: '',
@@ -31,8 +30,7 @@ const ConfirmUserInfo = ({ closeModal, setInfoIsConfirmed }) => {
 
   const handleInput = (e) => {
     const { name, value } = e.target;
-    if (name === 'phone' && value && value[value.length - 1].match(/\D/))
-      return;
+    if (name === 'phone' && !tools.validNum(value)) return;
     setErrors((prev) => ({ ...prev, [name]: '' }));
     setInputs((prev) => ({ ...prev, [name]: value }));
   };

@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-import { App, Refresh } from '../../Providers/Context.js';
-import useCustomHooks from '../../tools/useCustomHooks';
+import { App } from '../../Providers/Context.js';
+import useGetClient from '../../tools/useGetClient';
 import LoginModal from '../Modals/Login/Login';
 import {
   AccountSkeleton,
@@ -12,26 +12,25 @@ import {
 const Gateway = () => {
   const history = useHistory();
   const { to } = useParams();
-  const { loggedIn } = useContext(App);
-  const refresh = useContext(Refresh);
-  const { getClient } = useCustomHooks();
+  const { user, settings } = useContext(App);
+  const getClient = useGetClient();
 
   const [initial, setInitial] = useState(true);
 
   useEffect(() => {
-    if (loggedIn && !refresh) {
+    if (user) {
       history.replace(`/${to}`);
     }
 
     if (initial) {
-      if (loggedIn && refresh) {
+      if (settings.remember && !user) {
         setInitial(false);
         getClient();
       }
     }
-  }, [loggedIn, refresh, history, to, initial, getClient]);
+  }, [user, settings, history, to, initial, getClient]);
 
-  return !loggedIn ? (
+  return !settings.remember ? (
     <LoginModal
       closeModal={
         history.globalHistory ? history.goBack : () => history.push('/')

@@ -1,13 +1,9 @@
 import { useContext } from 'react';
 import axios from 'axios';
-import { useSetAllAccount } from '../../../Providers/Account.js';
 import { SetApp } from '../../../Providers/Context.js';
-import useCustomHooks from '../../../tools/useCustomHooks';
 
 export default function useFunctions() {
   const setApp = useContext(SetApp);
-  const setAllAccount = useSetAllAccount();
-  const { tryCatchFinally } = useCustomHooks();
 
   const checkValid = (inputs) => {
     let errors = {};
@@ -24,21 +20,30 @@ export default function useFunctions() {
     return [errors, interupt];
   };
 
-  const updateAccountBasic = (inputs, callback) => {
-    tryCatchFinally(updateBasic);
-    async function updateBasic() {
+  const updateAccountBasic = async (inputs, callback) => {
+    let user = null,
+      error = '',
+      confirmation = '';
+    try {
       const { firstName, lastName, phone, dob } = inputs;
       const res = await axios.post('/common/update/basic', {
         name: { firstName, lastName },
         phone: { phone },
         dob: { dob },
       });
-      setAllAccount({ ...res.data, headerName: res.data.name.firstName });
-      callback();
+      user = res.data;
+    } catch (e) {
+      console.log(e);
+      error = e.response?.data || e.message;
+    } finally {
       setApp((prev) => ({
         ...prev,
-        confirmation: 'Appointment confirmed!',
+        loading: false,
+        error,
+        confirmation,
+        user,
       }));
+      if (callback) callback();
     }
   };
 

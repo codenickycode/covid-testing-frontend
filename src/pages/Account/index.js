@@ -1,51 +1,38 @@
 import React, { useContext } from 'react';
 import { Redirect } from 'react-router-dom';
-import {
-  Name,
-  Address,
-  Phone,
-  Dob,
-  Email,
-  Password,
-  Insurance,
-  EmergencyContact,
-  useSetAccount,
-} from '../../Providers/Account.js';
-import useCustomHooks from '../../tools/useCustomHooks';
 import AccountHeader from './Header';
 import AccountItem from './Item.js';
 
 export default function Account() {
-  const { redirect } = useCustomHooks();
-  return redirect ? (
+  const { user } = useContext(App);
+  return !user ? (
     <Redirect to='/gateway/account' />
   ) : (
     <div id='account-div'>
       <AccountHeader />
-      <AccountItemsList />
+      <AccountItemsList user={user} />
     </div>
   );
 }
 
-function AccountItemsList() {
+function AccountItemsList({ user }) {
   return (
     <div>
-      <NameItem />
-      <AddressItem />
-      <PhoneItem />
-      <DobItem />
-      <EmailItem />
-      <PasswordItem />
-      <InsuranceItem />
-      <EmergencyContactItem />
+      <NameItem user={user} />
+      <AddressItem user={user} />
+      <PhoneItem user={user} />
+      <DobItem user={user} />
+      <EmailItem user={user} />
+      <PasswordItem user={user} />
+      <InsuranceItem user={user} />
+      <EmergencyContactItem user={user} />
       {/* <Travel /> */}
     </div>
   );
 }
 
-const NameItem = () => {
-  const name = useContext(Name);
-  const { setName, setHeaderName } = useSetAccount();
+const NameItem = ({ user }) => {
+  const { name = {} } = user;
   const items = [
     { type: 'text', label: 'First', key: 'firstName' },
     { type: 'text', label: 'Last', key: 'lastName' },
@@ -55,16 +42,15 @@ const NameItem = () => {
       title='Name'
       field='name'
       items={items}
-      input={name}
+      initial={name}
       setContext={setName}
       setHeader={setHeaderName}
     />
   );
 };
 
-const AddressItem = () => {
-  const address = useContext(Address);
-  const { setAddress } = useSetAccount();
+const AddressItem = ({ user }) => {
+  const { address = {} } = user;
   const items = [
     { type: 'text', label: 'Street', key: 'street' },
     { type: 'text', label: 'City', key: 'city' },
@@ -76,45 +62,42 @@ const AddressItem = () => {
       title='Address'
       field='address'
       items={items}
-      input={address}
+      initial={address}
       setContext={setAddress}
     />
   );
 };
 
-const DobItem = () => {
-  const dob = useContext(Dob);
-  const { setDob } = useSetAccount();
+const DobItem = ({ user }) => {
+  const { dob = {} } = user;
   const items = [{ type: 'date', label: 'Date of Birth', key: 'dob' }];
   return (
     <AccountItem
       title='Date of Birth'
       field='dob'
       items={items}
-      input={dob}
+      initial={dob}
       setContext={setDob}
     />
   );
 };
 
-const EmailItem = () => {
-  const email = useContext(Email);
-  const { setEmail } = useSetAccount();
+const EmailItem = ({ user }) => {
+  const { email = {} } = user;
   const items = [{ type: 'email', label: 'Email', key: 'email' }];
   return (
     <AccountItem
       title='Email'
       field='email'
       items={items}
-      input={email}
+      initial={email}
       setContext={setEmail}
     />
   );
 };
 
-const EmergencyContactItem = () => {
-  const emergency_contact = useContext(EmergencyContact);
-  const { setEmergencyContact } = useSetAccount();
+const EmergencyContactItem = ({ user }) => {
+  const { emergency_contact = {} } = user;
   const items = [
     { type: 'text', label: 'Name', key: 'name' },
     { type: 'tel', label: 'Phone', key: 'phone' },
@@ -125,15 +108,14 @@ const EmergencyContactItem = () => {
       title='Emergency Contact'
       field='emergency_contact'
       items={items}
-      input={emergency_contact}
+      initial={emergency_contact}
       setContext={setEmergencyContact}
     />
   );
 };
 
-const InsuranceItem = () => {
-  const insurance = useContext(Insurance);
-  const { setInsurance } = useSetAccount();
+const InsuranceItem = ({ user }) => {
+  const { insurance = {} } = user;
   const items = [
     { type: 'text', label: 'Provider', key: 'provider' },
     { type: 'text', label: 'ID', key: 'id' },
@@ -143,15 +125,14 @@ const InsuranceItem = () => {
       title='Insurance'
       field='insurance'
       items={items}
-      input={insurance}
+      initial={insurance}
       setContext={setInsurance}
     />
   );
 };
 
-const PasswordItem = () => {
-  const password = useContext(Password);
-  const { setPassword } = useSetAccount();
+const PasswordItem = ({ user }) => {
+  const { password = {} } = user;
   const items = [
     { type: 'password', label: 'Current Password', key: 'currentPassword' },
     { type: 'password', label: 'New Password', key: 'newPassword' },
@@ -166,22 +147,21 @@ const PasswordItem = () => {
       title='Password'
       field='password'
       items={items}
-      input={password}
+      initial={password}
       setContext={setPassword}
     />
   );
 };
 
-const PhoneItem = () => {
-  const phone = useContext(Phone);
-  const { setPhone } = useSetAccount();
+const PhoneItem = ({ user }) => {
+  const { phone = {} } = user;
   const items = [{ type: 'tel', label: 'Phone', key: 'phone' }];
   return (
     <AccountItem
       title='Phone'
       field='phone'
       items={items}
-      input={phone}
+      initial={phone}
       setContext={setPhone}
     />
   );

@@ -1,78 +1,87 @@
 import React, { useRef, useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import tools from '../../tools/index.js';
-import { SetNavDisabled } from '../../Providers/Context.js';
+import { SetApp } from '../../Providers/Context';
 import { AccountItemSkeleton } from '../../components/Skeletons.js';
 
-const AccountItem = ({ title, field, items, input, setContext, setHeader }) => {
-  const setNavDisabled = useContext(SetNavDisabled);
+const USER_ERROR = 'USER_ERROR';
+const SAVING = 'SAVING';
+const EDIT = 'EDIT';
+const UPDATED = 'UPDATED';
+const INPUT = 'INPUT';
+const PREV_INPUT = 'PREV_INPUT';
+const PREVIEW = 'PREVIEW';
+
+const AccountItem = ({ title, field, items, initial }) => {
+  const setApp = useContext(SetApp);
 
   const editRef = useRef(null);
 
-  const [userError, setUserError] = useState('');
-  const [saving, setSaving] = useState(false);
-  const [edit, setEdit] = useState(false);
-  const [updated, setUpdated] = useState(false);
-  const [prevInput, setPrevInput] = useState(input);
-  const [preview, setPreview] = useState('');
+  const [state, setState] = useState({
+    [USER_ERROR]: '',
+    [SAVING]: false,
+    [EDIT]: false,
+    [UPDATED]: false,
+    [INPUT]: {},
+    [PREV_INPUT]: initial,
+    [PREVIEW]: '',
+  });
+
+  const setOne = (key, val) => setState((prev) => ({ ...prev, [key]: val }));
 
   // if user error, re-edit
   useEffect(() => {
-    if (userError) {
-      setEdit(true);
+    if (state[USER_ERROR]) {
+      setOne(EDIT, true);
     }
-  }, [userError, setEdit]);
+  }, [state[USER_ERROR], setOne]);
 
   // set preview item
   useEffect(() => {
     if (field === 'password') return;
     if (field === 'name') {
-      setPreview(`${input.firstName} ${input.lastName}`);
+      setOne(PREVIEW, `${initial.name?.firstName} ${initial.name?.lastName}`);
     } else {
-      setPreview(input[items[0].key]);
+      setOne(PREVIEW, items[0].key);
     }
-  }, [field, input, items]);
+  }, [field, initial, items]);
 
   const toggleEdit = () => {
-    if (saving) return;
-    if (!edit) {
-      setEdit(true);
+    if (state[SAVING]) return;
+    if (!state[EDIT]) {
+      setOne(EDIT, true);
     } else {
-      if (updated) {
+      if (state[UPDATED]) {
         save();
       }
-      setEdit(false);
+      setOne(EDIT, false);
     }
   };
 
   useEffect(() => {
-    if (edit) tools.scrollIntoView(editRef);
-  }, [edit, editRef]);
+    if (state[EDIT]) tools.scrollIntoView(editRef);
+  }, [state[EDIT], editRef]);
 
   const togglePassword = () => {
-    if (!edit) {
+    if (!state[EDIT]) {
       toggleEdit();
     } else {
       if (!tools.validPassword(input.newPassword))
-        return setUserError('Invalid password');
+        return setOne(USER_ERROR, 'Invalid password');
       if (input.newPassword !== input.confirmNewPassword)
-        return setUserError("Confirmation doesn't match");
-      let submitInput = { ...input };
-      delete submitInput.confirmNewPassword;
+        return setOne(USER_ERROR, "Confirmation doesn't match");
       toggleEdit();
     }
   };
 
   const handleInput = (e, key) => {
     let val = e.target.value;
-    if (
-      (key === 'zip' || key === 'phone') &&
-      val &&
-      val[val.length - 1].match(/\D/)
-    )
-      return;
-    setUpdated(val !== prevInput[key]);
-    setContext({ ...input, [key]: val });
+    if ((key === 'zip' || key === 'phone') && !tools.validNum(val)) return;
+    setState((prev) => ({
+      ...prev,
+      [UPDATED]: val !== prev[PREV_INPUT][key],
+      [INPUT]: { ...prev[INPUT], [key]: val },
+    }));
   };
 
   const handleKeyDown = (e) => {
@@ -84,39 +93,45 @@ const AccountItem = ({ title, field, items, input, setContext, setHeader }) => {
   };
 
   const save = async () => {
+    let newField = prevInput,
+      newError = '';
     try {
-      setSaving(true);
-      setNavDisabled(true);
-      const res = await axios.post(`/common/update/${field}`, input);
-      if (field === 'password') {
-        setContext(prevInput);
-      } else {
-        if (field === 'name') setHeader(res.data.name.firstName);
-        setContext(res.data[field]);
-        setPrevInput(res.data[field]);
+      setOne(SAVING, true);
+      setApp((prev) => ({ ...prev, navDisabled: true }));
+      const res = await axios.post(`/common/update/${field}`, state[INPUT]);
+      if (field !== 'password') {
+        newField = res.data[field];
       }
-      setUpdated(false);
-      setUserError('');
     } catch (e) {
-      const userError = e.hasOwnProperty('response')
-        ? e.response.data
-        : e.message;
-      setUserError(userError);
+      newError = e.response?.data || e.message;
     } finally {
-      setSaving(false);
-      setNavDisabled(false);
+      setState((prev) => ({
+        ...prev,
+        [SAVING]: false,
+        [UPDATED]: false,
+        [USER_ERROR]: newError,
+        [PREV_INPUT]: newField,
+      }));
+      setApp((prev) => ({
+        ...prev,
+        navDisabled: false,
+        user: { ...prev.user, [field]: newField },
+      }));
     }
   };
 
   const cancel = (e) => {
     e.stopPropagation();
-    setContext(prevInput);
-    setUpdated(false);
-    setUserError('');
-    setEdit(false);
+    setState((prev) => ({
+      ...prev,
+      [UPDATED]: false,
+      [USER_ERROR]: '',
+      [EDIT]: false,
+      [INPUT]: state[PREV_INPUT],
+    }));
   };
 
-  return saving ? (
+  return state[SAVING] ? (
     <AccountItemSkeleton message='Saving...' />
   ) : (
     <div className='account-item'>
@@ -126,10 +141,10 @@ const AccountItem = ({ title, field, items, input, setContext, setHeader }) => {
       >
         <div className='account-item-text'>
           <h4>{title}</h4>
-          <p className='label-small'>{preview}</p>
-          {userError && <p className='error'>{userError}</p>}
+          <p className='label-small'>{state[PREVIEW]}</p>
+          {state[USER_ERROR] && <p className='error'>{state[USER_ERROR]}</p>}
         </div>
-        {edit ? (
+        {state[EDIT] ? (
           <button type='button' className='btn-small' onClick={cancel}>
             Cancel
           </button>
@@ -137,10 +152,10 @@ const AccountItem = ({ title, field, items, input, setContext, setHeader }) => {
           <div></div>
         )}
         <button type='button' className='btn-small'>
-          {edit ? 'save' : 'edit'}
+          {state[EDIT] ? 'save' : 'edit'}
         </button>
       </div>
-      {edit &&
+      {state[EDIT] &&
         items.map((item, index) => {
           return (
             <div key={index} ref={editRef} className='account-item-input-div'>
@@ -156,7 +171,7 @@ const AccountItem = ({ title, field, items, input, setContext, setHeader }) => {
                     ? '[hidden]'
                     : ''
                 }
-                value={input[item.key]}
+                value={state[INPUT][item.key]}
                 onChange={(e) => handleInput(e, item.key)}
                 onKeyDown={handleKeyDown}
               />
