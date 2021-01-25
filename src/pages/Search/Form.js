@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { TESTS } from '../../tools/info/TESTS';
 import Test from './Form/Test.js';
-import Image from '../../components/Image.js';
 import tools from '../../tools';
 
 const SearchForm = ({ handleSubmit }) => {
@@ -32,18 +31,11 @@ const SearchForm = ({ handleSubmit }) => {
   };
 
   return (
-    <div className='search-form-div'>
-      <Image
-        size='sml'
-        classStyle='img-sml'
-        src='/img/welcome1.jpg'
-        alt='Covid-19 test'
-      />
+    <div id='search-form'>
       <form id='form-home' onSubmit={submit}>
-        <h2>Choose the testing type</h2>
-        <p>Which tests are you interested in?</p>
-        <p>Select all that apply:</p>
-        <div id='tests' className='test-items'>
+        <h1 id='choose'>Choose the test type</h1>
+        <p>We will only show locations meeting your requirements.</p>
+        <div className='items flex-col'>
           {Object.entries(TESTS).map((test, index) => {
             return (
               <Test
@@ -55,7 +47,7 @@ const SearchForm = ({ handleSubmit }) => {
             );
           })}
         </div>
-        <h2>What's your location?</h2>
+        <h1 id='zip'>What's your location?</h1>
         <p>Enter your zipcode to find a CityMD nearby</p>
         <input
           autoFocus

@@ -16,26 +16,28 @@ const Test = ({ test, selectedTests, selectTest }) => {
     <div
       className={
         selectedTests.indexOf(testType) !== -1
-          ? 'test-type test-selected'
-          : 'test-type'
+          ? 'flex-col type selected'
+          : 'flex-col type'
       }
       onClick={(e) => selectTest(e, testType)}
     >
-      <div className='test-type-label'>{name}</div>
+      <h2>{name}</h2>
+      <hr />
+      <div className='flex-row more' onClick={handleIconClick}>
+        <p className='small bold'>Learn more</p>
+        <Arrow className={showInfo ? 'icon deg90' : 'icon deg270'} />
+      </div>
       {showInfo && (
-        <ul className='test-info'>
+        <ul>
           {info.map((item, index) => {
             return (
-              <li key={index} className='.info-small'>
+              <li key={index} className='smaller'>
                 {item}
               </li>
             );
           })}
         </ul>
       )}
-      <div className='icon-div' onClick={handleIconClick}>
-        <Arrow className={showInfo ? 'icon deg90' : 'icon deg270'} />
-      </div>
     </div>
   );
 };

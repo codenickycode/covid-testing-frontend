@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { App } from '../../Providers/Context.js';
 import LocationPreview from './Results/LocationPreview.js';
-import { ReactComponent as Arrow } from '../../icons/arrow.svg';
+import { ReactComponent as ArrowCircleIcon } from '../../icons/ArrowCircle.svg';
 import { SearchResultsSkeleton } from '../../components/Skeletons.js';
 
 const SearchResults = ({
@@ -15,22 +15,22 @@ const SearchResults = ({
   return loading ? (
     <SearchResultsSkeleton />
   ) : (
-    <div className='search-results-div'>
+    <div id='search-results'>
       <div className='date-picker'>
-        <div className='icon' onClick={() => handleChangeDate('dec')}>
-          <Arrow />
+        <div className='icon deg180' onClick={() => handleChangeDate('dec')}>
+          <ArrowCircleIcon />
         </div>
         <p>{date}</p>
-        <div className='icon deg180' onClick={() => handleChangeDate('inc')}>
-          <Arrow />
+        <div className='icon' onClick={() => handleChangeDate('inc')}>
+          <ArrowCircleIcon />
         </div>
       </div>
-      <div className='sort-tests'>
-        <div className='select-label'>Sort by:</div>
-        <div className='select-small' onClick={() => handleSortBy('time')}>
+      <div className='sort'>
+        <div className='small bold'>Sort by:</div>
+        <div className='smaller bold' onClick={() => handleSortBy('time')}>
           Time
         </div>
-        <div className='select-small' onClick={() => handleSortBy('distance')}>
+        <div className='smaller bold' onClick={() => handleSortBy('distance')}>
           Distance
         </div>
       </div>

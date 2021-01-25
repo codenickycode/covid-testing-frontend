@@ -6,29 +6,24 @@ const LocationPreview = ({ location, handleSelection }) => {
   const { name, phone, address, tests } = location;
 
   return (
-    <div
-      className='location-preview'
-      onClick={() => handleSelection(location._id)}
-    >
+    <div id='location-preview' onClick={() => handleSelection(location._id)}>
       <Image
         size='sml'
-        classStyle='img-sml'
         src={`/img/locations/preview/${location._id.toString()}.jpg`}
         alt='Branch'
       />
-      <div className='location-info'>
-        <div className='location-basic'>
-          <h4>{name}</h4>
-          <p>{phone}</p>
-          <p>{address.street}</p>
+      <div id='preview-info'>
+        <div>
+          <h2>{name}</h2>
+          <hr />
           <p>
-            {address.city}, {address.state} {address.zip}
+            {address.street}, {address.city}, {address.state} {address.zip}
           </p>
         </div>
-        <div className='location-tests'>
-          <h4>Next Available Appointment:</h4>
-          <p className='next-available'>{location.available[0]}</p>
-          <h4>Tests available:</h4>
+        <div id='preview-tests'>
+          <p className='small bold'>Next available appointment:</p>
+          <p id='preview-time'>{location.available[0]}</p>
+          <p className='small bold'>Tests available:</p>
           <ul>
             {tests.map((test, index) => {
               return (
