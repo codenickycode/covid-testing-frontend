@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { App } from '../../Providers/Context.js';
 import { ReactComponent as MenuIcon } from '../../icons/menu.svg';
-import { ReactComponent as ArrowIcon } from '../../icons/arrow.svg';
+import { ReactComponent as ArrowIcon } from '../../icons/Arrow.svg';
 
 const Header = () => {
   const history = useHistory();

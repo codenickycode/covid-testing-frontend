@@ -8,7 +8,7 @@ export const TESTS = {
     ],
   },
   pcr: {
-    name: 'PCR',
+    name: 'Molecular (PCR)',
     info: [
       'Administered via a nasal swab',
       'This test will detect if you are actively infected with the COVID-19 virus',
@@ -16,7 +16,7 @@ export const TESTS = {
     ],
   },
   blood: {
-    name: 'Antibody',
+    name: 'Antibody (Blood Test)',
     info: [
       'Administered via a blood sample',
       'This test will detect if you have had prior exposure to or infection with COVID-19 and have built antibodies for the virus',

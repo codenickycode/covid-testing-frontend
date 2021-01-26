@@ -11,12 +11,16 @@ const Welcome = () => {
   return loading ? (
     <WelcomeSkeleton />
   ) : (
-    <div id='welcome flex-col'>
-      <h1>COVID-19 testing is avaialable at CityMD</h1>
-      <p>We're here for you during this pandemic.</p>
+    <div id='welcome' className='flex-col'>
+      <div>
+        <h1>COVID-19 testing is available at CityMD</h1>
+        <p>We're here for you during this pandemic.</p>
+      </div>
       <Image src='/img/png/welcome.png' alt='Welcome illustration' size='lrg' />
-      <h1>No more waiting!</h1>
-      <p>Schedule an appointment in advance and skip the line.</p>
+      <div>
+        <h1>No more waiting!</h1>
+        <p>Schedule an appointment in advance and skip the line.</p>
+      </div>
       <button
         autoFocus
         className='btn'

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ReactComponent as ArrowIcon } from '../../../icons/arrow.svg';
+import { ReactComponent as ArrowIcon } from '../../../icons/Arrow.svg';
 
 const Time = ({ times, time, setTime }) => {
   const [scroll, setScroll] = useState(0);

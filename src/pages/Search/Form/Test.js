@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ReactComponent as Arrow } from '../../../icons/arrow.svg';
+import { ReactComponent as ArrowIcon } from '../../../icons/Arrow.svg';
 
 const Test = ({ test, selectedTests, selectTest }) => {
   const [showInfo, setShowInfo] = useState(false);
@@ -24,8 +24,8 @@ const Test = ({ test, selectedTests, selectTest }) => {
       <h2>{name}</h2>
       <hr />
       <div className='flex-row more' onClick={handleIconClick}>
-        <p className='small bold'>Learn more</p>
-        <Arrow className={showInfo ? 'icon deg90' : 'icon deg270'} />
+        <p className='small bold'>{showInfo ? 'Less info' : 'Learn more'}</p>
+        <ArrowIcon className={showInfo ? 'icon deg270' : 'icon deg90'} />
       </div>
       {showInfo && (
         <ul>

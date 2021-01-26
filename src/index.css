@@ -2,7 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  border: 1px dotted magenta;
+  /* border: 1px dotted magenta; */
 }
 
 :root {
@@ -17,6 +17,7 @@
   --pink: #ffa0a0;
   --grey: #aaa;
   font-size: 16px;
+  /* font-size: 4vw; */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -26,7 +27,39 @@
 /************************ Icons ****************************/
 /***********************************************************/
 
+/* titles place icons to the left of header */
+.title {
+  width: 100%;
+}
+
+.title-text {
+  display: inline-block;
+}
+
+.icon-left {
+  position: relative;
+  left: -2rem;
+}
+
 .icon {
+  display: inline-block;
+  height: 1.5rem;
+  min-width: 1.5rem;
+  vertical-align: top;
+  margin-right: 0.35rem;
+}
+
+.icon-spacer {
+  display: block;
+  height: 1.5rem;
+  min-width: 2rem;
+}
+
+.with-spacer {
+  display: flex;
+}
+
+.icon g {
   display: flex;
   align-items: center;
   stroke: var(--red);
@@ -41,43 +74,47 @@
 }
 
 .icon-name::before {
-  background-image: url('icons/Profile.svg');
-  background-size: auto 1.5rem;
+  content: url('icons/Profile.svg');
+  height: 1.5rem;
 }
 
 .icon-address::before {
-  background-image: url('icons/Location.svg');
-  background-size: auto 1.5rem;
+  content: url('icons/Location.svg');
+  height: 1.5rem;
 }
 
 .icon-phone::before {
-  background-image: url('icons/Call.svg');
-  background-size: auto 1.5rem;
+  content: url('icons/Call.svg');
+  height: 1.5rem;
 }
 
 .icon-date::before {
-  background-image: url('icons/Calendar.svg');
-  background-size: auto 1.5rem;
+  content: url('icons/Calendar.svg');
+  height: 1.5rem;
 }
 
 .icon-time::before {
-  background-image: url('icons/TimeCircle.svg');
-  background-size: auto 1.5rem;
+  content: url('icons/TimeCircle.svg');
+  height: 1.5rem;
 }
 
 .icon-test::before {
-  background-image: url('icons/Document.svg');
-  background-size: auto 1.5rem;
+  content: url('icons/Document.svg');
+  font-size: 2rem;
+  display: inline-block;
+  vertical-align: text-top;
+  line-height: normal;
+  padding-right: 0.5rem;
 }
 
 .icon-instructions::before {
-  background-image: url('icons/InfoSquare.svg');
-  background-size: auto 1.5rem;
+  content: url('icons/InfoSquare.svg');
+  height: 1.5rem;
 }
 
 .icon-emergency_contact::before {
-  background-image: url('icons/2User.svg');
-  background-size: auto 1.5rem;
+  content: url('icons/2User.svg');
+  height: 1.5rem;
 }
 
 /***********************************************************/
@@ -85,7 +122,7 @@
 /***********************************************************/
 
 img {
-  margin: 0 auto;
+  margin: 1rem auto;
 }
 
 .logo {
@@ -105,6 +142,10 @@ img {
   color: var(--red);
 }
 
+.center {
+  text-align: center;
+}
+
 .error {
   color: var(--red);
 }
@@ -122,19 +163,25 @@ img {
 }
 
 .flex-col {
-  width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
+  /* border: 2px solid magenta; */
 }
 
-.flex-col {
+.flex-row {
   width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
+}
+
+.img {
+  display: block;
+  max-width: 100%;
+  /* max-height: 100%; */
 }
 
 .d-none {
@@ -165,14 +212,17 @@ img {
   width: 100%;
 }
 
+.m-bot-1 {
+  margin-bottom: 1rem;
+}
+
 .disabled {
   opacity: 0.5;
 }
 
 h1,
 h2 {
-  text-align: center;
-  margin: 1rem 0;
+  margin-bottom: 0.5rem;
   font-weight: bold;
 }
 
@@ -190,8 +240,8 @@ h2 {
 
 p,
 span {
-  margin: 0.5rem 1rem;
-  font-weight: normal;
+  font-style: normal;
+  font-weight: 500;
   font-size: 1rem;
   line-height: 120%;
 }
@@ -208,12 +258,12 @@ span {
 
 .small,
 .smaller {
-  font-size: 0.6rem;
+  font-size: 0.7rem;
   line-height: 120%;
 }
 
 .smaller {
-  font-size: 0.5rem;
+  /* font-size: 0.5rem; */
 }
 
 /***********************************************************/
@@ -277,8 +327,7 @@ input {
   padding: 0.5rem;
   width: 100%;
   height: 2rem;
-  outline: none;
-  border-radius: 0.6rem;
+  border: none;
   border-bottom: 0.5px solid var(--black);
 }
 
@@ -303,38 +352,32 @@ input:invalid,
 /********************* HTML Sections ***********************/
 /***********************************************************/
 
-html,
-body {
+html {
   width: 100%;
-  height: 100%;
-}
-
-body {
-  font-family: 'Helvetica Neue', sans-serif;
-  color: var(--black);
+  /* height: 100%; */
   background-color: var(--html-bg);
 }
 
-#root {
-  margin: 0 auto;
+body {
   width: 100%;
-  min-height: 100%;
   max-width: 750px;
-  background-color: var(--white);
-}
-
-/* wraps all jsx */
-#main {
-  padding: 1rem;
-  width: 100%;
+  margin: 0 auto;
+  font-family: 'Helvetica Neue', sans-serif;
+  color: var(--black);
+  border: 2px dashed green;
 }
 
 #pages {
-  position: relative;
-  padding-bottom: 80px;
+  position: absolute;
   top: 96px;
-  height: 100%; /* ?????????????????????????????? */
-  min-height: 100%;
+  width: 100%;
+  min-height: 90%;
+  padding: 0 1rem 80px;
+  background-color: var(--white);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid red;
 }
 
 .overlay {
@@ -390,7 +433,8 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: var(--white);
+  background-color: var(--pink);
+  opacity: 0.5;
 }
 
 /***********************************************************/
@@ -398,8 +442,8 @@ body {
 /***********************************************************/
 
 #welcome {
-  width: 100%;
-  padding: 1rem;
+  border: 2px solid blue;
+  max-width: 80%;
 }
 
 /***********************************************************/
@@ -411,28 +455,35 @@ body {
 }
 
 #search-form form {
-  padding: 1.5rem;
-}
-
-#choose::before {
-  background-image: url('icons/Document.svg');
-  background-size: auto 1.5rem;
-}
-
-#zip::before {
-  background-image: url('icons/Location.svg');
-  background-size: auto 1.5rem;
+  margin: 0 auto;
+  max-width: 90%;
 }
 
 /* div for test items */
 #search-form .items {
-  margin-top: 0.5rem;
+  margin: 1.5rem;
+  width: 85%;
 }
 
 /* div for each test */
 #search-form .type {
   cursor: pointer;
+  width: 100%;
+  margin-bottom: 1rem;
+  padding: 0.75rem 0 0.25rem 0;
   border-radius: 0.6rem;
+  border: 1px solid var(--black);
+}
+
+.type h2,
+.type p {
+  text-align: center;
+}
+
+#search-form hr {
+  width: 100%;
+  color: var(--black);
+  margin-bottom: 0.25rem;
 }
 
 #search-form .selected {
@@ -443,9 +494,21 @@ body {
   color: var(--red);
 }
 
+#search-form ul {
+  padding: 0 1rem;
+}
+
 #search-form li {
   margin: 1rem 0;
   list-style: none;
+}
+
+.more .icon {
+  max-height: 0.75rem;
+}
+
+#search-form input {
+  max-width: 80%;
 }
 
 /***********************************************************/
@@ -608,7 +671,7 @@ body {
 }
 
 #confirm-firstName::before {
-  background-image: url('icons/Profile.svg');
+  content: url('icons/Profile.svg');
   background-size: 1.5rem;
 }
 
@@ -621,7 +684,7 @@ body {
 }
 
 #confirm-dob::before {
-  background-image: url('icons/Calendar.svg');
+  content: url('icons/Calendar.svg');
   background-size: 1.5rem;
 }
 
@@ -630,7 +693,7 @@ body {
 }
 
 #confirm-phone::before {
-  background-image: url('icons/Call.svg');
+  content: url('icons/Call.svg');
   background-size: 1.5rem;
 }
 
@@ -737,7 +800,8 @@ body {
   padding: 1rem;
   width: 100%;
   height: 80px;
-  background-color: var(--white);
+  background-color: var(--pink);
+  opacity: 0.5;
 }
 
 #navbar {
