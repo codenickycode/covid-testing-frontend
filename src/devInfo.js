@@ -17,7 +17,7 @@ const clearConfirm = () => {
   }));
 };
 
-<div className='info-footer'>
+<div id='info-footer'>
   <div className='error'>{remember ? 'REMEMBER: TRUE' : 'REMEMBER: FALSE'}</div>
   <div className='error'>{loggedIn ? 'Logged in.' : 'Not logged in.'}</div>
   <div className='error'>{email.email || 'No email.'}</div>

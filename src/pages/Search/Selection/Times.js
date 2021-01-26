@@ -11,14 +11,16 @@ const Time = ({ times, time, setTime }) => {
   };
   const span = (i) => (
     <span
-      className={times[scroll + i] === time ? 'time-selected' : ''}
+      className={
+        times[scroll + i] === time ? 'btn-small time-selected' : 'btn-small'
+      }
       onClick={() => setTime(times[scroll + i])}
     >
       {times[scroll + i]}
     </span>
   );
   return (
-    <div className='appointment-time'>
+    <div id='appointment-times'>
       <div className='icon' onClick={() => handleClick('dec')}>
         <ArrowIcon />
       </div>

@@ -10,28 +10,28 @@ const Navbar = () => {
 
   return (
     <>
-      <div className='footer'>
-        <nav className='navbar'>
+      <div id='footer'>
+        <nav id='navbar'>
           <NavLink
             to={loading || navDisabled ? '#' : '/gateway/account'}
-            className={loading || navDisabled ? 'icon-disabled' : 'icon'}
-            activeClassName='icon-active'
+            className={loading || navDisabled ? 'icon disabled' : 'icon'}
+            activeClassName='icon active'
           >
             <AccountIcon />
           </NavLink>
 
           <NavLink
             to={loading || navDisabled ? '#' : '/gateway/appointments'}
-            className={loading || navDisabled ? 'icon-disabled' : 'icon'}
-            activeClassName='icon-active'
+            className={loading || navDisabled ? 'icon disabled' : 'icon'}
+            activeClassName='icon active'
           >
             <AppointmentsIcon />
           </NavLink>
 
           <NavLink
             to={loading || navDisabled ? '#' : '/gateway/settings'}
-            className={loading || navDisabled ? 'icon-disabled' : 'icon'}
-            activeClassName='icon-active'
+            className={loading || navDisabled ? 'icon disabled' : 'icon'}
+            activeClassName='icon active'
           >
             <SettingsIcon />
           </NavLink>

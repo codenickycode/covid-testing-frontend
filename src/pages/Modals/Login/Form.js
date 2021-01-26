@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from '../../../components/Image';
 
 const LoginForm = ({
   handleSubmit,
@@ -13,54 +14,62 @@ const LoginForm = ({
   };
 
   return (
-    <div className='login-form-div'>
+    <div id='login-form'>
       {signup ? (
-        <>
-          <h1>Create an account with CityMD</h1>
-          <p>Book appointments smoothly</p>
-        </>
+        <h1>
+          <span className='logo'></span>Create an account with CityMD
+        </h1>
       ) : (
-        <h1>Login to your account</h1>
+        <h1>
+          <span className='logo'></span>Login to your account
+        </h1>
       )}
-      <form id='form-signup' className='form-modal' onSubmit={handleSubmit}>
+      <p>to confirm your appointment</p>
+      <Image src='/img/png/login.png' alt='Login illustration' size='med' />
+      <form onSubmit={handleSubmit}>
         <p className='info-small'>*required fields</p>
-        {errors.email && <h3 className='error'>{errors.email}</h3>}
-        <label htmlFor='email' className='label-small'>
-          <span className='info-small'>*</span>Email
+        {errors.email && <h2 className='error'>{errors.email}</h2>}
+        <label id='login-email' htmlFor='email'>
+          Email
         </label>
         <input
           autoFocus
           type='email'
           name='email'
-          className={errors.email ? 'invalid-field' : ''}
+          className={errors.email ? 'invalid' : ''}
           value={inputs.email || ''}
           onChange={handleInput}
           placeholder='Enter your email address'
         />
-        {errors.password && <h3 className='error'>{errors.password}</h3>}
-        <label htmlFor='password' className='label-small'>
-          <span className='info-small'>*</span>Password
+        {errors.password && <h2 className='error'>{errors.password}</h2>}
+        <label id='login-password' htmlFor='password'>
+          Password
         </label>
         <input
           type='password'
           name='password'
-          className={errors.password ? 'invalid-field' : ''}
+          className={errors.password ? 'invalid' : ''}
           value={inputs.password || ''}
           onChange={handleInput}
           placeholder={signup ? 'Create your password' : 'Enter your password'}
         />
         {signup && (
+          <p className='smaller'>
+            min. 8 digits: lowercase, uppercase, and number
+          </p>
+        )}
+        {signup && (
           <>
             {errors.confirmation && (
-              <h3 className='error'>{errors.confirmation}</h3>
+              <h2 className='error'>{errors.confirmation}</h2>
             )}
-            <label htmlFor='confirmation' className='label-small'>
-              <span className='info-small'>*</span>Confirm
+            <label id='login-confirmation' htmlFor='confirmation'>
+              Confirm
             </label>
             <input
               type='password'
               name='confirmation'
-              className={errors.confirmation ? 'invalid-field' : ''}
+              className={errors.confirmation ? 'invalid' : ''}
               value={inputs.confirmation || ''}
               onChange={handleInput}
               placeholder='Confirm your password'
@@ -68,7 +77,7 @@ const LoginForm = ({
           </>
         )}
         <button type='submit' className='btn'>
-          {signup ? 'Create An Account' : 'Login'}
+          {signup ? 'Create An Account' : 'Sign In'}
         </button>
         {!signup && (
           <p>

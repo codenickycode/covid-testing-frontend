@@ -4,6 +4,7 @@ import UserInfoField from './UserInfoField.js';
 import { LoginSkeleton } from '../../../components/Skeletons.js';
 import { App } from '../../../Providers/Context.js';
 import tools from '../../../tools/index.js';
+import Image from '../../../components/Image';
 
 const ConfirmUserInfo = ({ closeModal, setInfoIsConfirmed }) => {
   const { loading, user } = useContext(App);
@@ -53,28 +54,36 @@ const ConfirmUserInfo = ({ closeModal, setInfoIsConfirmed }) => {
             message='Please wait while we book your appointment.'
           />
         ) : (
-          <>
-            <h1>Before confirming your appointment</h1>
+          <div id='confirm-info'>
+            <h1>
+              <span className='logo'></span>Before confirming your appointment
+            </h1>
             <p>We need a little info</p>
-            <form id='form-reg-info' className='form' onSubmit={handleSubmit}>
-              <p className='info-small'>*Required fields</p>
+            <form onSubmit={handleSubmit}>
               <div>Name:</div>
-              {Object.keys(inputs).map((field) => (
-                <UserInfoField
-                  key={field}
-                  field={field}
-                  label={labels[field]}
-                  input={inputs[field]}
-                  error={errors[field]}
-                  handleInput={handleInput}
-                />
-              ))}
+              <div id='confirm-grid'>
+                {Object.keys(inputs).map((field) => (
+                  <UserInfoField
+                    key={field}
+                    field={field}
+                    label={labels[field]}
+                    input={inputs[field]}
+                    error={errors[field]}
+                    handleInput={handleInput}
+                  />
+                ))}
+              </div>
+              <Image
+                src='/img/png/confirm.png'
+                alt='Confirm illustration'
+                size='med'
+              />
 
               <button type='submit' className='btn'>
                 Confirm
               </button>
             </form>
-          </>
+          </div>
         )}
       </div>
     </>

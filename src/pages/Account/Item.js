@@ -146,14 +146,14 @@ const AccountItem = ({ title, field, items }) => {
   return state[SAVING] ? (
     <AccountItemSkeleton message='Saving...' />
   ) : (
-    <div className='account-item'>
+    <div className='item'>
       <div
-        className='account-item-top'
+        className={`item-top icon-${field}`}
         onClick={field === 'password' ? togglePassword : toggleEdit}
       >
-        <div className='account-item-text'>
-          <h4>{title}</h4>
-          <p className='label-small'>{state[PREVIEW]}</p>
+        <div className='item-text'>
+          <h2>{title}</h2>
+          <p className='light'>{state[PREVIEW]}</p>
           {state[USER_ERROR] && <p className='error'>{state[USER_ERROR]}</p>}
         </div>
         {state[EDIT] ? (
@@ -170,10 +170,8 @@ const AccountItem = ({ title, field, items }) => {
       {state[EDIT] &&
         items.map((item, index) => {
           return (
-            <div key={index} ref={editRef} className='account-item-input-div'>
-              <label htmlFor={field + item.key} className='label-small'>
-                {item.label}
-              </label>
+            <div key={index} ref={editRef}>
+              <label htmlFor={field + item.key}>{item.label}</label>
               <input
                 type={item.type}
                 id={field + item.key}

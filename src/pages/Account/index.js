@@ -9,7 +9,7 @@ export default function Account() {
   return !user ? (
     <Redirect to='/gateway/account' />
   ) : (
-    <div id='account-div'>
+    <div id='account'>
       <AccountHeader />
       <AccountItemsList />
     </div>

@@ -11,7 +11,7 @@ const Welcome = () => {
   return loading ? (
     <WelcomeSkeleton />
   ) : (
-    <div id='welcome'>
+    <div id='welcome flex-col'>
       <h1>COVID-19 testing is avaialable at CityMD</h1>
       <p>We're here for you during this pandemic.</p>
       <Image src='/img/png/welcome.png' alt='Welcome illustration' size='lrg' />

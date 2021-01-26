@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import dayjs from 'dayjs';
-import Image from '../../components/Image.js';
 import { App } from '../../Providers/Context';
 
 const AccountHeader = () => {
@@ -15,17 +14,10 @@ const AccountHeader = () => {
       : 'evening';
 
   return (
-    <div className='account-header'>
-      <div className='avatar'>
-        <Image
-          classStyle='avatar-img'
-          src='/img/salad-cat.png'
-          alt='User'
-          size='sml'
-        />
-      </div>
-      <h1>{`Good ${time}${headerName ? `, ${headerName}!` : '!'}`}</h1>
-    </div>
+    <h1>
+      <span className='logo'></span>
+      {`Good ${time}${headerName ? `, ${headerName}!` : '!'}`}
+    </h1>
   );
 };
 

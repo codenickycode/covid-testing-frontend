@@ -2,7 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  /* border: 1px dotted magenta; */
+  border: 1px dotted magenta;
 }
 
 :root {
@@ -17,11 +17,81 @@
   --pink: #ffa0a0;
   --grey: #aaa;
   font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/***********************************************************/
+/************************ Icons ****************************/
+/***********************************************************/
+
+.icon {
+  display: flex;
+  align-items: center;
+  stroke: var(--red);
+  stroke-width: 1px;
+  height: 1.5rem;
+  opacity: 0.75;
+}
+
+.active {
+  opacity: 1;
+  stroke-width: 1.5px;
+}
+
+.icon-name::before {
+  background-image: url('icons/Profile.svg');
+  background-size: auto 1.5rem;
+}
+
+.icon-address::before {
+  background-image: url('icons/Location.svg');
+  background-size: auto 1.5rem;
+}
+
+.icon-phone::before {
+  background-image: url('icons/Call.svg');
+  background-size: auto 1.5rem;
+}
+
+.icon-date::before {
+  background-image: url('icons/Calendar.svg');
+  background-size: auto 1.5rem;
+}
+
+.icon-time::before {
+  background-image: url('icons/TimeCircle.svg');
+  background-size: auto 1.5rem;
+}
+
+.icon-test::before {
+  background-image: url('icons/Document.svg');
+  background-size: auto 1.5rem;
+}
+
+.icon-instructions::before {
+  background-image: url('icons/InfoSquare.svg');
+  background-size: auto 1.5rem;
+}
+
+.icon-emergency_contact::before {
+  background-image: url('icons/2User.svg');
+  background-size: auto 1.5rem;
 }
 
 /***********************************************************/
 /******************** General Styles ***********************/
 /***********************************************************/
+
+img {
+  margin: 0 auto;
+}
+
+.logo {
+  background-image: url('icons/Logo.svg');
+  background-size: 2rem;
+}
 
 .black {
   color: var(--black);
@@ -32,6 +102,10 @@
 }
 
 .red {
+  color: var(--red);
+}
+
+.error {
   color: var(--red);
 }
 
@@ -91,20 +165,13 @@
   width: 100%;
 }
 
-.text-center {
-  text-align: center;
-}
-
-.o-hidden {
-  overflow: hidden;
-}
-
 .disabled {
-  opacity: 0.7;
+  opacity: 0.5;
 }
 
 h1,
 h2 {
+  text-align: center;
   margin: 1rem 0;
   font-weight: bold;
 }
@@ -124,6 +191,7 @@ h2 {
 p,
 span {
   margin: 0.5rem 1rem;
+  font-weight: normal;
   font-size: 1rem;
   line-height: 120%;
 }
@@ -148,20 +216,12 @@ span {
   font-size: 0.5rem;
 }
 
-.icon {
-  display: flex;
-  align-items: center;
-  stroke: var(--red);
-  height: 1.5rem;
-}
-
 /***********************************************************/
 /************************* Inputs **************************/
 /***********************************************************/
 
 .btn,
-.btn-small,
-#preview-time {
+.btn-small {
   margin: 1rem auto;
   cursor: pointer;
   display: block;
@@ -234,7 +294,7 @@ input:active {
 input:invalid,
 .invalid {
   border-bottom: 1.5px solid var(--red);
-  background-image: url('img/svg/Invalid.svg');
+  background-image: url('icons/Invalid.svg');
   background-size: auto 1.5rem;
   background-position: right;
 }
@@ -298,11 +358,27 @@ body {
   z-index: 101;
 }
 
+.menu {
+  position: fixed;
+  top: 50%;
+  right: -100%;
+  width: 50%;
+  transform: translate(0, -50%);
+  background-color: var(--bg-secondary);
+  padding: 1rem;
+  z-index: 101;
+  transition: 150ms ease-in-out;
+}
+
+.show-menu {
+  right: 0;
+}
+
 /***********************************************************/
 /************************* Header **************************/
 /***********************************************************/
 
-.header {
+#header {
   z-index: 2;
   position: fixed;
   top: 0;
@@ -323,6 +399,7 @@ body {
 
 #welcome {
   width: 100%;
+  padding: 1rem;
 }
 
 /***********************************************************/
@@ -338,12 +415,12 @@ body {
 }
 
 #choose::before {
-  background-image: url('img/svg/Document.svg');
+  background-image: url('icons/Document.svg');
   background-size: auto 1.5rem;
 }
 
 #zip::before {
-  background-image: url('img/svg/Location.svg');
+  background-image: url('icons/Location.svg');
   background-size: auto 1.5rem;
 }
 
@@ -431,26 +508,42 @@ body {
   left: -0.5rem;
 }
 
+#preview-time {
+  pointer-events: none;
+}
+
 /***********************************************************/
 /*********************** Selection *************************/
 /***********************************************************/
 
-.selection-div {
-  padding: 1rem;
-}
-
-.selection-info {
+#selection {
   width: 100%;
 }
 
-.appointment-item {
-  margin: 0.5rem 0;
-  padding: 0.5rem;
-  border-radius: 10px;
-  background-color: var(--bg-secondary);
+#selection form {
+  width: 100%;
+  padding: 1.5rem;
 }
 
-.appointment-time {
+#selection .item {
+  margin: 1rem 0;
+  padding: 1rem;
+}
+
+#selection .item h2 {
+  font-size: 1rem;
+}
+
+#selection .item p {
+  font-size: 0.6rem;
+  line-height: 120%;
+}
+
+.date-picker-left {
+  background-color: var(--white);
+}
+
+#appointment-times {
   display: flex;
   justify-content: space-between;
 }
@@ -466,44 +559,90 @@ body {
 
 .time-selected,
 .test-selected {
-  padding: 0.25rem;
-  border-radius: 10px;
-  background-color: var(--bg-tertiary);
-  border: 1px solid purple;
+  border: none;
+  background-color: var(--red);
+  color: var(--white);
 }
 
 /***********************************************************/
 /********************** Login Form *************************/
 /***********************************************************/
 
-.form-modal {
+#login-form h1 {
+  background-image: url('icons/Logo.svg');
+  background-size: 2rem;
+}
+
+#login-form form {
   margin: 1rem 0;
   padding: 1rem;
 }
 
-.login-form-div p,
-.login-form-div h1 {
+#login-form p,
+#login-form h1 {
   text-align: center;
+}
+
+#login-email {
+  background-image: url('icons/Message.svg');
+  background-size: 1rem;
+}
+
+#login-password,
+#login-confirmation {
+  background-image: url('icons/Password.svg');
+  background-size: 1rem;
+}
+
+#confirm-grid {
+  width: 100%;
+  display: grid;
+  grid-template-areas:
+    'first  last'
+    ' dob   dob '
+    'phone phone';
+}
+
+#confirm-firstName {
+  grid-area: first;
+}
+
+#confirm-firstName::before {
+  background-image: url('icons/Profile.svg');
+  background-size: 1.5rem;
+}
+
+#confirm-lastName {
+  grid-area: last;
+}
+
+#confirm-dob {
+  grid-area: dob;
+}
+
+#confirm-dob::before {
+  background-image: url('icons/Calendar.svg');
+  background-size: 1.5rem;
+}
+
+#confirm-phone {
+  grid-area: phone;
+}
+
+#confirm-phone::before {
+  background-image: url('icons/Call.svg');
+  background-size: 1.5rem;
 }
 
 /***********************************************************/
 /********************* Appointments ************************/
 /***********************************************************/
 
-.appointment-preview {
-  text-align: center;
-}
-
-.appointment-item-div {
-  margin: 2rem 0;
+#appointments {
   width: 100%;
 }
 
-.appointment-item-div .icon {
-  margin: 0 auto;
-}
-
-.appointments-tabs {
+#appointments .tabs {
   margin-bottom: 1.5rem;
   width: 100%;
   display: flex;
@@ -511,21 +650,47 @@ body {
   align-items: center;
 }
 
-.appointments-tab,
-.appointments-tab-selected {
+#appointments .tab,
+#appointments .tab-selected {
   width: 30%;
-  font-family: Mulish;
-  font-style: normal;
-  font-weight: bold;
-  text-transform: uppercase;
-  text-align: center;
-}
-.appointments-tab-selected {
-  border-top: 3px solid;
-  border-top-color: var(--highlight-red);
+  text-transform: initial;
+  border: 0.5px solid var(--black);
+  border-bottom: none;
 }
 
-.appointment-tests-span {
+#appointments .tab-selected {
+  border-top: 3px solid;
+  border-left: 1px solid;
+  border-right: 1px solid;
+}
+
+#appointments .item {
+  margin: 1rem 0;
+  width: 100%;
+  border-radius: 0.6rem;
+  border: 1px solid var(--black);
+}
+
+.appt {
+  position: relative;
+  padding: 1rem 0.5rem;
+}
+
+.preview {
+  background-image: url('icons/ArrowRightCircle.svg');
+  background-size: 1rem;
+  background-position: right;
+  transform: rotate(90deg);
+}
+
+.full {
+  background-image: url('icons/ArrowRightCircle.svg');
+  background-size: 1rem;
+  background-position: right;
+  transform: rotate(270deg);
+}
+
+.test-span {
   text-transform: capitalize;
 }
 
@@ -533,33 +698,20 @@ body {
 /************************ Account***************************/
 /***********************************************************/
 
-.account-header {
+#account {
   width: 100%;
-  height: auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
-.avatar > img {
-  margin: 1rem;
-  width: 75px;
-  height: 75px;
-  background-color: var(--btn-enabled);
-  border-radius: 50%;
-}
-
-.account-item {
+#account .item {
   margin: 0.5rem;
   padding: 0.5rem;
-  background-color: var(--btn-enabled);
 }
 
-.account-item-text {
+#account .item-text {
   overflow: hidden;
 }
 
-.account-item-top {
+#account .item-top {
   padding: 0.5rem;
   width: 100%;
   display: grid;
@@ -571,12 +723,12 @@ body {
 /************************ Navbar ***************************/
 /***********************************************************/
 
-.info-footer {
+#info-footer {
   position: fixed;
   bottom: 80px;
 }
 
-.footer {
+#footer {
   z-index: 2;
   position: fixed;
   bottom: 0;
@@ -585,10 +737,10 @@ body {
   padding: 1rem;
   width: 100%;
   height: 80px;
-  background-color: var(--bg-primary);
+  background-color: var(--white);
 }
 
-.navbar {
+#navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;

@@ -1,6 +1,6 @@
 import React from 'react';
 import Times from './Times.js';
-import { ReactComponent as Arrow } from '../../../icons/arrow.svg';
+import { ReactComponent as ArrowCircleIcon } from '../../../icons/ArrowCircle.svg';
 
 const SelectionJSX = ({
   selection,
@@ -15,71 +15,73 @@ const SelectionJSX = ({
   const { name, phone, address, tests, available } = selection;
 
   return (
-    <div className='selection-div'>
-      <form id='form-confirm' onSubmit={handleSubmit}>
-        <div className='selection-info'>
-          <h2>{name}</h2>
-          <div className='appointment-item'>
-            <h4>Address</h4>
-            <p>{phone}</p>
-            <p>{address.street}</p>
-            <p>
-              {address.city}, {address.state} {address.zip}
-            </p>
-          </div>
-          <div className='appointment-item'>
-            <h4>Date</h4>
-            <div className='date-picker-left'>
-              <div className='icon' onClick={() => handleChangeDate('dec')}>
-                <Arrow />
-              </div>
-              <p>{date}</p>
-              <div
-                className='icon deg180'
-                onClick={() => handleChangeDate('inc')}
-              >
-                <Arrow />
-              </div>
+    <div id='selection'>
+      <form onSubmit={handleSubmit}>
+        <h1 id='selection-name'>
+          <span className='logo'></span>
+          {name}
+        </h1>
+        <div className='item'>
+          <h2 id='selection-address'>Address</h2>
+          <p>{phone}</p>
+          <p>
+            {address.street}, {address.city}, {address.state} {address.zip}
+          </p>
+        </div>
+        <div className='item'>
+          <h2 id='selection-date'>Date</h2>
+          <div className='date-picker-left'>
+            <div
+              className='icon deg180'
+              onClick={() => handleChangeDate('dec')}
+            >
+              <ArrowCircleIcon />
+            </div>
+            <p>{date}</p>
+            <div className='icon' onClick={() => handleChangeDate('inc')}>
+              <ArrowCircleIcon />
             </div>
           </div>
-          <div className='appointment-item'>
-            <h4>
-              Time <span className='info-small'>*required</span>
-            </h4>
-            <Times times={available} time={time} setTime={setTime} />
-          </div>
-          <div className='appointment-item'>
-            <h4>
-              Tests <span className='info-small'>*required</span>
-            </h4>
-            <ul>
-              {tests.map((test, index) => {
-                return (
-                  <li
-                    key={index}
-                    className={
-                      selectedTests.indexOf(test) !== -1 ? 'test-selected' : ''
-                    }
-                    onClick={() => selectTest(test)}
-                  >
-                    {test}
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-          <div className='appointment-item'>
-            <h4>Instruction</h4>
-            <p>
-              Arrive at the clinic 5 minutes before your appointment and wait
-              for your name to be called.
-            </p>
-          </div>
-          <h2>Looks good?</h2>
-          <button type='submit' className='btn' disabled={false}>
-            Confirm
-          </button>
         </div>
+        <div className='item'>
+          <h2 id='selection-time'>
+            Time <span className='smaller red'>*required</span>
+          </h2>
+          <Times times={available} time={time} setTime={setTime} />
+        </div>
+        <div className='item'>
+          <h2 id='selection-test'>
+            Test Types <span className='smaller red'>*required</span>
+          </h2>
+          <ul>
+            {tests.map((test, index) => {
+              return (
+                <li
+                  key={index}
+                  className={
+                    selectedTests.indexOf(test) !== -1
+                      ? 'btn-small test-selected'
+                      : 'btn-small'
+                  }
+                  onClick={() => selectTest(test)}
+                >
+                  {test}
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+        <div className='appointment-item'>
+          <h2 id='selection-instructions'>Instruction</h2>
+          <p>
+            Please arrive at the clinic no more than 5 minutes before your
+            appointment. Please wear a mask and maintain 6-foot distance.
+          </p>
+        </div>
+        <h1>Looks good?</h1>
+        <button type='submit' className='btn' disabled={false}>
+          Continue
+        </button>
       </form>
     </div>
   );

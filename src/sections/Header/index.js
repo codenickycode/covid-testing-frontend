@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { NavLink, useHistory, useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { App } from '../../Providers/Context.js';
-import { ReactComponent as InfoIcon } from '../../icons/info.svg';
+import { ReactComponent as MenuIcon } from '../../icons/menu.svg';
 import { ReactComponent as ArrowIcon } from '../../icons/arrow.svg';
 
 const Header = () => {
@@ -41,10 +41,14 @@ const Header = () => {
     }
   }, [location]);
 
+  function toggleMenu() {
+    document.querySelector('#menu').classList.toggle('show-menu');
+  }
+
   return (
-    <header className='header'>
+    <header id='header'>
       <div
-        className={loading || navDisabled ? 'icon-disabled' : 'icon'}
+        className={loading || navDisabled ? 'icon disabled' : 'icon active'}
         onClick={loading || navDisabled ? null : history.goBack}
       >
         <ArrowIcon />
@@ -56,13 +60,10 @@ const Header = () => {
         <h3 className='title'>{title}</h3>
       )}
 
-      <NavLink
-        to={loading || navDisabled ? '#' : '/information'}
-        className={loading || navDisabled ? 'icon-disabled' : 'icon'}
-        activeClassName='icon-active'
-      >
-        <InfoIcon />
-      </NavLink>
+      <MenuIcon
+        className={loading || navDisabled ? 'icon disabled' : 'icon active'}
+        onClick={loading || navDisabled ? null : toggleMenu}
+      />
     </header>
   );
 };

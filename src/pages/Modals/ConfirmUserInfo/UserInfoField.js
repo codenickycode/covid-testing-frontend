@@ -8,19 +8,16 @@ export default function UserInfoField({
   handleInput,
 }) {
   return (
-    <>
+    <div id={`confirm-${field}`}>
       {error && <h2 className='error'>{error}</h2>}
-      <label htmlFor={field} className='label-small'>
-        <span className='info-small'>*</span>
-        {label}
-      </label>
+      <label htmlFor={field}>{label}</label>
       <input
-        className={error ? 'invalid-field' : ''}
+        className={error ? 'invalid' : ''}
         type={field === 'date' ? 'date' : field === 'phone' ? 'tel' : 'text'}
         name={field}
         value={input}
         onChange={handleInput}
       />
-    </>
+    </div>
   );
 }

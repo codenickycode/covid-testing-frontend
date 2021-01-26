@@ -3,7 +3,7 @@ import { TESTS } from '../../../tools/info/TESTS';
 import Image from '../../../components/Image.js';
 
 const LocationPreview = ({ location, handleSelection }) => {
-  const { name, phone, address, tests } = location;
+  const { name, address, tests } = location;
 
   return (
     <div id='location-preview' onClick={() => handleSelection(location._id)}>
@@ -22,7 +22,9 @@ const LocationPreview = ({ location, handleSelection }) => {
         </div>
         <div id='preview-tests'>
           <p className='small bold'>Next available appointment:</p>
-          <p id='preview-time'>{location.available[0]}</p>
+          <p id='preview-time' className='btn-small'>
+            {location.available[0]}
+          </p>
           <p className='small bold'>Tests available:</p>
           <ul>
             {tests.map((test, index) => {

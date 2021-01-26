@@ -28,44 +28,38 @@ const AppointmentsPage = () => {
   return !user ? (
     <Redirect to='/gateway/appointments' />
   ) : (
-    <>
-      <div>
-        <div className='appointments-tabs'>
-          <div
-            className={
-              showPast ? 'appointments-tab' : 'appointments-tab-selected'
-            }
-            onClick={() => setShowPast(false)}
-          >
-            Upcoming
-          </div>
-          <div
-            className={
-              showPast ? 'appointments-tab-selected' : 'appointments-tab'
-            }
-            onClick={() => setShowPast(true)}
-          >
-            Past
-          </div>
-        </div>
-        {loading ? (
-          <AppointmentsSkeleton />
-        ) : showPast ? (
-          past.length === 0 ? (
-            <h1>No past appointments.</h1>
-          ) : (
-            <AppointmentsList appointments={past} setAppointments={setPast} />
-          )
-        ) : upcoming.length === 0 ? (
-          <h1>No upcoming appointments.</h1>
-        ) : (
-          <AppointmentsList
-            appointments={upcoming}
-            setAppointments={setUpcoming}
-          />
-        )}
+    <div id='appointments'>
+      <div className='tabs'>
+        <h2
+          className={showPast ? 'tab' : 'tab-selected'}
+          onClick={() => setShowPast(false)}
+        >
+          Upcoming
+        </h2>
+        <h2
+          className={showPast ? 'tab-selected' : 'tab'}
+          onClick={() => setShowPast(true)}
+        >
+          Past
+        </h2>
       </div>
-    </>
+      {loading ? (
+        <AppointmentsSkeleton />
+      ) : showPast ? (
+        past.length === 0 ? (
+          <h1>No past appointments.</h1>
+        ) : (
+          <AppointmentsList appointments={past} setAppointments={setPast} />
+        )
+      ) : upcoming.length === 0 ? (
+        <h1>No upcoming appointments.</h1>
+      ) : (
+        <AppointmentsList
+          appointments={upcoming}
+          setAppointments={setUpcoming}
+        />
+      )}
+    </div>
   );
 };
 

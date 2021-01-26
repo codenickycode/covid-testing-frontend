@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { scrollIntoView } from '../../tools/scrolling.js';
-import { ReactComponent as Arrow } from '../../icons/arrow.svg';
 
 const AppointmentItem = ({ appointment, expand }) => {
   const previewRef = useRef(null);
@@ -37,59 +36,51 @@ const AppointmentItem = ({ appointment, expand }) => {
   };
 
   return (
-    <div className='appointment-item-div'>
-      <div ref={previewRef} className='appointment-preview'>
-        <h3>
+    <div className='item'>
+      <div
+        ref={previewRef}
+        className={appointment.expanded ? 'appt full' : 'appt preview'}
+        onClick={handleExpand}
+      >
+        <h2>
           {date}, {time}
-        </h3>
+        </h2>
         <p>
           <span>{testsSpan}</span> in {city}
         </p>
       </div>
       {appointment.expanded && (
-        <div ref={fullRef} className='appointment-full'>
-          <div className='appointment-item'>
-            <h4>Name</h4>
-            <p>{name}</p>
-          </div>
-          <div className='appointment-item'>
-            <h4>Address</h4>
+        <div ref={fullRef}>
+          <h1>{name}</h1>
+          <div>
+            <h2 className='icon-address'>Address</h2>
             <p>{street}</p>
             <p>
               {city}, {state} {zip}
             </p>
           </div>
-          <div className='appointment-item'>
-            <h4>Phone</h4>
+          <div>
+            <h2 className='icon-phone'>Phone</h2>
             <p>{phone}</p>
           </div>
-          <div className='appointment-item'>
-            <h4>Time</h4>
+          <div>
+            <h2 className='icon-time'>Time</h2>
             <p>{time}</p>
           </div>
-          <div className='appointment-item'>
-            <h4>Test&#40;s&#41;</h4>
+          <div>
+            <h2 className='icon-test'>Test&#40;s&#41;</h2>
             <p>
-              <span className='appointment-tests-span'>{testsSpan}</span>
+              <span className='test-span'>{testsSpan}</span>
             </p>
           </div>
-          <div className='appointment-item'>
-            <h4>Instructions</h4>
+          <div>
+            <h2 className='icon-instructions'>Instructions</h2>
             <p>
               Please arrive 5 minutes before your scheduled appointment time.
             </p>
           </div>
         </div>
       )}
-
-      <Arrow
-        className={
-          appointment.expanded
-            ? 'btn-small icon deg90'
-            : 'btn-small icon deg270'
-        }
-        onClick={handleExpand}
-      />
     </div>
   );
 };
