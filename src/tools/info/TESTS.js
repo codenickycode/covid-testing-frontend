@@ -8,7 +8,7 @@ export const TESTS = {
     ],
   },
   pcr: {
-    name: 'Molecular (PCR)',
+    name: 'Molecular (PCR Test)',
     info: [
       'Administered via a nasal swab',
       'This test will detect if you are actively infected with the COVID-19 virus',

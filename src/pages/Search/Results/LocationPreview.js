@@ -15,14 +15,14 @@ const LocationPreview = ({ location, handleSelection }) => {
       <div id='preview-info'>
         <div>
           <h2>{name}</h2>
-          <hr />
-          <p>
+          <p className='small'>
             {address.street}, {address.city}, {address.state} {address.zip}
           </p>
+          <hr />
         </div>
         <div id='preview-tests'>
           <p className='small bold'>Next available appointment:</p>
-          <p id='preview-time' className='btn-small'>
+          <p id='preview-time' className='bold'>
             {location.available[0]}
           </p>
           <p className='small bold'>Tests available:</p>
@@ -30,7 +30,7 @@ const LocationPreview = ({ location, handleSelection }) => {
             {tests.map((test, index) => {
               return (
                 <li key={index}>
-                  <span>{TESTS[test].name}</span>
+                  <span className='small'>{TESTS[test].name}</span>
                 </li>
               );
             })}

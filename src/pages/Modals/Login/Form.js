@@ -1,5 +1,8 @@
 import React from 'react';
 import Image from '../../../components/Image';
+import { ReactComponent as LogoIcon } from '../../../icons/Logo.svg';
+import { ReactComponent as EmailIcon } from '../../../icons/Message.svg';
+import { ReactComponent as PasswordIcon } from '../../../icons/Password.svg';
 
 const LoginForm = ({
   handleSubmit,
@@ -15,23 +18,25 @@ const LoginForm = ({
 
   return (
     <div id='login-form'>
-      {signup ? (
-        <h1>
-          <span className='logo'></span>Create an account with CityMD
-        </h1>
-      ) : (
-        <h1>
-          <span className='logo'></span>Login to your account
-        </h1>
-      )}
+      <div className='with-spacer'>
+        <LogoIcon />
+        {signup ? (
+          <h1>Create an account with CityMD</h1>
+        ) : (
+          <h1>Login to your account</h1>
+        )}
+      </div>
       <p>to confirm your appointment</p>
-      <Image src='/img/png/login.png' alt='Login illustration' size='med' />
+      {window.innerHeight > 650 && (
+        <Image src='/img/png/login.png' alt='Login illustration' size='med' />
+      )}
       <form onSubmit={handleSubmit}>
-        <p className='info-small'>*required fields</p>
+        <p className='small red'>*required fields</p>
         {errors.email && <h2 className='error'>{errors.email}</h2>}
-        <label id='login-email' htmlFor='email'>
-          Email
-        </label>
+        <div className='with-spacer'>
+          <EmailIcon />
+          <label htmlFor='email'>Email</label>
+        </div>
         <input
           autoFocus
           type='email'
@@ -42,20 +47,25 @@ const LoginForm = ({
           placeholder='Enter your email address'
         />
         {errors.password && <h2 className='error'>{errors.password}</h2>}
-        <label id='login-password' htmlFor='password'>
-          Password
-        </label>
+        <div className='with-spacer'>
+          <PasswordIcon />
+          <label htmlFor='password'>Password</label>
+        </div>
         <input
           type='password'
           name='password'
-          className={errors.password ? 'invalid' : ''}
+          className={errors.password ? 'invalid password' : 'password'}
           value={inputs.password || ''}
           onChange={handleInput}
           placeholder={signup ? 'Create your password' : 'Enter your password'}
         />
         {signup && (
-          <p className='smaller'>
-            min. 8 digits: lowercase, uppercase, and number
+          <p
+            className={
+              errors.password ? 'error smaller password' : 'smaller password'
+            }
+          >
+            min. 8 digits: lower, upper, and num
           </p>
         )}
         {signup && (
@@ -63,9 +73,10 @@ const LoginForm = ({
             {errors.confirmation && (
               <h2 className='error'>{errors.confirmation}</h2>
             )}
-            <label id='login-confirmation' htmlFor='confirmation'>
-              Confirm
-            </label>
+            <div className='with-spacer'>
+              <PasswordIcon />
+              <label htmlFor='confirmation'>Confirm</label>
+            </div>
             <input
               type='password'
               name='confirmation'

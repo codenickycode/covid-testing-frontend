@@ -15,24 +15,26 @@ const SearchResults = ({
   return loading ? (
     <SearchResultsSkeleton />
   ) : (
-    <div id='search-results'>
+    <div id='search-results flex-col'>
       <div className='date-picker'>
-        <div className='icon deg180' onClick={() => handleChangeDate('dec')}>
-          <ArrowCircleIcon />
-        </div>
+        <ArrowCircleIcon
+          className='icon deg180'
+          onClick={() => handleChangeDate('dec')}
+        />
         <p>{date}</p>
-        <div className='icon' onClick={() => handleChangeDate('inc')}>
-          <ArrowCircleIcon />
-        </div>
+        <ArrowCircleIcon
+          className='icon'
+          onClick={() => handleChangeDate('inc')}
+        />
       </div>
       <div className='sort'>
-        <div className='small bold'>Sort by:</div>
-        <div className='smaller bold' onClick={() => handleSortBy('time')}>
+        <p className='bold'>Sort by:</p>
+        <p className='btn-small' onClick={() => handleSortBy('time')}>
           Time
-        </div>
-        <div className='smaller bold' onClick={() => handleSortBy('distance')}>
+        </p>
+        <p className='btn-small' onClick={() => handleSortBy('distance')}>
           Distance
-        </div>
+        </p>
       </div>
       <div>
         {searchResults.map((location, index) => {

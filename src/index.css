@@ -2,7 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  /* border: 1px dotted magenta; */
+  border: 1px dotted magenta;
 }
 
 :root {
@@ -71,50 +71,6 @@
 .active {
   opacity: 1;
   stroke-width: 1.5px;
-}
-
-.icon-name::before {
-  content: url('icons/Profile.svg');
-  height: 1.5rem;
-}
-
-.icon-address::before {
-  content: url('icons/Location.svg');
-  height: 1.5rem;
-}
-
-.icon-phone::before {
-  content: url('icons/Call.svg');
-  height: 1.5rem;
-}
-
-.icon-date::before {
-  content: url('icons/Calendar.svg');
-  height: 1.5rem;
-}
-
-.icon-time::before {
-  content: url('icons/TimeCircle.svg');
-  height: 1.5rem;
-}
-
-.icon-test::before {
-  content: url('icons/Document.svg');
-  font-size: 2rem;
-  display: inline-block;
-  vertical-align: text-top;
-  line-height: normal;
-  padding-right: 0.5rem;
-}
-
-.icon-instructions::before {
-  content: url('icons/InfoSquare.svg');
-  height: 1.5rem;
-}
-
-.icon-emergency_contact::before {
-  content: url('icons/2User.svg');
-  height: 1.5rem;
 }
 
 /***********************************************************/
@@ -192,12 +148,20 @@ img {
   visibility: hidden;
 }
 
+.o-hidden {
+  overflow: hidden;
+}
+
 .m-auto {
   margin: 0 auto;
 }
 
 .p-relative {
   position: relative;
+}
+
+.p-bottom-half {
+  padding-bottom: 0.5rem;
 }
 
 .padding {
@@ -223,7 +187,7 @@ img {
 h1,
 h2 {
   margin-bottom: 0.5rem;
-  font-weight: bold;
+  font-weight: 700;
 }
 
 h1 {
@@ -234,7 +198,7 @@ h1 {
 h2 {
   font-size: 1.1rem;
   line-height: 110%;
-  letter-spacing: 0.03rem;
+  letter-spacing: 0.5px;
   text-transform: uppercase;
 }
 
@@ -289,7 +253,9 @@ span {
 
 .btn-small {
   width: auto;
-  height: 2rem;
+  height: auto;
+  margin: 0;
+  padding: 0.25rem;
   border-radius: 0.3rem;
 }
 
@@ -344,8 +310,9 @@ input:invalid,
 .invalid {
   border-bottom: 1.5px solid var(--red);
   background-image: url('icons/Invalid.svg');
-  background-size: auto 1.5rem;
+  background-size: auto 1rem;
   background-position: right;
+  background-repeat: no-repeat;
 }
 
 /***********************************************************/
@@ -364,7 +331,7 @@ body {
   margin: 0 auto;
   font-family: 'Helvetica Neue', sans-serif;
   color: var(--black);
-  border: 2px dashed green;
+  /* border: 2px dashed green; */
 }
 
 #pages {
@@ -377,7 +344,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 2px solid red;
+  /* border: 2px solid red; */
 }
 
 .overlay {
@@ -501,6 +468,7 @@ body {
 #search-form li {
   margin: 1rem 0;
   list-style: none;
+  text-align: center;
 }
 
 .more .icon {
@@ -522,57 +490,77 @@ body {
 /* also in SelectionJSX */
 .date-picker,
 .date-picker-left {
+  padding: 0 1rem;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   align-items: center;
-  width: 75%;
   height: 2rem;
   border-radius: 0.3rem;
   background-color: var(--bg-secondary);
-  line-height: 150%;
-  text-align: center;
+}
+
+.date-picker .icon,
+.date-picker-left .icon {
+  cursor: pointer;
+}
+
+.test {
+  width: 100px;
 }
 
 .sort {
-  margin: 0.5rem 0;
   width: 100%;
+  margin: 1.25rem 0 0.5rem 0;
+  padding: 0 1rem;
   display: flex;
   justify-content: space-evenly;
+  align-items: center;
 }
 
 #location-preview {
   width: 100%;
-  /* height: 180px; */
   margin: 1rem 0;
+  padding: 0.5rem;
+  display: flex;
+  border: 1px solid var(--black);
+  border-radius: 0.3rem;
 }
 
 #location-preview img {
-  width: 25%;
+  max-width: 30%;
 }
 
 #preview-info {
   width: 75%;
-  padding: 0.5rem;
+  padding: 0.5rem 0.5rem 0 0.75rem;
   background-color: var(--bg-secondary);
 }
 
 #preview-info hr {
-  width: 8%;
+  width: 20%;
+  margin: 1rem 0;
+  border-bottom: 1px solid var(--black);
+}
+
+#preview-tests {
+  margin-top: 1rem;
+}
+
+#preview-time {
+  margin: 0.25rem 0 0.5rem;
+  padding: 0.25rem;
+  display: inline-block;
+  pointer-events: none;
+  border: 1px solid var(--black);
+  border-radius: 0.3rem;
 }
 
 #preview-tests ul {
   width: 100%;
-  display: flex;
-  justify-content: space-evenly;
 }
 
-#preview-tests li span {
-  position: relative;
-  left: -0.5rem;
-}
-
-#preview-time {
-  pointer-events: none;
+#preview-tests li {
+  list-style: none;
 }
 
 /***********************************************************/
@@ -585,12 +573,23 @@ body {
 
 #selection form {
   width: 100%;
-  padding: 1.5rem;
+  margin: 1rem 0 0;
+  padding: 1rem;
+}
+
+#selection .with-spacer {
+  align-items: center;
+}
+
+#selection h1 {
+  margin: 0;
+  padding: 0;
 }
 
 #selection .item {
   margin: 1rem 0;
   padding: 1rem;
+  display: flex;
 }
 
 #selection .item h2 {
@@ -598,20 +597,63 @@ body {
 }
 
 #selection .item p {
-  font-size: 0.6rem;
+  padding-right: 0.25rem;
+  font-size: 0.75rem;
   line-height: 120%;
 }
 
 .date-picker-left {
   background-color: var(--white);
+  width: 100%;
+}
+
+#selection .item .btn-small {
+  margin: 0 0.25rem;
+}
+
+#time-item {
+  padding: 1rem;
+  width: 100%;
+  height: 120%;
 }
 
 #appointment-times {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 2rem;
+  margin-top: 0.5rem;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
-.appointment-item ul {
+#appointment-times .icon {
+  height: 1.5rem;
+}
+
+#time-spans {
+  position: absolute;
+  padding: 0 2rem;
+  z-index: 19;
+  white-space: nowrap;
+  width: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#time-spans .btn-small {
+  display: inline;
+}
+
+.taller {
+  height: 150%;
+  background-color: var(--white);
+  z-index: 20;
+}
+
+#selection ul {
   display: flex;
   justify-content: space-evenly;
 }
@@ -631,13 +673,10 @@ body {
 /********************** Login Form *************************/
 /***********************************************************/
 
-#login-form h1 {
-  background-image: url('icons/Logo.svg');
-  background-size: 2rem;
+#login-form {
 }
 
 #login-form form {
-  margin: 1rem 0;
   padding: 1rem;
 }
 
@@ -646,33 +685,32 @@ body {
   text-align: center;
 }
 
-#login-email {
-  background-image: url('icons/Message.svg');
-  background-size: 1rem;
+.password {
+  margin-bottom: 0.25rem;
 }
 
-#login-password,
-#login-confirmation {
-  background-image: url('icons/Password.svg');
-  background-size: 1rem;
+#confirm-info {
+  padding: 1.5rem 0.5rem 1rem;
+}
+
+#confirm-info form {
+  margin: 1.5rem auto 0;
+  width: 90%;
 }
 
 #confirm-grid {
-  width: 100%;
+  margin: 0 auto;
+  width: 90%;
   display: grid;
+  gap: 0.25rem;
   grid-template-areas:
     'first  last'
-    ' dob   dob '
+    ' dob  dob  '
     'phone phone';
 }
 
 #confirm-firstName {
   grid-area: first;
-}
-
-#confirm-firstName::before {
-  content: url('icons/Profile.svg');
-  background-size: 1.5rem;
 }
 
 #confirm-lastName {
@@ -683,18 +721,8 @@ body {
   grid-area: dob;
 }
 
-#confirm-dob::before {
-  content: url('icons/Calendar.svg');
-  background-size: 1.5rem;
-}
-
 #confirm-phone {
   grid-area: phone;
-}
-
-#confirm-phone::before {
-  content: url('icons/Call.svg');
-  background-size: 1.5rem;
 }
 
 /***********************************************************/
@@ -1089,6 +1117,7 @@ ol {
 /***********************************************************/
 
 #alert-modal {
+  pointer-events: none;
   position: fixed;
   top: 90px;
   width: 100%;

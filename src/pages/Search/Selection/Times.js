@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ReactComponent as ArrowIcon } from '../../../icons/Arrow.svg';
+import { ReactComponent as ArrowIcon } from '../../../icons/ArrowCircle.svg';
 
 const Time = ({ times, time, setTime }) => {
   const [scroll, setScroll] = useState(0);
@@ -21,14 +21,16 @@ const Time = ({ times, time, setTime }) => {
   );
   return (
     <div id='appointment-times'>
-      <div className='icon' onClick={() => handleClick('dec')}>
-        <ArrowIcon />
+      <div className='taller flex-col'>
+        <ArrowIcon className='icon deg180' onClick={() => handleClick('dec')} />
       </div>
-      {times[scroll] && span(0)}
-      {times[scroll + 1] && span(1)}
-      {times[scroll + 2] && span(2)}
-      <div className='icon deg180' onClick={() => handleClick('inc')}>
-        <ArrowIcon />
+      <div id='time-spans'>
+        {times[scroll] && span(0)}
+        {times[scroll + 1] && span(1)}
+        {times[scroll + 2] && span(2)}
+      </div>
+      <div className='taller flex-col'>
+        <ArrowIcon className='icon' onClick={() => handleClick('inc')} />
       </div>
     </div>
   );

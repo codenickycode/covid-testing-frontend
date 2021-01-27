@@ -5,6 +5,7 @@ import { LoginSkeleton } from '../../../components/Skeletons.js';
 import { App } from '../../../Providers/Context.js';
 import tools from '../../../tools/index.js';
 import Image from '../../../components/Image';
+import { ReactComponent as LogoIcon } from '../../../icons/Logo.svg';
 
 const ConfirmUserInfo = ({ closeModal, setInfoIsConfirmed }) => {
   const { loading, user } = useContext(App);
@@ -55,12 +56,11 @@ const ConfirmUserInfo = ({ closeModal, setInfoIsConfirmed }) => {
           />
         ) : (
           <div id='confirm-info'>
-            <h1>
-              <span className='logo'></span>Before confirming your appointment
-            </h1>
-            <p>We need a little info</p>
+            <div className='with-spacer'>
+              <LogoIcon />
+              <h1>Before you confirm</h1>
+            </div>
             <form onSubmit={handleSubmit}>
-              <div>Name:</div>
               <div id='confirm-grid'>
                 {Object.keys(inputs).map((field) => (
                   <UserInfoField
@@ -73,11 +73,13 @@ const ConfirmUserInfo = ({ closeModal, setInfoIsConfirmed }) => {
                   />
                 ))}
               </div>
-              <Image
-                src='/img/png/confirm.png'
-                alt='Confirm illustration'
-                size='med'
-              />
+              {window.innerHeight > 650 && (
+                <Image
+                  src='/img/png/confirm.png'
+                  alt='Confirm illustration'
+                  size='med'
+                />
+              )}
 
               <button type='submit' className='btn'>
                 Confirm
