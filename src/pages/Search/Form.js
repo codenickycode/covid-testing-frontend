@@ -33,14 +33,14 @@ const SearchForm = ({ handleSubmit }) => {
   };
 
   return (
-    <div id='search-form'>
+    <div id='search-form' className='page'>
       <form id='form-home' className='flex-col' onSubmit={submit}>
-        <div className='title'>
-          <div className='with-spacer'>
+        <div>
+          <div className='with-icon'>
             <DocumentIcon />
             <h1>Choose the test type</h1>
           </div>
-          <div className='with-spacer'>
+          <div className='with-icon'>
             <Spacer />
             <p>We will only show locations matching your requirements.</p>
           </div>
@@ -57,8 +57,8 @@ const SearchForm = ({ handleSubmit }) => {
             );
           })}
         </div>
-        <div className='title'>
-          <div className='with-spacer'>
+        <div>
+          <div className='with-icon'>
             <LocationIcon />
             <h1>What's your location?</h1>
           </div>

@@ -1,12 +1,13 @@
 import React from 'react';
 import Times from './Times.js';
-import { ReactComponent as ArrowCircleIcon } from '../../../icons/ArrowCircle.svg';
+import { ReactComponent as ArrowIcon } from '../../../icons/Arrow.svg';
 import { ReactComponent as Logo } from '../../../icons/Logo.svg';
 import { ReactComponent as LocationIcon } from '../../../icons/Location.svg';
 import { ReactComponent as DateIcon } from '../../../icons/Calendar.svg';
 import { ReactComponent as TimeIcon } from '../../../icons/TimeCircle.svg';
 import { ReactComponent as TestIcon } from '../../../icons/Document.svg';
 import { ReactComponent as InfoIcon } from '../../../icons/InfoSquare.svg';
+import { ReactComponent as Spacer } from '../../../icons/Spacer.svg';
 
 const SelectionJSX = ({
   selection,
@@ -21,56 +22,71 @@ const SelectionJSX = ({
   const { name, phone, address, tests, available } = selection;
 
   return (
-    <div id='selection'>
+    <div id='selection' className='page'>
       <form onSubmit={handleSubmit}>
-        <div className='with-spacer'>
+        <div className='item with-icon'>
           <Logo />
           <h1>{name}</h1>
         </div>
-        <div className='item with-spacer'>
-          <LocationIcon />
-          <div>
-            <h2 id='selection-address'>Address</h2>
-            <p className='p-bottom-half'>
-              {'(' + phone.substr(0, 3) + ')' + phone.substr(3)}
-            </p>
-            <p>
-              {address.street}, {address.city}, {address.state} {address.zip}
-            </p>
+        <div className='item'>
+          <div className='with-icon'>
+            <LocationIcon />
+            <h2>Address</h2>
           </div>
-        </div>
-        <div className='item with-spacer'>
-          <DateIcon />
-          <div>
-            <h2 id='selection-date'>Date</h2>
-            <div className='date-picker-left'>
-              <ArrowCircleIcon
-                className='icon deg180'
-                onClick={() => handleChangeDate('dec')}
-              />
-              <p>{date}</p>
-              <ArrowCircleIcon
-                className='icon'
-                onClick={() => handleChangeDate('inc')}
-              />
+          <div className='with-icon'>
+            <Spacer />
+            <div>
+              <p className='p-bottom-half'>
+                {'(' + phone.substr(0, 3) + ')' + phone.substr(3)}
+              </p>
+              <p>
+                {address.street}, {address.city}, {address.state} {address.zip}
+              </p>
             </div>
           </div>
         </div>
-        <div id='time-item'>
-          <div className='with-spacer'>
+        <div className='item'>
+          <div className='with-icon'>
+            <DateIcon />
+            <h2>Date</h2>
+          </div>
+          <div className='date-picker-left'>
+            <ArrowIcon
+              className='icon deg180'
+              onClick={() => handleChangeDate('dec')}
+            />
+            <p>{date}</p>
+            <ArrowIcon
+              className='icon'
+              onClick={() => handleChangeDate('inc')}
+            />
+          </div>
+        </div>
+        <div className='item'>
+          <div className='with-icon'>
             <TimeIcon />
             <h2>
-              Time <span className='smaller red'>*required</span>
+              Time <span className='required'>*required</span>
             </h2>
           </div>
-          <Times times={available} time={time} setTime={setTime} />
+          <div className='with-icon'>
+            <Spacer />
+            <select onChange={(e) => setTime(e.target.value)}>
+              {available.map((time) => (
+                <option>{time}</option>
+              ))}
+            </select>
+          </div>
         </div>
-        <div className='item with-spacer'>
-          <TestIcon />
-          <div>
+        <div className='item'>
+          <div className='with-icon'>
+            <TestIcon />
             <h2 id='selection-test'>
               Test Types <span className='smaller red'>*required</span>
             </h2>
+          </div>
+          <div className='with-icon'>
+            <Spacer />
             <ul>
               {tests.map((test, index) => {
                 return (
@@ -90,10 +106,13 @@ const SelectionJSX = ({
             </ul>
           </div>
         </div>
-        <div className='item with-spacer'>
-          <InfoIcon />
-          <div>
+        <div className='item'>
+          <div className='with-icon'>
+            <InfoIcon />
             <h2 id='selection-instructions'>Instructions</h2>
+          </div>
+          <div className='with-icon'>
+            <Spacer />
             <p>
               Please arrive at the clinic no more than 5 minutes before your
               appointment. Please wear a mask and maintain 6-foot distance.

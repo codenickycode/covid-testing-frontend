@@ -31,7 +31,7 @@ const Test = ({ test, selectedTests, selectTest }) => {
         <ul>
           {info.map((item, index) => {
             return (
-              <li key={index} className='smaller'>
+              <li key={index} className='small'>
                 {item}
               </li>
             );

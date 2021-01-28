@@ -156,7 +156,7 @@ const AccountItem = ({ title, field, items, icon }) => {
         className='item-top'
         onClick={field === 'password' ? togglePassword : toggleEdit}
       >
-        <div>{icon()}</div>
+        {icon}
         <div className='item-text'>
           {!state[EDIT] && (
             <>
@@ -177,7 +177,7 @@ const AccountItem = ({ title, field, items, icon }) => {
           type='button'
           className={state[EDIT] ? 'btn-small' : 'btn-small b-none'}
         >
-          {state[EDIT] ? 'save' : <EditIcon />}
+          {state[EDIT] ? 'save' : <EditIcon className='icon' />}
         </button>
       </div>
       {state[EDIT] &&
@@ -201,6 +201,7 @@ const AccountItem = ({ title, field, items, icon }) => {
             </div>
           );
         })}
+      {!state[EDIT] && <hr />}
     </div>
   );
 };

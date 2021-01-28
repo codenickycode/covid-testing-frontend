@@ -11,7 +11,7 @@ const Welcome = () => {
   return loading ? (
     <WelcomeSkeleton />
   ) : (
-    <div id='welcome' className='flex-col'>
+    <div id='welcome' className='page'>
       <div>
         <h1>COVID-19 testing is available at CityMD</h1>
         <p>We're here for you during this pandemic.</p>

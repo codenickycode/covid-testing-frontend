@@ -17,7 +17,7 @@ export default function Account() {
   return !user ? (
     <Redirect to='/gateway/account' />
   ) : (
-    <div id='account'>
+    <div id='account' className='page'>
       <AccountHeader />
       <AccountItemsList />
     </div>
@@ -45,7 +45,7 @@ const NameItem = () => {
     { type: 'text', label: 'First', key: 'firstName' },
     { type: 'text', label: 'Last', key: 'lastName' },
   ];
-  const icon = () => <NameIcon className='icon-fill' />;
+  const icon = <NameIcon className='icon-fill' />;
   return <AccountItem title='Name' field='name' items={items} icon={icon} />;
 };
 
@@ -56,7 +56,7 @@ const AddressItem = () => {
     { type: 'text', label: 'State', key: 'state' },
     { type: 'text', label: 'Zip', key: 'zip' },
   ];
-  const icon = () => <AddressIcon />;
+  const icon = <AddressIcon />;
   return (
     <AccountItem title='Address' field='address' items={items} icon={icon} />
   );
@@ -64,7 +64,7 @@ const AddressItem = () => {
 
 const DobItem = () => {
   const items = [{ type: 'date', label: 'Date of Birth', key: 'dob' }];
-  const icon = () => <DobIcon />;
+  const icon = <DobIcon />;
   return (
     <AccountItem title='Date of Birth' field='dob' items={items} icon={icon} />
   );
@@ -72,7 +72,7 @@ const DobItem = () => {
 
 const EmailItem = () => {
   const items = [{ type: 'email', label: 'Email', key: 'email' }];
-  const icon = () => <EmailIcon className='icon-fill' />;
+  const icon = <EmailIcon className='icon-fill' />;
   return <AccountItem title='Email' field='email' items={items} icon={icon} />;
 };
 
@@ -82,7 +82,7 @@ const EmergencyContactItem = () => {
     { type: 'tel', label: 'Phone', key: 'phone' },
     { type: 'text', label: 'Relation', key: 'relation' },
   ];
-  const icon = () => <FriendIcon className='icon-fill' />;
+  const icon = <FriendIcon className='icon-fill' />;
   return (
     <AccountItem
       title='Emergency Contact'
@@ -98,7 +98,7 @@ const InsuranceItem = () => {
     { type: 'text', label: 'Provider', key: 'provider' },
     { type: 'text', label: 'ID', key: 'id' },
   ];
-  const icon = () => <DocumentIcon />;
+  const icon = <DocumentIcon />;
   return (
     <AccountItem
       title='Insurance'
@@ -119,7 +119,7 @@ const PasswordItem = () => {
       key: 'confirmNewPassword',
     },
   ];
-  const icon = () => <PasswordIcon className='icon-fill' />;
+  const icon = <PasswordIcon className='icon-fill' />;
   return (
     <AccountItem title='Password' field='password' items={items} icon={icon} />
   );
@@ -127,6 +127,6 @@ const PasswordItem = () => {
 
 const PhoneItem = () => {
   const items = [{ type: 'tel', label: 'Phone', key: 'phone' }];
-  const icon = () => <PhoneIcon className='icon-fill' />;
+  const icon = <PhoneIcon className='icon-fill' />;
   return <AccountItem title='Phone' field='phone' items={items} icon={icon} />;
 };

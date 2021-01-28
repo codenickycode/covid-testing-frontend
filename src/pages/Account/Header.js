@@ -16,10 +16,10 @@ const AccountHeader = () => {
 
   return (
     <div id='account-header'>
-      <h1>
-        <LogoIcon className='h-icon' />
-        {`Good ${time}${headerName ? `, ${headerName}!` : '!'}`}
-      </h1>
+      <div className='with-icon'>
+        <LogoIcon />
+        <h1>{`Good ${time}${headerName ? `, ${headerName}!` : '!'}`}</h1>
+      </div>
     </div>
   );
 };

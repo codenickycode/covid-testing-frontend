@@ -13,7 +13,7 @@ export default function UserInfoField({
   return (
     <div id={`confirm-${field}`}>
       {error && <h2 className='error'>{error}</h2>}
-      <div className='with-spacer'>
+      <div className='with-icon'>
         {field === 'dob' ? (
           <CalendarIcon />
         ) : field === 'phone' ? (

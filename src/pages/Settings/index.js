@@ -27,7 +27,7 @@ const Settings = () => {
   return !user ? (
     <Redirect to='/gateway/settings' />
   ) : (
-    <div id='settings-div'>
+    <div id='settings' className='page'>
       <ol className='switches'>
         <li>
           <input

@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { scrollIntoView } from '../../tools/scrolling.js';
 import { ReactComponent as LocationIcon } from '../../icons/Location.svg';
 import { ReactComponent as PhoneIcon } from '../../icons/Call.svg';
 import { ReactComponent as CalendarIcon } from '../../icons/Calendar.svg';
@@ -7,8 +6,7 @@ import { ReactComponent as TimeIcon } from '../../icons/TimeCircle.svg';
 import { ReactComponent as DocumentIcon } from '../../icons/Document.svg';
 import { ReactComponent as InfoIcon } from '../../icons/InfoSquare.svg';
 import { ReactComponent as Spacer } from '../../icons/Spacer.svg';
-import { ReactComponent as ArrowUp } from '../../icons/ArrowUp.svg';
-import { ReactComponent as ArrowDown } from '../../icons/ArrowDown.svg';
+import { ReactComponent as Arrow } from '../../icons/Arrow.svg';
 
 const AppointmentItem = ({ appointment, expand }) => {
   const previewRef = useRef(null);
@@ -30,16 +28,6 @@ const AppointmentItem = ({ appointment, expand }) => {
     testsSpan = testsSpan.substr(0, testsSpan.length - 2) + ' tests';
   }
 
-  useEffect(() => {
-    if (clicked) {
-      if (fullRef.current) {
-        scrollIntoView(fullRef);
-      } else {
-        scrollIntoView(previewRef);
-      }
-    }
-  }, [clicked, appointment.expanded]);
-
   const handleExpand = () => {
     setClicked(true);
     expand(_id);
@@ -47,16 +35,11 @@ const AppointmentItem = ({ appointment, expand }) => {
 
   return (
     <div className='appt-item'>
-      <div
-        ref={previewRef}
-        className={appointment.expanded ? 'appt full' : 'appt preview'}
+      <Arrow
+        className={appointment.expanded ? 'appt-btn-up' : 'appt-btn'}
         onClick={handleExpand}
-      >
-        <div
-          className={appointment.expanded ? 'appt-btn appt-btn-up' : 'appt-btn'}
-        >
-          {appointment.expanded ? <ArrowUp /> : <ArrowDown />}
-        </div>
+      />
+      <div ref={previewRef} className='preview'>
         {!appointment.expanded && (
           <>
             <h2>{date}</h2>
@@ -67,14 +50,14 @@ const AppointmentItem = ({ appointment, expand }) => {
         )}
       </div>
       {appointment.expanded && (
-        <div ref={fullRef}>
+        <div className='expanded' ref={fullRef}>
           <h1>{name}</h1>
           <div className='appt-field'>
-            <div className='with-spacer'>
+            <div className='with-icon'>
               <LocationIcon />
               <h2>Address</h2>
             </div>
-            <div className='with-spacer'>
+            <div className='with-icon'>
               <Spacer />
               <p>
                 {street}, {city}, {state} {zip}
@@ -82,41 +65,41 @@ const AppointmentItem = ({ appointment, expand }) => {
             </div>
           </div>
           <div className='appt-field'>
-            <div className='with-spacer'>
+            <div className='with-icon'>
               <PhoneIcon />
               <h2>Phone</h2>
             </div>
-            <div className='with-spacer'>
+            <div className='with-icon'>
               <Spacer />
               <p>{phone}</p>
             </div>
           </div>
           <div className='appt-field'>
-            <div className='with-spacer'>
+            <div className='with-icon'>
               <CalendarIcon />
               <h2>Date</h2>
             </div>
-            <div className='with-spacer'>
+            <div className='with-icon'>
               <Spacer />
               <p>{date}</p>
             </div>
           </div>
           <div className='appt-field'>
-            <div className='with-spacer'>
+            <div className='with-icon'>
               <TimeIcon />
               <h2>Time</h2>
             </div>
-            <div className='with-spacer'>
+            <div className='with-icon'>
               <Spacer />
               <p>{time}</p>
             </div>
           </div>
           <div className='appt-field'>
-            <div className='with-spacer'>
+            <div className='with-icon'>
               <DocumentIcon />
               <h2>Test&#40;s&#41;</h2>
             </div>
-            <div className='with-spacer'>
+            <div className='with-icon'>
               <Spacer />
               <p>
                 <span className='test-span'>{testsSpan}</span>
@@ -124,11 +107,11 @@ const AppointmentItem = ({ appointment, expand }) => {
             </div>
           </div>
           <div className='appt-field'>
-            <div className='with-spacer'>
+            <div className='with-icon'>
               <InfoIcon />
               <h2>Instructions</h2>
             </div>
-            <div className='with-spacer'>
+            <div className='with-icon'>
               <Spacer />
               <p>
                 Please arrive 5 minutes before your scheduled appointment time.

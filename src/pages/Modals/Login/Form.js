@@ -3,6 +3,7 @@ import Image from '../../../components/Image';
 import { ReactComponent as LogoIcon } from '../../../icons/Logo.svg';
 import { ReactComponent as EmailIcon } from '../../../icons/Message.svg';
 import { ReactComponent as PasswordIcon } from '../../../icons/Password.svg';
+import { ReactComponent as Spacer } from '../../../icons/Spacer.svg';
 
 const LoginForm = ({
   handleSubmit,
@@ -17,23 +18,20 @@ const LoginForm = ({
   };
 
   return (
-    <div id='login-form'>
-      <div className='with-spacer'>
-        <LogoIcon />
-        {signup ? (
-          <h1>Create an account with CityMD</h1>
-        ) : (
-          <h1>Login to your account</h1>
-        )}
+    <div id='login-form' className='flex-col'>
+      <div className='item'>
+        <div className='with-icon'>
+          <LogoIcon />
+          {signup ? <h1>Create an account</h1> : <h1>Login to your account</h1>}
+        </div>
       </div>
-      <p>to confirm your appointment</p>
       {window.innerHeight > 650 && (
         <Image src='/img/png/login.png' alt='Login illustration' size='med' />
       )}
       <form onSubmit={handleSubmit}>
         <p className='small red'>*required fields</p>
         {errors.email && <h2 className='error'>{errors.email}</h2>}
-        <div className='with-spacer'>
+        <div className='with-icon'>
           <EmailIcon />
           <label htmlFor='email'>Email</label>
         </div>
@@ -47,7 +45,7 @@ const LoginForm = ({
           placeholder='Enter your email address'
         />
         {errors.password && <h2 className='error'>{errors.password}</h2>}
-        <div className='with-spacer'>
+        <div className='with-icon'>
           <PasswordIcon />
           <label htmlFor='password'>Password</label>
         </div>
@@ -73,7 +71,7 @@ const LoginForm = ({
             {errors.confirmation && (
               <h2 className='error'>{errors.confirmation}</h2>
             )}
-            <div className='with-spacer'>
+            <div className='with-icon'>
               <PasswordIcon />
               <label htmlFor='confirmation'>Confirm</label>
             </div>

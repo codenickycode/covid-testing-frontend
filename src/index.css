@@ -2,7 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  /* border: 1px dotted magenta; */
+  /* border: 1px dotted rgba(255, 0, 255, 0.7); */
 }
 
 :root {
@@ -18,7 +18,7 @@
   --grey: #e7eaef;
   --light: #202e3a;
   font-size: 16px;
-  /* font-size: 4vw; */
+  font-size: calc(14px + 1vw);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -38,26 +38,17 @@
   height: 1.5rem;
 }
 
-/* titles place icons to the left of header */
-.title {
-  width: 100%;
-}
-
-.title-text {
-  display: inline-block;
-}
-
-.icon-left {
-  position: relative;
-  left: -2rem;
-}
-
 .icon {
   display: inline-block;
   height: 1.5rem;
   min-width: 1.5rem;
   vertical-align: top;
   stroke: var(--red);
+  fill: var(--red);
+}
+
+.icon-fill {
+  fill: var(--red);
 }
 
 .icon-spacer {
@@ -65,15 +56,17 @@
   height: 1.5rem;
   min-width: 1.5rem;
   opacity: 0;
-  margin-right: 0.75rem;
+  margin-right: 0.5rem;
 }
 
-.with-spacer {
+.with-icon {
+  padding: 0.25rem;
   display: flex;
+  align-items: center;
 }
 
-.with-spacer .icon {
-  margin-right: 0.75rem;
+.with-icon .icon {
+  margin-right: 0.5rem;
 }
 
 .icon g {
@@ -144,7 +137,6 @@ img {
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
-  /* border: 2px solid magenta; */
 }
 
 .flex-row {
@@ -158,7 +150,7 @@ img {
 .img {
   display: block;
   max-width: 100%;
-  /* max-height: 100%; */
+  min-width: 0;
 }
 
 .d-none {
@@ -211,18 +203,16 @@ img {
 
 h1,
 h2 {
-  margin-bottom: 0.5rem;
   font-weight: 700;
 }
 
 h1 {
-  font-size: 1.5rem;
+  font-size: 1rem;
   line-height: 100%;
 }
 
 h2 {
-  font-size: 1.1rem;
-  line-height: 110%;
+  font-size: 0.8rem;
   letter-spacing: 0.5px;
   text-transform: uppercase;
 }
@@ -231,8 +221,7 @@ p,
 span {
   font-style: normal;
   font-weight: 500;
-  font-size: 1rem;
-  line-height: 120%;
+  font-size: 0.8rem;
 }
 
 .bold {
@@ -242,18 +231,22 @@ span {
 .light {
   font-weight: 300;
   font-size: 0.8rem;
-  line-height: 110%;
   color: var(--light);
 }
 
 .small,
 .smaller {
-  font-size: 0.7rem;
-  line-height: 120%;
+  font-size: 0.65rem;
 }
 
 .smaller {
-  /* font-size: 0.5rem; */
+  font-size: 0.5rem;
+}
+
+.required {
+  font-size: 0.5rem;
+  color: var(--red);
+  margin-left: 0.25rem;
 }
 
 /***********************************************************/
@@ -262,15 +255,17 @@ span {
 
 .btn,
 .btn-small {
-  margin: 1rem auto;
+  margin: 0 auto;
   cursor: pointer;
   display: block;
   width: 75%;
+  max-width: 283px;
   height: 2.5rem;
+  max-height: 40px;
   border: 1.5px solid var(--black);
   border-radius: 0.6rem;
   font-weight: bold;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   line-height: 100%;
   text-align: center;
   letter-spacing: 0.07rem;
@@ -317,7 +312,7 @@ span {
 
 input {
   display: block;
-  margin: 0.25rem auto 1rem;
+  margin: 0 auto;
   padding: 0.25rem;
   width: 100%;
   height: 1.5rem;
@@ -348,13 +343,13 @@ input:invalid,
 .b-none {
   border: none;
 }
+
 /***********************************************************/
 /********************* HTML Sections ***********************/
 /***********************************************************/
 
 html {
   width: 100%;
-  /* background-color: var(--html-bg); */
   background-color: var(--white);
 }
 
@@ -364,21 +359,48 @@ body {
   margin: 0 auto;
   font-family: 'Helvetica Neue', sans-serif;
   color: var(--black);
-  /* border: 2px dashed green; */
+}
+
+#header {
+  z-index: 2;
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: 1rem;
+  width: 100%;
+  height: 12vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 4px solid var(--red);
+  background-color: var(--white);
 }
 
 #pages {
-  position: absolute;
-  top: 96px;
   width: 100%;
-  min-height: 90%;
-  padding: 0 1rem 80px;
+  min-height: 100vh;
   background-color: var(--white);
+}
+
+.page {
+  margin: 0 auto;
+  padding: 12vh 1rem 10vh;
+  min-height: 100vh;
+  max-width: 90%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  /* border: 2px solid red; */
+  justify-content: space-evenly;
+}
+
+#footer {
+  z-index: 2;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 10vh;
+  border-top: 4px solid var(--red);
+  background-color: var(--white);
 }
 
 .overlay {
@@ -393,10 +415,10 @@ body {
 
 .modal {
   position: fixed;
-  top: 50%;
+  top: 12vh;
+  bottom: 10vh;
   left: 0;
   width: 90%;
-  transform: translate(0, -50%);
   background-color: var(--white);
   padding: 1rem;
   z-index: 101;
@@ -422,22 +444,6 @@ body {
 /************************* Header **************************/
 /***********************************************************/
 
-#header {
-  z-index: 2;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0; /* ?????????????????????????????? */
-  padding: 1rem;
-  width: 100%;
-  height: 96px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 4px solid var(--red);
-  background-color: var(--white);
-}
-
 #header h2 {
   text-align: center;
   margin: 0;
@@ -451,27 +457,18 @@ body {
 /************************ Welcome **************************/
 /***********************************************************/
 
-#welcome {
-  max-width: 80%;
-}
-
 /***********************************************************/
 /********************** Search Form ************************/
 /***********************************************************/
 
-#search-form {
-  width: 100%;
-}
-
 #search-form form {
   margin: 0 auto;
-  max-width: 90%;
+  min-height: 70vh;
 }
 
 /* div for test items */
 #search-form .items {
-  margin: 1.5rem;
-  width: 85%;
+  margin: 1.5rem 0;
 }
 
 /* div for each test */
@@ -479,14 +476,9 @@ body {
   cursor: pointer;
   width: 100%;
   margin-bottom: 1rem;
-  padding: 0.75rem 0 0.25rem 0;
+  padding: 0.35rem;
   border-radius: 0.6rem;
   border: 1px solid var(--black);
-}
-
-.type h2,
-.type p {
-  text-align: center;
 }
 
 #search-form hr {
@@ -510,7 +502,6 @@ body {
 #search-form li {
   margin: 1rem 0;
   list-style: none;
-  text-align: center;
 }
 
 .more .icon {
@@ -525,10 +516,6 @@ body {
 /********************* Search Results **********************/
 /***********************************************************/
 
-#search-results {
-  width: 100%;
-}
-
 /* also in SelectionJSX */
 .date-picker,
 .date-picker-left {
@@ -537,6 +524,7 @@ body {
   justify-content: space-evenly;
   align-items: center;
   height: 2rem;
+  border: 1px solid var(--black);
   border-radius: 0.3rem;
   background-color: var(--bg-secondary);
 }
@@ -662,37 +650,12 @@ body {
 /*********************** Selection *************************/
 /***********************************************************/
 
-#selection {
-  width: 100%;
-}
-
 #selection form {
-  width: 100%;
-  margin: 1rem 0 0;
-  padding: 1rem;
-}
-
-#selection .with-spacer {
-  align-items: center;
-}
-
-#selection .with-spacer .icon {
-  align-self: start;
-}
-
-#selection h1 {
-  margin: 0;
-  padding: 0;
+  margin-top: 1rem;
 }
 
 #selection .item {
-  margin: 1.5rem 0;
-  padding: 0 1rem;
-  display: flex;
-}
-
-#selection .item h2 {
-  font-size: 1rem;
+  margin-bottom: 1rem;
 }
 
 #selection .item p {
@@ -702,72 +665,23 @@ body {
 }
 
 .date-picker-left {
+  padding: 0;
+  justify-content: space-evenly;
   background-color: var(--white);
   width: 100%;
-}
-
-#selection .item .btn-small {
-  margin: 0 0.25rem;
-}
-
-#time-item {
-  padding: 0 1rem;
-  width: 100%;
-  height: 120%;
-}
-
-#appointment-times {
-  position: relative;
-  overflow: hidden;
-  width: 100%;
-  height: 2rem;
-  margin-top: 0.5rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-#appointment-times .icon {
-  cursor: pointer;
-  height: 1.5rem;
-}
-
-#appointment-times .icon g {
-  stroke: var(--black);
-  fill: var(--black);
-}
-
-#time-spans {
-  position: absolute;
-  padding: 0 2rem;
-  z-index: 19;
-  white-space: nowrap;
-  width: auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-#time-spans .btn-small {
-  display: inline;
-}
-
-.taller {
-  height: 150%;
-  background-color: var(--white);
-  z-index: 20;
+  border: none;
 }
 
 #selection ul {
+  width: 100%;
   display: flex;
   justify-content: space-evenly;
 }
 
-.appointment-item li {
-  text-transform: uppercase;
+#selection .btn-small {
+  padding: 0.5rem;
 }
 
-.time-selected,
 .test-selected {
   border: none;
   background-color: var(--red);
@@ -778,65 +692,20 @@ body {
 /********************** Login Form *************************/
 /***********************************************************/
 
-#login-form {
-}
-
-#login-form form {
-  padding: 1rem;
-}
-
-#login-form p,
-#login-form h1 {
-  text-align: center;
-}
-
-.password {
-  margin-bottom: 0.25rem;
-}
-
-#login-form button {
-  margin-bottom: 0;
-}
-
+#login-form,
 #confirm-info {
-  padding: 1.5rem 0.5rem 1rem;
+  width: 100%;
+  min-height: 72vh;
+  border: 2px solid blue;
 }
 
+#login-form form,
 #confirm-info form {
-  margin: 1.5rem auto 0;
-  width: 90%;
+  width: 100%;
 }
 
-#confirm-info input {
-  padding: 0.25rem;
-  height: 1.5rem;
-}
-
-#confirm-grid {
-  margin: 0 auto;
-  width: 90%;
-  display: grid;
-  gap: 0.25rem;
-  grid-template-areas:
-    'first  last'
-    ' dob  dob  '
-    'phone phone';
-}
-
-#confirm-firstName {
-  grid-area: first;
-}
-
-#confirm-lastName {
-  grid-area: last;
-}
-
-#confirm-dob {
-  grid-area: dob;
-}
-
-#confirm-phone {
-  grid-area: phone;
+#login-form p {
+  text-align: center;
 }
 
 /***********************************************************/
@@ -844,92 +713,64 @@ body {
 /***********************************************************/
 
 #appointments {
-  position: absolute;
-  top: 2rem;
-  padding-bottom: 80px;
-  width: 80%;
-  transform: translateX(-0.18rem);
-  background-color: var(--white);
+  padding-top: 20vh;
 }
 
 #appointments .tabs {
-  /* margin-bottom: 1.5rem; */
+  position: fixed;
+  top: 12vh;
+  left: 0;
   width: 100%;
+  padding-top: 1vh;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
+  background-color: var(--white);
 }
 
 #appointments .tab,
 #appointments .tab-selected {
-  margin-bottom: 0;
   padding: 0.5rem;
   min-width: 30%;
   text-align: center;
   text-transform: initial;
-  border: 0.5px solid var(--black);
-  border-bottom: none;
-  border-radius: 0.6rem;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
 }
 
 #appointments .tab-selected {
-  border-top: 3px solid;
-  border-left: 1px solid;
-  border-right: 1px solid;
+  border-bottom: 3px solid var(--red);
 }
 
 .preview-info {
   font-size: 0.9rem;
 }
 
-.appt-btn {
-  cursor: pointer;
-  position: absolute;
-  top: 45%;
-  left: 90%;
-  stroke: var(--black);
-  fill: var(--black);
-}
-
-.appt-btn-up {
-  top: 90%;
-}
-
-.appt-btn .icon {
-  stroke: var(--black);
-  fill: var(--black);
-}
-
 .appt-item {
-  margin: 0 0 1rem 0;
-  padding: 0 1rem 1rem;
+  position: relative;
   width: 100%;
+  margin-bottom: 1rem;
+  padding: 0.7rem;
   border-radius: 0.6rem;
   border: 1px solid var(--black);
 }
 
-.appt-item h1 {
-  font-size: 1.3rem;
+.appt-btn,
+.appt-btn-up {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  left: 92%;
+  stroke: var(--black);
+  fill: var(--black);
+  transform: scale(2) rotate(90deg) translateX(-50%);
 }
 
-.appt-item h2 {
-  font-size: 1rem;
+.appt-btn-up {
+  top: 1rem;
+  transform: scale(2) rotate(270deg);
 }
 
-.appt {
-  position: relative;
-  padding: 1rem 0.5rem;
-}
-
-.appt-field {
-  margin: 1.5rem 0;
-}
-
-.appt-field h2,
-.appt-field p {
-  padding-left: 0.75rem;
+.appt-item .expanded {
+  margin-top: 1.5rem;
 }
 
 .test-span {
@@ -940,58 +781,27 @@ body {
 /************************ Account***************************/
 /***********************************************************/
 
-#account {
-  width: 100%;
-  margin-top: 1rem;
-  padding: 0 1rem;
-}
-
-#account-header svg {
-  stroke: var(--red);
-  fill: var(--red);
-}
-
 #account-header {
-  margin-bottom: 3rem;
+  margin: 1rem 0 2rem;
 }
 
 #account .item {
   position: relative;
-  margin: 1rem 0 1.5rem;
-  padding: 0 0.25rem;
+  margin-bottom: 1rem;
+}
+
+#account .item-top {
+  display: grid;
+  align-items: center;
+  grid-template-columns: 0.3fr 1fr 0.5fr 0.5fr;
 }
 
 #account .item-text {
   overflow: hidden;
 }
 
-#account .item-top {
-  margin: 0 0 1rem;
-  padding: 0 1rem 0 1rem;
-  width: 100%;
-  display: grid;
-  column-gap: 0.5rem;
-  grid-template-columns: 0.5fr 2fr 0.75fr 0.75fr;
-}
-
-#account h2 {
-  font-size: 1rem;
-  margin-bottom: 0.25rem;
-}
-
-.icon-fill {
-  fill: var(--red);
-}
-
-.icon-adress,
-.icon-dob,
-.icon-insurance {
-  fill: none;
-}
-
 #account .btn-small {
-  max-height: 1.5rem;
-  margin: auto;
+  margin: 0 0.25rem;
 }
 
 #account .btn-small g {
@@ -1000,12 +810,17 @@ body {
 }
 
 .account-input {
-  margin: 0 auto;
+  margin: 0.5rem auto 0;
   max-width: 80%;
 }
 
 .account-input label {
   font-size: 0.9rem;
+  font-weight: bold;
+}
+
+#account hr {
+  margin: 0.5rem 0;
 }
 
 /***********************************************************/
@@ -1015,18 +830,6 @@ body {
 #info-footer {
   position: fixed;
   bottom: 80px;
-}
-
-#footer {
-  z-index: 2;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
-  height: 80px;
-  border-top: 4px solid var(--red);
-  background-color: var(--white);
 }
 
 #navbar {

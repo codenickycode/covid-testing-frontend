@@ -15,7 +15,7 @@ const SearchResults = ({
   return loading ? (
     <SearchResultsSkeleton />
   ) : (
-    <div id='search-results'>
+    <div id='search-results' className='page'>
       <div className='date-picker'>
         <ArrowCircleIcon
           className='icon deg180'
