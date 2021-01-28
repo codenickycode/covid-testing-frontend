@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import dayjs from 'dayjs';
 import { App } from '../../Providers/Context';
+import { ReactComponent as LogoIcon } from '../../icons/Logo.svg';
 
 const AccountHeader = () => {
   const { headerName } = useContext(App);
@@ -14,10 +15,12 @@ const AccountHeader = () => {
       : 'evening';
 
   return (
-    <h1>
-      <span className='logo'></span>
-      {`Good ${time}${headerName ? `, ${headerName}!` : '!'}`}
-    </h1>
+    <div id='account-header'>
+      <h1>
+        <LogoIcon className='h-icon' />
+        {`Good ${time}${headerName ? `, ${headerName}!` : '!'}`}
+      </h1>
+    </div>
   );
 };
 

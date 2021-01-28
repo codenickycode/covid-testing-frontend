@@ -91,9 +91,11 @@ const LoginForm = ({
           {signup ? 'Create An Account' : 'Sign In'}
         </button>
         {!signup && (
-          <p>
+          <p className='small'>
             Forgot your password?{' '}
-            <span onClick={forgotPassword}>Click here</span>
+            <span className='small' onClick={forgotPassword}>
+              Click here
+            </span>
           </p>
         )}
       </form>
@@ -101,7 +103,7 @@ const LoginForm = ({
         <>
           <p>Already have an account?</p>
           <button className='btn' onClick={() => setSignup(false)}>
-            Login
+            Sign In
           </button>
         </>
       ) : (

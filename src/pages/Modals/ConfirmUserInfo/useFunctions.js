@@ -43,6 +43,7 @@ export default function useFunctions() {
         error,
         confirmation,
         user,
+        headerName: user?.name?.firstName || '',
       }));
       if (callback) callback();
     }

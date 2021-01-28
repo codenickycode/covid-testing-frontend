@@ -27,7 +27,7 @@ const SelectionJSX = ({
           <Logo />
           <h1>{name}</h1>
         </div>
-        <div className='item'>
+        <div className='item with-spacer'>
           <LocationIcon />
           <div>
             <h2 id='selection-address'>Address</h2>
@@ -39,7 +39,7 @@ const SelectionJSX = ({
             </p>
           </div>
         </div>
-        <div className='item'>
+        <div className='item with-spacer'>
           <DateIcon />
           <div>
             <h2 id='selection-date'>Date</h2>
@@ -65,7 +65,7 @@ const SelectionJSX = ({
           </div>
           <Times times={available} time={time} setTime={setTime} />
         </div>
-        <div className='item'>
+        <div className='item with-spacer'>
           <TestIcon />
           <div>
             <h2 id='selection-test'>
@@ -90,7 +90,7 @@ const SelectionJSX = ({
             </ul>
           </div>
         </div>
-        <div className='item'>
+        <div className='item with-spacer'>
           <InfoIcon />
           <div>
             <h2 id='selection-instructions'>Instructions</h2>

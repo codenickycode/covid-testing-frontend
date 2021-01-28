@@ -1,8 +1,8 @@
-<svg class="icon" width="29" height="29" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg class="icon logo-icon" width="29" height="29" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g>
-<rect width="12" height="12" fill="#E4002B"/>
-<rect y="17" width="12" height="12" fill="#E4002B"/>
-<rect x="17" width="12" height="12" fill="#E4002B"/>
-<rect x="17" y="17" width="12" height="12" fill="#E4002B"/>
+<rect width="12" height="12" />
+<rect y="17" width="12" height="12" />
+<rect x="17" width="12" height="12" />
+<rect x="17" y="17" width="12" height="12" />
 </g>
 </svg>

@@ -9,6 +9,7 @@ import axios from 'axios';
 import tools from '../../tools/index.js';
 import { App, SetApp } from '../../Providers/Context';
 import { AccountItemSkeleton } from '../../components/Skeletons.js';
+import { ReactComponent as EditIcon } from '../../icons/PencilLine.svg';
 
 const USER_ERROR = 'USER_ERROR';
 const SAVING = 'SAVING';
@@ -18,7 +19,7 @@ const INPUT = 'INPUT';
 const PREV_INPUT = 'PREV_INPUT';
 const PREVIEW = 'PREVIEW';
 
-const AccountItem = ({ title, field, items }) => {
+const AccountItem = ({ title, field, items, icon }) => {
   const { user } = useContext(App);
   const setApp = useContext(SetApp);
 
@@ -27,11 +28,11 @@ const AccountItem = ({ title, field, items }) => {
   const [state, setState] = useState({
     [USER_ERROR]: '',
     [SAVING]: false,
-    [EDIT]: false,
     [UPDATED]: false,
     [INPUT]: user[field],
     [PREV_INPUT]: user[field],
     [PREVIEW]: '',
+    [EDIT]: false,
   });
 
   const setOne = useCallback(
@@ -69,7 +70,7 @@ const AccountItem = ({ title, field, items }) => {
   };
 
   useEffect(() => {
-    if (state[EDIT]) tools.scrollIntoView(editRef);
+    if (state[EDIT] && editRef.current) tools.scrollIntoView(editRef);
   }, [state, editRef]);
 
   const togglePassword = () => {
@@ -104,6 +105,8 @@ const AccountItem = ({ title, field, items }) => {
 
   const save = async () => {
     let post = { ...state[INPUT] };
+    if (field === 'password') delete post.confirmNewPassword;
+    console.log(post);
     let newField = state[PREV_INPUT],
       newError = '';
     try {
@@ -123,11 +126,11 @@ const AccountItem = ({ title, field, items }) => {
       setApp((prev) => ({ ...prev, navDisabled: false }));
       setState((prev) => ({
         ...prev,
-        [EDIT]: false,
         [SAVING]: false,
         [UPDATED]: false,
         [USER_ERROR]: newError,
         [PREV_INPUT]: newField,
+        [EDIT]: false,
       }));
     }
   };
@@ -143,17 +146,24 @@ const AccountItem = ({ title, field, items }) => {
     }));
   };
 
+  console.log(icon);
+
   return state[SAVING] ? (
     <AccountItemSkeleton message='Saving...' />
   ) : (
     <div className='item'>
       <div
-        className={`item-top icon-${field}`}
+        className='item-top'
         onClick={field === 'password' ? togglePassword : toggleEdit}
       >
+        <div>{icon()}</div>
         <div className='item-text'>
-          <h2>{title}</h2>
-          <p className='light'>{state[PREVIEW]}</p>
+          {!state[EDIT] && (
+            <>
+              <h2>{title}</h2>
+              <p className='light'>{state[PREVIEW]}</p>{' '}
+            </>
+          )}
           {state[USER_ERROR] && <p className='error'>{state[USER_ERROR]}</p>}
         </div>
         {state[EDIT] ? (
@@ -163,14 +173,17 @@ const AccountItem = ({ title, field, items }) => {
         ) : (
           <div></div>
         )}
-        <button type='button' className='btn-small'>
-          {state[EDIT] ? 'save' : 'edit'}
+        <button
+          type='button'
+          className={state[EDIT] ? 'btn-small' : 'btn-small b-none'}
+        >
+          {state[EDIT] ? 'save' : <EditIcon />}
         </button>
       </div>
       {state[EDIT] &&
         items.map((item, index) => {
           return (
-            <div key={index} ref={editRef}>
+            <div className='account-input' key={index} ref={editRef}>
               <label htmlFor={field + item.key}>{item.label}</label>
               <input
                 type={item.type}

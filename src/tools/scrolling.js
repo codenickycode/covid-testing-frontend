@@ -20,7 +20,7 @@ export const scrollIntoView = (ref) => {
   });
   window.scrollBy({
     left: 0,
-    top: itemBottom - viewHeight + 160,
+    top: itemBottom - viewHeight + 80,
     behavior: 'smooth',
   });
 };

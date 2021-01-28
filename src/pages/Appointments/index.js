@@ -47,12 +47,12 @@ const AppointmentsPage = () => {
         <AppointmentsSkeleton />
       ) : showPast ? (
         past.length === 0 ? (
-          <h1>No past appointments.</h1>
+          <h1 className='m-top-2'>No past appointments.</h1>
         ) : (
           <AppointmentsList appointments={past} setAppointments={setPast} />
         )
       ) : upcoming.length === 0 ? (
-        <h1>No upcoming appointments.</h1>
+        <h1 className='m-top-2'>No upcoming appointments.</h1>
       ) : (
         <AppointmentsList
           appointments={upcoming}

@@ -30,6 +30,7 @@ export default function useLogin() {
         confirmation,
         user,
         settings: user ? { ...user.preferences } : prev.settings,
+        headerName: user?.name?.firstName || '',
       }));
     }
   };

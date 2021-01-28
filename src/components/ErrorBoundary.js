@@ -6,7 +6,7 @@ class ErrorBoundary extends React.Component {
     this.state = { hasError: false, error: '' };
   }
   static getDerivedStateFromError(error) {
-    localStorage.error = error.message;
+    localStorage.error = error;
     window.location.href = '/error';
   }
 

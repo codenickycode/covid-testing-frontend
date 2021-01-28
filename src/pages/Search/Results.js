@@ -15,7 +15,7 @@ const SearchResults = ({
   return loading ? (
     <SearchResultsSkeleton />
   ) : (
-    <div id='search-results flex-col'>
+    <div id='search-results'>
       <div className='date-picker'>
         <ArrowCircleIcon
           className='icon deg180'
@@ -29,10 +29,10 @@ const SearchResults = ({
       </div>
       <div className='sort'>
         <p className='bold'>Sort by:</p>
-        <p className='btn-small' onClick={() => handleSortBy('time')}>
+        <p className='small' onClick={() => handleSortBy('time')}>
           Time
         </p>
-        <p className='btn-small' onClick={() => handleSortBy('distance')}>
+        <p className='small' onClick={() => handleSortBy('distance')}>
           Distance
         </p>
       </div>

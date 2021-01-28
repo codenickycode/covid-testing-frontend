@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { App } from '../../Providers/Context.js';
-import { ReactComponent as MenuIcon } from '../../icons/menu.svg';
+import { ReactComponent as MenuIcon } from '../../icons/Menu.svg';
 import { ReactComponent as ArrowIcon } from '../../icons/Arrow.svg';
 
 const Header = () => {
@@ -47,17 +47,17 @@ const Header = () => {
 
   return (
     <header id='header'>
-      <div
-        className={loading || navDisabled ? 'icon disabled' : 'icon active'}
+      <ArrowIcon
+        className={
+          loading || navDisabled ? 'icon disabled deg180' : 'icon active deg180'
+        }
         onClick={loading || navDisabled ? null : history.goBack}
-      >
-        <ArrowIcon />
-      </div>
+      />
 
       {loading ? (
-        <div className='skeleton-h1text'>Loading...</div>
+        <p className='skeleton-h1text'>Loading...</p>
       ) : (
-        <h3 className='title'>{title}</h3>
+        <h2 className='title'>{title}</h2>
       )}
 
       <MenuIcon
