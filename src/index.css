@@ -17,8 +17,10 @@
   --pink: #ffa0a0;
   --grey: #e7eaef;
   --light: #202e3a;
+  --drop-shadow: rgba(22, 31, 39, 0.5);
+  --drop-shadow-red: rgba(228, 1, 42, 0.5);
   font-size: 16px;
-  font-size: calc(14px + 1vw);
+  font-size: calc(16px + 0.5vw);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -201,9 +203,14 @@ img {
   opacity: 0.5;
 }
 
+div {
+  user-select: none;
+}
+
 h1,
 h2 {
   font-weight: 700;
+  user-select: none;
 }
 
 h1 {
@@ -222,6 +229,7 @@ span {
   font-style: normal;
   font-weight: 500;
   font-size: 0.8rem;
+  user-select: none;
 }
 
 .bold {
@@ -255,8 +263,9 @@ span {
 
 .btn,
 .btn-small {
-  margin: 0 auto;
+  margin: 1rem auto;
   cursor: pointer;
+  user-select: none;
   display: block;
   width: 75%;
   max-width: 283px;
@@ -272,6 +281,9 @@ span {
   text-transform: uppercase;
   color: var(--black);
   background-color: var(--white);
+  filter: drop-shadow(2px 2px 3px var(--drop-shadow));
+  outline: none;
+  transition: 50ms linear;
 }
 
 .btn-small {
@@ -283,31 +295,15 @@ span {
 }
 
 .btn:hover {
-  border-color: var(--red);
-  color: var(--red);
-}
-
-.btn:focus {
-  border-color: var(--red);
-  animation: pulse 1s infinite;
-}
-
-@keyframes pulse {
-  0% {
-    border-color: var(--red);
-  }
-  50% {
-    border-color: var(--black);
-  }
-  100% {
-    border-color: var(--red);
-  }
-}
-
-.btn:active {
   border: none;
   background-color: var(--red);
   color: var(--white);
+  transform: scale(1.05);
+}
+
+.btn:active {
+  border-color: var(--red);
+  transform: scale(1);
 }
 
 input {
@@ -316,15 +312,16 @@ input {
   padding: 0.25rem;
   width: 100%;
   height: 1.5rem;
+  font-size: 1rem;
   border: none;
   border-bottom: 0.5px solid var(--black);
   background-color: var(--white);
   color: var(--black);
+  outline: none;
 }
 
 input:focus {
   border-width: 1.5px;
-  animation: pulse 1s infinite;
 }
 
 input:active {
@@ -362,18 +359,11 @@ body {
 }
 
 #header {
-  z-index: 2;
+  z-index: 3;
   position: fixed;
   top: 0;
   left: 0;
-  padding: 1rem;
   width: 100%;
-  height: 12vh;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 4px solid var(--red);
-  background-color: var(--white);
 }
 
 #pages {
@@ -406,11 +396,21 @@ body {
 .overlay {
   position: fixed;
   top: 0;
-  right: 0;
-  bottom: 0;
   left: 0;
+  width: 100%;
+  height: 100%;
   background-color: var(--overlay-transparent);
   z-index: 100;
+  animation: fade-in 150ms forwards linear;
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 .modal {
@@ -421,28 +421,35 @@ body {
   width: 90%;
   background-color: var(--white);
   padding: 1rem;
+  border: 1px solid gold;
   z-index: 101;
+  animation: slide-in 150ms forwards ease-in-out;
 }
 
-.menu {
-  position: fixed;
-  top: 50%;
-  right: -100%;
-  width: 50%;
-  transform: translate(0, -50%);
-  background-color: var(--bg-secondary);
-  padding: 1rem;
-  z-index: 101;
-  transition: 150ms ease-in-out;
-}
-
-.show-menu {
-  right: 0;
+@keyframes slide-in {
+  0% {
+    left: -150%;
+  }
+  100% {
+    left: 0;
+  }
 }
 
 /***********************************************************/
 /************************* Header **************************/
 /***********************************************************/
+
+#header-main {
+  position: relative;
+  z-index: 4;
+  height: 12vh;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 4px solid var(--red);
+  background-color: var(--white);
+}
 
 #header h2 {
   text-align: center;
@@ -453,9 +460,113 @@ body {
   height: 1rem;
 }
 
+.no-menu {
+  position: absolute;
+  z-index: 5;
+  width: 80%;
+  max-width: 300px;
+  top: 10vh;
+  right: -100%;
+  background-color: var(--white);
+  border-bottom-left-radius: 0.6rem;
+  border: 1px solid var(--red);
+  border-top: none;
+  filter: drop-shadow(2px 2px 3px var(--drop-shadow));
+  transition: 150ms ease-in-out;
+}
+
+.show-menu {
+  right: 0;
+}
+
+.menu-btn {
+  position: absolute;
+  z-index: 6;
+  right: 5vw;
+  width: 2rem;
+  padding: 0 1rem;
+  background-color: var(--white);
+  height: 12vh;
+  border-bottom: 2px solid var(--red);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: 150ms ease-in-out;
+}
+
+.menu-btn.menu-btn-show {
+  right: 0;
+  width: 80%;
+  height: 12vh;
+  align-items: flex-start;
+  border-left: 1px solid var(--red);
+  border-bottom: none;
+}
+
+#menu-top {
+  transform: translate(0, 0) rotate(0);
+  transition: 150ms ease-in-out;
+}
+#menu-middle {
+  opacity: 1;
+  transition: 150ms ease-in-out;
+}
+#menu-bottom {
+  transform: translate(0, 0) rotate(0);
+  transition: 150ms ease-in-out;
+}
+
+.menu-btn-show #menu-top {
+  transform: translate(0.5rem, 0.15rem) rotate(45deg);
+}
+.menu-btn-show #menu-middle {
+  opacity: 0;
+}
+.menu-btn-show #menu-bottom {
+  transform: translate(-0.15rem, 0.35rem) rotate(-45deg);
+}
+
+#menu a {
+  text-decoration: none;
+  color: var(--black);
+}
+
+#menu a:hover {
+  color: var(--white);
+}
+
+.header-link {
+  width: 100%;
+  text-align: center;
+}
+
+.header-link:hover {
+  background-color: var(--red);
+}
+
+#menu h1 {
+  margin: 1rem 0;
+}
+
+#menu hr {
+  border: 1px solid var(--red);
+  width: 100%;
+}
+
 /***********************************************************/
 /************************ Welcome **************************/
 /***********************************************************/
+
+#welcome {
+  border: 2px solid blue;
+}
+
+@media (max-height: 650px) {
+  #welcome-img {
+    max-height: 250px;
+  }
+}
 
 /***********************************************************/
 /********************** Search Form ************************/
@@ -475,10 +586,17 @@ body {
 #search-form .type {
   cursor: pointer;
   width: 100%;
+  max-width: 300px;
   margin-bottom: 1rem;
   padding: 0.35rem;
   border-radius: 0.6rem;
   border: 1px solid var(--black);
+  filter: drop-shadow(2px 2px 3px var(--drop-shadow));
+  background-color: var(--white);
+}
+
+#search-form .type h2 {
+  padding: 0.5rem 0;
 }
 
 #search-form hr {
@@ -508,6 +626,26 @@ body {
   max-height: 0.75rem;
 }
 
+.no-test-info,
+.test-info {
+  max-height: 0;
+  opacity: 0;
+  transition: 150ms ease-in-out;
+}
+.no-test-info li {
+  transition: 150ms 150ms ease-in-out;
+  transform: translateY(-100%) scaleY(0);
+}
+
+.test-info {
+  max-height: 1000px;
+  opacity: 1;
+}
+
+.test-info li {
+  transform: translateY(0) scaleY(1);
+}
+
 #search-form input {
   max-width: 80%;
 }
@@ -519,6 +657,8 @@ body {
 /* also in SelectionJSX */
 .date-picker,
 .date-picker-left {
+  max-width: 300px;
+  margin: 0 auto;
   padding: 0 1rem;
   display: flex;
   justify-content: space-evenly;
@@ -532,7 +672,8 @@ body {
 .date-picker .icon,
 .date-picker-left .icon {
   cursor: pointer;
-  height: 1.25rem;
+  height: 1rem;
+  max-height: 16px;
 }
 
 .date-picker .icon g,
@@ -546,12 +687,9 @@ body {
   margin-top: 1rem;
 }
 
-.test {
-  width: 100px;
-}
-
 .sort {
   width: 80%;
+  max-width: 300px;
   margin: 1.25rem auto 0.5rem auto;
   padding: 0 1rem;
   display: flex;
@@ -565,7 +703,8 @@ body {
 
 #location-preview {
   width: 100%;
-  margin: 1rem 0;
+  max-width: 400px;
+  margin: 1rem auto;
   padding: 0.25rem 0.5rem;
   display: flex;
   align-items: center;
@@ -573,7 +712,7 @@ body {
   border: 1px solid var(--black);
   border-radius: 0.3rem;
   background-color: var(--white);
-  filter: drop-shadow(2px 2px 3px rgba(0, 0, 0, 0.5));
+  filter: drop-shadow(2px 2px 3px var(--drop-shadow));
 }
 
 #location-preview .icon {
@@ -621,6 +760,7 @@ body {
 
 #preview-tests ul {
   width: 100%;
+  max-width: 300px;
 }
 
 #preview-tests li {
@@ -650,6 +790,15 @@ body {
 /*********************** Selection *************************/
 /***********************************************************/
 
+#selection {
+  margin: 14vh auto;
+  padding: 0 1rem;
+  border-radius: 0.6rem;
+  border: 1px solid var(--black);
+  filter: drop-shadow(2px 2px 3px var(--drop-shadow));
+  background-color: var(--white);
+}
+
 #selection form {
   margin-top: 1rem;
 }
@@ -665,6 +814,7 @@ body {
 }
 
 .date-picker-left {
+  margin: 0;
   padding: 0;
   justify-content: space-evenly;
   background-color: var(--white);
@@ -672,10 +822,29 @@ body {
   border: none;
 }
 
+#selection .item select {
+  height: 1.5rem;
+  border-radius: 0.3rem;
+  padding: 0.25rem;
+  font-weight: bold;
+  font-size: 0.8rem;
+  min-width: 14vw;
+  outline: none;
+  border: none;
+  color: var(--black);
+  background-color: var(--white);
+}
+
+#selection .item .select-error {
+  border: 1px solid var(--red);
+  animation: pulse-border 500ms alternate infinite;
+}
+
 #selection ul {
   width: 100%;
+  max-width: 250px;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
 }
 
 #selection .btn-small {
@@ -695,8 +864,8 @@ body {
 #login-form,
 #confirm-info {
   width: 100%;
-  min-height: 72vh;
-  border: 2px solid blue;
+  height: 72vh;
+  /* border: 2px solid blue; */
 }
 
 #login-form form,
@@ -726,6 +895,7 @@ body {
   justify-content: space-evenly;
   align-items: center;
   background-color: var(--white);
+  z-index: 2;
 }
 
 #appointments .tab,
@@ -778,7 +948,7 @@ body {
 }
 
 /***********************************************************/
-/************************ Account***************************/
+/************************ Account **************************/
 /***********************************************************/
 
 #account-header {
@@ -821,6 +991,15 @@ body {
 
 #account hr {
   margin: 0.5rem 0;
+}
+
+/***********************************************************/
+/********************** Information ************************/
+/***********************************************************/
+
+#information {
+  width: 80%;
+  margin: 1rem auto;
 }
 
 /***********************************************************/
@@ -1192,4 +1371,17 @@ ol {
 }
 .alert-error {
   background-color: var(--red);
+}
+
+/***********************************************************/
+/******************** Error Animation **********************/
+/***********************************************************/
+
+@keyframes pulse-border {
+  0% {
+    border-color: rgba(228, 1, 42, 0.5);
+  }
+  100% {
+    border-color: var(--red);
+  }
 }

@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { App } from '../../Providers/Context.js';
 import LocationPreview from './Results/LocationPreview.js';
-import { ReactComponent as ArrowCircleIcon } from '../../icons/ArrowCircle.svg';
+import { ReactComponent as ArrowIcon } from '../../icons/Arrow.svg';
 import { SearchResultsSkeleton } from '../../components/Skeletons.js';
 
 const SearchResults = ({
@@ -17,15 +17,12 @@ const SearchResults = ({
   ) : (
     <div id='search-results' className='page'>
       <div className='date-picker'>
-        <ArrowCircleIcon
+        <ArrowIcon
           className='icon deg180'
           onClick={() => handleChangeDate('dec')}
         />
         <p>{date}</p>
-        <ArrowCircleIcon
-          className='icon'
-          onClick={() => handleChangeDate('inc')}
-        />
+        <ArrowIcon className='icon' onClick={() => handleChangeDate('inc')} />
       </div>
       <div className='sort'>
         <p className='bold'>Sort by:</p>

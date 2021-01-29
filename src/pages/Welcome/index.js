@@ -16,7 +16,12 @@ const Welcome = () => {
         <h1>COVID-19 testing is available at CityMD</h1>
         <p>We're here for you during this pandemic.</p>
       </div>
-      <Image src='/img/png/welcome.png' alt='Welcome illustration' size='lrg' />
+      <Image
+        id='welcome-img'
+        src='/img/png/welcome.png'
+        alt='Welcome illustration'
+        size='lrg'
+      />
       <div>
         <h1>No more waiting!</h1>
         <p>Schedule an appointment in advance and skip the line.</p>

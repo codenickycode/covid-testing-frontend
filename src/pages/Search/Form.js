@@ -9,6 +9,7 @@ import { ReactComponent as Spacer } from '../../icons/Spacer.svg';
 const SearchForm = ({ handleSubmit }) => {
   const [zip, setZip] = useState('');
   const [tests, setTests] = useState([]);
+  const [error, setError] = useState('');
 
   const selectTest = (e, type) => {
     console.log(e.target);
@@ -25,6 +26,7 @@ const SearchForm = ({ handleSubmit }) => {
 
   const submit = (e) => {
     e.preventDefault();
+    if (zip.length < 5) return setError('Zip required');
     let testsFilter = {};
     for (let key of Object.keys(TESTS)) {
       testsFilter[key] = tests.includes(key);
@@ -72,7 +74,8 @@ const SearchForm = ({ handleSubmit }) => {
           value={zip}
           onChange={(e) => handleZipInput(e)}
         ></input>
-        <button type='submit' className='btn' disabled={zip < 5}>
+        {error && <p className='error'>{error}</p>}
+        <button type='submit' className='btn'>
           Search availability
         </button>
       </form>

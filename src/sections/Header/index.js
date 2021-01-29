@@ -1,14 +1,17 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { App } from '../../Providers/Context.js';
-import { ReactComponent as MenuIcon } from '../../icons/Menu.svg';
+import Menu from './Menu';
+// import { ReactComponent as MenuIcon } from '../../icons/Menu.svg';
 import { ReactComponent as ArrowIcon } from '../../icons/Arrow.svg';
+import { ReactComponent as MenuIcon } from '../../icons/MenuAnimate.svg';
 
 const Header = () => {
   const history = useHistory();
   const location = useLocation();
   const { loading, navDisabled } = useContext(App);
   const [title, setTitle] = useState('');
+  const [showMenu, setShowMenu] = useState(false);
 
   useEffect(() => {
     switch (location.pathname.match(/\w*$/)[0]) {
@@ -42,28 +45,43 @@ const Header = () => {
   }, [location]);
 
   function toggleMenu() {
-    document.querySelector('#menu').classList.toggle('show-menu');
+    setShowMenu(!showMenu);
   }
 
   return (
     <header id='header'>
-      <ArrowIcon
-        className={
-          loading || navDisabled ? 'icon disabled deg180' : 'icon active deg180'
-        }
-        onClick={loading || navDisabled ? null : history.goBack}
-      />
+      <div id='header-main'>
+        <ArrowIcon
+          className={
+            loading || navDisabled
+              ? 'icon disabled deg180'
+              : 'icon active deg180'
+          }
+          onClick={loading || navDisabled ? null : history.goBack}
+        />
 
-      {loading ? (
-        <p className='skeleton-h1text'>Loading...</p>
-      ) : (
-        <h2 className='title'>{title}</h2>
-      )}
-
-      <MenuIcon
-        className={loading || navDisabled ? 'icon disabled' : 'icon active'}
-        onClick={loading || navDisabled ? null : toggleMenu}
-      />
+        {loading ? (
+          <p className='skeleton-h1text'>Loading...</p>
+        ) : (
+          <h2 className='title'>{title}</h2>
+        )}
+        <MenuIcon className='icon v-hidden' />
+        <div className={showMenu ? 'show-menu no-menu' : 'no-menu'}>
+          <Menu toggleMenu={toggleMenu} />
+        </div>
+        <div className={showMenu ? 'menu-btn menu-btn-show' : 'menu-btn '}>
+          <MenuIcon
+            className={
+              loading || navDisabled
+                ? 'icon disabled'
+                : showMenu
+                ? 'icon active show-menu'
+                : 'icon active'
+            }
+            onClick={loading || navDisabled ? null : toggleMenu}
+          />
+        </div>
+      </div>
     </header>
   );
 };

@@ -22,7 +22,7 @@ const SelectionJSX = ({
   const { name, phone, address, tests, available } = selection;
 
   return (
-    <div id='selection' className='page'>
+    <div id='selection' className='page' onClick={() => console.log(time)}>
       <form onSubmit={handleSubmit}>
         <div className='item with-icon'>
           <Logo />
@@ -71,9 +71,18 @@ const SelectionJSX = ({
           </div>
           <div className='with-icon'>
             <Spacer />
-            <select onChange={(e) => setTime(e.target.value)}>
+            <select
+              className={!time ? 'select-error' : ''}
+              defaultValue='default'
+              onChange={(e) => setTime(e.target.value)}
+            >
+              <option disabled value='default'>
+                Choose time
+              </option>
               {available.map((time) => (
-                <option>{time}</option>
+                <option key={time} value={time}>
+                  {time}
+                </option>
               ))}
             </select>
           </div>
@@ -115,7 +124,9 @@ const SelectionJSX = ({
             <Spacer />
             <p>
               Please arrive at the clinic no more than 5 minutes before your
-              appointment. Please wear a mask and maintain 6-foot distance.
+              appointment. <br />
+              <br />
+              Please wear a mask and maintain 6-foot distance.
             </p>
           </div>
         </div>

@@ -27,17 +27,15 @@ const Test = ({ test, selectedTests, selectTest }) => {
         <p className='small bold'>{showInfo ? 'Less info' : 'Learn more'}</p>
         <ArrowIcon className={showInfo ? 'icon deg270' : 'icon deg90'} />
       </div>
-      {showInfo && (
-        <ul>
-          {info.map((item, index) => {
-            return (
-              <li key={index} className='small'>
-                {item}
-              </li>
-            );
-          })}
-        </ul>
-      )}
+      <ul className={showInfo ? 'test-info' : 'no-test-info'}>
+        {info.map((item, index) => {
+          return (
+            <li key={index} className='small'>
+              {item}
+            </li>
+          );
+        })}
+      </ul>
     </div>
   );
 };
