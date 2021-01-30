@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import ContextProvider from './Providers/Context';
+import ContextProvider, { GoProvider } from './Providers/Context';
 import { ScrollToTop } from './tools/scrolling.js';
 import ErrorBoundary from './components/ErrorBoundary';
 import Alert from './components/Alert.js';
@@ -21,26 +21,28 @@ const App = () => {
   return (
     <Router>
       <ErrorBoundary>
-        <ContextProvider>
-          <ScrollToTop />
-          <Alert />
-          <Header />
-          <div id='pages'>
-            <Switch>
-              <Route exact path='/' component={Welcome} />
-              <Route path='/search' component={Search} />
-              <Route path='/appointments' component={Appointments} />
-              <Route path='/account' component={Account} />
-              <Route path='/settings' component={Settings} />
-              <Route path='/information' component={Information} />
-              <Route path='/gateway/:to' component={Gateway} />
-              {/*  */}
-              <Route path='/error' component={ErrorHandler} />
-              <Route path='/skeleton' component={Skeleton} />
-            </Switch>
-          </div>
-          <Navbar />
-        </ContextProvider>
+        <GoProvider>
+          <ContextProvider>
+            <ScrollToTop />
+            <Alert />
+            <Header />
+            <div id='pages'>
+              <Switch>
+                <Route exact path='/' component={Welcome} />
+                <Route path='/search' component={Search} />
+                <Route path='/appointments' component={Appointments} />
+                <Route path='/account' component={Account} />
+                <Route path='/settings' component={Settings} />
+                <Route path='/information' component={Information} />
+                <Route path='/gateway/:to' component={Gateway} />
+                {/*  */}
+                <Route path='/error' component={ErrorHandler} />
+                <Route path='/skeleton' component={Skeleton} />
+              </Switch>
+            </div>
+            <Navbar />
+          </ContextProvider>
+        </GoProvider>
       </ErrorBoundary>
     </Router>
   );

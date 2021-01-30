@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { App } from '../../Providers/Context.js';
 import LocationPreview from './Results/LocationPreview.js';
 import { ReactComponent as ArrowIcon } from '../../icons/Arrow.svg';
@@ -12,24 +12,45 @@ const SearchResults = ({
   handleSelection,
 }) => {
   const { loading } = useContext(App);
+  const [sortBySelected, setSortBySelected] = useState('time');
+
+  const sortBy = (type) => {
+    setSortBySelected(type);
+    handleSortBy(type);
+  };
+
   return loading ? (
     <SearchResultsSkeleton />
   ) : (
-    <div id='search-results' className='page'>
+    <div id='search-results' className='page transition show'>
       <div className='date-picker'>
         <ArrowIcon
           className='icon deg180'
           onClick={() => handleChangeDate('dec')}
         />
-        <p>{date}</p>
+        <p className='date'>{date}</p>
         <ArrowIcon className='icon' onClick={() => handleChangeDate('inc')} />
       </div>
       <div className='sort'>
         <p className='bold'>Sort by:</p>
-        <p className='small' onClick={() => handleSortBy('time')}>
+        <p
+          className={
+            sortBySelected === 'time'
+              ? 'small sort-by selected'
+              : 'small sort-by'
+          }
+          onClick={() => sortBy('time')}
+        >
           Time
         </p>
-        <p className='small' onClick={() => handleSortBy('distance')}>
+        <p
+          className={
+            sortBySelected === 'distance'
+              ? 'small sort-by selected'
+              : 'small sort-by'
+          }
+          onClick={() => sortBy('distance')}
+        >
           Distance
         </p>
       </div>

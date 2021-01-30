@@ -1,12 +1,13 @@
 import React, { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
-import { App } from '../../Providers/Context';
+import { App, Go } from '../../Providers/Context';
 import { ReactComponent as AccountIcon } from '../../icons/Account.svg';
 import { ReactComponent as AppointmentsIcon } from '../../icons/Appointments.svg';
 import { ReactComponent as SettingsIcon } from '../../icons/Settings.svg';
 
 const Navbar = () => {
   const { loading, navDisabled } = useContext(App);
+  const go = useContext(Go);
 
   return (
     <>
@@ -15,9 +16,12 @@ const Navbar = () => {
           <NavLink
             to={loading || navDisabled ? '#' : '/account'}
             className={
-              loading || navDisabled ? 'navbar-disabled' : 'navbar-default'
+              loading || navDisabled
+                ? 'navbar-disabled nav-link'
+                : 'navbar-default nav-link'
             }
-            activeClassName='navbar-active'
+            activeClassName='navbar-active nav-link'
+            onClick={null}
           >
             <AccountIcon />
           </NavLink>
@@ -42,6 +46,23 @@ const Navbar = () => {
             <SettingsIcon />
           </NavLink>
         </nav>
+        <div id='nav-click'>
+          <div
+            id='account-link'
+            className='real-link'
+            onClick={() => go('/account')}
+          ></div>
+          <div
+            id='appointments-link'
+            className='real-link'
+            onClick={() => go('/appointments')}
+          ></div>
+          <div
+            id='settings-link'
+            className='real-link'
+            onClick={() => go('/settings')}
+          ></div>
+        </div>
       </div>
     </>
   );

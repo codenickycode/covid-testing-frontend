@@ -22,7 +22,7 @@ const SelectionJSX = ({
   const { name, phone, address, tests, available } = selection;
 
   return (
-    <div id='selection' className='page' onClick={() => console.log(time)}>
+    <div id='selection' className='page transition show'>
       <form onSubmit={handleSubmit}>
         <div className='item with-icon'>
           <Logo />

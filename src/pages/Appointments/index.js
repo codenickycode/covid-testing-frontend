@@ -28,7 +28,7 @@ const AppointmentsPage = () => {
   return !user ? (
     <Redirect to='/gateway/appointments' />
   ) : (
-    <div id='appointments' className='page'>
+    <div id='appointments' className='page transition show'>
       <div className='tabs'>
         <h2
           className={showPast ? 'tab' : 'tab-selected'}

@@ -7,6 +7,7 @@ import { ReactComponent as DocumentIcon } from '../../icons/Document.svg';
 import { ReactComponent as InfoIcon } from '../../icons/InfoSquare.svg';
 import { ReactComponent as Spacer } from '../../icons/Spacer.svg';
 import { ReactComponent as Arrow } from '../../icons/Arrow.svg';
+import { scrollIntoView } from '../../tools/scrolling';
 
 const AppointmentItem = ({ appointment, expand }) => {
   const previewRef = useRef(null);
@@ -33,13 +34,23 @@ const AppointmentItem = ({ appointment, expand }) => {
     expand(_id);
   };
 
+  useEffect(() => {
+    if (clicked) {
+      if (fullRef.current) {
+        scrollIntoView(fullRef, 'start');
+      } else if (previewRef.current) {
+        scrollIntoView(previewRef, 'start');
+      }
+    }
+  }, [clicked, appointment.expanded]);
+
   return (
     <div className='appt-item'>
       <Arrow
         className={appointment.expanded ? 'appt-btn-up' : 'appt-btn'}
         onClick={handleExpand}
       />
-      <div ref={previewRef} className='preview'>
+      <div ref={previewRef} className='preview' onClick={handleExpand}>
         {!appointment.expanded && (
           <>
             <h2>{date}</h2>

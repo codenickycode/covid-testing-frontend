@@ -20,7 +20,12 @@ export default function useLogout() {
     } catch (e) {
       error = e.response?.data || e.message;
     } finally {
-      setApp({ ...INIT_APP, error, confirmation });
+      setApp({
+        ...INIT_APP,
+        settings: { dark: false, remember: false },
+        error,
+        confirmation,
+      });
     }
   }
 

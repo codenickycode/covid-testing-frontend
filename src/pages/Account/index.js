@@ -17,7 +17,7 @@ export default function Account() {
   return !user ? (
     <Redirect to='/gateway/account' />
   ) : (
-    <div id='account' className='page'>
+    <div id='account' className='page transition show'>
       <AccountHeader />
       <AccountItemsList />
     </div>
@@ -26,7 +26,7 @@ export default function Account() {
 
 function AccountItemsList() {
   return (
-    <div>
+    <div id='account-items-list'>
       <NameItem />
       <AddressItem />
       <PhoneItem />

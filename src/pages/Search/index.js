@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useContext, useCallback } from 'react';
-import { Route, useHistory, useRouteMatch } from 'react-router-dom';
+import { Route, useRouteMatch } from 'react-router-dom';
 import tools from '../../tools/index.js';
-import { App, SetApp } from '../../Providers/Context.js';
+import { App, Go, SetApp } from '../../Providers/Context.js';
 import SearchForm from './Form.js';
 import SearchResults from './Results.js';
 import Selection from './Selection.js';
 
 const Search = () => {
-  const history = useHistory();
+  const go = useContext(Go);
   const { url } = useRouteMatch();
 
   const { error, searchResults, prevSearch } = useContext(App);
@@ -45,7 +45,7 @@ const Search = () => {
   };
 
   const handleSubmit = (tests, zip) => {
-    history.push(`${url}/results`);
+    go(`${url}/results`);
     search(tests, zip);
   };
 
@@ -60,6 +60,11 @@ const Search = () => {
   };
 
   const handleChangeDate = (type) => {
+    // const element = document.querySelector('.date');
+    // element.classList.remove('date-flash');
+    // void element.offsetWidth;
+    // element.classList.add('date-flash');
+
     const newDate = tools.changeDate(type, date);
     let newResults = [...searchResults];
     tools.addAvailableTimes(newResults, newDate);
@@ -77,7 +82,7 @@ const Search = () => {
   );
 
   const handleSelection = (selected) => {
-    history.push(`${url}/selection`);
+    go(`${url}/selection`);
     getSelected(selected);
   };
 

@@ -43,29 +43,41 @@ export const HeaderSkeleton = () => {
 
 export const WelcomeSkeleton = () => {
   return (
-    <>
-      <div className='skeleton-img-sml' />
-      <div className='skeleton-spacer'></div>
-      <div className='skeleton-h1'></div>
-      <div className='skeleton-p'></div>
-      <div className='skeleton-img-med' />
-      <div className='skeleton-h1'></div>
-      <p className='skeleton-p'></p>
-      <div className='skeleton-btn'></div>
-    </>
+    <div className='page transition show'>
+      <div className='skeleton-h1 skeleton-relative'>
+        <Shimmer />
+      </div>
+      <div className='skeleton-p skeleton-relative'>
+        <Shimmer />
+      </div>
+      <div className='skeleton-img-med skeleton-relative'>
+        <Shimmer />
+      </div>
+      <div className='skeleton-h1 skeleton-relative'>
+        <Shimmer />
+      </div>
+      <p className='skeleton-p skeleton-relative'>
+        <Shimmer />
+      </p>
+      <div className='skeleton-btn'>
+        <Shimmer />
+      </div>
+    </div>
   );
 };
 
 export const SearchResultsSkeleton = () => {
   return (
-    <div className='skeleton-div skeleton-hidden'>
-      <div className='skeleton-wide'>
-        <Shimmer />
-      </div>
+    <div className='page transition show'>
       <div className='skeleton-div skeleton-hidden'>
-        <LocationPreviewSkeleton />
-        <LocationPreviewSkeleton />
-        <LocationPreviewSkeleton />
+        <div className='skeleton-wide'>
+          <Shimmer />
+        </div>
+        <div className='skeleton-div skeleton-hidden'>
+          <LocationPreviewSkeleton />
+          <LocationPreviewSkeleton />
+          <LocationPreviewSkeleton />
+        </div>
       </div>
     </div>
   );
@@ -97,32 +109,34 @@ export const LocationPreviewSkeleton = () => {
 
 export const LoginSkeleton = ({ header, message }) => {
   return (
-    <div className='skeleton-div skeleton-hidden'>
-      <h1 className='skeleton-h1text'>{header || ''}</h1>
-      <p className='skeleton-ptext'>{message || ''}</p>
-      <div className='skeleton-spacer'></div>
-      <div className='skeleton-div'>
-        <div className='skeleton-left'>
+    <div className='transition show'>
+      <div className='skeleton-div skeleton-hidden'>
+        <h1 className='skeleton-h1text'>{header || ''}</h1>
+        <p className='skeleton-ptext'>{message || ''}</p>
+        <div className='skeleton-spacer'></div>
+        <div className='skeleton-div'>
+          <div className='skeleton-left'>
+            <Shimmer />
+          </div>
+          <div className='skeleton-wide'>
+            <Shimmer />
+          </div>
+          <div className='skeleton-left'>
+            <Shimmer />
+          </div>
+          <div className='skeleton-wide'>
+            <Shimmer />
+          </div>
+          <div className='skeleton-left'>
+            <Shimmer />
+          </div>
+          <div className='skeleton-wide'>
+            <Shimmer />
+          </div>
+        </div>
+        <div className='skeleton-btn'>
           <Shimmer />
         </div>
-        <div className='skeleton-wide'>
-          <Shimmer />
-        </div>
-        <div className='skeleton-left'>
-          <Shimmer />
-        </div>
-        <div className='skeleton-wide'>
-          <Shimmer />
-        </div>
-        <div className='skeleton-left'>
-          <Shimmer />
-        </div>
-        <div className='skeleton-wide'>
-          <Shimmer />
-        </div>
-      </div>
-      <div className='skeleton-btn'>
-        <Shimmer />
       </div>
     </div>
   );
@@ -130,25 +144,27 @@ export const LoginSkeleton = ({ header, message }) => {
 
 export const AppointmentsSkeleton = () => {
   return (
-    <div className='skeleton-div skeleton-hidden'>
-      <div className='skeleton-h1'></div>
-      <div className='skeleton-wide'>
-        <Shimmer />
-      </div>
-      <div className='skeleton-spacer'></div>
-      <div className='skeleton-div'>
-        <div className='skeleton-h relative'>
-          <Shimmer />
-        </div>
-        <div className='skeleton-p relative'>
+    <div className='page transition show'>
+      <div className='skeleton-div skeleton-hidden'>
+        <div className='skeleton-h1'></div>
+        <div className='skeleton-wide'>
           <Shimmer />
         </div>
         <div className='skeleton-spacer'></div>
-        <div className='skeleton-h relative'>
-          <Shimmer />
-        </div>
-        <div className='skeleton-p relative'>
-          <Shimmer />
+        <div className='skeleton-div'>
+          <div className='skeleton-h relative'>
+            <Shimmer />
+          </div>
+          <div className='skeleton-p relative'>
+            <Shimmer />
+          </div>
+          <div className='skeleton-spacer'></div>
+          <div className='skeleton-h relative'>
+            <Shimmer />
+          </div>
+          <div className='skeleton-p relative'>
+            <Shimmer />
+          </div>
         </div>
       </div>
     </div>
@@ -157,52 +173,54 @@ export const AppointmentsSkeleton = () => {
 
 export const AccountSkeleton = () => {
   return (
-    <div className='skeleton-div'>
-      <div className='skeleton-div-row'>
-        <div className='skeleton-img'>
-          <Shimmer />
+    <div className='page transition show'>
+      <div className='skeleton-div'>
+        <div className='skeleton-div-row'>
+          <div className='skeleton-img'>
+            <Shimmer />
+          </div>
+          <div className='skeleton-wide'>
+            <Shimmer />
+          </div>
         </div>
-        <div className='skeleton-wide'>
-          <Shimmer />
+        <div className='skeleton-spacer'></div>
+        <div className='skeleton-div-row'>
+          <div className='skeleton-img'>
+            <Shimmer />
+          </div>
+          <div className='skeleton-wide'>
+            <Shimmer />
+          </div>
         </div>
+        <div className='skeleton-spacer'></div>
+        <div className='skeleton-div-row'>
+          <div className='skeleton-img'>
+            <Shimmer />
+          </div>
+          <div className='skeleton-wide'>
+            <Shimmer />
+          </div>
+        </div>
+        <div className='skeleton-spacer'></div>
+        <div className='skeleton-div-row'>
+          <div className='skeleton-img'>
+            <Shimmer />
+          </div>
+          <div className='skeleton-wide'>
+            <Shimmer />
+          </div>
+        </div>
+        <div className='skeleton-spacer'></div>
+        <div className='skeleton-div-row'>
+          <div className='skeleton-img'>
+            <Shimmer />
+          </div>
+          <div className='skeleton-wide'>
+            <Shimmer />
+          </div>
+        </div>
+        <div className='skeleton-spacer'></div>
       </div>
-      <div className='skeleton-spacer'></div>
-      <div className='skeleton-div-row'>
-        <div className='skeleton-img'>
-          <Shimmer />
-        </div>
-        <div className='skeleton-wide'>
-          <Shimmer />
-        </div>
-      </div>
-      <div className='skeleton-spacer'></div>
-      <div className='skeleton-div-row'>
-        <div className='skeleton-img'>
-          <Shimmer />
-        </div>
-        <div className='skeleton-wide'>
-          <Shimmer />
-        </div>
-      </div>
-      <div className='skeleton-spacer'></div>
-      <div className='skeleton-div-row'>
-        <div className='skeleton-img'>
-          <Shimmer />
-        </div>
-        <div className='skeleton-wide'>
-          <Shimmer />
-        </div>
-      </div>
-      <div className='skeleton-spacer'></div>
-      <div className='skeleton-div-row'>
-        <div className='skeleton-img'>
-          <Shimmer />
-        </div>
-        <div className='skeleton-wide'>
-          <Shimmer />
-        </div>
-      </div>
-      <div className='skeleton-spacer'></div>
     </div>
   );
 };
@@ -223,20 +241,22 @@ export const AccountItemSkeleton = ({ message }) => {
 
 export const SettingsSkeleton = () => {
   return (
-    <div className='skeleton-div'>
-      <div className='skeleton-wide'>
-        <Shimmer />
-      </div>
-      <div className='skeleton-spacer'></div>
-      <div className='skeleton-wide'>
-        <Shimmer />
-      </div>
-      <div className='skeleton-spacer'></div>
-      <div className='skeleton-wide'>
-        <Shimmer />
+    <div className='page transition show'>
+      <div className='skeleton-div'>
+        <div className='skeleton-wide'>
+          <Shimmer />
+        </div>
+        <div className='skeleton-spacer'></div>
+        <div className='skeleton-wide'>
+          <Shimmer />
+        </div>
+        <div className='skeleton-spacer'></div>
+        <div className='skeleton-wide'>
+          <Shimmer />
+        </div>
       </div>
     </div>
   );
 };
 
-export default SearchResultsSkeleton;
+export default LoginSkeleton;

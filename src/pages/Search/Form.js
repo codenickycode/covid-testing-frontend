@@ -35,7 +35,7 @@ const SearchForm = ({ handleSubmit }) => {
   };
 
   return (
-    <div id='search-form' className='page'>
+    <div id='search-form' className='page transition show'>
       <form id='form-home' className='flex-col' onSubmit={submit}>
         <div>
           <div className='with-icon'>

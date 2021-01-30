@@ -3,7 +3,7 @@
 const Information = () => {
   // throw new Error('I am an error!');
   return (
-    <div id='information' className='page'>
+    <div id='information' className='page transition show'>
       <h1>COVID-19 TESTING INFORMATION</h1>
       <p>
         CityMD is currently offering three forms of COVID-19 testing at all
@@ -45,5 +45,4 @@ const Information = () => {
   );
 };
 
-// return <div id='information-div'></div>;
 export default Information;

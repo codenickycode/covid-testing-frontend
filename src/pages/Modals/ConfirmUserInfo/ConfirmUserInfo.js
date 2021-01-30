@@ -91,7 +91,7 @@ const ConfirmUserInfo = ({ closeModal, setInfoIsConfirmed }) => {
                   <div className='confirm-item'>
                     <label htmlFor='dob'>Date of Birth</label>
                     <input
-                      className={errors.dob ? 'invalid' : ''}
+                      className={errors.dob ? 'invalid dob' : 'dob'}
                       type='date'
                       name='dob'
                       value={inputs.dob}

@@ -70,7 +70,7 @@ const AccountItem = ({ title, field, items, icon }) => {
   };
 
   useEffect(() => {
-    if (state[EDIT] && editRef.current) tools.scrollIntoView(editRef);
+    if (state[EDIT] && editRef.current) tools.scrollIntoView(editRef, 'end');
   }, [state, editRef]);
 
   const togglePassword = () => {
@@ -106,7 +106,6 @@ const AccountItem = ({ title, field, items, icon }) => {
   const save = async () => {
     let post = { ...state[INPUT] };
     if (field === 'password') delete post.confirmNewPassword;
-    console.log(post);
     let newField = state[PREV_INPUT],
       newError = '';
     try {
@@ -146,8 +145,6 @@ const AccountItem = ({ title, field, items, icon }) => {
     }));
   };
 
-  console.log(icon);
-
   return state[SAVING] ? (
     <AccountItemSkeleton message='Saving...' />
   ) : (
@@ -180,27 +177,30 @@ const AccountItem = ({ title, field, items, icon }) => {
           {state[EDIT] ? 'save' : <EditIcon className='icon' />}
         </button>
       </div>
-      {state[EDIT] &&
-        items.map((item, index) => {
-          return (
-            <div className='account-input' key={index} ref={editRef}>
-              <label htmlFor={field + item.key}>{item.label}</label>
-              <input
-                type={item.type}
-                id={field + item.key}
-                maxLength={item.key === 'zip' ? '5' : '99'}
-                placeholder={
-                  item.key === 'currentPassword' || item.key === 'id'
-                    ? '[hidden]'
-                    : ''
-                }
-                value={state[INPUT][item.key]}
-                onChange={(e) => handleInput(e, item.key)}
-                onKeyDown={handleKeyDown}
-              />
-            </div>
-          );
-        })}
+      {state[EDIT] && (
+        <div className='item-inputs'>
+          {items.map((item, index) => {
+            return (
+              <div className='account-input' key={index} ref={editRef}>
+                <label htmlFor={field + item.key}>{item.label}</label>
+                <input
+                  type={item.type}
+                  id={field + item.key}
+                  maxLength={item.key === 'zip' ? '5' : '99'}
+                  placeholder={
+                    item.key === 'currentPassword' || item.key === 'id'
+                      ? '[hidden]'
+                      : ''
+                  }
+                  value={state[INPUT][item.key]}
+                  onChange={(e) => handleInput(e, item.key)}
+                  onKeyDown={handleKeyDown}
+                />
+              </div>
+            );
+          })}
+        </div>
+      )}
       {!state[EDIT] && <hr />}
     </div>
   );

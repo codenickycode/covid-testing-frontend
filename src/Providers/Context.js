@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import { DARK_THEME, LIGHT_THEME } from '../tools/themes.js';
 import { getLS, setLS, getSS, setSS } from '../tools/storage';
@@ -18,6 +19,45 @@ export const INIT_APP = {
   },
   user: null,
   headerName: '',
+};
+
+export const Go = React.createContext();
+export const GoProvider = ({ children }) => {
+  const history = useHistory();
+  const [goTo, setGoTo] = useState(null);
+
+  let goTimer = useRef(null);
+  useEffect(() => {
+    if (goTo) {
+      goTimer.current = setTimeout(() => {
+        if (goTo === 'back') {
+          history.goBack();
+        } else {
+          history.push(goTo);
+        }
+        setGoTo(null);
+      }, 150);
+    } else {
+      clearTimeout(goTimer.current);
+      const elements = document.querySelectorAll('.transition');
+      elements.forEach((element) => {
+        element.classList.add('show');
+        console.log(element);
+      });
+    }
+    return () => clearTimeout(goTimer.current);
+  }, [goTo, history]);
+
+  const go = (to) => {
+    const elements = document.querySelectorAll('.transition');
+    elements.forEach((element) => {
+      element.classList.remove('show');
+      console.log(element);
+    });
+    setGoTo(to);
+  };
+
+  return <Go.Provider value={go}>{children}</Go.Provider>;
 };
 
 export const App = React.createContext();

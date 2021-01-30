@@ -1,15 +1,14 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
-import { App } from '../../Providers/Context.js';
+import { useLocation } from 'react-router-dom';
+import { App, Go } from '../../Providers/Context.js';
 import Menu from './Menu';
-// import { ReactComponent as MenuIcon } from '../../icons/Menu.svg';
 import { ReactComponent as ArrowIcon } from '../../icons/Arrow.svg';
 import { ReactComponent as MenuIcon } from '../../icons/MenuAnimate.svg';
 
 const Header = () => {
-  const history = useHistory();
   const location = useLocation();
   const { loading, navDisabled } = useContext(App);
+  const go = useContext(Go);
   const [title, setTitle] = useState('');
   const [showMenu, setShowMenu] = useState(false);
 
@@ -50,36 +49,36 @@ const Header = () => {
 
   return (
     <header id='header'>
-      <div id='header-main'>
-        <ArrowIcon
-          className={
-            loading || navDisabled
-              ? 'icon disabled deg180'
-              : 'icon active deg180'
-          }
-          onClick={loading || navDisabled ? null : history.goBack}
-        />
+      <div id='header-wrapper'>
+        <div id='header-main'>
+          <ArrowIcon
+            id='back-btn'
+            className={
+              loading || navDisabled
+                ? 'icon disabled deg180'
+                : 'icon active deg180'
+            }
+            onClick={loading || navDisabled ? null : () => go('back')}
+          />
 
-        {loading ? (
-          <p className='skeleton-h1text'>Loading...</p>
-        ) : (
-          <h2 className='title'>{title}</h2>
-        )}
-        <MenuIcon className='icon v-hidden' />
-        <div className={showMenu ? 'show-menu no-menu' : 'no-menu'}>
-          <Menu toggleMenu={toggleMenu} />
-        </div>
-        <div className={showMenu ? 'menu-btn menu-btn-show' : 'menu-btn '}>
+          {loading ? (
+            <p className='skeleton-h1text transition show'>Loading...</p>
+          ) : (
+            <h2 className='title transition show'>{title}</h2>
+          )}
           <MenuIcon
             className={
               loading || navDisabled
-                ? 'icon disabled'
+                ? 'disabled menu-icon'
                 : showMenu
-                ? 'icon active show-menu'
-                : 'icon active'
+                ? 'active menu-icon show-menu'
+                : 'active menu-icon'
             }
             onClick={loading || navDisabled ? null : toggleMenu}
           />
+        </div>
+        <div className={showMenu ? 'show-menu no-menu' : 'no-menu'}>
+          <Menu toggleMenu={toggleMenu} />
         </div>
       </div>
     </header>
