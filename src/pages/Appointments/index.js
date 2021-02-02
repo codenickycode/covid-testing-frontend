@@ -1,66 +1,67 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Redirect } from 'react-router-dom';
 import tools from '../../tools/index.js';
-import { App, SetApp } from '../../Providers/Context.js';
-import AppointmentsList from './List.js';
-import { AppointmentsSkeleton } from '../../components/Skeletons.js';
+import { App } from '../../Providers/Context.js';
+import { Page } from '../../components';
+import { AppointmentItem } from './Item';
 
-const AppointmentsPage = () => {
+export default function AppointmentsPage() {
   const { user } = useContext(App);
-  const setApp = useContext(SetApp);
-
-  const [loading, setLoading] = useState(true);
   const [showPast, setShowPast] = useState(false);
-  const [upcoming, setUpcoming] = useState([]);
-  const [past, setPast] = useState([]);
-
-  useEffect(() => {
-    const appointments = user?.appointments || [];
-    setLoading(true);
-    let updated = [...appointments];
-    updated.forEach((appointment) => (appointment.expanded = false));
-    const sorted = tools.sortAppointments(updated);
-    setUpcoming(sorted[0]);
-    setPast(sorted[1]);
-    setLoading(false);
-  }, [user, setApp]);
 
   return !user ? (
     <Redirect to='/gateway/appointments' />
   ) : (
-    <div id='appointments' className='page transition show'>
-      <div className='tabs'>
-        <h2
-          className={showPast ? 'tab' : 'tab-selected'}
-          onClick={() => setShowPast(false)}
-        >
-          Upcoming
-        </h2>
-        <h2
-          className={showPast ? 'tab-selected' : 'tab'}
-          onClick={() => setShowPast(true)}
-        >
-          Past
-        </h2>
-      </div>
-      {loading ? (
-        <AppointmentsSkeleton />
-      ) : showPast ? (
-        past.length === 0 ? (
-          <h1 className='m-top-2'>No past appointments.</h1>
-        ) : (
-          <AppointmentsList appointments={past} setAppointments={setPast} />
-        )
-      ) : upcoming.length === 0 ? (
-        <h1 className='m-top-2'>No upcoming appointments.</h1>
-      ) : (
-        <AppointmentsList
-          appointments={upcoming}
-          setAppointments={setUpcoming}
-        />
-      )}
+    <Page id='appointments'>
+      <AppointmentTabs showPast={showPast} setShowPast={setShowPast} />
+      <AppointmentsList showPast={showPast} user={user} />
+    </Page>
+  );
+}
+
+const AppointmentTabs = ({ showPast, setShowPast }) => {
+  return (
+    <div className='tabs'>
+      <h2
+        className={showPast ? 'tab' : 'tab-selected'}
+        onClick={() => setShowPast(false)}
+      >
+        Upcoming
+      </h2>
+      <h2
+        className={showPast ? 'tab-selected' : 'tab'}
+        onClick={() => setShowPast(true)}
+      >
+        Past
+      </h2>
     </div>
   );
 };
 
-export default AppointmentsPage;
+const AppointmentsList = ({ showPast, user }) => {
+  const [upcoming, setUpcoming] = useState([]);
+  const [past, setPast] = useState([]);
+
+  useEffect(() => {
+    const appts = [...user.appointments] || [];
+    const [upcomingSorted, pastSorted] = tools.sortAppointments(appts);
+    setUpcoming(upcomingSorted);
+    setPast(pastSorted);
+  }, [user]);
+
+  const appointments = showPast ? past : upcoming;
+
+  return (
+    <div id='appointments-list'>
+      {appointments.length === 0 ? (
+        <h1 className='m-top-2 center'>
+          No {showPast ? 'past' : 'upcoming'} appointments.
+        </h1>
+      ) : (
+        appointments.map((appointment) => (
+          <AppointmentItem key={appointment._id} appointment={appointment} />
+        ))
+      )}
+    </div>
+  );
+};

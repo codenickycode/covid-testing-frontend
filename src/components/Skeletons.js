@@ -56,9 +56,9 @@ export const WelcomeSkeleton = () => {
       <div className='skeleton-h1 skeleton-relative'>
         <Shimmer />
       </div>
-      <p className='skeleton-p skeleton-relative'>
+      <div className='skeleton-p skeleton-relative'>
         <Shimmer />
-      </p>
+      </div>
       <div className='skeleton-btn'>
         <Shimmer />
       </div>

@@ -1,10 +1,11 @@
 import { useContext } from 'react';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
-import { SetApp, INIT_APP } from '../../Providers/Context';
+import { SetApp, INIT_APP, App } from '../../Providers/Context';
 
-export default function useLogout() {
+export const LogoutButton = () => {
   const history = useHistory();
+  const { loading } = useContext(App);
   const setApp = useContext(SetApp);
 
   async function logout() {
@@ -29,5 +30,9 @@ export default function useLogout() {
     }
   }
 
-  return logout;
-}
+  return (
+    <button type='button' className='btn' onClick={logout} disabled={loading}>
+      Logout
+    </button>
+  );
+};

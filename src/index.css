@@ -1613,6 +1613,11 @@ ol {
   transition: 100ms linear;
 }
 
+.hide {
+  opacity: 0;
+  transition: 100ms linear;
+}
+
 .show {
   opacity: 1;
 }
