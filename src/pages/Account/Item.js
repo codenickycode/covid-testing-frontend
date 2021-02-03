@@ -4,7 +4,7 @@ import tools from '../../tools/index.js';
 import { SetApp } from '../../Providers/Context';
 import { AccountItemSkeleton } from '../../components/Skeletons.js';
 import { getSS } from '../../tools/storage.js';
-import { ItemJSX } from './ItemJSX';
+import { PreviewText, CancelBtnOrEmpty, SaveOrEditBtns, Inputs } from './JSX';
 import { reducer, ACTIONS } from './reducer';
 
 export const AccountItem = ({ title, field, items, icon }) => {
@@ -46,8 +46,8 @@ export const AccountItem = ({ title, field, items, icon }) => {
   }, [state, setApp]);
 
   const handleToggle = () => {
-    if (field === 'password') togglePassword(field, state, dispatch, setApp);
-    else toggleEdit(field, state, dispatch, setApp);
+    if (field === 'password') togglePassword();
+    else toggleEdit();
   };
 
   const toggleEdit = () => {
@@ -65,7 +65,7 @@ export const AccountItem = ({ title, field, items, icon }) => {
     } else if (!tools.validPassword(state.input.newPassword)) {
       dispatch({
         type: ACTIONS.SET_USER_ERROR,
-        payload: 'Invalid password',
+        payload: 'Invalid new password',
       });
     } else if (state.input.newPassword !== state.input.confirmNewPassword) {
       dispatch({
@@ -101,6 +101,7 @@ export const AccountItem = ({ title, field, items, icon }) => {
     try {
       const res = await axios.post(`/common/update/${field}`, req);
       if (field !== 'password') newField = res.data[field];
+      if (field === 'insurance') newField.id = '';
     } catch (e) {
       newError = e.response?.data || e.message;
     } finally {
@@ -116,17 +117,24 @@ export const AccountItem = ({ title, field, items, icon }) => {
   return state.saving ? (
     <AccountItemSkeleton message='Saving...' />
   ) : (
-    <ItemJSX
-      handleToggle={handleToggle}
-      handleKeyDown={handleKeyDown}
-      handleInput={handleInput}
-      icon={icon}
-      state={state}
-      title={title}
-      cancel={cancel}
-      items={items}
-      field={field}
-      editRef={editRef}
-    />
+    <div className='item' ref={editRef}>
+      <div className='item-top' onClick={handleToggle}>
+        {icon}
+        <PreviewText state={state} title={title} />
+        <CancelBtnOrEmpty state={state} cancel={cancel} />
+        <SaveOrEditBtns state={state} />
+      </div>
+      {state.edit ? (
+        <Inputs
+          state={state}
+          items={items}
+          field={field}
+          handleInput={handleInput}
+          handleKeyDown={handleKeyDown}
+        />
+      ) : (
+        !state.edit && <hr />
+      )}
+    </div>
   );
 };

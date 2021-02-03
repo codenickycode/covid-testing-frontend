@@ -38,6 +38,7 @@ export const reducer = (state, { type, payload }) => {
         ...state,
         saving: false,
         userError: newError,
+        input: newField,
         prevInput: newField,
         edit: false,
         updated: false,
