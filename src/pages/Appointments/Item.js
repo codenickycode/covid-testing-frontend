@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { ReactComponent as ArrowIcon } from '../../icons/Arrow.svg';
+import * as icons from '../../icons';
 import { scrollIntoView } from '../../tools/scrolling';
-import { AppointmentExpanded } from './AppointmentExpanded';
 
 export const AppointmentItem = ({ appointment }) => {
   const previewRef = useRef(null);
@@ -69,6 +69,51 @@ const AppointmentPreview = ({
       <p className='preview-info'>
         <span className='preview-info'>{testsSpan}</span> in {city}
       </p>
+    </div>
+  );
+};
+
+const AppointmentExpanded = ({ fullRef, appointment, testsSpan }) => {
+  const { date, time, location } = appointment;
+  const { name, address, phone } = location;
+  const { street, city, state, zip } = address;
+
+  return (
+    <div className='expanded' ref={fullRef}>
+      <h1>{name}</h1>
+      <ApptField
+        header='Address'
+        text={`${street}, ${city}, ${state} ${zip}`}
+        icon={icons.locationIcon}
+      />
+      <ApptField header='Phone' text={phone} icon={icons.callIcon} />
+      <ApptField header='Date' text={date} icon={icons.calendarIcon} />
+      <ApptField header='Time' text={time} icon={icons.timeIcon} />
+      <ApptField
+        header={'Test(s)'}
+        text={<span className='test-span'>{testsSpan}</span>}
+        icon={icons.documentIcon}
+      />
+      <ApptField
+        header='Instructions'
+        text='Please arrive 5 minutes before your scheduled appointment time.'
+        icon={icons.infoIcon}
+      />
+    </div>
+  );
+};
+
+const ApptField = ({ icon, header, text }) => {
+  return (
+    <div className='appt-field'>
+      <div className='with-icon'>
+        {icon}
+        <h2>{header}</h2>
+      </div>
+      <div className='with-icon'>
+        {icons.spacerIcon}
+        <p>{text}</p>
+      </div>
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-import Times from './Times.js';
+// import Times from './Times.js';
 import { ReactComponent as ArrowIcon } from '../../../icons/Arrow.svg';
 import { ReactComponent as Logo } from '../../../icons/Logo.svg';
 import { ReactComponent as LocationIcon } from '../../../icons/Location.svg';

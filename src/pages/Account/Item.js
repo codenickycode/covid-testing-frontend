@@ -1,169 +1,77 @@
-import React, {
-  useRef,
-  useState,
-  useEffect,
-  useContext,
-  useCallback,
-} from 'react';
+import React, { useRef, useEffect, useContext, useReducer } from 'react';
 import axios from 'axios';
 import tools from '../../tools/index.js';
-import { App, SetApp } from '../../Providers/Context';
+import { App } from '../../Providers/Context';
 import { AccountItemSkeleton } from '../../components/Skeletons.js';
 import { ReactComponent as EditIcon } from '../../icons/PencilLine.svg';
 
-const USER_ERROR = 'USER_ERROR';
-const SAVING = 'SAVING';
-const EDIT = 'EDIT';
-const UPDATED = 'UPDATED';
-const INPUT = 'INPUT';
-const PREV_INPUT = 'PREV_INPUT';
-const PREVIEW = 'PREVIEW';
-
 const AccountItem = ({ title, field, items, icon }) => {
   const { user } = useContext(App);
-  const setApp = useContext(SetApp);
+
+  const INITIAL_STATE = {
+    userError: '',
+    saving: false,
+    updated: false,
+    input: user[field],
+    prevInput: user[field],
+    preview: '',
+    edit: false,
+  };
+  const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
 
   const editRef = useRef(null);
 
-  const [state, setState] = useState({
-    [USER_ERROR]: '',
-    [SAVING]: false,
-    [UPDATED]: false,
-    [INPUT]: user[field],
-    [PREV_INPUT]: user[field],
-    [PREVIEW]: '',
-    [EDIT]: false,
-  });
-
-  const setOne = useCallback(
-    (key, val) => setState((prev) => ({ ...prev, [key]: val })),
-    [setState]
-  );
-
-  // if user error, re-edit
   useEffect(() => {
-    if (state[USER_ERROR] && !state[EDIT]) {
-      setOne(EDIT, true);
-    }
-  }, [state, setOne]);
-
-  // set preview item
-  useEffect(() => {
-    if (field === 'password') return;
-    if (field === 'name') {
-      setOne(PREVIEW, `${user.name.firstName} ${user.name.lastName}`);
-    } else {
-      setOne(PREVIEW, user[field][items[0].key]);
-    }
-  }, [field, user, items, setOne]);
-
-  const toggleEdit = () => {
-    if (state[SAVING]) return;
-    if (!state[EDIT]) {
-      setOne(EDIT, true);
-    } else {
-      if (state[UPDATED]) {
-        save();
-      }
-      setOne(EDIT, false);
-    }
-  };
+    setPreview(field, items, user, dispatch);
+  }, [field, user, items]);
 
   useEffect(() => {
-    if (state[EDIT] && editRef.current) tools.scrollIntoView(editRef, 'end');
+    if (state.userError && !state.edit) dispatch({ type: 'OPEN' });
+  }, [state]);
+
+  useEffect(() => {
+    if (state.edit && editRef.current) tools.scrollIntoView(editRef, 'end');
   }, [state, editRef]);
 
-  const togglePassword = () => {
-    if (!state[EDIT]) {
-      toggleEdit();
-    } else {
-      if (!tools.validPassword(state[INPUT].newPassword))
-        return setOne(USER_ERROR, 'Invalid password');
-      if (state[INPUT].newPassword !== state[INPUT].confirmNewPassword)
-        return setOne(USER_ERROR, "Confirmation doesn't match");
-      toggleEdit();
-    }
+  const handleToggle = () => {
+    if (field === 'password') togglePassword(field, state, dispatch);
+    else toggleEdit(field, state, dispatch);
   };
 
-  const handleInput = (e, key) => {
-    let val = e.target.value;
-    if ((key === 'zip' || key === 'phone') && !tools.validNum(val)) return;
-    setState((prev) => ({
-      ...prev,
-      [UPDATED]: val !== prev[PREV_INPUT][key],
-      [INPUT]: { ...prev[INPUT], [key]: val },
-    }));
+  const handleInput = ({ target: { value } }, key) => {
+    if ((key === 'zip' || key === 'phone') && !tools.validNum(value)) return;
+    dispatch({ type: 'INPUT', payload: { key, value } });
   };
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
-      if (field === 'password') togglePassword();
-      else toggleEdit();
+      if (field === 'password') togglePassword(state, dispatch);
+      else toggleEdit(state, dispatch);
     }
     if (e.key === 'Escape') cancel(e);
   };
 
-  const save = async () => {
-    let post = { ...state[INPUT] };
-    if (field === 'password') delete post.confirmNewPassword;
-    let newField = state[PREV_INPUT],
-      newError = '';
-    try {
-      setOne(SAVING, true);
-      setApp((prev) => ({ ...prev, navDisabled: true }));
-      const res = await axios.post(`/common/update/${field}`, post);
-      if (field !== 'password') {
-        newField = res.data[field];
-      }
-      setApp((prev) => ({
-        ...prev,
-        user: { ...prev.user, [field]: newField },
-      }));
-    } catch (e) {
-      newError = e.response?.data || e.message;
-    } finally {
-      setApp((prev) => ({ ...prev, navDisabled: false }));
-      setState((prev) => ({
-        ...prev,
-        [SAVING]: false,
-        [UPDATED]: false,
-        [USER_ERROR]: newError,
-        [PREV_INPUT]: newField,
-        [EDIT]: false,
-      }));
-    }
-  };
-
   const cancel = (e) => {
     e.stopPropagation();
-    setState((prev) => ({
-      ...prev,
-      [UPDATED]: false,
-      [USER_ERROR]: '',
-      [EDIT]: false,
-      [INPUT]: state[PREV_INPUT],
-    }));
+    dispatch({ type: 'CANCEL' });
   };
 
-  return state[SAVING] ? (
+  return state.saving ? (
     <AccountItemSkeleton message='Saving...' />
   ) : (
     <div className='item'>
-      <div
-        className='item-top'
-        onClick={field === 'password' ? togglePassword : toggleEdit}
-      >
+      <div className='item-top' onClick={handleToggle}>
         {icon}
         <div className='item-text'>
-          {!state[EDIT] && (
+          {!state.edit && (
             <>
               <h2>{title}</h2>
-              <p className='light'>{state[PREVIEW]}</p>{' '}
+              <p className='light'>{state.preview}</p>{' '}
             </>
           )}
-          {state[USER_ERROR] && <p className='error'>{state[USER_ERROR]}</p>}
+          {state.userError && <p className='error'>{state.userError}</p>}
         </div>
-        {state[EDIT] ? (
+        {state.edit ? (
           <button type='button' className='btn-small' onClick={cancel}>
             Cancel
           </button>
@@ -172,12 +80,12 @@ const AccountItem = ({ title, field, items, icon }) => {
         )}
         <button
           type='button'
-          className={state[EDIT] ? 'btn-small' : 'btn-small b-none'}
+          className={state.edit ? 'btn-small' : 'btn-small b-none'}
         >
-          {state[EDIT] ? 'save' : <EditIcon className='icon' />}
+          {state.edit ? 'save' : <EditIcon className='icon' />}
         </button>
       </div>
-      {state[EDIT] && (
+      {state.edit && (
         <div className='item-inputs'>
           {items.map((item, index) => {
             return (
@@ -192,7 +100,7 @@ const AccountItem = ({ title, field, items, icon }) => {
                       ? '[hidden]'
                       : ''
                   }
-                  value={state[INPUT][item.key]}
+                  value={state.input[item.key]}
                   onChange={(e) => handleInput(e, item.key)}
                   onKeyDown={handleKeyDown}
                 />
@@ -201,9 +109,100 @@ const AccountItem = ({ title, field, items, icon }) => {
           })}
         </div>
       )}
-      {!state[EDIT] && <hr />}
+      {!state.edit && <hr />}
     </div>
   );
 };
 
 export default AccountItem;
+
+const reducer = (state, { type, payload }) => {
+  switch (type) {
+    case 'OPEN':
+      return { ...state, edit: true };
+    case 'CLOSE':
+      return { ...state, edit: false };
+    case 'SET_PREVIEW':
+      return { ...state, preview: payload };
+    case 'INPUT':
+      const { key, value } = payload;
+      return {
+        ...state,
+        updated: value !== state.prevInput[key],
+        input: { ...state.input, [key]: value },
+      };
+    case 'AFTER_SAVE':
+      const { newError, newField } = payload;
+      return {
+        ...state,
+        saving: false,
+        updated: false,
+        userError: newError,
+        prev_input: newField,
+        edit: false,
+      };
+    case 'CANCEL':
+      return {
+        ...state,
+        updated: false,
+        userError: '',
+        edit: false,
+        input: state.prevInput,
+      };
+    default:
+      return state;
+  }
+};
+
+const toggleEdit = (field, state, dispatch) => {
+  if (state.saving) return;
+  if (!state.edit) dispatch({ type: 'OPEN' });
+  else {
+    if (state.updated) save(field, { ...state.input }, dispatch);
+    dispatch({ type: 'CLOSE' });
+  }
+};
+
+const togglePassword = (field, state, dispatch) => {
+  if (!state.edit) {
+    toggleEdit(field, state, dispatch);
+  } else {
+    if (!tools.validPassword(state.input.newPassword))
+      return dispatch({
+        type: 'SET_USER_ERROR',
+        payload: 'Invalid password',
+      });
+    if (state.input.newPassword !== state.input.confirmNewPassword)
+      return dispatch({
+        type: 'SET_USER_ERROR',
+        payload: "Confirmation doesn't match",
+      });
+    else toggleEdit(field, state, dispatch);
+  }
+};
+
+const save = async (field, req, dispatch) => {
+  if (field === 'password') delete req.confirmNewPassword;
+  let newField = { ...req },
+    newError = '';
+  try {
+    const res = await axios.post(`/common/update/${field}`, req);
+    if (field !== 'password') newField = res.data[field];
+  } catch (e) {
+    newError = e.response?.data || e.message;
+  } finally {
+    dispatch({ type: 'AFTER_SAVE', payload: { newField, newError } });
+  }
+};
+
+const setPreview = (field, items, user, dispatch) => {
+  if (field === 'password') return;
+  if (field === 'name') {
+    dispatch({
+      type: 'SET_PREVIEW',
+      payload: `${user.name.firstName} ${user.name.lastName}`,
+    });
+  } else {
+    dispatch({ type: 'SET_PREVIEW', payload: user[field][items[0].key] });
+  }
+};

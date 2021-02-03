@@ -3,7 +3,7 @@ import Image from '../../../components/Image';
 import { ReactComponent as LogoIcon } from '../../../icons/Logo.svg';
 import { ReactComponent as EmailIcon } from '../../../icons/Message.svg';
 import { ReactComponent as PasswordIcon } from '../../../icons/Password.svg';
-import { ReactComponent as Spacer } from '../../../icons/Spacer.svg';
+// import { ReactComponent as Spacer } from '../../../icons/Spacer.svg';
 
 const LoginForm = ({
   handleSubmit,

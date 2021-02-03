@@ -32,7 +32,7 @@ export const ImageSkeleton = ({ size }) => {
 
 export const HeaderSkeleton = () => {
   return (
-    <div className='skeleton-div-row'>
+    <div className='skeleton-div-row hide'>
       <IconSkeleton />
       <div className='skeleton-h1text'>Loading...</div>
       <IconSkeleton />
