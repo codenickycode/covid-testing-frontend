@@ -5,9 +5,10 @@ import { App } from '../../Providers/Context';
 import { AccountItemsList } from './List';
 import { Page } from '../../components';
 import { ReactComponent as LogoIcon } from '../../icons/Logo.svg';
+import { getSS } from '../../tools/storage';
 
 export default function Account() {
-  const { user } = useContext(App);
+  const user = getSS('app').user;
   return !user ? (
     <Redirect to='/gateway/account' />
   ) : (

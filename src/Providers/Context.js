@@ -81,6 +81,13 @@ const ContextProvider = ({ children }) => {
     return () => clearTimeout(alertTimer.current);
   }, [app.confirmation, app.error]);
 
+  // update AccountHeader name
+  useEffect(() => {
+    if (app.user && app.user.name.firstName !== app.headerName) {
+      setApp((prev) => ({ ...prev, headerName: app.user.name.firstName }));
+    }
+  }, [app]);
+
   // update storage & change theme
   useEffect(() => {
     if (app.user) {

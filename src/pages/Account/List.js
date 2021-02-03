@@ -1,4 +1,4 @@
-import AccountItem from './Item.js';
+import { AccountItem } from './Item.js';
 import * as icons from '../../icons';
 
 export const AccountItemsList = () => {
