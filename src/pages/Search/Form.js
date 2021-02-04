@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 import { TESTS } from '../../tools/info/TESTS';
 import Test from './Form/Test.js';
 import tools from '../../tools';
-import { ReactComponent as DocumentIcon } from '../../icons/Document.svg';
-import { ReactComponent as LocationIcon } from '../../icons/Location.svg';
-import { ReactComponent as Spacer } from '../../icons/Spacer.svg';
+import * as icons from '../../icons';
+import { Input, Page, Submit, WithIcon } from '../../components';
 
 const SearchForm = ({ handleSubmit }) => {
   const [zip, setZip] = useState('');
@@ -35,52 +34,65 @@ const SearchForm = ({ handleSubmit }) => {
   };
 
   return (
-    <div id='search-form' className='page transition show'>
+    <Page id='search-form'>
       <form id='form-home' className='flex-col' onSubmit={submit}>
-        <div>
-          <div className='with-icon'>
-            <DocumentIcon />
-            <h1>Choose the test type</h1>
-          </div>
-          <div className='with-icon'>
-            <Spacer />
-            <p>We will only show locations matching your requirements.</p>
-          </div>
-        </div>
-        <div className='items flex-col'>
-          {Object.entries(TESTS).map((test, index) => {
-            return (
-              <Test
-                key={index}
-                selectedTests={tests}
-                selectTest={selectTest}
-                test={test}
-              />
-            );
-          })}
-        </div>
-        <div>
-          <div className='with-icon'>
-            <LocationIcon />
-            <h1>What's your location?</h1>
-          </div>
-        </div>
-        <input
-          autoFocus
-          type='text'
-          name='zip'
-          placeholder='Enter your zipcode'
-          maxLength='5'
-          value={zip}
-          onChange={(e) => handleZipInput(e)}
-        ></input>
+        <Header />
+        <Tests tests={tests} selectTest={selectTest} />
+        <ZipInput zip={zip} handleZipInput={handleZipInput} />
         {error && <p className='error'>{error}</p>}
-        <button type='submit' className='btn'>
-          Search availability
-        </button>
+        <Submit label='Search availability' />
       </form>
-    </div>
+    </Page>
   );
 };
 
 export default SearchForm;
+
+const Header = () => {
+  return (
+    <div>
+      <WithIcon icon={icons.document}>
+        <h1>Choose the test type</h1>
+      </WithIcon>
+      <WithIcon icon={icons.spacer}>
+        <p>We will only show locations matching your requirements.</p>
+      </WithIcon>
+    </div>
+  );
+};
+
+const Tests = ({ tests, selectTest }) => {
+  return (
+    <div className='items flex-col'>
+      {Object.entries(TESTS).map((test) => {
+        return (
+          <Test
+            key={test[0]}
+            selectedTests={tests}
+            selectTest={selectTest}
+            test={test}
+          />
+        );
+      })}
+    </div>
+  );
+};
+
+const ZipInput = ({ zip, handleZipInput }) => {
+  return (
+    <>
+      <div>
+        <WithIcon icon={icons.address}>
+          <h1>What's your location?</h1>
+        </WithIcon>
+      </div>
+      <Input
+        autoFocus={true}
+        field={'zip'}
+        value={zip}
+        placeholder='Enter your zipcode'
+        onChange={(e) => handleZipInput(e)}
+      />
+    </>
+  );
+};

@@ -1,8 +1,8 @@
 import React from 'react';
 import * as icons from '../../../icons';
-import { Submit, WithIcon } from '../../../components';
+import { DatePicker, Page, Submit, WithIcon } from '../../../components';
 
-const SelectionJSX = ({
+export default function SelectionJSX({
   selection,
   date,
   handleChangeDate,
@@ -11,11 +11,11 @@ const SelectionJSX = ({
   selectTest,
   selectedTests,
   handleSubmit,
-}) => {
+}) {
   const { name, phone, address, tests, available } = selection;
 
   return (
-    <div id='selection' className='page transition show'>
+    <Page id='selection'>
       <form onSubmit={handleSubmit}>
         <Name name={name} />
         <Address phone={phone} address={address} />
@@ -33,11 +33,9 @@ const SelectionJSX = ({
           label='Continue'
         />
       </form>
-    </div>
+    </Page>
   );
-};
-
-export default SelectionJSX;
+}
 
 const Item = ({ icon, header, children }) => {
   return (
@@ -74,18 +72,14 @@ const Address = ({ phone, address }) => {
 
 const DateHeader = () => <h2>Date</h2>;
 const Date = ({ handleChangeDate, date }) => {
-  const ArrowLeft = icons.ArrowLeft;
-  const ArrowRight = icons.ArrowRight;
   return (
     <Item icon={icons.calendar} header={DateHeader}>
-      <ArrowLeft onClick={() => handleChangeDate('dec')} />
-      <p>{date}</p>
-      <ArrowRight onClick={() => handleChangeDate('inc')} />
+      <DatePicker handleChangeDate={handleChangeDate} date={date} />
     </Item>
   );
 };
 
-const TimeHeader = () => () => (
+const TimeHeader = () => (
   <h2>
     Time <span className='required'>*required</span>
   </h2>

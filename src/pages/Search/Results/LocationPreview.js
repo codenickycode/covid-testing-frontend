@@ -1,5 +1,5 @@
 import React from 'react';
-import { ReactComponent as ArrowIcon } from '../../../icons/Arrow.svg';
+import { ArrowRight } from '../../../icons';
 
 const LocationPreview = ({ location, handleSelection }) => {
   const { name, address } = location;
@@ -14,13 +14,12 @@ const LocationPreview = ({ location, handleSelection }) => {
             {address.street}, {address.city}, {address.state} {address.zip}
           </p>
         </div>
-
         <p className='preview-next'>Next:</p>
         <p id='preview-time' className='bold'>
           {location.available[0]}
         </p>
       </div>
-      <ArrowIcon />
+      <ArrowRight />
     </div>
   );
 };

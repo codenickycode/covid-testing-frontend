@@ -54,12 +54,33 @@ export const PWRequirements = ({ error }) => {
   );
 };
 
+export const DatePicker = ({ handleChangeDate, date }) => {
+  const ArrowLeft = icons.ArrowLeft;
+  const ArrowRight = icons.ArrowRight;
+  return (
+    <div className='date-picker'>
+      <ArrowLeft onClick={() => handleChangeDate('dec')} />
+      <p className='date'>{date}</p>
+      <ArrowRight onClick={() => handleChangeDate('inc')} />
+    </div>
+  );
+};
+
 export const Error = ({ error }) => {
   return <h2 className='error'>{error}</h2>;
 };
 
-export const Input = ({ field, error, value, onChange, withIcon }) => {
+export const Input = ({
+  field,
+  error,
+  value,
+  onChange,
+  withIcon,
+  autoFocus = false,
+  placeholder = '',
+}) => {
   const id = `input-${field}`;
+  const labelId = `${id}-label`;
   const label = getLabel(field);
   const type = getType(field);
   return (
@@ -67,12 +88,17 @@ export const Input = ({ field, error, value, onChange, withIcon }) => {
       {error && <Error error={error} />}
       {withIcon ? (
         <WithIcon icon={icons[field]}>
-          <label htmlFor={id}>{label}</label>
+          <label id={labelId} htmlFor={id}>
+            {label}
+          </label>
         </WithIcon>
       ) : (
-        <label htmlFor={id}>{label}</label>
+        <label id={labelId} htmlFor={id}>
+          {label}
+        </label>
       )}
       <input
+        autoFocus={autoFocus}
         id={id}
         name={field}
         type={type}
@@ -81,7 +107,9 @@ export const Input = ({ field, error, value, onChange, withIcon }) => {
         value={value || ''}
         onChange={onChange}
         placeholder={
-          field === 'currentPassword' || field === 'id' ? '[hidden]' : ''
+          field === 'currentPassword' || field === 'id'
+            ? '[hidden]'
+            : placeholder
         }
       />
     </>

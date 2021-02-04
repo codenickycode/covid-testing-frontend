@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ReactComponent as ArrowIcon } from '../../../icons/Arrow.svg';
+import { ArrowDown, ArrowUp } from '../../../icons';
 
 const Test = ({ test, selectedTests, selectTest }) => {
   const [showInfo, setShowInfo] = useState(false);
@@ -12,25 +12,23 @@ const Test = ({ test, selectedTests, selectTest }) => {
     setShowInfo(!showInfo);
   };
 
+  const selected = selectedTests.indexOf(testType) !== -1;
+  const arrowIcon = showInfo ? <ArrowUp /> : <ArrowDown />;
   return (
     <div
-      className={
-        selectedTests.indexOf(testType) !== -1
-          ? 'flex-col type selected'
-          : 'flex-col type'
-      }
+      className={`flex-col type ${selected ? 'selected' : ''}`}
       onClick={(e) => selectTest(e, testType)}
     >
       <h2>{name}</h2>
       <hr />
       <div className='flex-row more' onClick={handleIconClick}>
         <p className='small bold'>{showInfo ? 'Less info' : 'Learn more'}</p>
-        <ArrowIcon className={showInfo ? 'icon deg270' : 'icon deg90'} />
+        {arrowIcon}
       </div>
       <ul className={showInfo ? 'test-info' : 'no-test-info'}>
         {info.map((item, index) => {
           return (
-            <li key={index} className='small'>
+            <li key={'info' + index} className='small'>
               {item}
             </li>
           );
