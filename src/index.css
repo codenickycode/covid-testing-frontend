@@ -536,8 +536,9 @@ body {
   border: 1px solid var(--red);
   border-top: none;
   filter: drop-shadow(2px 2px 3px var(--drop-shadow));
-  transition: 150ms ease-in-out;
+  transition: top 150ms ease-in-out;
   overflow: hidden;
+  opacity: 0;
 }
 
 @media (min-width: 600px) {
@@ -549,6 +550,7 @@ body {
 
 .show-menu {
   top: 12vh;
+  opacity: 1;
 }
 
 .menu-icon {

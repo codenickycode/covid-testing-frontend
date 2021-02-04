@@ -29,17 +29,17 @@ export const ButtonSml = ({ onClick, label }) => {
   );
 };
 
-export const Submit = ({ label }) => {
+export const Submit = ({ label, disabled = false }) => {
   return (
-    <button type='submit' className='btn'>
+    <button type='submit' className='btn' disabled={disabled}>
       {label}
     </button>
   );
 };
 
-export const WithIcon = ({ icon, children }) => {
+export const WithIcon = ({ icon, addClass = '', children }) => {
   return (
-    <div className='with-icon'>
+    <div className={addClass + ' with-icon'}>
       {icon}
       {children}
     </div>

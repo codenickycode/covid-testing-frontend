@@ -1,13 +1,6 @@
 import React from 'react';
-// import Times from './Times.js';
-import { ReactComponent as ArrowIcon } from '../../../icons/Arrow.svg';
-import { ReactComponent as Logo } from '../../../icons/Logo.svg';
-import { ReactComponent as LocationIcon } from '../../../icons/Location.svg';
-import { ReactComponent as DateIcon } from '../../../icons/Calendar.svg';
-import { ReactComponent as TimeIcon } from '../../../icons/TimeCircle.svg';
-import { ReactComponent as TestIcon } from '../../../icons/Document.svg';
-import { ReactComponent as InfoIcon } from '../../../icons/InfoSquare.svg';
-import { ReactComponent as Spacer } from '../../../icons/Spacer.svg';
+import * as icons from '../../../icons';
+import { Submit, WithIcon } from '../../../components';
 
 const SelectionJSX = ({
   selection,
@@ -24,123 +17,139 @@ const SelectionJSX = ({
   return (
     <div id='selection' className='page transition show'>
       <form onSubmit={handleSubmit}>
-        <div className='item with-icon'>
-          <Logo />
-          <h1>{name}</h1>
-        </div>
-        <div className='item'>
-          <div className='with-icon'>
-            <LocationIcon />
-            <h2>Address</h2>
-          </div>
-          <div className='with-icon'>
-            <Spacer />
-            <div>
-              <p className='p-bottom-half'>
-                {'(' + phone.substr(0, 3) + ')' + phone.substr(3)}
-              </p>
-              <p>
-                {address.street}, {address.city}, {address.state} {address.zip}
-              </p>
-            </div>
-          </div>
-        </div>
-        <div className='item'>
-          <div className='with-icon'>
-            <DateIcon />
-            <h2>Date</h2>
-          </div>
-          <div className='date-picker-left'>
-            <ArrowIcon
-              className='icon deg180'
-              onClick={() => handleChangeDate('dec')}
-            />
-            <p>{date}</p>
-            <ArrowIcon
-              className='icon'
-              onClick={() => handleChangeDate('inc')}
-            />
-          </div>
-        </div>
-        <div className='item'>
-          <div className='with-icon'>
-            <TimeIcon />
-            <h2>
-              Time <span className='required'>*required</span>
-            </h2>
-          </div>
-          <div className='with-icon'>
-            <Spacer />
-            <select
-              className={!time ? 'select-error' : ''}
-              defaultValue='default'
-              onChange={(e) => setTime(e.target.value)}
-            >
-              <option disabled value='default'>
-                Choose time
-              </option>
-              {available.map((time) => (
-                <option key={time} value={time}>
-                  {time}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
-        <div className='item'>
-          <div className='with-icon'>
-            <TestIcon />
-            <h2 id='selection-test'>
-              Test Types <span className='smaller red'>*required</span>
-            </h2>
-          </div>
-          <div className='with-icon'>
-            <Spacer />
-            <ul>
-              {tests.map((test, index) => {
-                return (
-                  <li
-                    key={index}
-                    className={
-                      selectedTests.indexOf(test) !== -1
-                        ? 'btn-small test-selected'
-                        : 'btn-small'
-                    }
-                    onClick={() => selectTest(test)}
-                  >
-                    {test}
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        </div>
-        <div className='item'>
-          <div className='with-icon'>
-            <InfoIcon />
-            <h2 id='selection-instructions'>Instructions</h2>
-          </div>
-          <div className='with-icon'>
-            <Spacer />
-            <p>
-              Please arrive at the clinic no more than 5 minutes before your
-              appointment. <br />
-              <br />
-              Please wear a mask and maintain 6-foot distance.
-            </p>
-          </div>
-        </div>
+        <Name name={name} />
+        <Address phone={phone} address={address} />
+        <Date handleChangeDate={handleChangeDate} date={date} />
+        <Time time={time} setTime={setTime} available={available} />
+        <Tests
+          tests={tests}
+          selectedTests={selectedTests}
+          selectTest={selectTest}
+        />
+        <Info />
         <h1>Looks good?</h1>
-        <button
-          type='submit'
-          className='btn'
+        <Submit
           disabled={!time || selectedTests.length === 0}
-        >
-          Continue
-        </button>
+          label='Continue'
+        />
       </form>
     </div>
   );
 };
 
 export default SelectionJSX;
+
+const Item = ({ icon, header, children }) => {
+  return (
+    <div className='item'>
+      <WithIcon icon={icon}>{header()}</WithIcon>
+      <WithIcon icon={icons.spacer}>{children}</WithIcon>
+    </div>
+  );
+};
+
+const Name = ({ name }) => {
+  return (
+    <WithIcon addClass='item' icon={icons.logo}>
+      <h1>{name}</h1>
+    </WithIcon>
+  );
+};
+
+const AddressHeader = () => <h2>Address</h2>;
+const Address = ({ phone, address }) => {
+  return (
+    <Item icon={icons.address} header={AddressHeader}>
+      <div>
+        <p className='p-bottom-half'>
+          {'(' + phone.substr(0, 3) + ')' + phone.substr(3)}
+        </p>
+        <p>
+          {address.street}, {address.city}, {address.state} {address.zip}
+        </p>
+      </div>
+    </Item>
+  );
+};
+
+const DateHeader = () => <h2>Date</h2>;
+const Date = ({ handleChangeDate, date }) => {
+  const ArrowLeft = icons.ArrowLeft;
+  const ArrowRight = icons.ArrowRight;
+  return (
+    <Item icon={icons.calendar} header={DateHeader}>
+      <ArrowLeft onClick={() => handleChangeDate('dec')} />
+      <p>{date}</p>
+      <ArrowRight onClick={() => handleChangeDate('inc')} />
+    </Item>
+  );
+};
+
+const TimeHeader = () => () => (
+  <h2>
+    Time <span className='required'>*required</span>
+  </h2>
+);
+const Time = ({ time, setTime, available }) => {
+  return (
+    <Item icon={icons.time} header={TimeHeader}>
+      <select
+        className={!time ? 'select-error' : ''}
+        defaultValue='default'
+        onChange={(e) => setTime(e.target.value)}
+      >
+        <option disabled value='default'>
+          Choose time
+        </option>
+        {available.map((time) => (
+          <option key={time} value={time}>
+            {time}
+          </option>
+        ))}
+      </select>
+    </Item>
+  );
+};
+
+const TestsHeader = () => (
+  <h2 id='selection-test'>
+    Test Types <span className='smaller red'>*required</span>
+  </h2>
+);
+const Tests = ({ tests, selectedTests, selectTest }) => {
+  return (
+    <Item icon={icons.document} header={TestsHeader}>
+      <ul>
+        {tests.map((test) => {
+          return (
+            <li
+              key={test}
+              className={
+                selectedTests.indexOf(test) !== -1
+                  ? 'btn-small test-selected'
+                  : 'btn-small'
+              }
+              onClick={() => selectTest(test)}
+            >
+              {test}
+            </li>
+          );
+        })}
+      </ul>
+    </Item>
+  );
+};
+
+const InfoHeader = () => <h2 id='selection-instructions'>Instructions</h2>;
+const Info = () => {
+  return (
+    <Item icon={icons.info} header={InfoHeader}>
+      <p>
+        Please arrive at the clinic no more than 5 minutes before your
+        appointment. <br />
+        <br />
+        Please wear a mask and maintain 6-foot distance.
+      </p>
+    </Item>
+  );
+};

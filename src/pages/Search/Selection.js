@@ -31,7 +31,7 @@ const Selection = ({ selection, date, handleChangeDate, refreshLocations }) => {
     }
   };
 
-  function confirm() {
+  const confirm = () => {
     const newAppointment = {
       location: selection,
       date,
@@ -40,7 +40,7 @@ const Selection = ({ selection, date, handleChangeDate, refreshLocations }) => {
     };
     setApp((prev) => ({ ...prev, appointment: newAppointment }));
     setShowModal(true);
-  }
+  };
 
   const handleCloseModal = () => {
     setShowModal(false);

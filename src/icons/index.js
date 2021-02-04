@@ -10,6 +10,7 @@ import { ReactComponent as DocumentIcon } from './Document.svg';
 import { ReactComponent as TimeIcon } from './TimeCircle.svg';
 import { ReactComponent as InfoIcon } from './InfoSquare.svg';
 import { ReactComponent as Spacer } from './Spacer.svg';
+import { ReactComponent as ArrowIcon } from './Arrow.svg';
 
 export const logo = <LogoIcon />;
 export const profile = <ProfileIcon className='icon-fill' />;
@@ -34,4 +35,18 @@ export const document = <DocumentIcon />;
 export const insurance = <DocumentIcon />;
 export const time = <TimeIcon />;
 export const info = <InfoIcon />;
+
 export const spacer = <Spacer />;
+
+export const ArrowUp = ({ onClick }) => (
+  <ArrowIcon className='icon deg270' onClick={onClick} />
+);
+export const ArrowRight = ({ onClick }) => (
+  <ArrowIcon className='icon' onClick={onClick} />
+);
+export const ArrowDown = ({ onClick }) => (
+  <ArrowIcon className='icon deg90' onClick={onClick} />
+);
+export const ArrowLeft = ({ onClick }) => (
+  <ArrowIcon className='icon deg180' onClick={onClick} />
+);
