@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { Redirect } from 'react-router-dom';
 import dayjs from 'dayjs';
 import { App } from '../../Providers/Context';
-import { AccountItemsList } from './List';
+import { AccountItem } from './Item';
 import { Page } from '../../components';
 import { ReactComponent as LogoIcon } from '../../icons/Logo.svg';
 import { getSS } from '../../tools/storage';
@@ -36,6 +36,32 @@ const AccountHeader = () => {
         <LogoIcon />
         <h1>{`Good ${time}${headerName ? `, ${headerName}!` : '!'}`}</h1>
       </div>
+    </div>
+  );
+};
+
+const AccountItemsList = () => {
+  const fields = {
+    name: ['firstName', 'lastName'],
+    address: ['street', 'city', 'state', 'zip'],
+    phone: ['phone'],
+    dob: ['dob'],
+    email: ['email'],
+    password: ['currentPassword', 'newPassword', 'confirmNewPassword'],
+    insurance: ['provider', 'id'],
+    emergency_contact: ['name', 'phone', 'relation'],
+  };
+  return (
+    <div id='account-fields-list'>
+      {Object.entries(fields).map(([property, fields]) => {
+        return (
+          <AccountItem
+            key={property + '-ac'}
+            property={property}
+            fields={fields}
+          />
+        );
+      })}
     </div>
   );
 };

@@ -5,9 +5,11 @@ import { SetApp } from '../../Providers/Context';
 import { AccountItemSkeleton } from '../../components/Skeletons.js';
 import { getSS } from '../../tools/storage.js';
 import { PreviewText, CancelBtnOrEmpty, SaveOrEditBtns, Inputs } from './JSX';
+import * as icons from '../../icons';
 import { reducer, ACTIONS } from './reducer';
 
-export const AccountItem = ({ title, field, items, icon }) => {
+export const AccountItem = ({ property, fields }) => {
+  const title = getTitle(property);
   let user = getSS('app').user;
   const setApp = useContext(SetApp);
 
@@ -15,8 +17,8 @@ export const AccountItem = ({ title, field, items, icon }) => {
     userError: '',
     saving: false,
     updated: false,
-    input: user[field],
-    prevInput: user[field],
+    input: user[property],
+    prevInput: user[property],
     preview: null,
     edit: false,
   };
@@ -28,10 +30,10 @@ export const AccountItem = ({ title, field, items, icon }) => {
     if (state.preview === null) {
       dispatch({
         type: ACTIONS.SET_PREVIEW,
-        payload: state.prevInput[items[0].key],
+        payload: state.prevInput[fields[0]],
       });
     }
-  }, [field, state, items]);
+  }, [state, fields]);
 
   useEffect(() => {
     if (state.userError && !state.edit) dispatch({ type: ACTIONS.OPEN });
@@ -46,7 +48,7 @@ export const AccountItem = ({ title, field, items, icon }) => {
   }, [state, setApp]);
 
   const handleToggle = () => {
-    if (field === 'password') togglePassword();
+    if (property === 'password') togglePassword();
     else toggleEdit();
   };
 
@@ -60,6 +62,7 @@ export const AccountItem = ({ title, field, items, icon }) => {
   };
 
   const togglePassword = () => {
+    console.log(state.input);
     if (!state.edit) {
       toggleEdit();
     } else if (!tools.validPassword(state.input.newPassword)) {
@@ -83,6 +86,7 @@ export const AccountItem = ({ title, field, items, icon }) => {
   };
 
   const handleInput = ({ target: { value } }, key) => {
+    console.log(key, value);
     if ((key === 'zip' || key === 'phone') && !tools.validNum(value)) return;
     dispatch({ type: ACTIONS.INPUT, payload: { key, value } });
   };
@@ -95,20 +99,23 @@ export const AccountItem = ({ title, field, items, icon }) => {
   const save = async () => {
     dispatch({ type: ACTIONS.SET_SAVING, payload: true });
     const req = { ...state.input };
-    if (field === 'password') delete req.confirmNewPassword;
-    let newField = { ...state.prevInput },
+    if (property === 'password') delete req.confirmNewPassword;
+    let newProperty = { ...state.prevInput },
       newError = '';
     try {
-      const res = await axios.post(`/common/update/${field}`, req);
-      if (field !== 'password') newField = res.data[field];
-      if (field === 'insurance') newField.id = '';
+      const res = await axios.post(`/common/update/${property}`, req);
+      if (property !== 'password') newProperty = res.data[property];
+      if (property === 'insurance') newProperty.id = '';
     } catch (e) {
       newError = e.response?.data || e.message;
     } finally {
-      dispatch({ type: ACTIONS.AFTER_SAVE, payload: { newField, newError } });
+      dispatch({
+        type: ACTIONS.AFTER_SAVE,
+        payload: { newProperty, newError },
+      });
       setApp((prev) => ({
         ...prev,
-        user: { ...prev.user, [field]: newField },
+        user: { ...prev.user, [property]: newProperty },
         navDisabled: false,
       }));
     }
@@ -119,16 +126,15 @@ export const AccountItem = ({ title, field, items, icon }) => {
   ) : (
     <div className='item' ref={editRef}>
       <div className='item-top' onClick={handleToggle}>
-        {icon}
+        {icons[property]}
         <PreviewText state={state} title={title} />
         <CancelBtnOrEmpty state={state} cancel={cancel} />
         <SaveOrEditBtns state={state} />
       </div>
       {state.edit ? (
         <Inputs
+          fields={fields}
           state={state}
-          items={items}
-          field={field}
           handleInput={handleInput}
           handleKeyDown={handleKeyDown}
         />
@@ -137,4 +143,15 @@ export const AccountItem = ({ title, field, items, icon }) => {
       )}
     </div>
   );
+};
+
+const getTitle = (property) => {
+  switch (property) {
+    case 'dob':
+      return 'Date of Birth';
+    case 'emergency_contact':
+      return 'Emergency Contact';
+    default:
+      return property.substr(0, 1).toUpperCase() + property.substr(1);
+  }
 };

@@ -1,9 +1,13 @@
 import React from 'react';
 import Image from '../../../components/Image';
-import { ReactComponent as LogoIcon } from '../../../icons/Logo.svg';
-import { ReactComponent as EmailIcon } from '../../../icons/Message.svg';
-import { ReactComponent as PasswordIcon } from '../../../icons/Password.svg';
-// import { ReactComponent as Spacer } from '../../../icons/Spacer.svg';
+import * as icons from '../../../icons';
+import {
+  Button,
+  PWRequirements,
+  Submit,
+  WithIcon,
+  Input,
+} from '../../../components';
 
 const LoginForm = ({
   handleSubmit,
@@ -17,101 +21,74 @@ const LoginForm = ({
     console.log('forgot password');
   };
 
+  const ForgotPassword = () => {
+    return (
+      <p className='small'>
+        Forgot your password?{' '}
+        <span className='small' onClick={forgotPassword}>
+          Click here
+        </span>
+      </p>
+    );
+  };
+
+  const LoginInstead = () => {
+    return (
+      <>
+        <p>Already have an account?</p>
+        <Button label='Login' onClick={() => setSignup(false)} />
+      </>
+    );
+  };
+
+  const SignupInstead = () => {
+    return (
+      <>
+        <p>Don't have an account?</p>
+        <Button label='Sign Up' onClick={() => setSignup(true)} />
+      </>
+    );
+  };
+
   return (
     <div id='login-form' className='flex-col'>
       <div className='item'>
-        <div className='with-icon'>
-          <LogoIcon />
+        <WithIcon icon={icons.logo}>
           {signup ? <h1>Create an account</h1> : <h1>Login to your account</h1>}
-        </div>
+        </WithIcon>
       </div>
       {window.innerHeight > 650 && (
         <Image src='/img/png/login.png' alt='Login illustration' size='med' />
       )}
       <form onSubmit={handleSubmit}>
-        <p className='small red'>*required fields</p>
-        {errors.email && <h2 className='error'>{errors.email}</h2>}
-        <div className='with-icon'>
-          <EmailIcon />
-          <label htmlFor='email'>Email</label>
-        </div>
-        <input
-          autoFocus
-          type='email'
-          name='email'
-          className={errors.email ? 'invalid' : ''}
-          value={inputs.email || ''}
+        <Input
+          field='email'
+          error={errors.email}
+          value={inputs.email}
           onChange={handleInput}
-          placeholder='Enter your email address'
+          withIcon={true}
         />
-        {errors.password && <h2 className='error'>{errors.password}</h2>}
-        <div className='with-icon'>
-          <PasswordIcon />
-          <label htmlFor='password'>Password</label>
-        </div>
-        <input
-          type='password'
-          name='password'
-          className={errors.password ? 'invalid password' : 'password'}
-          value={inputs.password || ''}
+        <Input
+          field='password'
+          error={errors.password}
+          value={inputs.password}
           onChange={handleInput}
-          placeholder={signup ? 'Create your password' : 'Enter your password'}
+          withIcon={true}
         />
+        {signup && <PWRequirements error={errors.password} />}
         {signup && (
-          <p
-            className={
-              errors.password ? 'error smaller password' : 'smaller password'
-            }
-          >
-            min. 8 digits: lower, upper, and num
-          </p>
+          <Input
+            field='confirmation'
+            error={errors.confirmation}
+            value={inputs.confirmation}
+            onChange={handleInput}
+            withIcon={true}
+          />
         )}
-        {signup && (
-          <>
-            {errors.confirmation && (
-              <h2 className='error'>{errors.confirmation}</h2>
-            )}
-            <div className='with-icon'>
-              <PasswordIcon />
-              <label htmlFor='confirmation'>Confirm</label>
-            </div>
-            <input
-              type='password'
-              name='confirmation'
-              className={errors.confirmation ? 'invalid' : ''}
-              value={inputs.confirmation || ''}
-              onChange={handleInput}
-              placeholder='Confirm your password'
-            />
-          </>
-        )}
-        <button type='submit' className='btn'>
-          {signup ? 'Create An Account' : 'Sign In'}
-        </button>
-        {!signup && (
-          <p className='small'>
-            Forgot your password?{' '}
-            <span className='small' onClick={forgotPassword}>
-              Click here
-            </span>
-          </p>
-        )}
+        <Submit label={signup ? 'Create An Account' : 'Sign In'} />
+        {!signup && <ForgotPassword />}
       </form>
-      {signup ? (
-        <>
-          <p>Already have an account?</p>
-          <button className='btn' onClick={() => setSignup(false)}>
-            Sign In
-          </button>
-        </>
-      ) : (
-        <>
-          <p>Don't have an account?</p>
-          <button className='btn' onClick={() => setSignup(true)}>
-            Signup
-          </button>
-        </>
-      )}
+      {signup ? <LoginInstead /> : <SignupInstead />}
     </div>
   );
 };

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Input } from '../../components';
 import { ReactComponent as EditIcon } from '../../icons/PencilLine.svg';
 
 export const PreviewText = ({ state, title }) => {
@@ -36,25 +37,20 @@ export const SaveOrEditBtns = ({ state }) => {
   );
 };
 
-export const Inputs = ({ state, items, field, handleInput, handleKeyDown }) => {
+export const Inputs = ({ fields, state, handleInput, handleKeyDown }) => {
   return (
     <form className='item-inputs'>
-      {items.map((item, index) => {
+      {fields.map((field) => {
         return (
-          <div className='account-input' key={index}>
-            <label htmlFor={field + item.key}>{item.label}</label>
-            <input
-              type={item.type}
-              id={field + item.key}
-              maxLength={item.key === 'zip' ? '5' : '99'}
-              placeholder={
-                item.key === 'currentPassword' || item.key === 'id'
-                  ? '[hidden]'
-                  : ''
-              }
-              value={state.input[item.key]}
-              onChange={(e) => handleInput(e, item.key)}
-              onKeyDown={handleKeyDown}
+          <div
+            className='account-input'
+            key={field + '-div'}
+            onKeyDown={handleKeyDown}
+          >
+            <Input
+              field={field}
+              value={state.input[field]}
+              onChange={(e) => handleInput(e, field)}
             />
           </div>
         );

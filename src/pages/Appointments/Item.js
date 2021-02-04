@@ -84,20 +84,20 @@ const AppointmentExpanded = ({ fullRef, appointment, testsSpan }) => {
       <ApptField
         header='Address'
         text={`${street}, ${city}, ${state} ${zip}`}
-        icon={icons.locationIcon}
+        icon={icons.location}
       />
-      <ApptField header='Phone' text={phone} icon={icons.callIcon} />
-      <ApptField header='Date' text={date} icon={icons.calendarIcon} />
-      <ApptField header='Time' text={time} icon={icons.timeIcon} />
+      <ApptField header='Phone' text={phone} icon={icons.phone} />
+      <ApptField header='Date' text={date} icon={icons.calendar} />
+      <ApptField header='Time' text={time} icon={icons.time} />
       <ApptField
         header={'Test(s)'}
         text={<span className='test-span'>{testsSpan}</span>}
-        icon={icons.documentIcon}
+        icon={icons.document}
       />
       <ApptField
         header='Instructions'
         text='Please arrive 5 minutes before your scheduled appointment time.'
-        icon={icons.infoIcon}
+        icon={icons.info}
       />
     </div>
   );
@@ -111,7 +111,7 @@ const ApptField = ({ icon, header, text }) => {
         <h2>{header}</h2>
       </div>
       <div className='with-icon'>
-        {icons.spacerIcon}
+        {icons.spacer}
         <p>{text}</p>
       </div>
     </div>

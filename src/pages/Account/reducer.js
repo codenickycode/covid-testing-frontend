@@ -33,13 +33,13 @@ export const reducer = (state, { type, payload }) => {
     case ACTIONS.SET_SAVING:
       return { ...state, saving: payload };
     case ACTIONS.AFTER_SAVE:
-      const { newError, newField } = payload;
+      const { newError, newProperty } = payload;
       return {
         ...state,
         saving: false,
         userError: newError,
-        input: newField,
-        prevInput: newField,
+        input: newProperty,
+        prevInput: newProperty,
         edit: false,
         updated: false,
         preview: null,

@@ -2,7 +2,7 @@ import React, { useRef, useState, useContext, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import useBookAppointment from '../../../tools/useBookAppointment';
 import LoginModal from '../Login/Login.js';
-import ConfirmUserInfoModal from '../ConfirmUserInfo/ConfirmUserInfo.js';
+import ConfirmUserInfo from '../ConfirmUserInfo/ConfirmUserInfo.js';
 import { App } from '../../../Providers/Context';
 
 const ConfirmationModal = ({ closeModal }) => {
@@ -20,23 +20,23 @@ const ConfirmationModal = ({ closeModal }) => {
   }, [bookingRef, bookAppointment, appointment, user, infoIsConfirmed]);
 
   return ReactDOM.createPortal(
-    <>
-      {!user ? (
-        <LoginModal closeModal={closeModal} />
-      ) : !infoIsConfirmed ? (
-        <ConfirmUserInfoModal
-          closeModal={closeModal}
-          setInfoIsConfirmed={setInfoIsConfirmed}
-        />
-      ) : (
-        <>
-          <div className='overlay'></div>
-          <div className='modal'>
+    !user ? (
+      <LoginModal closeModal={closeModal} />
+    ) : (
+      <>
+        <div className='overlay' onClick={closeModal}></div>
+        <div className='modal'>
+          {!infoIsConfirmed ? (
+            <ConfirmUserInfo
+              closeModal={closeModal}
+              setInfoIsConfirmed={setInfoIsConfirmed}
+            />
+          ) : (
             <h1>{bookingRef.current}</h1>
-          </div>
-        </>
-      )}
-    </>,
+          )}
+        </div>
+      </>
+    ),
     document.getElementById('portal')
   );
 };

@@ -4,12 +4,10 @@ import { LoginSkeleton } from '../../../components/Skeletons.js';
 import { App } from '../../../Providers/Context.js';
 import tools from '../../../tools/index.js';
 import Image from '../../../components/Image';
-import { ReactComponent as LogoIcon } from '../../../icons/Logo.svg';
-import { ReactComponent as ProfileIcon } from '../../../icons/Profile.svg';
-import { ReactComponent as CalendarIcon } from '../../../icons/Calendar.svg';
-import { ReactComponent as CallIcon } from '../../../icons/Call.svg';
+import * as icons from '../../../icons';
+import { Input, Submit, WithIcon } from '../../../components/index.js';
 
-const ConfirmUserInfo = ({ closeModal, setInfoIsConfirmed }) => {
+const ConfirmUserInfo = ({ setInfoIsConfirmed }) => {
   const { loading, user } = useContext(App);
   const { checkValid, updateAccountBasic } = useFunctions();
 
@@ -40,96 +38,57 @@ const ConfirmUserInfo = ({ closeModal, setInfoIsConfirmed }) => {
     updateAccountBasic(inputs, () => setInfoIsConfirmed(true));
   };
 
-  return (
-    <>
-      <div className='overlay' onClick={closeModal}></div>
-      <div className='modal'>
-        {loading ? (
-          <LoginSkeleton
-            header='Booking...'
-            message='Please wait while we book your appointment.'
+  return loading ? (
+    <LoginSkeleton
+      header='Booking...'
+      message='Please wait while we book your appointment.'
+    />
+  ) : (
+    <div id='confirm-info' className='flex-col'>
+      <WithIcon icon={icons.logo}>
+        <h1>Before you confirm</h1>
+      </WithIcon>
+      <form onSubmit={handleSubmit}>
+        <WithIcon icon={icons.profile}>
+          <Input
+            field='firstName'
+            error={errors.firstName}
+            value={inputs.firstName}
+            onChange={handleInput}
           />
-        ) : (
-          <div id='confirm-info' className='flex-col'>
-            <div className='with-icon'>
-              <LogoIcon />
-              <h1>Before you confirm</h1>
-            </div>
-            <form onSubmit={handleSubmit}>
-              <div className='item'>
-                {errors.firstName ||
-                  (errors.lastName && (
-                    <h2 className='error'>
-                      {errors.firstName || errors.lastName}
-                    </h2>
-                  ))}
-                <div className='with-icon'>
-                  <ProfileIcon />
-                  <div className='confim-name'>
-                    <label htmlFor='firstName'>First</label>
-                    <input
-                      className={errors.firstName ? 'invalid' : ''}
-                      type='text'
-                      name='firstName'
-                      value={inputs.firstName}
-                      onChange={handleInput}
-                    />
-                  </div>
-                  <div className='confim-item'>
-                    <label htmlFor='lastName'>Last</label>
-                    <input
-                      className={errors.lastName ? 'invalid' : ''}
-                      type='text'
-                      name='lastName'
-                      value={inputs.lastName}
-                      onChange={handleInput}
-                    />
-                  </div>
-                </div>
-                <div className='with-icon'>
-                  <CalendarIcon />
-                  <div className='confirm-item'>
-                    <label htmlFor='dob'>Date of Birth</label>
-                    <input
-                      className={errors.dob ? 'invalid dob' : 'dob'}
-                      type='date'
-                      name='dob'
-                      value={inputs.dob}
-                      onChange={handleInput}
-                    />
-                  </div>
-                </div>
-                <div className='with-icon'>
-                  <CallIcon />
-                  <div className='confirm-item'>
-                    <label htmlFor='phone'>Phone</label>
-                    <input
-                      className={errors.phone ? 'invalid' : ''}
-                      type='tel'
-                      name='phone'
-                      value={inputs.phone}
-                      onChange={handleInput}
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {window.innerHeight > 650 && (
-                <Image
-                  src='/img/png/confirm.png'
-                  alt='Confirm illustration'
-                  size='med'
-                />
-              )}
-
-              <button type='submit' className='btn'>
-                Confirm
-              </button>
-            </form>
-          </div>
+          <Input
+            field='lastName'
+            error={errors.lastName}
+            value={inputs.lastName}
+            onChange={handleInput}
+          />
+        </WithIcon>
+        <WithIcon icon={icons.calendar}>
+          <Input
+            field='dob'
+            error={errors.dob}
+            value={inputs.dob}
+            onChange={handleInput}
+          />
+        </WithIcon>
+        <WithIcon icon={icons.phone}>
+          <Input
+            field='phone'
+            error={errors.phone}
+            value={inputs.phone}
+            onChange={handleInput}
+          />
+        </WithIcon>
+        {window.innerHeight > 650 && (
+          <Image
+            src='/img/png/confirm.png'
+            alt='Confirm illustration'
+            size='med'
+          />
         )}
-      </div>
-    </>
+        <Submit label='Confirm' />
+      </form>
+    </div>
   );
 };
 
