@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { App, Go } from '../../Providers/Context.js';
 import Image from '../../components/Image.js';
 import { WelcomeSkeleton } from '../../components/Skeletons.js';
+import { Button, Page } from '../../components/index.js';
 
 const Welcome = () => {
   const { loading } = useContext(App);
@@ -10,11 +11,11 @@ const Welcome = () => {
   return loading ? (
     <WelcomeSkeleton />
   ) : (
-    <div id='welcome' className='page transition show flex-col'>
-      <div className='center'>
+    <Page id='welcome' addClass='flex-col'>
+      <header className='center'>
         <h1>COVID-19 testing is available at CityMD</h1>
         <p>We're here for you during this pandemic.</p>
-      </div>
+      </header>
       <Image
         id='welcome-img'
         src='/img/png/welcome.png'
@@ -25,10 +26,12 @@ const Welcome = () => {
         <h1>No more waiting!</h1>
         <p>Schedule an appointment in advance and skip the line.</p>
       </div>
-      <button autoFocus className='btn' onClick={() => go('/search/form')}>
-        START
-      </button>
-    </div>
+      <Button
+        autoFocus={true}
+        onClick={() => go('/search/form')}
+        label='START'
+      />
+    </Page>
   );
 };
 

@@ -2,20 +2,25 @@ import React from 'react';
 import * as icons from '../icons';
 // import { App } from '../Providers/Context';
 
-export const Page = ({ id, children }) => {
+export const Page = ({ id, children, addClass = '' }) => {
   // const { loading } = useContext(App);
 
   return (
-    <div id={id} className='page transition show'>
+    <div id={id} className={`page transition show ${addClass}`}>
       {children}
     </div>
   );
 };
 // <PageSkeleton id={`${id}-sk`} className={loading ? 'sk-show' : 'sk-hide}'} />;
 
-export const Button = ({ onClick, label }) => {
+export const Button = ({ onClick, label, autoFocus = false }) => {
   return (
-    <button type='button' className='btn' onClick={onClick}>
+    <button
+      autoFocus={autoFocus}
+      type='button'
+      className='btn'
+      onClick={onClick}
+    >
       {label}
     </button>
   );
