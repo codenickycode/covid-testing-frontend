@@ -88,6 +88,7 @@ export const Input = ({
   const labelId = `${id}-label`;
   const label = getLabel(field);
   const type = getType(field);
+  const autoComplete = getAutoComplete(field);
   return (
     <>
       {error && <Error error={error} />}
@@ -111,6 +112,7 @@ export const Input = ({
         maxLength={field === 'zip' ? '5' : 99}
         value={value || ''}
         onChange={onChange}
+        autoComplete={autoComplete}
         placeholder={
           field === 'currentPassword' || field === 'id'
             ? '[hidden]'
@@ -156,5 +158,21 @@ const getType = (field) => {
       return 'password';
     default:
       return 'text';
+  }
+};
+
+const getAutoComplete = (field) => {
+  switch (field) {
+    case 'newPassword':
+    case 'confirmNewPassword':
+    case 'confirmation':
+      return 'new-password';
+    case 'password':
+    case 'currentPassword':
+      return 'current-password';
+    case 'email':
+      return 'username';
+    default:
+      return null;
   }
 };
