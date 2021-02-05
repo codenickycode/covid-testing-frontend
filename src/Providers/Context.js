@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { DARK_THEME, LIGHT_THEME } from '../tools/themes.js';
 import { getLS, setLS, getSS, setSS } from '../tools/storage';
@@ -25,20 +25,21 @@ export const SetApp = React.createContext();
 const ContextProvider = ({ children }) => {
   const [app, setApp] = useState(getSS('app') || INIT_APP);
 
+  // copy app state to sessionStorage
   useEffect(() => {
     setSS('app', app);
   }, [app]);
 
-  let alertTimer = useRef(null);
+  // alerts
   useEffect(() => {
+    let timer = null;
     if (app.confirmation || app.error) {
-      clearTimeout(alertTimer.current);
-      alertTimer.current = setTimeout(
+      timer = setTimeout(
         () => setApp((prev) => ({ ...prev, confirmation: '', error: '' })),
         3000
       );
     }
-    return () => clearTimeout(alertTimer.current);
+    return () => clearTimeout(timer);
   }, [app.confirmation, app.error]);
 
   // update AccountHeader name
@@ -60,42 +61,15 @@ const ContextProvider = ({ children }) => {
   }, [app.user]);
 
   // 2s delay while user toggles before updating server
-  let settingsTimer = useRef(null);
   useEffect(() => {
+    let timer = null;
     if (app.settingsUpdated) {
       setApp((prev) => ({ ...prev, loading: true }));
-      clearTimeout(settingsTimer.current);
-      settingsTimer.current = setTimeout(updateDB, 2000);
-    }
-    async function updateDB() {
-      let newPrevious = app.settings;
-      let newUpdated = true;
-      let error = '';
-      for (let key of Object.keys(app.user.preferences)) {
-        if (app.user.preferences[key] !== app.settings[key]) {
-          try {
-            await axios.post(
-              '/common/update/preferences',
-              app.user.preferences
-            );
-            newPrevious = app.user.preferences;
-            newUpdated = false;
-          } catch (e) {
-            error = e.response?.data || e.message;
-          }
-          break;
-        }
-      }
-      setApp((prev) => ({
-        ...prev,
-        settings: newPrevious,
-        settingsUpdated: newUpdated,
-        loading: false,
-        error,
-      }));
+      clearTimeout(timer);
+      timer = setTimeout(() => updateDB(app.user, app.settings, setApp), 2000);
     }
     return () => {
-      clearTimeout(settingsTimer.current);
+      clearTimeout(timer);
       setApp((prev) => ({ ...prev, loading: false }));
     };
   }, [app.settingsUpdated, app.settings, app.user]);
@@ -108,3 +82,29 @@ const ContextProvider = ({ children }) => {
 };
 
 export default ContextProvider;
+
+// app.user.preferences updated before this
+async function updateDB(user, settings, setApp) {
+  let newSettings = { ...settings };
+  let newUpdated = true;
+  let error = '';
+  for (let key of Object.keys(user.preferences)) {
+    if (user.preferences[key] !== settings[key]) {
+      try {
+        await axios.post('/common/update/preferences', user.preferences);
+        newSettings = user.preferences;
+        newUpdated = false;
+      } catch (e) {
+        error = e.response?.data || e.message;
+      }
+      break;
+    }
+  }
+  setApp((prev) => ({
+    ...prev,
+    settings: newSettings,
+    settingsUpdated: newUpdated,
+    loading: false,
+    error,
+  }));
+}
