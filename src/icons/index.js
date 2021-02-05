@@ -14,7 +14,7 @@ import { ReactComponent as ArrowIcon } from './Arrow.svg';
 import { ReactComponent as Menu } from './MenuAnimate.svg';
 import { ReactComponent as Account } from './Account.svg';
 import { ReactComponent as Appointments } from './Appointments.svg';
-import { ReactComponent as SettingsIcon } from './Settings.svg';
+import { ReactComponent as Settings } from './Settings.svg';
 
 export const logo = <LogoIcon />;
 export const profile = <ProfileIcon className='icon-fill' />;
