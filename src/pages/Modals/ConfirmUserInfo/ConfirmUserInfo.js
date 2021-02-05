@@ -4,7 +4,7 @@ import { App } from '../../../Providers/Context.js';
 import tools from '../../../tools/index.js';
 import Image from '../../../components/Image';
 import * as icons from '../../../icons';
-import { checkValidForm } from '../../../tools/valid';
+import { checkRequired } from '../../../tools/valid';
 import { Input, Submit, WithIcon } from '../../../components/index.js';
 import useUpdateAccountBasic from './useUpdateAccountBasic.js';
 
@@ -33,9 +33,14 @@ const ConfirmUserInfo = ({ setInfoIsConfirmed }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const [newErrors, interupt] = checkValidForm(inputs);
+    const [newErrors, interupt] = checkRequired(inputs);
     setErrors(newErrors);
-    if (interupt) return;
+    if (interupt) {
+      for (let [key, val] of Object.entries(newErrors)) {
+        if (val) document.querySelector(`input[name=${key}]`).focus();
+      }
+      return;
+    }
     updateAccountBasic(inputs, () => setInfoIsConfirmed(true));
   };
 

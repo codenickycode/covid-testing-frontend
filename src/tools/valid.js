@@ -7,16 +7,15 @@ export const validNum = (value) => {
   return value[value.length - 1].match(/\d/);
 };
 
-export const checkValidForm = (inputs) => {
+export const checkRequired = (inputs) => {
   let errors = {};
   let interupt = false;
-  for (let [name, val] of Object.entries(inputs)) {
+  for (let [key, val] of Object.entries(inputs)) {
     if (!val) {
-      errors[name] = 'required';
-      document.querySelector(`input[name=${name}]`).focus();
+      errors[key] = 'required';
       interupt = true;
     } else {
-      errors[name] = '';
+      errors[key] = '';
     }
   }
   return [errors, interupt];
