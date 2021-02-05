@@ -13,50 +13,38 @@ export const Page = ({ id, children, addClass = '' }) => {
 };
 // <PageSkeleton id={`${id}-sk`} className={loading ? 'sk-show' : 'sk-hide}'} />;
 
-export const Button = ({ onClick, label, autoFocus = false }) => {
+export const Button = (props) => {
+  let type = props?.type ? props.type : 'button';
+  let style = 'btn';
+  if (props?.size) style += `-${props.size}`;
+  if (props?.addClass) style += ' ' + props.addClass;
   return (
     <button
-      autoFocus={autoFocus}
-      type='button'
-      className='btn'
-      onClick={onClick}
+      id={props?.id}
+      className={style}
+      type={type}
+      autoFocus={props?.autoFocus || false}
+      disabled={props?.disabled || false}
+      onClick={props?.onClick || null}
     >
-      {label}
+      {props?.label || null}
     </button>
   );
 };
 
-export const ButtonSml = ({ onClick, label, addClass = '' }) => {
+export const WithIcon = (props) => {
+  const style = props?.addClass ? props.addClass + ' with-icon' : 'with-icon';
   return (
-    <button type='button' className={'btn-small ' + addClass} onClick={onClick}>
-      {label}
-    </button>
-  );
-};
-
-export const Submit = ({ label, disabled = false }) => {
-  return (
-    <button type='submit' className='btn' disabled={disabled}>
-      {label}
-    </button>
-  );
-};
-
-export const WithIcon = ({ icon, addClass = '', children }) => {
-  return (
-    <div className={addClass + ' with-icon'}>
-      {icon}
-      {children}
+    <div className={style}>
+      {props?.icon || null}
+      {props.children}
     </div>
   );
 };
 
-export const PWRequirements = ({ error }) => {
-  return (
-    <p className={error ? 'error smaller password' : 'smaller password'}>
-      min. 8 digits: lower, upper, and num
-    </p>
-  );
+export const PWRequirements = (props) => {
+  const style = props?.error ? 'error smaller password' : 'smaller password';
+  return <p className={style}>min. 8 digits: lower, upper, and num</p>;
 };
 
 export const DatePicker = ({ handleChangeDate, date }) => {

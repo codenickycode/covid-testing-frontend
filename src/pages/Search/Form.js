@@ -3,7 +3,7 @@ import { TESTS } from '../../tools/info/TESTS';
 import Test from './Form/Test.js';
 import tools from '../../tools';
 import * as icons from '../../icons';
-import { Input, Page, Submit, WithIcon } from '../../components';
+import { Button, Input, Page, WithIcon } from '../../components';
 
 const SearchForm = ({ handleSubmit }) => {
   const [zip, setZip] = useState('');
@@ -40,7 +40,7 @@ const SearchForm = ({ handleSubmit }) => {
         <Tests tests={tests} selectTest={selectTest} />
         <ZipInput zip={zip} handleZipInput={handleZipInput} />
         {error && <p className='error'>{error}</p>}
-        <Submit label='Search availability' />
+        <Button type='submit' label='Search availability' />
       </form>
     </Page>
   );

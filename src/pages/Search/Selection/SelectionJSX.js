@@ -1,6 +1,6 @@
 import React from 'react';
 import * as icons from '../../../icons';
-import { DatePicker, Page, Submit, WithIcon } from '../../../components';
+import { Button, DatePicker, Page, WithIcon } from '../../../components';
 
 export default function SelectionJSX({
   selection,
@@ -28,7 +28,8 @@ export default function SelectionJSX({
         />
         <Info />
         <h1>Looks good?</h1>
-        <Submit
+        <Button
+          type='submit'
           disabled={!time || selectedTests.length === 0}
           label='Continue'
         />

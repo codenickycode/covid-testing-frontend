@@ -1,13 +1,7 @@
 import React from 'react';
 import Image from '../../../components/Image';
 import * as icons from '../../../icons';
-import {
-  Button,
-  PWRequirements,
-  Submit,
-  WithIcon,
-  Input,
-} from '../../../components';
+import { Button, PWRequirements, WithIcon, Input } from '../../../components';
 
 const LoginForm = ({
   handleSubmit,
@@ -48,7 +42,10 @@ const LoginForm = ({
             withIcon={true}
           />
         )}
-        <Submit label={signup ? 'Create An Account' : 'Sign In'} />
+        <Button
+          type='submit'
+          label={signup ? 'Create An Account' : 'Sign In'}
+        />
         {!signup && <ForgotPassword />}
       </form>
       <SignupOrLogin signup={signup} setSignup={setSignup} />

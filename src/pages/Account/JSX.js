@@ -1,5 +1,5 @@
 import React from 'react';
-import { ButtonSml, Input } from '../../components';
+import { Button, Input } from '../../components';
 import { ReactComponent as EditIcon } from '../../icons/PencilLine.svg';
 
 export const PreviewText = ({ state, title }) => {
@@ -18,15 +18,17 @@ export const PreviewText = ({ state, title }) => {
 
 export const CancelBtnOrEmpty = ({ state, cancel }) => {
   return state.edit ? (
-    <ButtonSml onClick={cancel} label='Cancel' />
+    <Button onClick={cancel} label='Cancel' size='small' />
   ) : (
     <div></div>
   );
 };
 
+// the entire containing div handles the onClick
 export const SaveOrEditBtns = ({ state }) => {
   return (
-    <ButtonSml
+    <Button
+      size='small'
       addClass={state.edit ? '' : 'b-none'}
       label={state.edit ? 'save' : <EditIcon className='icon' />}
     />

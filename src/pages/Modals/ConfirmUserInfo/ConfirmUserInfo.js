@@ -5,7 +5,7 @@ import tools from '../../../tools/index.js';
 import Image from '../../../components/Image';
 import * as icons from '../../../icons';
 import { checkRequired } from '../../../tools/valid';
-import { Input, Submit, WithIcon } from '../../../components/index.js';
+import { Button, Input, WithIcon } from '../../../components/index.js';
 import useUpdateAccountBasic from './useUpdateAccountBasic.js';
 
 const ConfirmUserInfo = ({ setInfoIsConfirmed }) => {
@@ -90,7 +90,7 @@ const ConfirmUserInfo = ({ setInfoIsConfirmed }) => {
             size='med'
           />
         )}
-        <Submit label='Confirm' />
+        <Button type='submit' label='Confirm' />
       </form>
     </div>
   );
