@@ -19,11 +19,11 @@ export const sortLocationsBy = (type, locations) => {
   if (type === 'time') sortLocationsByTime(locations);
 };
 
-const sortLocationsByDistance = (locations) => {
+export const sortLocationsByDistance = (locations) => {
   locations.sort((a, b) => a.distance - b.distance);
 };
 
-const sortLocationsByTime = (locations) => {
+export const sortLocationsByTime = (locations) => {
   locations.sort((a, b) => {
     let aDate = dayjs(`2000-01-01 ${a.available[0]}`);
     let bDate = dayjs(`2000-01-01 ${b.available[0]}`);
