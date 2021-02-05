@@ -14,8 +14,8 @@ export const initLocations = () => {
       appointments: [
         {
           _id: '5feb3e18d6de533808845f08',
-          date: '1/1/2021',
-          time: '9:00 AM',
+          date: '1/2/2021',
+          time: '9:30 AM',
         },
         {
           _id: '5feb3e1cd6de533808845f09',
@@ -24,8 +24,13 @@ export const initLocations = () => {
         },
         {
           _id: '5feb3e1ed6de533808845f0a',
-          date: '1/1/2021',
+          date: '1/1/2099',
           time: '10:00 AM',
+        },
+        {
+          _id: '5feb2e1ed6de533808845f0c',
+          date: '1/2/2021',
+          time: '9:00 AM',
         },
       ],
       __v: 23,

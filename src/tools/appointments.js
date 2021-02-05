@@ -46,13 +46,12 @@ export const sortAppointments = (appointments) => {
       upcoming.push(appointment);
     }
   });
-  const upcomingSorted = sortAppointmentsByTime(upcoming);
-  const pastSorted = sortAppointmentsByTime(past);
+  const upcomingSorted = sortByDateThenTime(upcoming);
+  const pastSorted = sortByDateThenTime(past);
   return [upcomingSorted, pastSorted];
 };
 
-// sort by date then time
-const sortAppointmentsByTime = (appointments) => {
+const sortByDateThenTime = (appointments) => {
   if (appointments.length === 0) return appointments;
   let dates = {};
   appointments.sort((a, b) => dayjs(a.date).diff(dayjs(b.date)));
@@ -63,6 +62,11 @@ const sortAppointmentsByTime = (appointments) => {
       dates[appointment.date].push(appointment);
     }
   });
+  let sorted = sortByTime(dates);
+  return sorted;
+};
+
+const sortByTime = (dates) => {
   let sorted = [];
   for (let [, v] of Object.entries(dates)) {
     if (v.length === 1) {
