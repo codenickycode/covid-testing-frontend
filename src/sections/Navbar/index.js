@@ -1,10 +1,7 @@
 import React, { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 import { App, Go } from '../../Providers/Context';
-import { ReactComponent as AccountIcon } from '../../icons/Account.svg';
-import { ReactComponent as AppointmentsIcon } from '../../icons/Appointments.svg';
-import { ReactComponent as SettingsIcon } from '../../icons/Settings.svg';
-
+import { AccountIcon, AppointmentsIcon, SettingsIcon } from '../../icons';
 const Navbar = () => {
   const { loading, navDisabled } = useContext(App);
   const go = useContext(Go);

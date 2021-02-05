@@ -11,6 +11,10 @@ import { ReactComponent as TimeIcon } from './TimeCircle.svg';
 import { ReactComponent as InfoIcon } from './InfoSquare.svg';
 import { ReactComponent as Spacer } from './Spacer.svg';
 import { ReactComponent as ArrowIcon } from './Arrow.svg';
+import { ReactComponent as Menu } from './MenuAnimate.svg';
+import { ReactComponent as Account } from './Account.svg';
+import { ReactComponent as Appointments } from './Appointments.svg';
+import { ReactComponent as SettingsIcon } from './Settings.svg';
 
 export const logo = <LogoIcon />;
 export const profile = <ProfileIcon className='icon-fill' />;
@@ -35,18 +39,25 @@ export const document = <DocumentIcon />;
 export const insurance = <DocumentIcon />;
 export const time = <TimeIcon />;
 export const info = <InfoIcon />;
-
 export const spacer = <Spacer />;
 
-export const ArrowUp = ({ onClick }) => (
-  <ArrowIcon className='icon deg270' onClick={onClick} />
+export const MenuIcon = ({ addClass, onClick }) => (
+  <Menu className={addClass} onClick={onClick} />
 );
-export const ArrowRight = ({ onClick }) => (
-  <ArrowIcon className='icon' onClick={onClick} />
+export const ArrowUp = ({ onClick, addClass = '' }) => (
+  <ArrowIcon className={'icon deg270 ' + addClass} onClick={onClick} />
 );
-export const ArrowDown = ({ onClick }) => (
-  <ArrowIcon className='icon deg90' onClick={onClick} />
+export const ArrowRight = ({ onClick, addClass = '' }) => (
+  <ArrowIcon className={'icon' + addClass} onClick={onClick} />
 );
-export const ArrowLeft = ({ onClick }) => (
-  <ArrowIcon className='icon deg180' onClick={onClick} />
+export const ArrowDown = ({ onClick, addClass = '' }) => (
+  <ArrowIcon className={'icon deg90 ' + addClass} onClick={onClick} />
 );
+export const ArrowLeft = ({ onClick, addClass = '' }) => (
+  <ArrowIcon className={'icon deg180 ' + addClass} onClick={onClick} />
+);
+
+// Navbar
+export const AccountIcon = Account;
+export const AppointmentsIcon = Appointments;
+export const SettingsIcon = Settings;

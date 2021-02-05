@@ -1,6 +1,6 @@
 import React, { useRef, useState, useContext, useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import useBookAppointment from '../../../tools/useBookAppointment';
+import useBookAppointment from './useBookAppointment';
 import LoginModal from '../Login/Login.js';
 import ConfirmUserInfo from '../ConfirmUserInfo/ConfirmUserInfo.js';
 import { App } from '../../../Providers/Context';
