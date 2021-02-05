@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useContext, useCallback } from 'react';
 import { Route, useRouteMatch } from 'react-router-dom';
-import tools from '../../tools/index.js';
-import { App, Go, SetApp } from '../../Providers/Context.js';
-import SearchForm from './Form.js';
-import SearchResults from './Results.js';
-import Selection from './Selection.js';
+import tools from '../../tools/index';
+import { App, SetApp } from '../../Providers/Context';
+import { Go } from '../../Providers/Go';
+import SearchForm from './Form';
+import SearchResults from './Results';
+import Selection from './Selection';
 
 const Search = () => {
   const go = useContext(Go);

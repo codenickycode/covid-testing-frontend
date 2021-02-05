@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
-import { App, Go } from '../../Providers/Context';
+import { App } from '../../Providers/Context';
+import { Go } from '../../Providers/Go';
 import { AccountIcon, AppointmentsIcon, SettingsIcon } from '../../icons';
 const Navbar = () => {
   const { loading, navDisabled } = useContext(App);

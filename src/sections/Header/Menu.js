@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { Go } from '../../Providers/Context';
+import { Go } from '../../Providers/Go';
 
 export default function Menu({ toggleMenu }) {
   const go = useContext(Go);

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
-import { App, Go } from '../../Providers/Context.js';
+import { App } from '../../Providers/Context';
+import { Go } from '../../Providers/Go';
 import Menu from './Menu';
 import { ArrowLeft, MenuIcon } from '../../icons';
 

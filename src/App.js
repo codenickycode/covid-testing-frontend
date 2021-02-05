@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import ContextProvider, { GoProvider } from './Providers/Context';
+import ContextProvider from './Providers/Context';
+import { GoProvider } from './Providers/Go';
 import { ScrollToTop } from './tools/scrolling.js';
 import ErrorBoundary from './components/ErrorBoundary';
 import Alert from './components/Alert.js';

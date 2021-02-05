@@ -1,8 +1,9 @@
 import React, { useContext } from 'react';
-import { App, Go } from '../../Providers/Context.js';
-import Image from '../../components/Image.js';
-import { WelcomeSkeleton } from '../../components/Skeletons.js';
-import { Button, Page } from '../../components/index.js';
+import { App } from '../../Providers/Context';
+import { Go } from '../../Providers/Go';
+import Image from '../../components/Image';
+import { WelcomeSkeleton } from '../../components/Skeletons';
+import { Button, Page } from '../../components/index';
 
 const Welcome = () => {
   const { loading } = useContext(App);
