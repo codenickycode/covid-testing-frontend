@@ -3,9 +3,9 @@ import { Redirect } from 'react-router-dom';
 import dayjs from 'dayjs';
 import { App } from '../../Providers/Context';
 import { AccountItem } from './Item';
-import { Page } from '../../components';
-import { ReactComponent as LogoIcon } from '../../icons/Logo.svg';
+import { Page, WithIcon } from '../../components';
 import { getSS } from '../../tools/storage';
+import { logo } from '../../icons';
 
 export default function Account() {
   const user = getSS('app').user;
@@ -32,10 +32,9 @@ const AccountHeader = () => {
 
   return (
     <div id='account-header'>
-      <div className='with-icon'>
-        <LogoIcon />
+      <WithIcon icon={logo}>
         <h1>{`Good ${time}${headerName ? `, ${headerName}!` : '!'}`}</h1>
-      </div>
+      </WithIcon>
     </div>
   );
 };

@@ -1,15 +1,16 @@
 import React, { useState, useContext } from 'react';
-import useFunctions from './useFunctions.js';
 import { LoginSkeleton } from '../../../components/Skeletons.js';
 import { App } from '../../../Providers/Context.js';
 import tools from '../../../tools/index.js';
 import Image from '../../../components/Image';
 import * as icons from '../../../icons';
+import { checkValidForm } from '../../../tools/valid';
 import { Input, Submit, WithIcon } from '../../../components/index.js';
+import useUpdateAccountBasic from './useUpdateAccountBasic.js';
 
 const ConfirmUserInfo = ({ setInfoIsConfirmed }) => {
   const { loading, user } = useContext(App);
-  const { checkValid, updateAccountBasic } = useFunctions();
+  const updateAccountBasic = useUpdateAccountBasic();
 
   const [inputs, setInputs] = useState({
     firstName: user?.name?.firstName || '',
@@ -32,7 +33,7 @@ const ConfirmUserInfo = ({ setInfoIsConfirmed }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const [newErrors, interupt] = checkValid(inputs);
+    const [newErrors, interupt] = checkValidForm(inputs);
     setErrors(newErrors);
     if (interupt) return;
     updateAccountBasic(inputs, () => setInfoIsConfirmed(true));
@@ -45,9 +46,7 @@ const ConfirmUserInfo = ({ setInfoIsConfirmed }) => {
     />
   ) : (
     <div id='confirm-info' className='flex-col'>
-      <WithIcon icon={icons.logo}>
-        <h1>Before you confirm</h1>
-      </WithIcon>
+      <Header />
       <form onSubmit={handleSubmit}>
         <WithIcon icon={icons.profile}>
           <Input
@@ -93,3 +92,11 @@ const ConfirmUserInfo = ({ setInfoIsConfirmed }) => {
 };
 
 export default ConfirmUserInfo;
+
+const Header = () => {
+  return (
+    <WithIcon icon={icons.logo}>
+      <h1>Before you confirm</h1>
+    </WithIcon>
+  );
+};

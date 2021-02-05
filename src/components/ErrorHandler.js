@@ -1,4 +1,5 @@
 import React from 'react';
+import { Page } from '.';
 
 export default function ErrorHandler() {
   const errors = [];
@@ -16,16 +17,15 @@ export default function ErrorHandler() {
   }
 
   return (
-    <>
+    <Page id='error-page'>
       <button onClick={clearStorage}>Clear Storage</button>
       <button onClick={reload}>Reload</button>
-
       {errors.map((error, i) => (
-        <>
+        <div key={`error-${i}`}>
           <h1>{error[0]}</h1>
           <p>{error[1]}</p>
-        </>
+        </div>
       ))}
-    </>
+    </Page>
   );
 }

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { ReactComponent as ArrowIcon } from '../../icons/Arrow.svg';
 import * as icons from '../../icons';
 import { scrollIntoView } from '../../tools/scrolling';
+import { WithIcon } from '../../components';
 
 export const AppointmentItem = ({ appointment }) => {
   const previewRef = useRef(null);
@@ -106,14 +107,12 @@ const AppointmentExpanded = ({ fullRef, appointment, testsSpan }) => {
 const ApptField = ({ icon, header, text }) => {
   return (
     <div className='appt-field'>
-      <div className='with-icon'>
-        {icon}
+      <WithIcon icon={icon}>
         <h2>{header}</h2>
-      </div>
-      <div className='with-icon'>
-        {icons.spacer}
+      </WithIcon>
+      <WithIcon icon={icons.spacer}>
         <p>{text}</p>
-      </div>
+      </WithIcon>
     </div>
   );
 };

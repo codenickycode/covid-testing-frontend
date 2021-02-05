@@ -2,23 +2,8 @@ import { useContext } from 'react';
 import axios from 'axios';
 import { SetApp } from '../../../Providers/Context.js';
 
-export default function useFunctions() {
+export default function useUpdateAccountBasic() {
   const setApp = useContext(SetApp);
-
-  const checkValid = (inputs) => {
-    let errors = {};
-    let interupt = false;
-    for (let [name, val] of Object.entries(inputs)) {
-      if (!val) {
-        errors[name] = 'required';
-        document.querySelector(`input[name=${name}]`).focus();
-        interupt = true;
-      } else {
-        errors[name] = '';
-      }
-    }
-    return [errors, interupt];
-  };
 
   const updateAccountBasic = async (inputs, callback) => {
     let user = null,
@@ -49,5 +34,5 @@ export default function useFunctions() {
     }
   };
 
-  return { checkValid, updateAccountBasic };
+  return updateAccountBasic;
 }

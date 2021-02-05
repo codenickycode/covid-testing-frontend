@@ -26,9 +26,9 @@ export const Button = ({ onClick, label, autoFocus = false }) => {
   );
 };
 
-export const ButtonSml = ({ onClick, label }) => {
+export const ButtonSml = ({ onClick, label, addClass = '' }) => {
   return (
-    <button type='button' className='btn-sml' onClick={onClick}>
+    <button type='button' className={'btn-small ' + addClass} onClick={onClick}>
       {label}
     </button>
   );

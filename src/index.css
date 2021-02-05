@@ -749,7 +749,7 @@ body {
   transform: translateY(0) scaleY(1);
 }
 
-#input-zip-label {
+#search-form #input-zip-label {
   display: none;
 }
 

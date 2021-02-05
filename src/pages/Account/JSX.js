@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input } from '../../components';
+import { ButtonSml, Input } from '../../components';
 import { ReactComponent as EditIcon } from '../../icons/PencilLine.svg';
 
 export const PreviewText = ({ state, title }) => {
@@ -18,9 +18,7 @@ export const PreviewText = ({ state, title }) => {
 
 export const CancelBtnOrEmpty = ({ state, cancel }) => {
   return state.edit ? (
-    <button type='button' className='btn-small' onClick={cancel}>
-      Cancel
-    </button>
+    <ButtonSml onClick={cancel} label='Cancel' />
   ) : (
     <div></div>
   );
@@ -28,12 +26,10 @@ export const CancelBtnOrEmpty = ({ state, cancel }) => {
 
 export const SaveOrEditBtns = ({ state }) => {
   return (
-    <button
-      type='button'
-      className={state.edit ? 'btn-small' : 'btn-small b-none'}
-    >
-      {state.edit ? 'save' : <EditIcon className='icon' />}
-    </button>
+    <ButtonSml
+      addClass={state.edit ? '' : 'b-none'}
+      label={state.edit ? 'save' : <EditIcon className='icon' />}
+    />
   );
 };
 

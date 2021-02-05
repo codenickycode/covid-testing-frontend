@@ -20,18 +20,16 @@ export default function AppointmentsPage() {
 }
 
 const AppointmentTabs = ({ showPast, setShowPast }) => {
+  const uClass = showPast ? 'tab' : 'tab-selected';
+  const uClick = () => setShowPast(false);
+  const pClass = showPast ? 'tab-selected' : 'tab';
+  const pClick = () => setShowPast(true);
   return (
     <div className='tabs'>
-      <h2
-        className={showPast ? 'tab' : 'tab-selected'}
-        onClick={() => setShowPast(false)}
-      >
+      <h2 className={uClass} onClick={uClick}>
         Upcoming
       </h2>
-      <h2
-        className={showPast ? 'tab-selected' : 'tab'}
-        onClick={() => setShowPast(true)}
-      >
+      <h2 className={pClass} onClick={pClick}>
         Past
       </h2>
     </div>

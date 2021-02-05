@@ -60,11 +60,6 @@ const Search = () => {
   };
 
   const handleChangeDate = (type) => {
-    // const element = document.querySelector('.date');
-    // element.classList.remove('date-flash');
-    // void element.offsetWidth;
-    // element.classList.add('date-flash');
-
     const newDate = tools.changeDate(type, date);
     let newResults = [...searchResults];
     tools.addAvailableTimes(newResults, newDate);
