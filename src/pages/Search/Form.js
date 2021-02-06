@@ -11,7 +11,6 @@ const SearchForm = ({ handleSubmit }) => {
   const [error, setError] = useState('');
 
   const selectTest = (e, type) => {
-    console.log(e.target);
     let newTests = [...tests];
     const index = tests.indexOf(type);
     index === -1 ? newTests.push(type) : newTests.splice(index, 1);
