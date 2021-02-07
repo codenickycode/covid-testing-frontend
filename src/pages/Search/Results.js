@@ -56,7 +56,7 @@ const Sort = ({ sortBySelected, sortBy }) => {
 
 const Results = ({ searchResults, handleSelection }) => {
   return (
-    <div>
+    <div id='location-previews'>
       {searchResults.map((location) => {
         return (
           <LocationPreview

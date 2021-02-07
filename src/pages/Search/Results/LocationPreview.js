@@ -5,8 +5,11 @@ const LocationPreview = ({ location, handleSelection }) => {
   const { name, address } = location;
 
   return (
-    <div id='location-preview' onClick={() => handleSelection(location._id)}>
-      <div id='preview-info'>
+    <div
+      className='location-preview'
+      onClick={() => handleSelection(location._id)}
+    >
+      <div className='preview-info'>
         <div>
           <h2>{name}</h2>
           <hr />
@@ -15,9 +18,7 @@ const LocationPreview = ({ location, handleSelection }) => {
           </p>
         </div>
         <p className='preview-next'>Next:</p>
-        <p id='preview-time' className='bold'>
-          {location.available[0]}
-        </p>
+        <p className='preview-time bold'>{location.available[0]}</p>
       </div>
       <ArrowRight />
     </div>

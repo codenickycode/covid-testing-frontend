@@ -35,6 +35,7 @@ const Search = () => {
     } catch (e) {
       console.log(e);
       error = e.response?.data || e.message;
+      go(`${url}/form`);
     } finally {
       setApp((prev) => ({
         ...prev,
