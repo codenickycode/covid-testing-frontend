@@ -4,7 +4,7 @@ import { Header } from '../../components';
 import { ReactComponent as ConfirmedSVG } from '../../img/confirmed.svg';
 import { SetApp } from '../../Providers/Context';
 
-export default function () {
+export default function AppointmentConfirmed() {
   const setApp = useContext(SetApp);
   const closeModal = () => {
     setApp((prev) => ({ ...prev, confirmation: '' }));
