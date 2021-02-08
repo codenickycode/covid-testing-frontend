@@ -45,9 +45,36 @@ describe('SelectionJSX', () => {
     expect(document.body.innerHTML).toContain('January');
   });
 
-  it('renders the selected time passed from props', () => {
-    expect(document.body.innerHTML).toContain('9:30');
+  it('renders selected location available tests', () => {
+    expect(document.body.innerHTML).toContain('rapid');
   });
 
-  it('renders selected location available tests', () => {});
+  it('calls handleChangeDate from props passed to date picker', () => {
+    expect(handleChangeDate).toBeCalledTimes(0);
+    const datePicker = document.querySelector('.date-picker');
+    const arrow = datePicker.querySelector('svg');
+    fireEvent.click(arrow);
+    expect(handleChangeDate).toBeCalledTimes(1);
+  });
+
+  it('calls setTime on time select', () => {
+    expect(setTime).toBeCalledTimes(0);
+    fireEvent.change(document.querySelector('select'), {
+      target: { value: '9:30 AM' },
+    });
+    expect(setTime).toBeCalledTimes(1);
+  });
+
+  it('calls selectTest on test click', () => {
+    const test = document.querySelector('li');
+    expect(selectTest).toBeCalledTimes(0);
+    fireEvent.click(test);
+    fireEvent.click(test);
+    fireEvent.click(test);
+    expect(selectTest).toBeCalledTimes(3);
+  });
+
+  it('prevent handleSubmit without test and time selection', () => {
+    expect(document.querySelector('button')).toHaveAttribute('disabled');
+  });
 });
