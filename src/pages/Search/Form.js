@@ -51,10 +51,13 @@ const Header = () => {
   return (
     <div>
       <WithIcon icon={icons.document}>
-        <h1>Choose the test type</h1>
+        <h1>Choose test type</h1>
       </WithIcon>
       <WithIcon icon={icons.spacer}>
-        <p>We will only show locations matching your requirements.</p>
+        <p>
+          We will only show locations matching your requirements. Select all
+          that apply.
+        </p>
       </WithIcon>
     </div>
   );
@@ -80,9 +83,9 @@ const Tests = ({ tests, selectTest }) => {
 const ZipInput = ({ zip, handleZipInput }) => {
   return (
     <>
-      <div>
+      <div id='search-form-zip-div'>
         <WithIcon icon={icons.address}>
-          <h1>What's your location?</h1>
+          <h1>Your location</h1>
         </WithIcon>
       </div>
       <Input

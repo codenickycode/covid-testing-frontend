@@ -1,5 +1,5 @@
 import React from 'react';
-import Image from '../../../components/Image';
+import { ReactComponent as CreateAccount } from '../../../img/createAccount.svg';
 import * as icons from '../../../icons';
 import { Button, PWRequirements, WithIcon, Input } from '../../../components';
 
@@ -14,9 +14,7 @@ const LoginForm = ({
   return (
     <div id='login-form' className='flex-col'>
       <Header signup={signup} />
-      {window.innerHeight > 650 && (
-        <Image src='/img/png/login.png' alt='Login illustration' size='med' />
-      )}
+      <CreateAccount />
       <form onSubmit={handleSubmit}>
         <Input
           field='email'
@@ -57,7 +55,7 @@ export default LoginForm;
 
 const Header = ({ signup }) => {
   return (
-    <div className='item'>
+    <div id='login-header' className='item'>
       <WithIcon icon={icons.logo}>
         <h1>{signup ? 'Create an' : 'Login to your'} account</h1>
       </WithIcon>

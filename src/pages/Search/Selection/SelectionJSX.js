@@ -27,7 +27,7 @@ export default function SelectionJSX({
           selectTest={selectTest}
         />
         <Info />
-        <h1>Looks good?</h1>
+        <h1 className='center'>Looks good?</h1>
         <Button
           type='submit'
           disabled={!time || selectedTests.length === 0}
@@ -41,7 +41,7 @@ export default function SelectionJSX({
 const Item = ({ icon, header, children }) => {
   return (
     <div className='item'>
-      <WithIcon icon={icon}>{header()}</WithIcon>
+      <WithIcon icon={icon}>{header}</WithIcon>
       <WithIcon icon={icons.spacer}>{children}</WithIcon>
     </div>
   );
@@ -58,7 +58,7 @@ const Name = ({ name }) => {
 const AddressHeader = () => <h2>Address</h2>;
 const Address = ({ phone, address }) => {
   return (
-    <Item icon={icons.address} header={AddressHeader}>
+    <Item icon={icons.address} header={<AddressHeader />}>
       <div>
         <p className='p-bottom-half'>
           {'(' + phone.substr(0, 3) + ')' + phone.substr(3)}
@@ -74,20 +74,18 @@ const Address = ({ phone, address }) => {
 const DateHeader = () => <h2>Date</h2>;
 const Date = ({ handleChangeDate, date }) => {
   return (
-    <Item icon={icons.calendar} header={DateHeader}>
+    <Item icon={icons.calendar} header={<DateHeader />}>
       <DatePicker handleChangeDate={handleChangeDate} date={date} />
     </Item>
   );
 };
 
-const TimeHeader = () => (
-  <h2>
-    Time <span className='required'>*required</span>
-  </h2>
+const TimeHeader = ({ time }) => (
+  <h2>Time {!time && <span className='required'>*required</span>}</h2>
 );
 const Time = ({ time, setTime, available }) => {
   return (
-    <Item icon={icons.time} header={TimeHeader}>
+    <Item icon={icons.time} header={<TimeHeader time={time} />}>
       <select
         className={!time ? 'select-error' : ''}
         defaultValue='default'
@@ -106,14 +104,20 @@ const Time = ({ time, setTime, available }) => {
   );
 };
 
-const TestsHeader = () => (
+const TestsHeader = ({ selectedTests }) => (
   <h2 id='selection-test'>
-    Test Types <span className='smaller red'>*required</span>
+    Test Types{' '}
+    {selectedTests.length === 0 && (
+      <span className='smaller red'>*required</span>
+    )}
   </h2>
 );
 const Tests = ({ tests, selectedTests, selectTest }) => {
   return (
-    <Item icon={icons.document} header={TestsHeader}>
+    <Item
+      icon={icons.document}
+      header={<TestsHeader selectedTests={selectedTests} />}
+    >
       <ul>
         {tests.map((test) => {
           return (
@@ -138,7 +142,7 @@ const Tests = ({ tests, selectedTests, selectTest }) => {
 const InfoHeader = () => <h2 id='selection-instructions'>Instructions</h2>;
 const Info = () => {
   return (
-    <Item icon={icons.info} header={InfoHeader}>
+    <Item icon={icons.info} header={<InfoHeader />}>
       <p>
         Please arrive at the clinic no more than 5 minutes before your
         appointment. <br />

@@ -62,7 +62,6 @@ export const AccountItem = ({ property, fields }) => {
   };
 
   const togglePassword = () => {
-    console.log(state.input);
     if (!state.edit) {
       toggleEdit();
     } else if (!tools.validPassword(state.input.newPassword)) {
@@ -86,7 +85,6 @@ export const AccountItem = ({ property, fields }) => {
   };
 
   const handleInput = ({ target: { value } }, key) => {
-    console.log(key, value);
     if ((key === 'zip' || key === 'phone') && !tools.validNum(value)) return;
     dispatch({ type: ACTIONS.INPUT, payload: { key, value } });
   };

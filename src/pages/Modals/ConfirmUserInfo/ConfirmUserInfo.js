@@ -2,10 +2,10 @@ import React, { useState, useContext } from 'react';
 import { LoginSkeleton } from '../../../components/Skeletons.js';
 import { App } from '../../../Providers/Context.js';
 import tools from '../../../tools/index.js';
-import Image from '../../../components/Image';
+import { ReactComponent as ConfirmSVG } from '../../../img/confirm.svg';
 import * as icons from '../../../icons';
 import { checkRequired } from '../../../tools/valid';
-import { Button, Input, WithIcon } from '../../../components/index.js';
+import { Button, Input, WithIcon, Header } from '../../../components/index.js';
 import useUpdateAccountBasic from './useUpdateAccountBasic.js';
 
 const ConfirmUserInfo = ({ setInfoIsConfirmed }) => {
@@ -51,7 +51,8 @@ const ConfirmUserInfo = ({ setInfoIsConfirmed }) => {
     />
   ) : (
     <div id='confirm-info' className='flex-col'>
-      <Header />
+      <Header header='Before you confirm' />
+      <ConfirmSVG />
       <form onSubmit={handleSubmit}>
         <WithIcon icon={icons.profile}>
           <Input
@@ -83,13 +84,6 @@ const ConfirmUserInfo = ({ setInfoIsConfirmed }) => {
             onChange={handleInput}
           />
         </WithIcon>
-        {window.innerHeight > 650 && (
-          <Image
-            src='/img/png/confirm.png'
-            alt='Confirm illustration'
-            size='med'
-          />
-        )}
         <Button type='submit' label='Confirm' />
       </form>
     </div>
@@ -97,11 +91,3 @@ const ConfirmUserInfo = ({ setInfoIsConfirmed }) => {
 };
 
 export default ConfirmUserInfo;
-
-const Header = () => {
-  return (
-    <WithIcon icon={icons.logo}>
-      <h1>Before you confirm</h1>
-    </WithIcon>
-  );
-};

@@ -5,7 +5,7 @@ import { Go } from '../../Providers/Go';
 import Menu from './Menu';
 import { ArrowLeft, MenuIcon } from '../../icons';
 
-export default function Header() {
+export default function Header({ children }) {
   const location = useLocation();
   const { loading, navDisabled } = useContext(App);
   const go = useContext(Go);
@@ -30,18 +30,25 @@ export default function Header() {
       : 'active menu-icon';
   const menuClick = loading || navDisabled ? null : toggleMenu;
   return (
-    <header id='header'>
-      <div id='header-wrapper'>
-        <div id='header-main'>
-          <ArrowLeft id='back-btn' addClass={arrowClass} onClick={arrowClick} />
-          <LoadingOrTitle loading={loading} title={title} />
-          <MenuIcon addClass={menuClass} onClick={menuClick} />
+    <div>
+      <header id='header'>
+        <div id='header-wrapper'>
+          <div id='header-main'>
+            <ArrowLeft
+              id='back-btn'
+              addClass={arrowClass}
+              onClick={arrowClick}
+            />
+            <LoadingOrTitle loading={loading} title={title} />
+            <MenuIcon addClass={menuClass} onClick={menuClick} />
+          </div>
+          <div className={showMenu ? 'show-menu no-menu' : 'no-menu'}>
+            <Menu toggleMenu={toggleMenu} />
+          </div>
         </div>
-        <div className={showMenu ? 'show-menu no-menu' : 'no-menu'}>
-          <Menu toggleMenu={toggleMenu} />
-        </div>
-      </div>
-    </header>
+      </header>
+      {children}
+    </div>
   );
 }
 

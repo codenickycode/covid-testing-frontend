@@ -42,6 +42,14 @@ export const WithIcon = (props) => {
   );
 };
 
+export const Header = ({ header }) => {
+  return (
+    <WithIcon icon={icons.logo}>
+      <h1>{header}</h1>
+    </WithIcon>
+  );
+};
+
 export const PWRequirements = (props) => {
   const style = props?.error ? 'error smaller password' : 'smaller password';
   return <p className={style}>min. 8 digits: lower, upper, and num</p>;
@@ -78,7 +86,7 @@ export const Input = ({
   const type = getType(field);
   const autoComplete = getAutoComplete(field);
   return (
-    <>
+    <div className='input-div'>
       {error && <Error error={error} />}
       {withIcon ? (
         <WithIcon icon={icons[field]}>
@@ -107,7 +115,7 @@ export const Input = ({
             : placeholder
         }
       />
-    </>
+    </div>
   );
 };
 

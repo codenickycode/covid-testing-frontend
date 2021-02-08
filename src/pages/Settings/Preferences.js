@@ -29,7 +29,7 @@ export const Preferences = ({ user: { preferences } }) => {
       />
       <Preference
         name='remember'
-        label='Keep me logged in!'
+        label='Remember me'
         preference={remember || false}
         handleCheck={handleCheck}
       />
@@ -55,7 +55,7 @@ const Preference = ({ name, label, preference, handleCheck }) => {
         onChange={handleCheck}
       />
       <label htmlFor={id}>
-        <span>{label}</span>
+        <h2>{label}</h2>
         <span></span>
       </label>
     </li>

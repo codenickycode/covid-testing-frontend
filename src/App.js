@@ -26,22 +26,23 @@ const App = () => {
           <ContextProvider>
             <ScrollToTop />
             <Alert />
-            <Header />
-            <div id='pages'>
-              <Switch>
-                <Route exact path='/' component={Welcome} />
-                <Route path='/search' component={Search} />
-                <Route path='/appointments' component={Appointments} />
-                <Route path='/account' component={Account} />
-                <Route path='/settings' component={Settings} />
-                <Route path='/information' component={Information} />
-                <Route path='/gateway/:to' component={Gateway} />
-                {/*  */}
-                <Route path='/error' component={ErrorHandler} />
-                <Route path='/skeleton' component={Skeleton} />
-              </Switch>
-            </div>
-            <Navbar />
+            <Switch>
+              <Route exact path='/' component={Welcome} />
+              <Header>
+                <div id='pages'>
+                  <Route path='/search' component={Search} />
+                  <Route path='/appointments' component={Appointments} />
+                  <Route path='/account' component={Account} />
+                  <Route path='/settings' component={Settings} />
+                  <Route path='/information' component={Information} />
+                  <Route path='/gateway/:to' component={Gateway} />
+                  {/*  */}
+                  <Route path='/error' component={ErrorHandler} />
+                  <Route path='/skeleton' component={Skeleton} />
+                </div>
+                <Navbar />
+              </Header>
+            </Switch>
           </ContextProvider>
         </GoProvider>
       </ErrorBoundary>

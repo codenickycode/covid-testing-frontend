@@ -4,13 +4,16 @@ import tools from '../../tools/index.js';
 import { App } from '../../Providers/Context.js';
 import { Page } from '../../components';
 import { AppointmentItem } from './Item';
+import AppointmentConfirmed from './AppointmentConfirmed.js';
 
 export default function AppointmentsPage() {
-  const { user } = useContext(App);
+  const { user, confirmation } = useContext(App);
   const [showPast, setShowPast] = useState(false);
 
   return !user ? (
     <Redirect to='/gateway/appointments' />
+  ) : confirmation.match(/appointment/) ? (
+    <AppointmentConfirmed />
   ) : (
     <Page id='appointments'>
       <AppointmentTabs showPast={showPast} setShowPast={setShowPast} />
@@ -20,18 +23,18 @@ export default function AppointmentsPage() {
 }
 
 const AppointmentTabs = ({ showPast, setShowPast }) => {
-  const uClass = showPast ? 'tab' : 'tab-selected';
+  const uClass = showPast ? 'tab' : 'tab tab-selected';
   const uClick = () => setShowPast(false);
-  const pClass = showPast ? 'tab-selected' : 'tab';
+  const pClass = showPast ? 'tab tab-selected' : 'tab';
   const pClick = () => setShowPast(true);
   return (
     <div className='tabs'>
-      <h2 className={uClass} onClick={uClick}>
+      <h1 className={uClass} onClick={uClick}>
         Upcoming
-      </h2>
-      <h2 className={pClass} onClick={pClick}>
+      </h1>
+      <h1 className={pClass} onClick={pClick}>
         Past
-      </h2>
+      </h1>
     </div>
   );
 };

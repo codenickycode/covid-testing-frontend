@@ -21,7 +21,6 @@ export const GoProvider = ({ children }) => {
       const elements = document.querySelectorAll('.transition');
       elements.forEach((element) => {
         element.classList.add('show');
-        console.log(element);
       });
     }
     return () => clearTimeout(timer);
@@ -31,7 +30,6 @@ export const GoProvider = ({ children }) => {
     const elements = document.querySelectorAll('.transition');
     elements.forEach((element) => {
       element.classList.remove('show');
-      console.log(element);
     });
     setGoTo(to);
   };

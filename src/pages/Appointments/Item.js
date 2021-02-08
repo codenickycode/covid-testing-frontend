@@ -81,7 +81,7 @@ const AppointmentExpanded = ({ fullRef, appointment, testsSpan }) => {
 
   return (
     <div className='expanded' ref={fullRef}>
-      <h1>{name}</h1>
+      <h2 className='expanded-header'>{name}</h2>
       <ApptField
         header='Address'
         text={`${street}, ${city}, ${state} ${zip}`}
