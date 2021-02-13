@@ -54,7 +54,7 @@ export const DARK_THEME = `
 
   --svg-black: #fff;
   --svg-white: rgba(32, 41, 49);
-  --svg-red: #e4002b;
+  --svg-red: #eb2549;
   --svg-pink: #ff6584;
   --svg-grey: #3f3d56;
   --svg-grey-dark: #2f2e41;
