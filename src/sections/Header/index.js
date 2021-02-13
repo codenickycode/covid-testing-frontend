@@ -40,6 +40,9 @@ export default function Header({ children }) {
               onClick={arrowClick}
             />
             <LoadingOrTitle loading={loading} title={title} />
+            <div id='header-dummy'>
+              <ArrowLeft />
+            </div>
             <MenuIcon addClass={menuClass} onClick={menuClick} />
           </div>
           <div className={showMenu ? 'show-menu no-menu' : 'no-menu'}>
@@ -67,15 +70,15 @@ const getTitle = (location) => {
     case 'form':
       return 'Search';
     case 'results':
-      return 'Locations';
+      return 'Next Available';
     case 'selection':
       return 'Book An Appointment';
     case 'appointments':
-      return 'Appointments';
+      return 'My Appointments';
     case 'account':
-      return 'Profile';
+      return 'My Account';
     case 'settings':
-      return 'Settings';
+      return 'My Settings';
     case 'information':
       return 'Information';
     default:

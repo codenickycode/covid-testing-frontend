@@ -34,8 +34,8 @@ const AccountHeader = () => {
     <div id='account-header'>
       <WithIcon icon={logo}>
         <h1>
-          {`Good ${time}`}
-          {headerName && `, ${headerName}`}
+          {!headerName && `Good ${time}`}
+          {headerName && `Hello, ${headerName}`}
         </h1>
       </WithIcon>
     </div>

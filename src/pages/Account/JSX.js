@@ -18,7 +18,12 @@ export const PreviewText = ({ state, title }) => {
 
 export const CancelBtnOrEmpty = ({ state, cancel }) => {
   return state.edit ? (
-    <Button onClick={cancel} label='Cancel' size='small' />
+    <Button
+      onClick={cancel}
+      addClass='account-item-btn'
+      label='Cancel'
+      size='small'
+    />
   ) : (
     <div></div>
   );
@@ -29,7 +34,7 @@ export const SaveOrEditBtns = ({ state }) => {
   return (
     <Button
       size='small'
-      addClass={state.edit ? '' : 'b-none'}
+      addClass={state.edit ? 'account-item-btn' : 'account-item-btn b-none'}
       label={state.edit ? 'save' : <EditIcon className='icon' />}
     />
   );

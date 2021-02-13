@@ -1,7 +1,7 @@
 import React from 'react';
 import { ReactComponent as CreateAccount } from '../../../img/createAccount.svg';
 import * as icons from '../../../icons';
-import { Button, PWRequirements, WithIcon, Input } from '../../../components';
+import { Button, PWRequirements, WithIcon, Error } from '../../../components';
 
 const LoginForm = ({
   handleSubmit,
@@ -16,35 +16,44 @@ const LoginForm = ({
       <Header signup={signup} />
       <CreateAccount />
       <form onSubmit={handleSubmit}>
-        <Input
-          field='email'
-          error={errors.email}
-          value={inputs.email}
-          onChange={handleInput}
-          withIcon={true}
-        />
-        <Input
-          field='password'
-          error={errors.password}
-          value={inputs.password}
-          onChange={handleInput}
-          withIcon={true}
-        />
+        <WithIcon icon={icons.email}>
+          <label htmlFor='email'>Email</label>
+          <input
+            name='email'
+            type='email'
+            placeholder='Email'
+            value={inputs.email}
+            onChange={handleInput}
+          />
+        </WithIcon>
+        <WithIcon icon={icons.password}>
+          <label htmlFor='password'>Password</label>
+          <input
+            name='password'
+            type='password'
+            placeholder='Password'
+            value={inputs.password}
+            onChange={handleInput}
+          />
+        </WithIcon>
         {signup && <PWRequirements error={errors.password} />}
         {signup && (
-          <Input
-            field='confirmation'
-            error={errors.confirmation}
-            value={inputs.confirmation}
-            onChange={handleInput}
-            withIcon={true}
-          />
+          <WithIcon icon={icons.password}>
+            <label htmlFor='confirmation'>Password Confirmation</label>
+            <input
+              name='confirmation'
+              type='password'
+              placeholder='Confirm Your Password'
+              value={inputs.confirmation}
+              onChange={handleInput}
+            />
+          </WithIcon>
         )}
-        <Button
-          type='submit'
-          label={signup ? 'Create An Account' : 'Sign In'}
-        />
-        {!signup && <ForgotPassword />}
+        {errors.email && <Error error={errors.email} />}
+        {errors.password && <Error error={errors.password} />}
+        {errors.confirmation && <Error error={errors.confirmation} />}
+        <Button type='submit' label={signup ? 'Create An Account' : 'Login'} />
+        {/* {!signup && <ForgotPassword />} */}
       </form>
       <SignupOrLogin signup={signup} setSignup={setSignup} />
     </div>
@@ -65,14 +74,14 @@ const Header = ({ signup }) => {
 
 const SignupOrLogin = ({ signup, setSignup }) => {
   return (
-    <>
+    <div id='signup-or-login'>
       <p>{signup ? 'Already' : "Don't"} have an account?</p>
       {signup ? (
-        <Button label='Login' onClick={() => setSignup(false)} />
+        <h2 onClick={() => setSignup(false)}>Login</h2>
       ) : (
-        <Button label='Sign Up' onClick={() => setSignup(true)} />
+        <h2 onClick={() => setSignup(true)}>Sign Up</h2>
       )}
-    </>
+    </div>
   );
 };
 

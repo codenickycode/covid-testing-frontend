@@ -1,22 +1,24 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
-import { Header } from '../../components';
+import { useHistory } from 'react-router-dom';
+import { Button, Header } from '../../components';
 import { ReactComponent as ConfirmedSVG } from '../../img/confirmed.svg';
-import { SetApp } from '../../Providers/Context';
 
 export default function AppointmentConfirmed() {
-  const setApp = useContext(SetApp);
-  const closeModal = () => {
-    setApp((prev) => ({ ...prev, confirmation: '' }));
+  const history = useHistory();
+
+  const goToAppointments = () => {
+    history.push('/appointments');
   };
 
   return ReactDOM.createPortal(
     <>
-      <div className='overlay' onClick={closeModal}></div>
+      <div className='overlay' onClick={goToAppointments}></div>
       <div className='modal'>
         <div id='appt-confirmed'>
           <Header header='Appointment confirmed' />
           <ConfirmedSVG />
+          <Button label='View My Appointments' onClick={goToAppointments} />
         </div>
       </div>
     </>,

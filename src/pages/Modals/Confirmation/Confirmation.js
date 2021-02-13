@@ -4,6 +4,7 @@ import useBookAppointment from './useBookAppointment';
 import LoginModal from '../Login/Login.js';
 import ConfirmUserInfo from '../ConfirmUserInfo/ConfirmUserInfo.js';
 import { App } from '../../../Providers/Context';
+import AppointmentConfirmed from '../../Appointments/AppointmentConfirmed';
 
 const ConfirmationModal = ({ closeModal }) => {
   const bookAppointment = useBookAppointment();
@@ -32,7 +33,7 @@ const ConfirmationModal = ({ closeModal }) => {
               setInfoIsConfirmed={setInfoIsConfirmed}
             />
           ) : (
-            <h1>{bookingRef.current}</h1>
+            <AppointmentConfirmed />
           )}
         </div>
       </>

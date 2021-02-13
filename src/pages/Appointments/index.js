@@ -4,16 +4,12 @@ import tools from '../../tools/index.js';
 import { App } from '../../Providers/Context.js';
 import { Page } from '../../components';
 import { AppointmentItem } from './Item';
-import AppointmentConfirmed from './AppointmentConfirmed.js';
 
 export default function AppointmentsPage() {
-  const { user, confirmation } = useContext(App);
+  const { user } = useContext(App);
   const [showPast, setShowPast] = useState(false);
-
   return !user ? (
     <Redirect to='/gateway/appointments' />
-  ) : confirmation.match(/appointment/) ? (
-    <AppointmentConfirmed />
   ) : (
     <Page id='appointments'>
       <AppointmentTabs showPast={showPast} setShowPast={setShowPast} />

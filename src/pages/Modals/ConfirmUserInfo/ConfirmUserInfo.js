@@ -84,7 +84,7 @@ const ConfirmUserInfo = ({ setInfoIsConfirmed }) => {
             onChange={handleInput}
           />
         </WithIcon>
-        <Button type='submit' label='Confirm' />
+        <Button type='submit' label='Confirm Appointment' />
       </form>
     </div>
   );

@@ -52,7 +52,11 @@ export const Header = ({ header }) => {
 
 export const PWRequirements = (props) => {
   const style = props?.error ? 'error smaller password' : 'smaller password';
-  return <p className={style}>min. 8 digits: lower, upper, and num</p>;
+  return (
+    <WithIcon addClass='pw-requirements' icon={icons.spacer}>
+      <p className={style}>min. 8 digits: lower, upper, and num</p>
+    </WithIcon>
+  );
 };
 
 export const DatePicker = ({ handleChangeDate, date }) => {
@@ -133,6 +137,8 @@ const getLabel = (field) => {
       return 'Current Password';
     case 'confirmNewPassword':
       return 'Confirm New Password';
+    case 'confirmation':
+      return 'Confirm Your Password';
     default:
       return field.substr(0, 1).toUpperCase() + field.substr(1);
   }

@@ -36,7 +36,7 @@ const ContextProvider = ({ children }) => {
     if (app.confirmation || app.error) {
       timer = setTimeout(
         () => setApp((prev) => ({ ...prev, confirmation: '', error: '' })),
-        10000
+        3000
       );
     }
     return () => clearTimeout(timer);
