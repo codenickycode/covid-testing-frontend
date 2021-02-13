@@ -3,6 +3,7 @@ import { ArrowRight } from '../../../icons';
 
 const LocationPreview = ({ location, handleSelection }) => {
   const { name, address } = location;
+  const available = location.available.length > 0;
 
   return (
     <div
@@ -17,8 +18,14 @@ const LocationPreview = ({ location, handleSelection }) => {
             {address.street}, {address.city}, {address.state} {address.zip}
           </p>
         </div>
-        <p className='preview-next'>Next:</p>
-        <p className='preview-time bold'>{location.available[0]}</p>
+        {available ? (
+          <>
+            <p className='preview-next'>Next:</p>
+            <p className='preview-time bold'>{location.available[0]}</p>
+          </>
+        ) : (
+          <p className='preview-time bold'>'No available appointments today</p>
+        )}
       </div>
       <ArrowRight />
     </div>

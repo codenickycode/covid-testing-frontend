@@ -743,6 +743,20 @@ body {
 /********************** Search Form ************************/
 /***********************************************************/
 
+#search-progress {
+  position: absolute;
+  left: 0;
+  bottom: 0.5rem;
+  width: 100%;
+  font-size: 1rem;
+  text-align: center;
+  transform: scale(0.5);
+}
+
+#search-progress span {
+  margin: 0 0.5rem;
+}
+
 #search-form form {
   margin: 0 auto;
   min-height: 70vh;
@@ -1106,7 +1120,7 @@ span.preview-info {
   width: 100%;
   max-width: 250px;
   display: flex;
-  justify-content: start;
+  justify-content: flex-start;
 }
 
 #selection ul li {

@@ -1,5 +1,8 @@
 import React from 'react';
+import dayjs from 'dayjs';
 import * as icons from '../icons';
+import { TODAY } from '../tools/appointments';
+
 // import { App } from '../Providers/Context';
 
 export const Page = ({ id, children, addClass = '' }) => {
@@ -62,9 +65,13 @@ export const PWRequirements = (props) => {
 export const DatePicker = ({ handleChangeDate, date }) => {
   const ArrowLeft = icons.ArrowLeft;
   const ArrowRight = icons.ArrowRight;
+  const today = dayjs(date).isSame(dayjs(TODAY));
   return (
     <div className='date-picker'>
-      <ArrowLeft onClick={() => handleChangeDate('dec')} />
+      <ArrowLeft
+        addClass={today ? 'v-hidden' : ''}
+        onClick={today ? null : () => handleChangeDate('dec')}
+      />
       <p className='date'>{date}</p>
       <ArrowRight onClick={() => handleChangeDate('inc')} />
     </div>

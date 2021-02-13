@@ -7,13 +7,14 @@ import { ArrowLeft, MenuIcon } from '../../icons';
 
 export default function Header({ children }) {
   const location = useLocation();
+  const url = location.pathname.match(/\w*$/)[0];
   const { loading, navDisabled } = useContext(App);
   const go = useContext(Go);
   const [title, setTitle] = useState('');
   const [showMenu, setShowMenu] = useState(false);
 
   useEffect(() => {
-    setTitle(getTitle(location));
+    setTitle(getTitle(url));
   }, [location]);
 
   const toggleMenu = () => {
@@ -44,6 +45,7 @@ export default function Header({ children }) {
               <ArrowLeft />
             </div>
             <MenuIcon addClass={menuClass} onClick={menuClick} />
+            <SearchProgress url={url} />
           </div>
           <div className={showMenu ? 'show-menu no-menu' : 'no-menu'}>
             <Menu toggleMenu={toggleMenu} />
@@ -63,8 +65,8 @@ const LoadingOrTitle = ({ loading, title }) => {
   );
 };
 
-const getTitle = (location) => {
-  switch (location.pathname.match(/\w*$/)[0]) {
+const getTitle = (url) => {
+  switch (url) {
     case '':
       return 'Welcome';
     case 'form':
@@ -84,4 +86,14 @@ const getTitle = (location) => {
     default:
       return 'Covid-19 Testing';
   }
+};
+
+const SearchProgress = ({ url }) => {
+  return (
+    <div id='search-progress'>
+      <span>{url === 'form' ? '⚪' : '⚫'}</span>
+      <span>{url === 'results' ? '⚪' : '⚫'}</span>
+      <span>{url === 'selection' ? '⚪' : '⚫'}</span>
+    </div>
+  );
 };

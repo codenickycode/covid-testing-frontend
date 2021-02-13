@@ -86,16 +86,16 @@ export default ContextProvider;
 // app.user.preferences updated before this
 async function updateDB(user, settings, setApp) {
   let newSettings = { ...settings };
-  let newUpdated = true;
+  let newUpdated = false;
   let error = '';
   for (let key of Object.keys(user.preferences)) {
     if (user.preferences[key] !== settings[key]) {
       try {
         await axios.post('/common/update/preferences', user.preferences);
         newSettings = user.preferences;
-        newUpdated = false;
       } catch (e) {
         error = e.response?.data || e.message;
+        newUpdated = true;
       }
       break;
     }

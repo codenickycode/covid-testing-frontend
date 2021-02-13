@@ -85,17 +85,17 @@ const SignupOrLogin = ({ signup, setSignup }) => {
   );
 };
 
-const forgotPassword = () => {
-  console.log('forgot password');
-};
+// const forgotPassword = () => {
+//   console.log('forgot password');
+// };
 
-const ForgotPassword = () => {
-  return (
-    <p className='small'>
-      Forgot your password?{' '}
-      <span className='small' onClick={forgotPassword}>
-        Click here
-      </span>
-    </p>
-  );
-};
+// const ForgotPassword = () => {
+//   return (
+//     <p className='small'>
+//       Forgot your password?{' '}
+//       <span className='small' onClick={forgotPassword}>
+//         Click here
+//       </span>
+//     </p>
+//   );
+// };
