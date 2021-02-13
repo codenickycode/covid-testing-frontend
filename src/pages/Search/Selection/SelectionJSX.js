@@ -80,12 +80,20 @@ const Date = ({ handleChangeDate, date }) => {
   );
 };
 
-const TimeHeader = ({ time }) => (
-  <h2>Time {!time && <span className='required'>*required</span>}</h2>
+const TimeHeader = ({ time, available }) => (
+  <div>
+    <h2>Time {!time && <span className='required'>*required</span>}</h2>
+    {available.length === 0 && (
+      <p className='error'>No available appointments today</p>
+    )}
+  </div>
 );
 const Time = ({ time, setTime, available }) => {
   return (
-    <Item icon={icons.time} header={<TimeHeader time={time} />}>
+    <Item
+      icon={icons.time}
+      header={<TimeHeader time={time} available={available} />}
+    >
       <select
         className={!time ? 'select-error' : ''}
         defaultValue='default'

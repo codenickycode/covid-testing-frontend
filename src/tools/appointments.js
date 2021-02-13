@@ -10,7 +10,6 @@ export const refreshAvailable = (locations, date) => {
 
 export const addAvailableTimes = (locations, date = TODAY) => {
   function addAvailable(location, date) {
-    console.log('adding available');
     const timeslots = TIMESLOTS.filter((time) => {
       if (date === TODAY) return dayjs(time).isAfter(dayjs());
       else return time;
