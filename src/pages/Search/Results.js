@@ -1,7 +1,10 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { App } from '../../Providers/Context.js';
 import LocationPreview from './Results/LocationPreview.js';
-import { SearchResultsSkeleton } from '../../components/Skeletons.js';
+import {
+  SearchResultsSkeleton,
+  LocationPreviewSkeleton,
+} from '../../components/Skeletons.js';
 import { DatePicker, Page } from '../../components/index.js';
 
 export default function SearchResults({
@@ -19,53 +22,83 @@ export default function SearchResults({
     handleSortBy(type);
   };
 
+  const handleDatePicker = (type) => {
+    setFlash(true);
+    handleChangeDate(type);
+  };
+
+  // visual confirmation of sorting and date changes
+  const [flash, setFlash] = useState(false);
+  useEffect(() => {
+    let timer = null;
+    if (flash) {
+      timer = setTimeout(() => setFlash(false), 250);
+    }
+    return () => clearTimeout(timer);
+  }, [flash]);
+
   return loading ? (
     <SearchResultsSkeleton />
   ) : (
     <Page id='search-results'>
-      <DatePicker handleChangeDate={handleChangeDate} date={date} />
-      <Sort sortBySelected={sortBySelected} sortBy={sortBy} />
+      <DatePicker
+        handleChangeDate={handleDatePicker}
+        date={date}
+        setFlash={setFlash}
+      />
+      <Sort
+        sortBySelected={sortBySelected}
+        sortBy={sortBy}
+        setFlash={setFlash}
+      />
       <Results
         searchResults={searchResults}
         handleSelection={handleSelection}
+        flash={flash}
       />
     </Page>
   );
 }
 
-const Sort = ({ sortBySelected, sortBy }) => {
-  const sortClass = 'small sort-by ';
+const Sort = ({ sortBySelected, sortBy, setFlash }) => {
+  const handleClick = (type) => {
+    setFlash(true);
+    sortBy(type);
+  };
+
+  let timeClass = `small sort-by ${sortBySelected === 'time' && ' selected'}`;
+  let distanceClass = `small sort-by ${
+    sortBySelected === 'distance' && ' selected'
+  }`;
   return (
     <div className='sort'>
       <p className='bold'>Sort by:</p>
-      <p
-        className={sortClass + sortBySelected === 'time' ? 'selected' : ''}
-        onClick={() => sortBy('time')}
-      >
+      <p className={timeClass} onClick={() => handleClick('time')}>
         Time
       </p>
-      <p
-        className={sortClass + sortBySelected === 'distance' ? 'selected' : ''}
-        onClick={() => sortBy('distance')}
-      >
+      <p className={distanceClass} onClick={() => handleClick('distance')}>
         Distance
       </p>
     </div>
   );
 };
 
-const Results = ({ searchResults, handleSelection }) => {
-  return (
+const Results = ({ searchResults, handleSelection, flash }) => {
+  return flash ? (
     <div id='location-previews'>
-      {searchResults.map((location) => {
-        return (
-          <LocationPreview
-            key={location._id}
-            location={location}
-            handleSelection={handleSelection}
-          />
-        );
-      })}
+      {searchResults.map((location) => (
+        <LocationPreviewSkeleton key={location._id} />
+      ))}
+    </div>
+  ) : (
+    <div id='location-previews'>
+      {searchResults.map((location) => (
+        <LocationPreview
+          key={location._id}
+          location={location}
+          handleSelection={handleSelection}
+        />
+      ))}
     </div>
   );
 };

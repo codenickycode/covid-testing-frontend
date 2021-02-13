@@ -15,7 +15,7 @@ export default function Header({ children }) {
 
   useEffect(() => {
     setTitle(getTitle(url));
-  }, [location]);
+  }, [url]);
 
   const toggleMenu = () => {
     setShowMenu(!showMenu);
