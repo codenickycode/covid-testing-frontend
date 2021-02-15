@@ -1,5 +1,7 @@
 import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { TIMESLOTS } from './info/TIMESLOTS';
+dayjs.extend(customParseFormat);
 
 export const DATE_FORMAT = 'MMMM D, YYYY';
 export const TODAY = dayjs().format(DATE_FORMAT);
@@ -11,8 +13,11 @@ export const refreshAvailable = (locations, date) => {
 export const addAvailableTimes = (locations, date = TODAY) => {
   function addAvailable(location, date) {
     const timeslots = TIMESLOTS.filter((time) => {
-      if (date === TODAY) return dayjs(time).isAfter(dayjs());
-      else return time;
+      if (date === TODAY) {
+        let apptTime = dayjs(time, 'hh:mm A');
+        let now = new Date();
+        return apptTime.isAfter(now);
+      } else return time;
     });
     location.available = [...timeslots];
     location.appointments.forEach((appointment) => {

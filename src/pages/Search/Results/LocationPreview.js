@@ -24,7 +24,7 @@ const LocationPreview = ({ location, handleSelection }) => {
             <p className='preview-time bold'>{location.available[0]}</p>
           </>
         ) : (
-          <p className='preview-time bold'>'No available appointments today</p>
+          <p className='preview-time bold'>No available appointments today</p>
         )}
       </div>
       <ArrowRight />
