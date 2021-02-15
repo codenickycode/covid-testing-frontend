@@ -979,6 +979,11 @@ body {
   border-bottom: 1px solid var(--black);
 }
 
+.flash {
+  opacity: 0.5;
+  /* filter: blur(2px); */
+}
+
 .location-preview {
   width: 100%;
   max-width: 400px;

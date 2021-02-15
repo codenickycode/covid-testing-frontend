@@ -15,7 +15,7 @@ export default function SearchResults({
   handleSelection,
 }) {
   const { loading } = useContext(App);
-  const [sortBySelected, setSortBySelected] = useState('time');
+  const [sortBySelected, setSortBySelected] = useState('distance');
 
   const sortBy = (type) => {
     setSortBySelected(type);
@@ -32,7 +32,7 @@ export default function SearchResults({
   useEffect(() => {
     let timer = null;
     if (flash) {
-      timer = setTimeout(() => setFlash(false), 250);
+      timer = setTimeout(() => setFlash(false), 150);
     }
     return () => clearTimeout(timer);
   }, [flash]);
@@ -84,14 +84,8 @@ const Sort = ({ sortBySelected, sortBy, setFlash }) => {
 };
 
 const Results = ({ searchResults, handleSelection, flash }) => {
-  return flash ? (
-    <div id='location-previews'>
-      {searchResults.map((location) => (
-        <LocationPreviewSkeleton key={location._id} />
-      ))}
-    </div>
-  ) : (
-    <div id='location-previews'>
+  return (
+    <div id='location-previews' className={flash ? 'flash' : ''}>
       {searchResults.map((location) => (
         <LocationPreview
           key={location._id}
