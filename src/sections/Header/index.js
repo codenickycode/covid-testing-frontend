@@ -45,7 +45,7 @@ export default function Header({ children }) {
               <ArrowLeft />
             </div>
             <MenuIcon addClass={menuClass} onClick={menuClick} />
-            <SearchProgress url={url} />
+            {location.pathname.match(/search/) && <SearchProgress url={url} />}
           </div>
           <div className={showMenu ? 'show-menu no-menu' : 'no-menu'}>
             <Menu toggleMenu={toggleMenu} />
