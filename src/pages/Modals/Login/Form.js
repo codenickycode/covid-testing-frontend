@@ -4,6 +4,8 @@ import * as icons from '../../../icons';
 import { Button, PWRequirements, WithIcon, Error } from '../../../components';
 
 const LoginForm = ({
+  forgot,
+  setForgot,
   handleSubmit,
   signup,
   setSignup,
@@ -26,17 +28,20 @@ const LoginForm = ({
             onChange={handleInput}
           />
         </WithIcon>
-        <WithIcon icon={icons.password}>
-          <label htmlFor='password'>Password</label>
-          <input
-            name='password'
-            type='password'
-            placeholder='Password'
-            value={inputs.password}
-            onChange={handleInput}
-          />
-        </WithIcon>
+        {!forgot && (
+          <WithIcon icon={icons.password}>
+            <label htmlFor='password'>Password</label>
+            <input
+              name='password'
+              type='password'
+              placeholder='Password'
+              value={inputs.password}
+              onChange={handleInput}
+            />
+          </WithIcon>
+        )}
         {signup && <PWRequirements error={errors.password} />}
+        {!signup && !forgot && <ForgotPassword setForgot={setForgot} />}
         {signup && (
           <WithIcon icon={icons.password}>
             <label htmlFor='confirmation'>Password Confirmation</label>
@@ -52,10 +57,23 @@ const LoginForm = ({
         {errors.email && <Error error={errors.email} />}
         {errors.password && <Error error={errors.password} />}
         {errors.confirmation && <Error error={errors.confirmation} />}
-        <Button type='submit' label={signup ? 'Create An Account' : 'Login'} />
-        {/* {!signup && <ForgotPassword />} */}
+        <Button
+          type='submit'
+          label={
+            signup
+              ? 'Create An Account'
+              : forgot
+              ? 'Reset Your Password'
+              : 'Login'
+          }
+        />
       </form>
-      <SignupOrLogin signup={signup} setSignup={setSignup} />
+      <SignupOrLogin
+        signup={signup}
+        setSignup={setSignup}
+        forgot={forgot}
+        setForgot={setForgot}
+      />
     </div>
   );
 };
@@ -72,30 +90,30 @@ const Header = ({ signup }) => {
   );
 };
 
-const SignupOrLogin = ({ signup, setSignup }) => {
+const SignupOrLogin = ({ signup, setSignup, forgot, setForgot }) => {
+  const handleClick = () => {
+    if (signup) {
+      setSignup(false);
+    } else {
+      setForgot(false);
+      setSignup(true);
+    }
+  };
   return (
     <div id='signup-or-login'>
       <p>{signup ? 'Already' : "Don't"} have an account?</p>
-      {signup ? (
-        <h2 onClick={() => setSignup(false)}>Login</h2>
-      ) : (
-        <h2 onClick={() => setSignup(true)}>Sign Up</h2>
-      )}
+      <h2 onClick={handleClick}>{signup ? 'Login' : 'Sign up'}</h2>
     </div>
   );
 };
 
-// const forgotPassword = () => {
-//   console.log('forgot password');
-// };
-
-// const ForgotPassword = () => {
-//   return (
-//     <p className='small'>
-//       Forgot your password?{' '}
-//       <span className='small' onClick={forgotPassword}>
-//         Click here
-//       </span>
-//     </p>
-//   );
-// };
+const ForgotPassword = ({ setForgot }) => {
+  return (
+    <p className='small'>
+      Forgot your password?
+      <span className='small click' onClick={() => setForgot(true)}>
+        Click here
+      </span>
+    </p>
+  );
+};

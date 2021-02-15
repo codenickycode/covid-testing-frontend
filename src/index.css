@@ -1211,6 +1211,11 @@ span.preview-info {
   display: none;
 }
 
+#login-form .click {
+  margin-left: 0.25rem;
+  text-decoration: underline;
+}
+
 #signup-or-login {
   width: 100%;
   display: flex;

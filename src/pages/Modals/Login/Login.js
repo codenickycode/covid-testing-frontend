@@ -13,6 +13,7 @@ const Login = ({ closeModal }) => {
   const login = useLogin();
 
   const [signup, setSignup] = useState(true);
+  const [forgot, setForgot] = useState(false);
   const [inputs, setInputs] = useState(INIT);
   const [errors, setErrors] = useState(INIT);
 
@@ -70,6 +71,8 @@ const Login = ({ closeModal }) => {
           <LoginForm
             signup={signup}
             setSignup={setSignup}
+            forgot={forgot}
+            setForgot={setForgot}
             handleInput={handleInput}
             handleSubmit={handleSubmit}
             inputs={inputs}
