@@ -15,7 +15,12 @@ export const checkRequired = (inputs) => {
       errors[key] = 'required';
       interupt = true;
     } else {
-      errors[key] = '';
+      if (key === 'phone' && val.length < 13) {
+        errors.phone = '10-digits required';
+        interupt = true;
+      } else {
+        errors[key] = '';
+      }
     }
   }
   return [errors, interupt];

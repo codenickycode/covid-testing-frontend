@@ -96,6 +96,17 @@ export const AccountItem = ({ property, fields }) => {
   };
 
   const save = async () => {
+    if (
+      property === 'phone' &&
+      state.input.phone &&
+      state.input.phone.length < 13
+    ) {
+      dispatch({
+        type: ACTIONS.SET_USER_ERROR,
+        payload: '10-digits required',
+      });
+      return;
+    }
     dispatch({ type: ACTIONS.SET_SAVING, payload: true });
     const req = { ...state.input };
     if (property === 'password') delete req.confirmNewPassword;

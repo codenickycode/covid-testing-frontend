@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ReactComponent as CreateAccount } from '../../../img/createAccount.svg';
 import * as icons from '../../../icons';
 import { Button, PWRequirements, WithIcon, Error } from '../../../components';
@@ -13,6 +13,8 @@ const LoginForm = ({
   inputs,
   errors,
 }) => {
+  const [show, setShow] = useState(false);
+
   return (
     <div id='login-form' className='flex-col'>
       <Header signup={signup} />
@@ -33,11 +35,17 @@ const LoginForm = ({
             <label htmlFor='password'>Password</label>
             <input
               name='password'
-              type='password'
+              type={show ? 'text' : 'password'}
               placeholder='Password'
               value={inputs.password}
               onChange={handleInput}
             />
+            <div
+              className='show-password'
+              onClick={() => setShow((show) => !show)}
+            >
+              {show ? icons.noShow : icons.show}
+            </div>
           </WithIcon>
         )}
         {signup && <PWRequirements error={errors.password} />}
@@ -47,7 +55,7 @@ const LoginForm = ({
             <label htmlFor='confirmation'>Password Confirmation</label>
             <input
               name='confirmation'
-              type='password'
+              type={show ? 'text' : 'password'}
               placeholder='Confirm Your Password'
               value={inputs.confirmation}
               onChange={handleInput}

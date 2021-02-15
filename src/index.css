@@ -21,7 +21,7 @@
   --green: #01e401;
   --pink: #ffa0a0;
   --grey: #e7eaef;
-  --light: #202e3a;
+  --light: #121b22;
   --svg-black: #000;
   --svg-white: #dadada;
   --svg-red: #e4002b;
@@ -155,6 +155,11 @@
 /***********************************************************/
 /******************** General Styles ***********************/
 /***********************************************************/
+
+.click {
+  margin-left: 0.25rem;
+  text-decoration: underline;
+}
 
 img {
   margin: 1rem auto;
@@ -1192,6 +1197,10 @@ span.preview-info {
   text-align: center;
 }
 
+#login-form .with-icon {
+  position: relative;
+}
+
 #login-form .with-icon.pw-requirements {
   padding-top: 0;
   justify-content: start;
@@ -1211,9 +1220,18 @@ span.preview-info {
   display: none;
 }
 
-.click {
-  margin-left: 0.25rem;
-  text-decoration: underline;
+.show-password {
+  position: absolute;
+  right: 0;
+  padding: 0.25rem;
+}
+
+.show-password .icon {
+  height: 0.8rem;
+}
+
+.show-password .icon path {
+  fill: var(--black-half);
 }
 
 #signup-or-login {
@@ -1862,7 +1880,15 @@ ol {
 }
 
 /***********************************************************/
-/******************** Error Animation **********************/
+/******************** Error Handler ************************/
+/***********************************************************/
+
+#error-page {
+  min-height: 78vh;
+}
+
+/***********************************************************/
+/********************** Animation *************************/
 /***********************************************************/
 
 @keyframes pulse-border {

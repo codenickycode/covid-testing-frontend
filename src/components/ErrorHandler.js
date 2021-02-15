@@ -1,5 +1,6 @@
 import React from 'react';
 import { Page } from '.';
+import { ReactComponent as ErrorSVG } from '../img/error.svg';
 
 export default function ErrorHandler() {
   const errors = [];
@@ -7,25 +8,20 @@ export default function ErrorHandler() {
     errors.push([k, v]);
   }
 
-  function clearStorage() {
+  const returnHome = () => {
     localStorage.clear();
     sessionStorage.clear();
-  }
-
-  function reload() {
     window.location.href = '/';
-  }
+  };
 
   return (
-    <Page id='error-page'>
-      <button onClick={clearStorage}>Clear Storage</button>
-      <button onClick={reload}>Reload</button>
-      {errors.map((error, i) => (
-        <div key={`error-${i}`}>
-          <h1>{error[0]}</h1>
-          <p>{error[1]}</p>
-        </div>
-      ))}
+    <Page id='error-page' className='page transition show flex-col'>
+      <h1>Oops!</h1>
+      <h2>Something went wrong :(</h2>
+      <ErrorSVG />
+      <button className='btn' onClick={returnHome}>
+        Return home
+      </button>
     </Page>
   );
 }

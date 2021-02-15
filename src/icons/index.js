@@ -15,8 +15,12 @@ import { ReactComponent as Menu } from './MenuAnimate.svg';
 import { ReactComponent as Account } from './Account.svg';
 import { ReactComponent as Appointments } from './Appointments.svg';
 import { ReactComponent as Settings } from './Settings.svg';
+import { ReactComponent as ShowIcon } from './Show.svg';
+import { ReactComponent as NoShowIcon } from './NoShow.svg';
 
 export const logo = <LogoIcon />;
+export const show = <ShowIcon className='icon' />;
+export const noShow = <NoShowIcon className='icon' />;
 export const profile = <ProfileIcon className='icon icon-fill' />;
 export const name = <ProfileIcon className='icon icon-fill' />;
 export const firstName = <ProfileIcon className='icon icon-fill' />;
