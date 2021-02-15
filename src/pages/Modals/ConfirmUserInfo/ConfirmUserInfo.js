@@ -1,10 +1,9 @@
 import React, { useState, useContext } from 'react';
 import { LoginSkeleton } from '../../../components/Skeletons.js';
 import { App } from '../../../Providers/Context.js';
-import tools from '../../../tools/index.js';
 import { ReactComponent as ConfirmSVG } from '../../../img/confirm.svg';
 import * as icons from '../../../icons';
-import { checkRequired } from '../../../tools/valid';
+import { checkRequired, formatPhone } from '../../../tools/valid';
 import { Button, Input, WithIcon, Header } from '../../../components/index.js';
 import useUpdateAccountBasic from './useUpdateAccountBasic.js';
 
@@ -26,7 +25,7 @@ const ConfirmUserInfo = ({ setInfoIsConfirmed }) => {
   });
 
   const handleInput = ({ target: { name, value } }) => {
-    if (name === 'phone' && !tools.validNum(value)) return;
+    if (name === 'phone') value = formatPhone(value);
     setErrors((prev) => ({ ...prev, [name]: '' }));
     setInputs((prev) => ({ ...prev, [name]: value }));
   };

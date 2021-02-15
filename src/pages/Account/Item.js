@@ -85,7 +85,8 @@ export const AccountItem = ({ property, fields }) => {
   };
 
   const handleInput = ({ target: { value } }, key) => {
-    if ((key === 'zip' || key === 'phone') && !tools.validNum(value)) return;
+    if (key === 'zip' && !tools.validNum(value)) return;
+    if (key === 'phone') value = tools.formatPhone(value);
     dispatch({ type: ACTIONS.INPUT, payload: { key, value } });
   };
 

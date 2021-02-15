@@ -20,3 +20,14 @@ export const checkRequired = (inputs) => {
   }
   return [errors, interupt];
 };
+
+export const formatPhone = (value) => {
+  let unformatted = value.replace(/\D/g, '');
+  let len = unformatted.length;
+  let formatted = '';
+  if (len > 0) formatted = unformatted.slice(0, 3);
+  if (len > 3)
+    formatted = '(' + unformatted.slice(0, 3) + ')' + unformatted.slice(3, 6);
+  if (len > 6) formatted += '-' + unformatted.slice(6, 10);
+  return formatted;
+};

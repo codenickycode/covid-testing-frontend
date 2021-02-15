@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Input } from '../../components';
 import { ReactComponent as EditIcon } from '../../icons/PencilLine.svg';
+import { formatPhone } from '../../tools/valid';
 
 export const PreviewText = ({ state, title }) => {
   return (
@@ -44,6 +45,7 @@ export const Inputs = ({ fields, state, handleInput, handleKeyDown }) => {
   return (
     <form className='item-inputs'>
       {fields.map((field) => {
+        let value = state.input[field];
         return (
           <div
             className='account-input'
@@ -52,7 +54,7 @@ export const Inputs = ({ fields, state, handleInput, handleKeyDown }) => {
           >
             <Input
               field={field}
-              value={state.input[field]}
+              value={value}
               onChange={(e) => handleInput(e, field)}
             />
           </div>
