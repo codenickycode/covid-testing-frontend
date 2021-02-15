@@ -1211,7 +1211,7 @@ span.preview-info {
   display: none;
 }
 
-#login-form .click {
+.click {
   margin-left: 0.25rem;
   text-decoration: underline;
 }
@@ -1226,6 +1226,12 @@ span.preview-info {
 #signup-or-login h2 {
   margin-left: 0.5rem;
   border-bottom: 1px solid var(--black-half);
+}
+
+#password-reset {
+  background: var(--white);
+  padding: 2rem;
+  border-radius: 0.6rem;
 }
 
 #confirm-info .with-icon {
