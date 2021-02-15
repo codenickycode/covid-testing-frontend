@@ -81,8 +81,8 @@ const getTitle = (url) => {
       return 'My Account';
     case 'settings':
       return 'My Settings';
-    case 'information':
-      return 'Information';
+    case 'faq':
+      return 'FAQ';
     default:
       return 'Covid-19 Testing';
   }

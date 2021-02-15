@@ -25,7 +25,7 @@ const Test = ({ test, selectedTests, selectTest }) => {
         <p className='small bold'>{showInfo ? 'Less info' : 'Learn more'}</p>
         {arrowIcon}
       </div>
-      <ul className={showInfo ? 'test-info' : 'no-test-info'}>
+      <ul className={showInfo ? 'show-info' : 'no-info'}>
         {info.map((item, index) => {
           return (
             <li key={'info' + index} className='small'>

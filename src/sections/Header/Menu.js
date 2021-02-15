@@ -22,12 +22,8 @@ export default function Menu({ toggleMenu }) {
       >
         <h2>New Appointment</h2>
       </Link>
-      <Link
-        className='header-link'
-        to='#'
-        onClick={() => handleTo('/information')}
-      >
-        <h2>Information</h2>
+      <Link className='header-link' to='#' onClick={() => handleTo('/faq')}>
+        <h2>FAQ</h2>
       </Link>
     </div>
   );

@@ -1,10 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { App } from '../../Providers/Context.js';
 import LocationPreview from './Results/LocationPreview.js';
-import {
-  SearchResultsSkeleton,
-  LocationPreviewSkeleton,
-} from '../../components/Skeletons.js';
+import { SearchResultsSkeleton } from '../../components/Skeletons.js';
 import { DatePicker, Page } from '../../components/index.js';
 
 export default function SearchResults({

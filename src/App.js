@@ -12,7 +12,7 @@ import Search from './pages/Search';
 import Appointments from './pages/Appointments';
 import Account from './pages/Account';
 import Settings from './pages/Settings';
-import Information from './pages/Information';
+import Faq from './pages/Faq';
 import Gateway from './pages/Gateway';
 
 import Skeleton from './components/Skeletons.js';
@@ -34,7 +34,7 @@ const App = () => {
                   <Route path='/appointments' component={Appointments} />
                   <Route path='/account' component={Account} />
                   <Route path='/settings' component={Settings} />
-                  <Route path='/information' component={Information} />
+                  <Route path='/faq' component={Faq} />
                   <Route path='/gateway/:to' component={Gateway} />
                   {/*  */}
                   <Route path='/error' component={ErrorHandler} />

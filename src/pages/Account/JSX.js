@@ -1,7 +1,6 @@
 import React from 'react';
 import { Button, Input } from '../../components';
 import { ReactComponent as EditIcon } from '../../icons/PencilLine.svg';
-import { formatPhone } from '../../tools/valid';
 
 export const PreviewText = ({ state, title }) => {
   return (

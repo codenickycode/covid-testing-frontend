@@ -769,7 +769,7 @@ body {
 }
 
 /* div for each test */
-#search-form .type {
+.type {
   cursor: pointer;
   width: 100%;
   max-width: 300px;
@@ -822,11 +822,12 @@ body {
   filter: drop-shadow(4px 4px 8px var(--drop-shadow-red));
 }
 
-#search-form .type h2 {
+.type h2 {
   padding: 0.5rem 0;
 }
 
-#search-form hr {
+#search-form hr,
+#faq hr {
   width: 100%;
   color: var(--black);
   margin-bottom: 0.25rem;
@@ -846,32 +847,34 @@ body {
   stroke: var(--btn-white);
 }
 
-#search-form ul {
+#search-form ul,
+#faq ul {
   padding: 0 1rem;
 }
 
-#search-form li {
+#search-form li,
+#faq li {
   margin: 1rem 0;
   list-style: none;
 }
 
-.no-test-info,
-.test-info {
+.no-info,
+.show-info {
   max-height: 0;
   opacity: 0;
   transition: 150ms ease-in-out;
 }
-.no-test-info li {
+.no-info li {
   transition: 150ms 150ms ease-in-out;
   transform: translateY(-100%) scaleY(0);
 }
 
-.test-info {
+.show-info {
   max-height: 1000px;
   opacity: 1;
 }
 
-.test-info li {
+.show-info li {
   transform: translateY(0) scaleY(1);
 }
 
@@ -1446,7 +1449,7 @@ span.preview-info {
 }
 
 /***********************************************************/
-/********************** Information ************************/
+/************************ Settings *************************/
 /***********************************************************/
 
 #settings {
@@ -1458,12 +1461,18 @@ span.preview-info {
 }
 
 /***********************************************************/
-/********************** Information ************************/
+/************************* FAQ *****************************/
 /***********************************************************/
 
-#information {
-  width: 80%;
-  margin: 1rem auto;
+#faq .items {
+  margin-top: 1rem;
+}
+
+#faq .type {
+  padding: 0.5rem 1rem;
+}
+
+#faq .show-info {
 }
 
 /***********************************************************/
