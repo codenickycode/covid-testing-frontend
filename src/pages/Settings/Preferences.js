@@ -1,11 +1,12 @@
 import React, { useContext } from 'react';
 import { SetApp } from '../../Providers/Context';
 
-export const Preferences = ({ user: { preferences } }) => {
+export const Preferences = ({ user: { preferences }, setSaving }) => {
   const { dark, remember, notifications } = preferences;
   const setApp = useContext(SetApp);
 
   const handleCheck = ({ target: { name } }) => {
+    setSaving(true);
     setApp((prev) => ({
       ...prev,
       settingsUpdated: true,

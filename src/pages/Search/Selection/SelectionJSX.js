@@ -16,8 +16,8 @@ export default function SelectionJSX({
 
   return (
     <Page id='selection'>
+      <Name name={name} />
       <form onSubmit={handleSubmit}>
-        <Name name={name} />
         <Address phone={phone} address={address} />
         <Date handleChangeDate={handleChangeDate} date={date} />
         <Time time={time} setTime={setTime} available={available} />
@@ -49,7 +49,7 @@ const Item = ({ icon, header, children }) => {
 
 const Name = ({ name }) => {
   return (
-    <WithIcon addClass='item' icon={icons.logo}>
+    <WithIcon icon={icons.logo}>
       <h1>{name}</h1>
     </WithIcon>
   );

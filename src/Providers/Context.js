@@ -64,13 +64,11 @@ const ContextProvider = ({ children }) => {
   useEffect(() => {
     let timer = null;
     if (app.settingsUpdated) {
-      setApp((prev) => ({ ...prev, loading: true }));
       clearTimeout(timer);
       timer = setTimeout(() => updateDB(app.user, app.settings, setApp), 2000);
     }
     return () => {
       clearTimeout(timer);
-      setApp((prev) => ({ ...prev, loading: false }));
     };
   }, [app.settingsUpdated, app.settings, app.user]);
 
@@ -104,7 +102,6 @@ async function updateDB(user, settings, setApp) {
     ...prev,
     settings: newSettings,
     settingsUpdated: newUpdated,
-    loading: false,
     error,
   }));
 }

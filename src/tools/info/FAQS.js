@@ -3,7 +3,7 @@ export const FAQS = [
     question: 'What do these COVID-19 tests detect?',
     answer: [
       'Rapid Test and PCR Test: This test will detect if you are actively infected with the COVID-19 virus. ',
-      'Serum Antibody IgG (Blood Test): This test will detect if you have had prior exposure to or infection with COVID-19 and have built antibodies for the virus. For most viral illnesses, a positive antibody means prior exposure to a virus and possible immunity to future infection. As COVID-19 is a novel (new) infection, it is unclear if a positive antibody offers immunity. CityMD recommends universal precautions (Hand washing, social distancing and masks when appropriate).',
+      'Serum Antibody IgG (Blood Test): This test will detect if you have had prior exposure to or infection with COVID-19 and have built antibodies for the virus. For most viral illnesses, a positive antibody means prior exposure to a virus and possible immunity to future infection. As COVID-19 is a novel (new) infection, it is unclear if a positive antibody offers immunity. UrgentMD recommends universal precautions (Hand washing, social distancing and masks when appropriate).',
     ],
   },
   {

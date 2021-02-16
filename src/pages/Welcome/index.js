@@ -18,7 +18,7 @@ const Welcome = () => {
         <LogoSVG />
       </div>
       <div className='center'>
-        <h1>COVID-19 testing is available at CityMD</h1>
+        <h1>COVID-19 testing is available at UrgentMD</h1>
         <p>We're here for you during this pandemic.</p>
       </div>
       <WelcomeSVG />

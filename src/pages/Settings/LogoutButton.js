@@ -1,15 +1,14 @@
 import { useContext } from 'react';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
-import { SetApp, INIT_APP, App } from '../../Providers/Context';
+import { SetApp, INIT_APP } from '../../Providers/Context';
+import { Go } from '../../Providers/Go';
 
-export const LogoutButton = () => {
-  const history = useHistory();
-  const { loading } = useContext(App);
+export const LogoutButton = ({ saving }) => {
   const setApp = useContext(SetApp);
+  const go = useContext(Go);
 
   async function logout() {
-    history.push('/');
+    go('/');
     localStorage.clear();
     sessionStorage.clear();
     setApp((prev) => ({ ...prev, loading: true }));
@@ -31,7 +30,12 @@ export const LogoutButton = () => {
   }
 
   return (
-    <button type='button' className='btn' onClick={logout} disabled={loading}>
+    <button
+      type='button'
+      className={saving ? 'btn disabled' : 'btn'}
+      onClick={logout}
+      disabled={saving}
+    >
       Logout
     </button>
   );

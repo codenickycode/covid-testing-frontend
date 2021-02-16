@@ -27,9 +27,11 @@ const Navbar = () => {
           <NavLink
             to={loading || navDisabled ? '#' : '/appointments'}
             className={
-              loading || navDisabled ? 'navbar-disabled' : 'navbar-default'
+              loading || navDisabled
+                ? 'navbar-disabled nav-link'
+                : 'navbar-default nav-link'
             }
-            activeClassName='navbar-active'
+            activeClassName='navbar-active nav-link'
           >
             <AppointmentsIcon />
           </NavLink>
@@ -37,9 +39,11 @@ const Navbar = () => {
           <NavLink
             to={loading || navDisabled ? '#' : '/settings'}
             className={
-              loading || navDisabled ? 'navbar-disabled' : 'navbar-default'
+              loading || navDisabled
+                ? 'navbar-disabled nav-link'
+                : 'navbar-default nav-link'
             }
-            activeClassName='navbar-active'
+            activeClassName='navbar-active nav-link'
           >
             <SettingsIcon />
           </NavLink>

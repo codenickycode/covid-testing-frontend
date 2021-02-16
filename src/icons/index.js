@@ -18,7 +18,7 @@ import { ReactComponent as Settings } from './Settings.svg';
 import { ReactComponent as ShowIcon } from './Show.svg';
 import { ReactComponent as NoShowIcon } from './NoShow.svg';
 
-export const logo = <LogoIcon />;
+export const logo = <LogoIcon className='icon' />;
 export const show = <ShowIcon className='icon' />;
 export const noShow = <NoShowIcon className='icon' />;
 export const profile = <ProfileIcon className='icon icon-fill' />;
