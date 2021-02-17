@@ -1,0 +1,10 @@
+[[redirects]]
+  from = "/common"
+  to = "https://covid-test-appointments.herokuapp.com/common"
+  status = 200
+  force = true
+
+  [[redirects]]
+  from = "/*"
+  to = "/"
+  status = 200
