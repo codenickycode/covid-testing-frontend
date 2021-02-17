@@ -8,6 +8,7 @@ import {
   AppointmentsSkeleton,
   SettingsSkeleton,
 } from '../../components/Skeletons.js';
+import { getLS } from '../../tools/storage';
 
 const Gateway = () => {
   const history = useHistory();
@@ -23,7 +24,7 @@ const Gateway = () => {
     }
 
     if (initial) {
-      if (settings.remember && !user) {
+      if ((settings.remember || getLS('remember')) && !user) {
         setInitial(false);
         getClient();
       }

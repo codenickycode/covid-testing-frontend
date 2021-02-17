@@ -4,7 +4,7 @@ module.exports = function (app) {
   app.use(
     '/common',
     createProxyMiddleware({
-      target: 'https://covid-test-appointments.herokuapp.com/common',
+      target: 'https://covid-test-appointments.herokuapp.com/',
       changeOrigin: true,
     })
   );
