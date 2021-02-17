@@ -15,7 +15,7 @@ export const LogoutButton = ({ saving }) => {
     let error = '';
     let confirmation = '';
     try {
-      const res = await axios.get(`common/logout`);
+      const res = await axios.get(`/common/logout`);
       confirmation = res.data;
     } catch (e) {
       error = e.response?.data || e.message;

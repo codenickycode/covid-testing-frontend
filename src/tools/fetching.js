@@ -9,13 +9,13 @@ export const parseLocationsZips = (locations) => {
 };
 
 export const getLocations = async () => {
-  const res = await axios.get(`common/locations`);
+  const res = await axios.get(`/common/locations`);
   return res.data;
 };
 
 export const getDistances = async (zip, locations) => {
   const locationsZips = parseLocationsZips(locations);
-  const res = await axios.post(`common/distances`, {
+  const res = await axios.post(`/common/distances`, {
     zip,
     locationsZips,
     locations,

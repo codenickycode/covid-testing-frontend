@@ -89,7 +89,7 @@ async function updateDB(user, settings, setApp) {
   for (let key of Object.keys(user.preferences)) {
     if (user.preferences[key] !== settings[key]) {
       try {
-        await axios.post(`common/update/preferences`, user.preferences);
+        await axios.post(`/common/update/preferences`, user.preferences);
         newSettings = user.preferences;
       } catch (e) {
         error = e.response?.data || e.message;

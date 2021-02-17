@@ -61,7 +61,7 @@ const Login = ({ closeModal }) => {
       error = '',
       pwReset = false;
     try {
-      const res = await axios.post(`common/forgot`, { email });
+      const res = await axios.post(`/common/forgot`, { email });
       confirmation = res.data;
       pwReset = true;
     } catch (e) {

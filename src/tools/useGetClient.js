@@ -13,7 +13,7 @@ export default function useGetClient() {
       confirmation = '';
     try {
       setApp((prev) => ({ ...prev, loading: true }));
-      const res = await axios.get(`common/user`);
+      const res = await axios.get(`/common/user`);
       user = res.data;
       newSettings = { ...user.preferences };
       confirmation = 'Successfully logged in';

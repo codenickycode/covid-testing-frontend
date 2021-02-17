@@ -113,7 +113,7 @@ export const AccountItem = ({ property, fields }) => {
     let newProperty = { ...state.prevInput },
       newError = '';
     try {
-      const res = await axios.post(`common/update/${property}`, req);
+      const res = await axios.post(`/common/update/${property}`, req);
       if (property !== 'password') newProperty = res.data[property];
       if (property === 'insurance') newProperty.id = '';
     } catch (e) {

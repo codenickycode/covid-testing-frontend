@@ -11,7 +11,7 @@ export default function useLogin() {
       confirmation = '';
     try {
       setApp((prev) => ({ ...prev, loading: true }));
-      const res = await axios.post(`common/${type}`, {
+      const res = await axios.post(`/common/${type}`, {
         email,
         password,
       });

@@ -12,7 +12,7 @@ export default function useUpdateAccountBasic() {
     try {
       setApp((prev) => ({ ...prev, loading: true }));
       const { firstName, lastName, phone, dob } = inputs;
-      const res = await axios.post(`common/update/basic`, {
+      const res = await axios.post(`/common/update/basic`, {
         name: { firstName, lastName },
         phone: { phone },
         dob: { dob },
