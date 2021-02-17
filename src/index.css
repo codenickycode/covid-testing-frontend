@@ -590,7 +590,7 @@ body {
   justify-content: space-between;
 }
 
-#header-middle-dummy {
+.header-middle-dummy {
   min-height: 1rem;
 }
 
@@ -735,7 +735,7 @@ body {
 #welcome-logo {
   padding-left: 2rem;
   width: 100%;
-  max-width: 70%;
+  max-width: 350px;
   align-self: start;
 }
 

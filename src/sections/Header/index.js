@@ -40,7 +40,12 @@ export default function Header({ children }) {
               addClass={arrowClass}
               onClick={arrowClick}
             />
-            <HeaderMiddle loading={loading} title={title} url={url} />
+            <HeaderMiddle
+              loading={loading}
+              title={title}
+              location={location}
+              url={url}
+            />
             <div id='header-dummy'>
               <ArrowLeft />
             </div>
@@ -56,16 +61,20 @@ export default function Header({ children }) {
   );
 }
 
-const HeaderMiddle = ({ loading, title, url }) => {
+const HeaderMiddle = ({ loading, title, location, url }) => {
   return (
     <div id='header-middle'>
-      <div id='header-middle-dummy'></div>
+      <div className='header-middle-dummy'></div>
       {loading ? (
         <p className='skeleton-h1text transition show'>Loading...</p>
       ) : (
         <h2 className='title transition show'>{title}</h2>
       )}
-      <SearchProgress url={url} />
+      {location.pathname.match(/search/) ? (
+        <SearchProgress url={url} />
+      ) : (
+        <div className='header-middle-dummy'></div>
+      )}
     </div>
   );
 };
