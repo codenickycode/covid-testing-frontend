@@ -40,12 +40,11 @@ export default function Header({ children }) {
               addClass={arrowClass}
               onClick={arrowClick}
             />
-            <LoadingOrTitle loading={loading} title={title} />
+            <HeaderMiddle loading={loading} title={title} url={url} />
             <div id='header-dummy'>
               <ArrowLeft />
             </div>
             <MenuIcon addClass={menuClass} onClick={menuClick} />
-            {location.pathname.match(/search/) && <SearchProgress url={url} />}
           </div>
           <div className={showMenu ? 'show-menu no-menu' : 'no-menu'}>
             <Menu toggleMenu={toggleMenu} />
@@ -57,11 +56,17 @@ export default function Header({ children }) {
   );
 }
 
-const LoadingOrTitle = ({ loading, title }) => {
-  return loading ? (
-    <p className='skeleton-h1text transition show'>Loading...</p>
-  ) : (
-    <h2 className='title transition show'>{title}</h2>
+const HeaderMiddle = ({ loading, title, url }) => {
+  return (
+    <div id='header-middle'>
+      <div id='header-middle-dummy'></div>
+      {loading ? (
+        <p className='skeleton-h1text transition show'>Loading...</p>
+      ) : (
+        <h2 className='title transition show'>{title}</h2>
+      )}
+      <SearchProgress url={url} />
+    </div>
   );
 };
 

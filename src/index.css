@@ -483,18 +483,8 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  border: 1px solid var(--black);
-  border-radius: 0.6rem;
-  box-shadow: 4px 4px 8px var(--drop-shadow);
   background-color: var(--white);
   transition: 100ms linear;
-}
-
-@media (max-width: 600px) {
-  .page {
-    border: none;
-    filter: none;
-  }
 }
 
 #footer {
@@ -586,10 +576,22 @@ body {
   width: 100%;
   max-width: 750px;
   margin: 0 auto;
-  padding: 1rem;
+  padding: 0.25rem 1rem;
   display: flex;
+  justify-content: space-between;
   align-items: center;
   background-color: var(--white);
+}
+
+#header-middle {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+#header-middle-dummy {
+  min-height: 1rem;
 }
 
 #back-btn {
@@ -759,11 +761,8 @@ body {
 /***********************************************************/
 
 #search-progress {
-  position: absolute;
-  left: 0;
-  bottom: 0.5rem;
   width: 100%;
-  font-size: 1rem;
+  font-size: 0.8rem;
   text-align: center;
   transform: scale(0.5);
 }
@@ -1282,8 +1281,12 @@ span.preview-info {
   font-weight: bold;
 }
 
-#confirm-info form .error {
+#confirm-info .input-div .error {
   display: none;
+}
+
+#confirm-info .error {
+  text-align: center;
 }
 
 #appt-confirmed {

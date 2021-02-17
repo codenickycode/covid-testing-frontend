@@ -81,11 +81,7 @@ const sortByTime = (dates) => {
     if (v.length === 1) {
       sorted.push(...v);
     } else {
-      v.sort((a, b) => {
-        let aDate = dayjs(`2000-01-01 ${a.time}`);
-        let bDate = dayjs(`2000-01-01 ${b.time}`);
-        return aDate.diff(bDate);
-      });
+      v.sort((a, b) => dayjs(a.time, 'hh:mm A') - dayjs(b.time, 'hh:mm A'));
       sorted.push(...v);
     }
   }

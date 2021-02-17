@@ -4,7 +4,13 @@ import { App } from '../../../Providers/Context.js';
 import { ReactComponent as ConfirmSVG } from '../../../img/confirm.svg';
 import * as icons from '../../../icons';
 import { checkRequired, formatPhone } from '../../../tools/valid';
-import { Button, Input, WithIcon, Header } from '../../../components/index.js';
+import {
+  Button,
+  Input,
+  WithIcon,
+  Header,
+  Error,
+} from '../../../components/index.js';
 import useUpdateAccountBasic from './useUpdateAccountBasic.js';
 
 const ConfirmUserInfo = ({ setInfoIsConfirmed }) => {
@@ -23,6 +29,7 @@ const ConfirmUserInfo = ({ setInfoIsConfirmed }) => {
     phone: '',
     dob: '',
   });
+  const [error, setError] = useState('');
 
   const handleInput = ({ target: { name, value } }) => {
     if (name === 'phone') value = formatPhone(value);
@@ -38,6 +45,7 @@ const ConfirmUserInfo = ({ setInfoIsConfirmed }) => {
       for (let [key, val] of Object.entries(newErrors)) {
         if (val) document.querySelector(`input[name=${key}]`).focus();
       }
+      setError('All fields required');
       return;
     }
     updateAccountBasic(inputs, () => setInfoIsConfirmed(true));
@@ -83,6 +91,7 @@ const ConfirmUserInfo = ({ setInfoIsConfirmed }) => {
             onChange={handleInput}
           />
         </WithIcon>
+        {error && <Error error={error} />}
         <Button type='submit' label='Confirm Appointment' />
       </form>
     </div>

@@ -68,9 +68,9 @@ describe('SelectionJSX', () => {
   it('calls selectTest on test click', () => {
     const test = document.querySelector('li');
     expect(selectTest).toBeCalledTimes(0);
-    fireEvent.click(test);
-    fireEvent.click(test);
-    fireEvent.click(test);
+    fireEvent.mouseDown(test);
+    fireEvent.mouseDown(test);
+    fireEvent.mouseDown(test);
     expect(selectTest).toBeCalledTimes(3);
   });
 

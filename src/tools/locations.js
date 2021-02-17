@@ -1,4 +1,6 @@
 import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+dayjs.extend(customParseFormat);
 
 export const filterLocationsBy = (type, filter, locations) => {
   if (!filter) return locations;
@@ -25,9 +27,8 @@ export const sortLocationsByDistance = (locations) => {
 
 export const sortLocationsByTime = (locations) => {
   locations.sort((a, b) => {
-    let aDate = dayjs(`2000-01-01 ${a.available[0]}`);
-    let bDate = dayjs(`2000-01-01 ${b.available[0]}`);
-    return aDate.diff(bDate);
+    if (b.available.length === 0) return -1;
+    return dayjs(a.available[0], 'hh:mm A') - dayjs(b.available[0], 'hh:mm A');
   });
 };
 
