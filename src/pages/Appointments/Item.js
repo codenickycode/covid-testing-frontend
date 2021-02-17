@@ -1,32 +1,17 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import { ReactComponent as ArrowIcon } from '../../icons/Arrow.svg';
 import * as icons from '../../icons';
-import { scrollIntoView } from '../../tools/scrolling';
 import { WithIcon } from '../../components';
 
 export const AppointmentItem = ({ appointment }) => {
-  const previewRef = useRef(null);
-  const fullRef = useRef(null);
-  const [clicked, setClicked] = useState(false);
   const [expanded, setExpanded] = useState(false);
 
   const { tests } = appointment;
   const testsSpan = useMemo(() => formatTestsSpan(tests), [tests]);
 
   const handleExpand = () => {
-    setClicked(true);
     setExpanded((prev) => !prev);
   };
-
-  useEffect(() => {
-    if (clicked) {
-      if (fullRef.current) {
-        scrollIntoView(fullRef, 'start');
-      } else if (previewRef.current) {
-        scrollIntoView(previewRef, 'start');
-      }
-    }
-  }, [clicked, expanded]);
 
   return (
     <div className='appt-item'>
@@ -36,28 +21,18 @@ export const AppointmentItem = ({ appointment }) => {
       />
       {!expanded ? (
         <AppointmentPreview
-          previewRef={previewRef}
           handleExpand={handleExpand}
           appointment={appointment}
           testsSpan={testsSpan}
         />
       ) : (
-        <AppointmentExpanded
-          fullRef={fullRef}
-          appointment={appointment}
-          testsSpan={testsSpan}
-        />
+        <AppointmentExpanded appointment={appointment} testsSpan={testsSpan} />
       )}
     </div>
   );
 };
 
-const AppointmentPreview = ({
-  previewRef,
-  handleExpand,
-  appointment,
-  testsSpan,
-}) => {
+const AppointmentPreview = ({ handleExpand, appointment, testsSpan }) => {
   const {
     date,
     location: {
@@ -65,7 +40,7 @@ const AppointmentPreview = ({
     },
   } = appointment;
   return (
-    <div ref={previewRef} className='preview' onClick={handleExpand}>
+    <div className='preview' onClick={handleExpand}>
       <h2>{date}</h2>
       <p className='preview-info'>
         <span className='preview-info'>{testsSpan}</span> in {city}
@@ -74,13 +49,13 @@ const AppointmentPreview = ({
   );
 };
 
-const AppointmentExpanded = ({ fullRef, appointment, testsSpan }) => {
+const AppointmentExpanded = ({ appointment, testsSpan }) => {
   const { date, time, location } = appointment;
   const { name, address, phone } = location;
   const { street, city, state, zip } = address;
 
   return (
-    <div className='expanded' ref={fullRef}>
+    <div className='expanded'>
       <h2 className='expanded-header'>{name}</h2>
       <ApptField
         header='Address'

@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useContext, useReducer } from 'react';
+import React, { useEffect, useContext, useReducer } from 'react';
 import axios from 'axios';
 import tools from '../../tools/index.js';
 import { SetApp } from '../../Providers/Context';
@@ -24,8 +24,6 @@ export const AccountItem = ({ property, fields }) => {
   };
   const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
 
-  const editRef = useRef(null);
-
   useEffect(() => {
     if (state.preview === null) {
       dispatch({
@@ -38,10 +36,6 @@ export const AccountItem = ({ property, fields }) => {
   useEffect(() => {
     if (state.userError && !state.edit) dispatch({ type: ACTIONS.OPEN });
   }, [state]);
-
-  useEffect(() => {
-    if (state.edit && editRef.current) tools.scrollIntoView(editRef, 'end');
-  }, [state, editRef]);
 
   useEffect(() => {
     if (state.saving) setApp((prev) => ({ ...prev, navDisabled: true }));
@@ -134,7 +128,7 @@ export const AccountItem = ({ property, fields }) => {
   return state.saving ? (
     <AccountItemSkeleton message='Saving...' />
   ) : (
-    <div className='item' ref={editRef}>
+    <div className='item'>
       <div className='item-top' onClick={handleToggle}>
         {icons[property]}
         <PreviewText state={state} title={title} />

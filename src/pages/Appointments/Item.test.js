@@ -18,10 +18,4 @@ describe('AppointmentItem', () => {
   it('starts with only preview', () => {
     expect(expandedField).toBeFalsy();
   });
-
-  // scrollIntoView breaks test
-  //   it('expands on preview click', () => {
-  //     expect(expandedField).toBeFalsy();
-  //     fireEvent.click(arrow);
-  //   });
 });
