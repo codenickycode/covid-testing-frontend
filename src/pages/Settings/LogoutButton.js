@@ -1,6 +1,5 @@
 import { useContext } from 'react';
 import axios from 'axios';
-import { api, options } from '../../api';
 import { SetApp, INIT_APP } from '../../Providers/Context';
 import { Go } from '../../Providers/Go';
 
@@ -16,7 +15,7 @@ export const LogoutButton = ({ saving }) => {
     let error = '';
     let confirmation = '';
     try {
-      const res = await axios.get(`${api}/logout`, options);
+      const res = await axios.get(`common/logout`);
       confirmation = res.data;
     } catch (e) {
       error = e.response?.data || e.message;

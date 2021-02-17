@@ -1,6 +1,5 @@
 import { useContext } from 'react';
 import axios from 'axios';
-import { api, options } from '../../../api';
 import { SetApp } from '../../../Providers/Context.js';
 
 export default function useLogin() {
@@ -12,14 +11,10 @@ export default function useLogin() {
       confirmation = '';
     try {
       setApp((prev) => ({ ...prev, loading: true }));
-      const res = await axios.post(
-        `${api}/${type}`,
-        {
-          email,
-          password,
-        },
-        options
-      );
+      const res = await axios.post(`common/${type}`, {
+        email,
+        password,
+      });
       user = res.data;
       confirmation = 'Logged In!';
       localStorage.remember = user.preferences.remember;

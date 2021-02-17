@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { api, options } from '../api';
 import { DARK_THEME, LIGHT_THEME } from '../tools/themes.js';
 import { getLS, setLS, getSS, setSS } from '../tools/storage';
 
@@ -90,11 +89,7 @@ async function updateDB(user, settings, setApp) {
   for (let key of Object.keys(user.preferences)) {
     if (user.preferences[key] !== settings[key]) {
       try {
-        await axios.post(
-          `${api}/update/preferences`,
-          user.preferences,
-          options
-        );
+        await axios.post(`common/update/preferences`, user.preferences);
         newSettings = user.preferences;
       } catch (e) {
         error = e.response?.data || e.message;
