@@ -1,6 +1,6 @@
 [[redirects]]
-  from = "/common"
-  to = "https://covid-test-appointments.herokuapp.com/common"
+  from = "/common/*"
+  to = "https://covid-test-appointments.herokuapp.com/common/:splat"
   status = 200
   force = true
 
