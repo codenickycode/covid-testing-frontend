@@ -367,7 +367,7 @@ input {
   text-transform: uppercase;
   color: var(--black);
   background-color: var(--white);
-  filter: drop-shadow(2px 2px 3px var(--drop-shadow));
+  box-shadow: 2px 2px 3px var(--drop-shadow);
   outline: none;
   transition: 50ms linear;
 }
@@ -404,6 +404,7 @@ input {
   height: 1.5rem;
   font-size: 1rem;
   border: none;
+  border-radius: 0;
   border-bottom: 0.5px solid var(--black);
   background-color: var(--white);
   color: var(--black);
@@ -484,7 +485,7 @@ body {
   justify-content: space-evenly;
   border: 1px solid var(--black);
   border-radius: 0.6rem;
-  filter: drop-shadow(4px 4px 8px var(--drop-shadow));
+  box-shadow: 4px 4px 8px var(--drop-shadow);
   background-color: var(--white);
   transition: 100ms linear;
 }
@@ -627,7 +628,7 @@ body {
   border-bottom-right-radius: 0.6rem;
   border: 1px solid var(--red);
   border-top: none;
-  filter: drop-shadow(2px 2px 3px var(--drop-shadow));
+  box-shadow: 2px 2px 3px var(--drop-shadow);
   transition: top 150ms ease-in-out;
   overflow: hidden;
   opacity: 0;
@@ -790,7 +791,7 @@ body {
   padding: 0.35rem;
   border-radius: 0.6rem;
   border: 1px solid var(--black-quarter);
-  filter: drop-shadow(2px 2px 3px var(--drop-shadow));
+  box-shadow: 2px 2px 3px var(--drop-shadow);
   background-color: var(--white);
   transition: 50ms linear;
 }
@@ -832,7 +833,7 @@ body {
 
 #search-form .type:active {
   transform: scale(0.95);
-  filter: drop-shadow(4px 4px 8px var(--drop-shadow-red));
+  box-shadow: 4px 4px 8px var(--drop-shadow-red);
 }
 
 .type h2 {
@@ -943,7 +944,7 @@ body {
   border: 1px solid var(--black-quarter);
   border-radius: 0.3rem;
   background-color: var(--bg-secondary);
-  filter: drop-shadow(2px 2px 2px var(--drop-shadow));
+  box-shadow: 2px 2px 2px var(--drop-shadow);
 }
 
 .date-picker .icon,
@@ -1012,14 +1013,14 @@ body {
   border: 1px solid var(--black-quarter);
   border-radius: 0.3rem;
   background-color: var(--white);
-  filter: drop-shadow(2px 2px 3px var(--drop-shadow));
+  box-shadow: 2px 2px 3px var(--drop-shadow);
 }
 
 @media (hover: hover) {
   .location-preview:hover {
     cursor: pointer;
     transform: scale(1.025);
-    filter: drop-shadow(2px 2px 3px var(--drop-shadow-dark));
+    box-shadow: 2px 2px 3px var(--drop-shadow-dark);
   }
 }
 
@@ -1033,7 +1034,7 @@ body {
 
 @media (hover: hover) {
   .location-preview:hover .icon {
-    filter: drop-shadow(2px 2px 3px var(--drop-shadow));
+    box-shadow: 2px 2px 3px var(--drop-shadow);
   }
 }
 
@@ -1281,6 +1282,10 @@ span.preview-info {
   font-weight: bold;
 }
 
+#confirm-info form .error {
+  display: none;
+}
+
 #appt-confirmed {
   padding: 1rem 0 0.5rem;
   display: flex;
@@ -1372,7 +1377,7 @@ span.preview-info {
   padding: 1rem;
   border-radius: 0.6rem;
   border: 1px solid var(--black-quarter);
-  filter: drop-shadow(2px 2px 3px var(--drop-shadow));
+  box-shadow: 2px 2px 3px var(--drop-shadow);
   background-color: var(--bg-secondary);
 }
 

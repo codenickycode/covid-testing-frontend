@@ -36,12 +36,10 @@ const FaqItem = ({ item }) => {
 
   const arrowIcon = showInfo ? <ArrowUp /> : <ArrowDown />;
   return (
-    <div className='flex-col type'>
+    <div className='flex-col type' onClick={handleIconClick}>
       <h2>{question}</h2>
-      <hr />
-      <div className='flex-row more' onClick={handleIconClick}>
-        {arrowIcon}
-      </div>
+      <hr className='v-hidden' />
+      <div className='flex-row more'>{arrowIcon}</div>
       <ul className={showInfo ? 'show-info' : 'no-info'}>
         {answer.map((item, index) => {
           return (

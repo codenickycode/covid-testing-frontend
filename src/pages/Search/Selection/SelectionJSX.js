@@ -136,7 +136,7 @@ const Tests = ({ tests, selectedTests, selectTest }) => {
                   ? 'btn-small test-selected'
                   : 'btn-small'
               }
-              onClick={() => selectTest(test)}
+              onMouseDown={() => selectTest(test)}
             >
               {test}
             </li>
