@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useContext, useReducer } from 'react';
 import axios from 'axios';
 import tools from '../../tools/index.js';
+import { api, options } from '../../api';
 import { SetApp } from '../../Providers/Context';
 import { AccountItemSkeleton } from '../../components/Skeletons.js';
 import { getSS } from '../../tools/storage.js';
@@ -113,7 +114,7 @@ export const AccountItem = ({ property, fields }) => {
     let newProperty = { ...state.prevInput },
       newError = '';
     try {
-      const res = await axios.post(`/common/update/${property}`, req);
+      const res = await axios.post(`${api}/update/${property}`, req, options);
       if (property !== 'password') newProperty = res.data[property];
       if (property === 'insurance') newProperty.id = '';
     } catch (e) {

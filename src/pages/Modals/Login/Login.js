@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
+import { api, options } from '../../../api';
 import tools from '../../../tools/index.js';
 import LoginForm from './Form.js';
 import useLogin from './useLogin.js';
@@ -61,7 +62,7 @@ const Login = ({ closeModal }) => {
       error = '',
       pwReset = false;
     try {
-      const res = await axios.post('/common/forgot', { email });
+      const res = await axios.post(`${api}/forgot`, { email }, options);
       confirmation = res.data;
       pwReset = true;
     } catch (e) {

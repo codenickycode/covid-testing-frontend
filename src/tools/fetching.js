@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { api, options } from '../api';
 
 export const parseLocationsZips = (locations) => {
   let locationsZips = '';
@@ -9,16 +10,20 @@ export const parseLocationsZips = (locations) => {
 };
 
 export const getLocations = async () => {
-  const res = await axios.get('/common/locations');
+  const res = await axios.get(`${api}/locations`, options);
   return res.data;
 };
 
 export const getDistances = async (zip, locations) => {
   const locationsZips = parseLocationsZips(locations);
-  const res = await axios.post('/common/distances', {
-    zip,
-    locationsZips,
-    locations,
-  });
+  const res = await axios.post(
+    `${api}/distances`,
+    {
+      zip,
+      locationsZips,
+      locations,
+    },
+    options
+  );
   return res.data;
 };

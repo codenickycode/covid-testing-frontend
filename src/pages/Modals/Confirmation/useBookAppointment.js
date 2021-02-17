@@ -1,5 +1,6 @@
 import { useContext } from 'react';
 import axios from 'axios';
+import { api, options } from '../../../api';
 import { SetApp } from '../../../Providers/Context';
 
 export default function useBookAppointment() {
@@ -11,7 +12,7 @@ export default function useBookAppointment() {
       confirmation = '';
     try {
       setApp((prev) => ({ ...prev, loading: true }));
-      const res = await axios.post('/common/appointments', appointment);
+      const res = await axios.post(`${api}/appointments`, appointment, options);
       user = res.data.user;
       confirmation = res.data.confirmation;
     } catch (e) {

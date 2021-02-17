@@ -1,5 +1,6 @@
 import { useContext } from 'react';
 import axios from 'axios';
+import { api, options } from '../api';
 import { App, SetApp } from '../Providers/Context';
 
 export default function useGetClient() {
@@ -13,7 +14,7 @@ export default function useGetClient() {
       confirmation = '';
     try {
       setApp((prev) => ({ ...prev, loading: true }));
-      const res = await axios.get('/common/user');
+      const res = await axios.get(`${api}/user`, options);
       user = res.data;
       newSettings = { ...user.preferences };
       confirmation = 'Successfully logged in';
