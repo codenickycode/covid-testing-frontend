@@ -12,15 +12,29 @@ export default function Menu({ toggleMenu }) {
 
   return (
     <div id='menu' className='flex-col' onClick={toggleMenu}>
-      <Link className='header-link' to={'#'} onClick={() => handleTo('/')}>
-        <h2>Welcome</h2>
-      </Link>
       <Link
         className='header-link'
         to='#'
         onClick={() => handleTo('/search/form')}
       >
         <h2>New Appointment</h2>
+      </Link>
+      <Link className='header-link' to='#' onClick={() => handleTo('/account')}>
+        <h2>My Account</h2>
+      </Link>
+      <Link
+        className='header-link'
+        to='#'
+        onClick={() => handleTo('/appointments')}
+      >
+        <h2>My Appointments</h2>
+      </Link>
+      <Link
+        className='header-link'
+        to='#'
+        onClick={() => handleTo('/settings')}
+      >
+        <h2>My Settings</h2>
       </Link>
       <Link className='header-link' to='#' onClick={() => handleTo('/faq')}>
         <h2>FAQ</h2>

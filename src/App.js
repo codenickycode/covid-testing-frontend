@@ -6,7 +6,6 @@ import { ScrollToTop } from './tools/scrolling.js';
 import ErrorBoundary from './components/ErrorBoundary';
 import Alert from './components/Alert.js';
 import Header from './sections/Header';
-import Navbar from './sections/Navbar';
 import Welcome from './pages/Welcome';
 import Search from './pages/Search';
 import Appointments from './pages/Appointments';
@@ -40,7 +39,6 @@ const App = () => {
                   <Route path='/error' component={ErrorHandler} />
                   <Route path='/skeleton' component={Skeleton} />
                 </div>
-                <Navbar />
               </Header>
             </Switch>
           </ContextProvider>

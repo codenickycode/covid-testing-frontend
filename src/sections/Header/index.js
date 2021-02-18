@@ -50,7 +50,9 @@ export default function Header({ children }) {
             <div id='header-dummy'>
               <ArrowLeft />
             </div>
-            <MenuIcon addClass={menuClass} onClick={menuClick} />
+            <div id='menu-icon-wrapper' onClick={menuClick}>
+              <MenuIcon addClass={menuClass} />
+            </div>
           </div>
           <div className={showMenu ? 'show-menu no-menu' : 'no-menu'}>
             <Menu toggleMenu={toggleMenu} />
