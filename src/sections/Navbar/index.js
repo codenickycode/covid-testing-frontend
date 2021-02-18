@@ -1,14 +1,25 @@
-import React, { useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 import { App } from '../../Providers/Context';
 import { Go } from '../../Providers/Go';
-import { AccountIcon, AppointmentsIcon, SettingsIcon } from '../../icons';
+import {
+  AccountIcon,
+  AppointmentsIcon,
+  ArrowDown,
+  ArrowUp,
+  SettingsIcon,
+} from '../../icons';
 const Navbar = () => {
   const { loading, navDisabled } = useContext(App);
   const go = useContext(Go);
 
+  const [expanded, setExpanded] = useState(false);
+
   return (
-    <>
+    <div id='footer-wrapper' className={expanded ? 'expanded' : ''}>
+      <div id='footer-expand' onClick={() => setExpanded(!expanded)}>
+        {expanded ? <ArrowDown /> : <ArrowUp />}
+      </div>
       <div id='footer'>
         <nav id='navbar'>
           <NavLink
@@ -66,7 +77,7 @@ const Navbar = () => {
           ></div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
