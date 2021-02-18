@@ -11,6 +11,7 @@ export default function SelectionJSX({
   selectTest,
   selectedTests,
   handleSubmit,
+  error,
 }) {
   const { name, phone, address, tests, available } = selection;
 
@@ -28,11 +29,8 @@ export default function SelectionJSX({
         />
         <Info />
         <h1 className='center'>Looks good?</h1>
-        <Button
-          type='submit'
-          disabled={!time || selectedTests.length === 0}
-          label='Continue'
-        />
+        {error && <p className='error'>{error}</p>}
+        <Button type='submit' label='Continue' />
       </form>
     </Page>
   );

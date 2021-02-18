@@ -8,6 +8,8 @@ export const LIGHT_THEME = `
   --black-half: rgba(0, 0, 0, 0.5);
   --black-quarter: rgba(0, 0, 0, 0.25);
   --white: #fff;
+  --white-3q: rgba(255, 255, 255, 0.8);
+  --white-half: rgba(255, 255, 255, 0.5);
   --btn-white: #fff;
   --red: #e4012a;
   --blue: #0b5fff;
@@ -42,6 +44,8 @@ export const DARK_THEME = `
   --black-half: rgba(255, 255, 255, 0.5);
   --black-quarter: rgba(255, 255, 255, 0.25);
   --white: #161f27;
+  --white-3q: rgba(0, 0, 0, 0.5);
+  --white-half: rgba(0, 0, 0, 0.25);
   --btn-white: #fff;
   --red: #eb2549;
   --blue: #0a2fff;

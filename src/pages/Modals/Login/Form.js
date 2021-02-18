@@ -16,72 +16,74 @@ const LoginForm = ({
   const [show, setShow] = useState(false);
 
   return (
-    <div id='login-form' className='flex-col'>
+    <div id='login-form'>
       <Header signup={signup} />
       <CreateAccount />
-      <form onSubmit={handleSubmit}>
-        <WithIcon icon={icons.email}>
-          <label htmlFor='email'>Email</label>
-          <input
-            name='email'
-            type='email'
-            placeholder='Email'
-            value={inputs.email}
-            onChange={handleInput}
+      <div id='login-form-wrapper'>
+        <form onSubmit={handleSubmit}>
+          <WithIcon icon={icons.email}>
+            <label htmlFor='email'>Email</label>
+            <input
+              name='email'
+              type='email'
+              placeholder='Email'
+              value={inputs.email}
+              onChange={handleInput}
+            />
+          </WithIcon>
+          {!forgot && (
+            <WithIcon icon={icons.password}>
+              <label htmlFor='password'>Password</label>
+              <input
+                name='password'
+                type={show ? 'text' : 'password'}
+                placeholder='Password'
+                value={inputs.password}
+                onChange={handleInput}
+              />
+              <div
+                className='show-password'
+                onClick={() => setShow((show) => !show)}
+              >
+                {show ? icons.noShow : icons.show}
+              </div>
+            </WithIcon>
+          )}
+          {signup && <PWRequirements error={errors.password} />}
+          {!signup && !forgot && <ForgotPassword setForgot={setForgot} />}
+          {signup && (
+            <WithIcon icon={icons.password}>
+              <label htmlFor='confirmation'>Password Confirmation</label>
+              <input
+                name='confirmation'
+                type={show ? 'text' : 'password'}
+                placeholder='Confirm Your Password'
+                value={inputs.confirmation}
+                onChange={handleInput}
+              />
+            </WithIcon>
+          )}
+          {errors.email && <Error error={errors.email} />}
+          {errors.password && <Error error={errors.password} />}
+          {errors.confirmation && <Error error={errors.confirmation} />}
+          <Button
+            type='submit'
+            label={
+              signup
+                ? 'Create An Account'
+                : forgot
+                ? 'Reset Your Password'
+                : 'Login'
+            }
           />
-        </WithIcon>
-        {!forgot && (
-          <WithIcon icon={icons.password}>
-            <label htmlFor='password'>Password</label>
-            <input
-              name='password'
-              type={show ? 'text' : 'password'}
-              placeholder='Password'
-              value={inputs.password}
-              onChange={handleInput}
-            />
-            <div
-              className='show-password'
-              onClick={() => setShow((show) => !show)}
-            >
-              {show ? icons.noShow : icons.show}
-            </div>
-          </WithIcon>
-        )}
-        {signup && <PWRequirements error={errors.password} />}
-        {!signup && !forgot && <ForgotPassword setForgot={setForgot} />}
-        {signup && (
-          <WithIcon icon={icons.password}>
-            <label htmlFor='confirmation'>Password Confirmation</label>
-            <input
-              name='confirmation'
-              type={show ? 'text' : 'password'}
-              placeholder='Confirm Your Password'
-              value={inputs.confirmation}
-              onChange={handleInput}
-            />
-          </WithIcon>
-        )}
-        {errors.email && <Error error={errors.email} />}
-        {errors.password && <Error error={errors.password} />}
-        {errors.confirmation && <Error error={errors.confirmation} />}
-        <Button
-          type='submit'
-          label={
-            signup
-              ? 'Create An Account'
-              : forgot
-              ? 'Reset Your Password'
-              : 'Login'
-          }
+        </form>
+        <SignupOrLogin
+          signup={signup}
+          setSignup={setSignup}
+          forgot={forgot}
+          setForgot={setForgot}
         />
-      </form>
-      <SignupOrLogin
-        signup={signup}
-        setSignup={setSignup}
-        forgot={forgot}
-        setForgot={setForgot}
-      />
+      </div>
     </div>
   );
 };
@@ -90,7 +92,7 @@ export default LoginForm;
 
 const Header = ({ signup }) => {
   return (
-    <div id='login-header' className='item'>
+    <div id='login-header'>
       <WithIcon icon={icons.logo}>
         <h1>{signup ? 'Create an' : 'Login to your'} account</h1>
       </WithIcon>

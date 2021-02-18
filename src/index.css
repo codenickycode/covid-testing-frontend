@@ -17,6 +17,8 @@
   --black-half: rgba(0, 0, 0, 0.5);
   --black-quarter: rgba(0, 0, 0, 0.25);
   --white: #fff;
+  --white-3q: rgba(255, 255, 255, 0.8);
+  --white-half: rgba(255, 255, 255, 0.5);
   --btn-white: #fff;
   --red: #e4012a;
   --blue: #0b5fff;
@@ -485,6 +487,7 @@ body {
   justify-content: space-evenly;
   background-color: var(--white);
   transition: 100ms linear;
+  border: 1px solid red;
 }
 
 #footer {
@@ -723,7 +726,7 @@ body {
   width: 100%;
   max-width: 100%;
   margin: 0;
-  padding: 0;
+  padding: 1rem 0;
   position: absolute;
   left: 0;
   right: 0;
@@ -762,9 +765,9 @@ body {
 
 #search-progress {
   width: 100%;
-  font-size: 0.8rem;
+  font-size: 1rem;
   text-align: center;
-  transform: scale(0.5);
+  transform: scale(0.35);
 }
 
 #search-progress span {
@@ -1164,6 +1167,11 @@ span.preview-info {
   color: var(--white);
 }
 
+#selection .error {
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
 /***********************************************************/
 /********************** Login Form *************************/
 /***********************************************************/
@@ -1171,7 +1179,7 @@ span.preview-info {
 #login-form,
 #confirm-info,
 #appt-confirmed {
-  padding: 1rem;
+  padding: 1.5rem;
   width: 100%;
   height: 78vh;
   background-color: var(--white);
@@ -1185,14 +1193,37 @@ span.preview-info {
   }
 }
 
-#svg-create-account {
-  margin-top: 1.5rem;
+#login-form,
+#confirm-info {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.svg-create-account,
+.confirm-svg {
+  position: absolute;
+  z-index: 1;
+  top: 18vh;
+  left: 50%;
+  height: 100%;
+  max-height: 25vh;
+  transform: translateX(-50%);
+}
+
+#login-header {
+  position: relative;
+  z-index: 2;
 }
 
 #login-form form,
 #confirm-info form {
+  position: relative;
+  z-index: 2;
   width: 100%;
-  margin-top: 2rem;
+  background: var(--white-3q);
+  border-radius: 0.6rem;
 }
 
 #login-form .with-icon {
@@ -1202,8 +1233,10 @@ span.preview-info {
   justify-content: center;
 }
 
-#login-form input {
+#login-form input,
+#confirm-info input {
   max-width: 283px;
+  background: var(--white-half);
 }
 
 #login-form p {
@@ -1279,6 +1312,10 @@ span.preview-info {
   font-size: 0.8rem;
   text-transform: uppercase;
   font-weight: bold;
+}
+
+#confirm-info input[type='date'] {
+  margin: 0.25rem;
 }
 
 #confirm-info .input-div .error {

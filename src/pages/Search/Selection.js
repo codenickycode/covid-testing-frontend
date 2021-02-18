@@ -13,6 +13,7 @@ const Selection = ({ selection, date, handleChangeDate, refreshLocations }) => {
   const [showModal, setShowModal] = useState(false);
   const [time, setTime] = useState('');
   const [selectedTests, setSelectedTests] = useState([]);
+  const [error, setError] = useState('');
 
   const selectTest = (type) => {
     let newTests = [...selectedTests];
@@ -23,7 +24,10 @@ const Selection = ({ selection, date, handleChangeDate, refreshLocations }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!time || selectedTests.length === 0) return;
+    if (!time || selectedTests.length === 0) {
+      setError('Please select time and at least one test type');
+      return;
+    }
     if (!user && settings.remember) {
       getClient(confirm);
     } else {
@@ -61,6 +65,7 @@ const Selection = ({ selection, date, handleChangeDate, refreshLocations }) => {
         selectedTests={selectedTests}
         selectTest={selectTest}
         handleSubmit={handleSubmit}
+        error={error}
       />
     </>
   );

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
+import { getLS } from '../../tools/storage';
 import { App } from '../../Providers/Context';
 import { Go } from '../../Providers/Go';
 import Menu from './Menu';
@@ -103,11 +104,13 @@ const getTitle = (url) => {
 };
 
 const SearchProgress = ({ url }) => {
+  const black = getLS('dark') ? '⚪' : '⚫';
+  const white = getLS('dark') ? '⚫' : '⚪';
   return (
     <div id='search-progress'>
-      <span>{url === 'form' ? '⚪' : '⚫'}</span>
-      <span>{url === 'results' ? '⚪' : '⚫'}</span>
-      <span>{url === 'selection' ? '⚪' : '⚫'}</span>
+      <span>{url === 'form' ? black : white}</span>
+      <span>{url === 'results' ? black : white}</span>
+      <span>{url === 'selection' ? black : white}</span>
     </div>
   );
 };
