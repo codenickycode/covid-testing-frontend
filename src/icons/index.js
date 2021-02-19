@@ -1,4 +1,5 @@
-import { ReactComponent as LogoIcon } from './Logo.svg';
+// import { ReactComponent as LogoIcon } from './Logo.svg';
+import { ReactComponent as Logo2Icon } from './Logo2.svg';
 import { ReactComponent as ProfileIcon } from './Profile.svg';
 import { ReactComponent as CallIcon } from './Call.svg';
 import { ReactComponent as MessageIcon } from './Message.svg';
@@ -18,7 +19,8 @@ import { ReactComponent as Settings } from './Settings.svg';
 import { ReactComponent as ShowIcon } from './Show.svg';
 import { ReactComponent as NoShowIcon } from './NoShow.svg';
 
-export const logo = <LogoIcon className='icon' />;
+export const logo = <Logo2Icon className='icon' />;
+// export const logo = <LogoIcon className='icon' />;
 export const show = <ShowIcon className='icon' />;
 export const noShow = <NoShowIcon className='icon' />;
 export const profile = <ProfileIcon className='icon icon-fill' />;

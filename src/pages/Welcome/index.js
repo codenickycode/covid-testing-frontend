@@ -4,7 +4,7 @@ import { Go } from '../../Providers/Go';
 import { WelcomeSkeleton } from '../../components/Skeletons';
 import { Button, Page } from '../../components/index';
 import { ReactComponent as WelcomeSVG } from '../../img/welcome.svg';
-import { ReactComponent as LogoSVG } from '../../img/logoWithText.svg';
+import { ReactComponent as LogoSVG } from '../../img/logo2WithText.svg';
 
 const Welcome = () => {
   const { loading } = useContext(App);

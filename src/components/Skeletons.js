@@ -32,7 +32,7 @@ export const ImageSkeleton = ({ size }) => {
 
 export const HeaderSkeleton = () => {
   return (
-    <div className='skeleton-div-row hide'>
+    <div className='skeleton-div-row hide sk-dim'>
       <IconSkeleton />
       <div className='skeleton-h1text'>Loading...</div>
       <IconSkeleton />
@@ -43,7 +43,7 @@ export const HeaderSkeleton = () => {
 
 export const WelcomeSkeleton = () => {
   return (
-    <div className='page transition show'>
+    <div className='page transition show sk-dim'>
       <div className='skeleton-h1 skeleton-relative'>
         <Shimmer />
       </div>
@@ -68,7 +68,7 @@ export const WelcomeSkeleton = () => {
 
 export const SearchResultsSkeleton = () => {
   return (
-    <div className='page transition show'>
+    <div className='page transition show sk-dim'>
       <div className='skeleton-div skeleton-hidden'>
         <div className='skeleton-wide'>
           <Shimmer />
@@ -109,7 +109,7 @@ export const LocationPreviewSkeleton = () => {
 
 export const LoginSkeleton = ({ header, message }) => {
   return (
-    <div className='transition show'>
+    <div className='transition show sk-dim'>
       <div className='skeleton-div skeleton-hidden'>
         <h1 className='skeleton-h1text'>{header || ''}</h1>
         <p className='skeleton-ptext'>{message || ''}</p>
@@ -144,7 +144,7 @@ export const LoginSkeleton = ({ header, message }) => {
 
 export const AppointmentsSkeleton = () => {
   return (
-    <div className='page transition show'>
+    <div className='page transition show sk-dim'>
       <div className='skeleton-div skeleton-hidden'>
         <div className='skeleton-h1'></div>
         <div className='skeleton-wide'>
@@ -173,7 +173,7 @@ export const AppointmentsSkeleton = () => {
 
 export const AccountSkeleton = () => {
   return (
-    <div className='page transition show'>
+    <div className='page transition show sk-dim'>
       <div className='skeleton-div'>
         <div className='skeleton-div-row'>
           <div className='skeleton-img'>
@@ -241,7 +241,7 @@ export const AccountItemSkeleton = ({ message }) => {
 
 export const SettingsSkeleton = () => {
   return (
-    <div className='page transition show'>
+    <div className='page transition show sk-dim'>
       <div className='skeleton-div'>
         <div className='skeleton-wide'>
           <Shimmer />

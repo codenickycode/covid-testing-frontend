@@ -45,10 +45,7 @@ const ConfirmUserInfo = ({ setInfoIsConfirmed }) => {
   };
 
   return loading ? (
-    <LoginSkeleton
-      header='Booking...'
-      message='Please wait while we book your appointment.'
-    />
+    <LoginSkeleton header='Booking...' message='' />
   ) : (
     <div id='confirm-info' className='flex-col'>
       <Header header='Before you confirm' />

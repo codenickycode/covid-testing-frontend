@@ -52,7 +52,7 @@
 
 @media (min-width: 750px) {
   :root {
-    font-size: 19px;
+    font-size: 22px;
   }
 }
 
@@ -803,7 +803,7 @@ body {
 .type {
   cursor: pointer;
   width: 100%;
-  max-width: 300px;
+  max-width: 500px;
   margin-bottom: 1rem;
   padding: 0.35rem;
   border-radius: 0.6rem;
@@ -1108,7 +1108,7 @@ span.preview-info {
 #selection form {
   margin: 1rem auto 0;
   padding: 0.5rem;
-  max-width: 450px;
+  max-width: 550px;
   background: var(--bg-secondary);
   border-radius: 0.6rem;
   border: 1px solid var(--black-quarter);
@@ -1225,8 +1225,15 @@ span.preview-info {
   transform: translateX(-50%);
 }
 
+@media (min-height: 650px) {
+  .svg-create-account {
+    top: 8vh;
+    max-height: 22vh;
+  }
+}
+
 .confirm-svg {
-  max-height: 30vh;
+  max-height: 25vh;
 }
 
 #login-header {
@@ -1580,7 +1587,7 @@ span.preview-info {
 /***********************************************************/
 
 #settings {
-  max-width: 400px;
+  max-width: 600px;
 }
 
 /***********************************************************/
@@ -1615,7 +1622,7 @@ ol {
 }
 
 .switches {
-  max-width: 500px;
+  max-width: 425px;
   width: 95%;
   margin: 0 auto;
   border-radius: 5px;
@@ -1695,6 +1702,11 @@ ol {
 /*********************** Skeletons *************************/
 /***********************************************************/
 
+.sk-dim {
+  max-width: 550px;
+  opacity: 0.75;
+}
+
 .skeleton-relative {
   position: relative;
   overflow: hidden;
@@ -1716,7 +1728,7 @@ ol {
   margin: 0.5rem auto;
   padding: 0.5rem;
   width: 100%;
-  max-width: 600px;
+  max-width: 550px;
   border: 1px solid var(--light);
   border-radius: 10px;
   overflow: hidden;
