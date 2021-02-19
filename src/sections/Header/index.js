@@ -18,6 +18,13 @@ export default function Header({ children }) {
     setTitle(getTitle(url));
   }, [url]);
 
+  useEffect(() => {
+    if (showMenu) {
+      document.addEventListener('click', toggleMenu);
+    }
+    return () => document.removeEventListener('click', toggleMenu);
+  }, [showMenu]);
+
   const toggleMenu = () => {
     setShowMenu(!showMenu);
     const dim = document.getElementById('dim');
@@ -47,15 +54,11 @@ export default function Header({ children }) {
               addClass={arrowClass}
               onClick={arrowClick}
             />
-            <HeaderMiddle
-              loading={loading}
-              title={title}
-              location={location}
-              url={url}
-            />
-            <div id='header-dummy'>
-              <ArrowLeft />
-            </div>
+            {loading ? (
+              <p className='skeleton-h1text transition show'>Loading...</p>
+            ) : (
+              <h2 className='title transition show'>{title}</h2>
+            )}
             <div id='menu-icon-wrapper' onClick={menuClick}>
               <MenuIcon addClass={menuClass} />
             </div>
@@ -63,30 +66,16 @@ export default function Header({ children }) {
           <div className={showMenu ? 'show-menu no-menu' : 'no-menu'}>
             <Menu toggleMenu={toggleMenu} showMenu={showMenu} />
           </div>
+          <SearchProgress
+            url={url}
+            addClass={location.pathname.match(/search/) ? '' : 'v-hidden'}
+          />
         </div>
       </header>
       {children}
     </div>
   );
 }
-
-const HeaderMiddle = ({ loading, title, location, url }) => {
-  return (
-    <div id='header-middle'>
-      <div className='header-middle-dummy'></div>
-      {loading ? (
-        <p className='skeleton-h1text transition show'>Loading...</p>
-      ) : (
-        <h2 className='title transition show'>{title}</h2>
-      )}
-      {location.pathname.match(/search/) ? (
-        <SearchProgress url={url} />
-      ) : (
-        <div className='header-middle-dummy'></div>
-      )}
-    </div>
-  );
-};
 
 const getTitle = (url) => {
   switch (url) {
@@ -111,14 +100,12 @@ const getTitle = (url) => {
   }
 };
 
-const SearchProgress = ({ url }) => {
-  const black = getLS('dark') ? '⚪' : '⚫';
-  const white = getLS('dark') ? '⚫' : '⚪';
+const SearchProgress = ({ url, addClass }) => {
   return (
-    <div id='search-progress'>
-      <span>{url === 'form' ? black : white}</span>
-      <span>{url === 'results' ? black : white}</span>
-      <span>{url === 'selection' ? black : white}</span>
+    <div id='search-progress' className={addClass}>
+      <span className={url === 'form' ? 'current' : ''}>&bull;</span>
+      <span className={url === 'results' ? 'current' : ''}>&bull;</span>
+      <span className={url === 'selection' ? 'current' : ''}>&bull;</span>
     </div>
   );
 };

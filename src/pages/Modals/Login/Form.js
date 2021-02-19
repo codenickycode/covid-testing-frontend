@@ -100,7 +100,7 @@ const Header = ({ signup }) => {
   );
 };
 
-const SignupOrLogin = ({ signup, setSignup, forgot, setForgot }) => {
+const SignupOrLogin = ({ signup, setSignup, setForgot }) => {
   const handleClick = () => {
     if (signup) {
       setSignup(false);
