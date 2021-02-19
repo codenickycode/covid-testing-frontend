@@ -1,6 +1,6 @@
 # Covid Testing Appointment App
 
-http://covid-testing.netlify.app
+https://covid-testing.netlify.app
 
 Engineer: Nick Carbone | drumnickydrum@gmail.com <br/>
 UX: Andrea Huang | andreahuanggg@gmail.com
