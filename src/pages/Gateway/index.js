@@ -24,14 +24,14 @@ const Gateway = () => {
     }
 
     if (initial) {
-      if ((settings.remember || getLS('remember')) && !user) {
+      if (settings.remember || getLS('remember')) {
         setInitial(false);
         getClient();
       }
     }
   }, [user, settings, history, to, initial, getClient]);
 
-  return !settings.remember ? (
+  return !user ? (
     <LoginModal
       closeModal={
         history.globalHistory ? history.goBack : () => history.push('/')

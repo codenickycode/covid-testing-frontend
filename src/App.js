@@ -5,7 +5,7 @@ import { GoProvider } from './Providers/Go';
 import { ScrollToTop } from './tools/scrolling.js';
 import ErrorBoundary from './components/ErrorBoundary';
 import Alert from './components/Alert.js';
-import Header from './sections/Header';
+import Header from './Header';
 import Welcome from './pages/Welcome';
 import Search from './pages/Search';
 import Appointments from './pages/Appointments';

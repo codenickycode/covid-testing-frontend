@@ -2,7 +2,6 @@ import React, { useState, useContext } from 'react';
 import { LoginSkeleton } from '../../../components/Skeletons.js';
 import { App } from '../../../Providers/Context.js';
 import { ReactComponent as ConfirmSVG } from '../../../img/confirm.svg';
-import * as icons from '../../../icons';
 import { checkRequired, formatPhone } from '../../../tools/valid';
 import { Button, Input, Header, Error } from '../../../components/index.js';
 import useUpdateAccountBasic from './useUpdateAccountBasic.js';

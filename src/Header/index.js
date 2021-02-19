@@ -1,10 +1,9 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
-import { getLS } from '../../tools/storage';
-import { App } from '../../Providers/Context';
-import { Go } from '../../Providers/Go';
+import { App } from '../Providers/Context';
+import { Go } from '../Providers/Go';
 import Menu from './Menu';
-import { ArrowLeft, MenuIcon } from '../../icons';
+import { ArrowLeft, MenuIcon } from '../icons';
 
 export default function Header({ children }) {
   const location = useLocation();
@@ -18,14 +17,7 @@ export default function Header({ children }) {
     setTitle(getTitle(url));
   }, [url]);
 
-  useEffect(() => {
-    if (showMenu) {
-      document.addEventListener('click', toggleMenu);
-    }
-    return () => document.removeEventListener('click', toggleMenu);
-  }, [showMenu]);
-
-  const toggleMenu = () => {
+  const toggleMenu = useCallback(() => {
     setShowMenu(!showMenu);
     const dim = document.getElementById('dim');
     if (!showMenu) {
@@ -33,7 +25,14 @@ export default function Header({ children }) {
     } else {
       dim.classList.remove('dim');
     }
-  };
+  }, [showMenu]);
+
+  useEffect(() => {
+    if (showMenu) {
+      document.addEventListener('click', toggleMenu);
+    }
+    return () => document.removeEventListener('click', toggleMenu);
+  }, [showMenu, toggleMenu]);
 
   const arrowClass = loading || navDisabled ? 'disabled' : '';
   const arrowClick = loading || navDisabled ? null : () => go('back');

@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { Go } from '../../Providers/Go';
-import * as icons from '../../icons';
+import { Go } from '../Providers/Go';
+import * as icons from '../icons';
 
 export default function Menu({ toggleMenu, showMenu }) {
   const go = useContext(Go);
@@ -9,7 +9,6 @@ export default function Menu({ toggleMenu, showMenu }) {
   const handleTo = (to) => {
     if (!showMenu) return;
     go(to);
-    toggleMenu();
   };
 
   return (
