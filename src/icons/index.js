@@ -62,6 +62,6 @@ export const ArrowLeft = ({ onClick, addClass = '' }) => (
 );
 
 // Navbar
-export const AccountIcon = Account;
-export const AppointmentsIcon = Appointments;
-export const SettingsIcon = Settings;
+export const account = <Account className='icon' />;
+export const appointments = <Appointments className='icon' />;
+export const settings = <Settings className='icon' />;

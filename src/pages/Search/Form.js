@@ -49,16 +49,15 @@ export default SearchForm;
 
 const Header = () => {
   return (
-    <div>
+    <div id='search-form-header-div'>
       <WithIcon icon={icons.document}>
         <h1>Choose test type</h1>
       </WithIcon>
-      <WithIcon icon={icons.spacer}>
-        <p>
-          We will only show locations matching your requirements. Select all
-          that apply.
-        </p>
-      </WithIcon>
+      <p className='subtitle padding-half'>
+        We will only show locations matching your requirements. Select all that
+        apply.
+      </p>
+      {window.innerWidth > 600 && icons.spacer}
     </div>
   );
 };

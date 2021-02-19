@@ -18,16 +18,15 @@ const Welcome = () => {
         <LogoSVG />
       </div>
       <div className='center'>
-        <h1>COVID-19 testing is available at UrgentMD</h1>
-        <p>We're here for you during this pandemic.</p>
+        <h1>COVID-19 testing is available now</h1>
+        <p className='padding-quarter'>
+          We're here for you during this pandemic.
+        </p>
       </div>
       <WelcomeSVG />
       <div className='center'>
-        <h1>
-          No more <br />
-          waiting in line
-        </h1>
-        <p>Schedule an appointment in advance</p>
+        <h1>No more waiting in line</h1>
+        <p className='padding-quarter'>Schedule an appointment in advance</p>
       </div>
       <Button
         autoFocus={true}

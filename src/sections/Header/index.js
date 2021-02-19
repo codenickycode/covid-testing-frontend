@@ -20,6 +20,12 @@ export default function Header({ children }) {
 
   const toggleMenu = () => {
     setShowMenu(!showMenu);
+    const dim = document.getElementById('dim');
+    if (!showMenu) {
+      dim.classList.add('dim');
+    } else {
+      dim.classList.remove('dim');
+    }
   };
 
   const arrowClass = loading || navDisabled ? 'disabled' : '';
@@ -55,7 +61,7 @@ export default function Header({ children }) {
             </div>
           </div>
           <div className={showMenu ? 'show-menu no-menu' : 'no-menu'}>
-            <Menu toggleMenu={toggleMenu} />
+            <Menu toggleMenu={toggleMenu} showMenu={showMenu} />
           </div>
         </div>
       </header>

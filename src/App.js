@@ -38,6 +38,7 @@ const App = () => {
                   {/*  */}
                   <Route path='/error' component={ErrorHandler} />
                   <Route path='/skeleton' component={Skeleton} />
+                  <div id='dim'></div>
                 </div>
               </Header>
             </Switch>

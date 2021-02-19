@@ -4,13 +4,7 @@ import { App } from '../../../Providers/Context.js';
 import { ReactComponent as ConfirmSVG } from '../../../img/confirm.svg';
 import * as icons from '../../../icons';
 import { checkRequired, formatPhone } from '../../../tools/valid';
-import {
-  Button,
-  Input,
-  WithIcon,
-  Header,
-  Error,
-} from '../../../components/index.js';
+import { Button, Input, Header, Error } from '../../../components/index.js';
 import useUpdateAccountBasic from './useUpdateAccountBasic.js';
 
 const ConfirmUserInfo = ({ setInfoIsConfirmed }) => {
@@ -61,7 +55,7 @@ const ConfirmUserInfo = ({ setInfoIsConfirmed }) => {
       <Header header='Before you confirm' />
       <ConfirmSVG />
       <form onSubmit={handleSubmit}>
-        <WithIcon icon={icons.profile}>
+        <div className='flex-row'>
           <Input
             field='firstName'
             error={errors.firstName}
@@ -74,23 +68,21 @@ const ConfirmUserInfo = ({ setInfoIsConfirmed }) => {
             value={inputs.lastName}
             onChange={handleInput}
           />
-        </WithIcon>
-        <WithIcon icon={icons.calendar}>
+        </div>
+        <div className='flex-row'>
           <Input
             field='dob'
             error={errors.dob}
             value={inputs.dob}
             onChange={handleInput}
           />
-        </WithIcon>
-        <WithIcon icon={icons.phone}>
           <Input
             field='phone'
             error={errors.phone}
             value={inputs.phone}
             onChange={handleInput}
           />
-        </WithIcon>
+        </div>
         {error && <Error error={error} />}
         <Button type='submit' label='Confirm Appointment' />
       </form>
