@@ -47,6 +47,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
 }
 
 @media (min-width: 750px) {
@@ -808,7 +809,7 @@ body {
   border-radius: 0.6rem;
   border: 1px solid var(--black-quarter);
   box-shadow: 2px 2px 3px var(--drop-shadow);
-  background-color: var(--white);
+  background-color: var(--bg-secondary);
   transition: 50ms linear;
 }
 
@@ -1241,8 +1242,7 @@ span.preview-info {
   border-radius: 0.6rem;
 }
 
-#login-form .with-icon,
-#confirm-info .with-icon {
+#login-form .with-icon {
   margin: 0 auto;
   width: 100%;
   justify-content: center;
@@ -1323,6 +1323,7 @@ span.preview-info {
 
 #confirm-info .input-div {
   margin-left: 0.5rem;
+  width: 100%;
 }
 
 #confirm-info label {
@@ -1331,20 +1332,12 @@ span.preview-info {
   font-weight: bold;
 }
 
-#confirm-info input[type='date'] {
-  /* margin: 0.01rem; */
-}
-
 #confirm-info .input-div .error {
   display: none;
 }
 
 #confirm-info .error {
   text-align: center;
-}
-
-#confirm-info button {
-  /* margin-top: 2rem; */
 }
 
 #appt-confirmed {
@@ -1363,6 +1356,12 @@ span.preview-info {
 #appt-confirmed svg {
   transform: translateX(-5%);
   max-height: 350px;
+}
+
+@media (max-height: 650px) {
+  #appt-confirmed svg {
+    max-height: 250px;
+  }
 }
 
 #booking-error {

@@ -70,15 +70,15 @@ const ConfirmUserInfo = ({ setInfoIsConfirmed }) => {
         </div>
         <div className='flex-row'>
           <Input
-            field='dob'
-            error={errors.dob}
-            value={inputs.dob}
-            onChange={handleInput}
-          />
-          <Input
             field='phone'
             error={errors.phone}
             value={inputs.phone}
+            onChange={handleInput}
+          />
+          <Input
+            field='dob'
+            error={errors.dob}
+            value={inputs.dob}
             onChange={handleInput}
           />
         </div>
