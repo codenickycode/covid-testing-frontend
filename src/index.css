@@ -21,6 +21,7 @@
   --white-half: rgba(255, 255, 255, 0.5);
   --btn-white: #fff;
   --red: #e4012a;
+  --red-quarter: rgba(228, 1, 42, 0.25);
   --blue: #0b5fff;
   --green: #01e401;
   --pink: #ffa0a0;
@@ -461,7 +462,7 @@ input:invalid,
 
 html {
   width: 100%;
-  background-color: var(--overlay-transparent);
+  background-color: var(--white);
 }
 
 body {
@@ -696,7 +697,6 @@ body {
   text-align: left;
   text-decoration: none;
   color: var(--black);
-  opacity: 0.85;
 }
 
 .header-link.red {
@@ -706,12 +706,6 @@ body {
 
 .header-link.red svg g {
   stroke: white;
-}
-
-@media (hover: hover) {
-  .header-link:hover {
-    opacity: 1;
-  }
 }
 
 #menu h2 {
@@ -769,17 +763,17 @@ body {
   left: 50%;
   bottom: 0;
   padding: 0.25rem 0.5rem;
-  font-size: 1rem;
   transform: translateX(-60%);
 }
 
 #search-progress span {
   margin: 0 0.5rem;
   color: var(--black-quarter);
+  font-size: 1.5rem;
 }
 
 #search-progress span.current {
-  color: var(--black);
+  color: var(--red);
 }
 
 #search-form form {
@@ -919,7 +913,7 @@ body {
 /***********************************************************/
 
 #search-results {
-  padding-top: 0;
+  padding-top: 1rem;
 }
 
 .date {
@@ -955,6 +949,10 @@ body {
   border-radius: 0.3rem;
   background-color: var(--bg-secondary);
   box-shadow: 2px 2px 2px var(--drop-shadow);
+}
+
+.date-picker p {
+  font-weight: bolder;
 }
 
 .date-picker .icon,
@@ -1009,7 +1007,6 @@ body {
 
 .flash {
   opacity: 0.5;
-  /* filter: blur(2px); */
 }
 
 .location-preview {
@@ -1130,7 +1127,6 @@ span.preview-info {
   justify-content: space-evenly;
   background-color: var(--white);
   max-width: 250px;
-  /* border: none; */
 }
 
 #selection .item select {
@@ -1141,10 +1137,11 @@ span.preview-info {
   font-size: 0.8rem;
   min-width: 14vw;
   outline: none;
-  border: none;
+  border: 1px solid var(--black-quarter);
   color: var(--black);
   background-color: var(--white);
   cursor: pointer;
+  box-shadow: 2px 2px 2px var(--drop-shadow);
 }
 
 #selection .item .select-error {
@@ -1165,6 +1162,7 @@ span.preview-info {
 
 #selection .btn-small {
   padding: 0.5rem;
+  border: 1px solid var(--black-quarter);
 }
 
 .test-selected {
@@ -1338,6 +1336,10 @@ span.preview-info {
   text-align: center;
 }
 
+#confirm-info button {
+  /* margin-top: 2rem; */
+}
+
 #appt-confirmed {
   padding: 1rem 0 0.5rem;
   display: flex;
@@ -1437,15 +1439,24 @@ span.preview-info {
   cursor: pointer;
   position: absolute;
   top: 50%;
-  left: 92%;
-  stroke: var(--black);
-  fill: var(--black);
+  left: 90%;
   transform: scale(2) rotate(90deg) translateX(-50%);
 }
 
 .appt-btn-up {
   top: 1rem;
   transform: scale(2) rotate(270deg);
+}
+
+.appt-btn svg,
+.appt-btn-up svg {
+  transform: scale(0.25);
+}
+
+.appt-btn svg g,
+.appt-btn-up svg g {
+  stroke: var(--black);
+  fill: var(--black);
 }
 
 .appt-item .expanded {

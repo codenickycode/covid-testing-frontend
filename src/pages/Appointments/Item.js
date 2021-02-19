@@ -15,10 +15,12 @@ export const AppointmentItem = ({ appointment }) => {
 
   return (
     <div className='appt-item'>
-      <ArrowIcon
+      <div
         className={expanded ? 'appt-btn-up' : 'appt-btn'}
         onClick={handleExpand}
-      />
+      >
+        <ArrowIcon />
+      </div>
       {!expanded ? (
         <AppointmentPreview
           handleExpand={handleExpand}

@@ -17,21 +17,23 @@ export default function SelectionJSX({
 
   return (
     <Page id='selection'>
-      <Name name={name} />
-      <form onSubmit={handleSubmit}>
-        <Address phone={phone} address={address} />
-        <Date handleChangeDate={handleChangeDate} date={date} />
-        <Time time={time} setTime={setTime} available={available} />
-        <Tests
-          tests={tests}
-          selectedTests={selectedTests}
-          selectTest={selectTest}
-        />
-        <Info />
-        <h1 className='center'>Looks good?</h1>
-        {error && <p className='error'>{error}</p>}
-        <Button type='submit' label='Continue' />
-      </form>
+      <div>
+        <Name name={name} />
+        <form onSubmit={handleSubmit}>
+          <Address phone={phone} address={address} />
+          <Date handleChangeDate={handleChangeDate} date={date} />
+          <Time time={time} setTime={setTime} available={available} />
+          <Tests
+            tests={tests}
+            selectedTests={selectedTests}
+            selectTest={selectTest}
+          />
+          <Info />
+          <h1 className='center'>Looks good?</h1>
+          {error && <p className='error'>{error}</p>}
+          <Button type='submit' label='Continue' />
+        </form>
+      </div>
     </Page>
   );
 }
