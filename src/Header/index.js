@@ -48,11 +48,9 @@ export default function Header({ children }) {
       <header id='header'>
         <div id='header-wrapper'>
           <div id='header-main'>
-            <ArrowLeft
-              id='back-btn'
-              addClass={arrowClass}
-              onClick={arrowClick}
-            />
+            <div id='back-btn-wrapper' onClick={arrowClick}>
+              <ArrowLeft addClass={arrowClass} />
+            </div>
             {loading ? (
               <p className='skeleton-h1text transition show'>Loading...</p>
             ) : (

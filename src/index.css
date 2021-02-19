@@ -602,6 +602,14 @@ body {
   background-color: var(--white);
 }
 
+#back-btn-wrapper {
+  height: 2.5rem;
+  width: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 #header h2 {
   text-align: center;
   margin: 0 auto;
@@ -762,12 +770,11 @@ body {
   z-index: 9;
   left: 50%;
   bottom: 0;
-  padding: 0.25rem 0.5rem;
-  transform: translateX(-60%);
+  transform: translateX(-50%);
 }
 
 #search-progress span {
-  margin: 0 0.5rem;
+  margin: 0 0.25rem;
   color: var(--black-quarter);
   font-size: 1.5rem;
 }
@@ -1438,19 +1445,26 @@ span.preview-info {
 .appt-btn-up {
   cursor: pointer;
   position: absolute;
-  top: 50%;
-  left: 90%;
-  transform: scale(2) rotate(90deg) translateX(-50%);
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 3rem;
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .appt-btn-up {
-  top: 1rem;
-  transform: scale(2) rotate(270deg);
+  align-items: start;
 }
 
-.appt-btn svg,
+.appt-btn svg {
+  transform: scale(0.6) rotate(90deg);
+}
+
 .appt-btn-up svg {
-  transform: scale(0.25);
+  transform: scale(0.6) rotate(270deg);
 }
 
 .appt-btn svg g,
