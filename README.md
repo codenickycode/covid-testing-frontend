@@ -1,31 +1,32 @@
 # Covid Testing Appointment App
 
-![urgentMD1](https://user-images.githubusercontent.com/25669830/118345646-f8491300-b503-11eb-8471-60cd7d72d431.gif) ![urgentMD2](https://user-images.githubusercontent.com/25669830/118345660-0bf47980-b504-11eb-9239-cc541ec73c97.gif)
+![urgentMDFlow](https://user-images.githubusercontent.com/25669830/118365614-7db3de00-b56b-11eb-980c-0cb48efa393d.gif)
 
 https://covid-testing.netlify.app
 
 Engineer: Nick Carbone | drumnickydrum@gmail.com <br/>
 UX: Andrea Huang | andreahuanggg@gmail.com
 
-## About
+## About (Engineering perspective)
+This is a MERN-stack prototype to book a Covid-19 testing appointment. 
+- Client-side routing with intuitive flow and authorized routes
+- Persistent data on refresh (with reload of React application)
+- Sorting and Searching
+- Quality UX feedback and input validations
+- Custom login strategy
 
-This is a MERN-stack prototype that will allow users to quickly and easily book an urgent care covid-19 testing appointment. In just a few steps you can:
+For the backend, visit https://github.com/drumnickydrum/covid-testing-server
 
+## About (User perspective)
+Covid-19 Testing Appointment App:
 - Book a new appointment by searching locations
   - filtered by the tests they require
   - sorted by nearest or next available time
 - Create an account to maintain your current info
   - this submits your information to the clinic ahead of time
-  - Sensitive information is filtered and encrypted
+  - Sensitive information is filtered from browser storage
 - View upcoming and past appointments
 - Adjust personal app settings
-
-For the api, visit https://github.com/drumnickydrum/covid-testing-server
-
-#### What's next?
-
-- It was designed mostly for mobile and, although resposive, the desktop details require some more tweaking.
-- You tell us!
 
 #### Known bugs
 
