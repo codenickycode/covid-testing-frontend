@@ -2,7 +2,7 @@
 
 ![urgentMDFlow](https://user-images.githubusercontent.com/25669830/118365614-7db3de00-b56b-11eb-980c-0cb48efa393d.gif)
 
-https://covid-testing.netlify.app
+[UrgentMD Covid-19 Testing](https://covid-testing.netlify.app) <- Click here to try the prototype
 
 Engineer: Nick Carbone | drumnickydrum@gmail.com <br/>
 UX: Andrea Huang | andreahuanggg@gmail.com
