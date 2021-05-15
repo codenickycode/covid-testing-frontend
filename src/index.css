@@ -542,6 +542,7 @@ body {
   position: fixed;
   top: 51%;
   width: 100%;
+  max-width: 600px;
   z-index: 101;
   transform: translate(0, -50%);
   animation: slide-in 250ms forwards ease-in-out;

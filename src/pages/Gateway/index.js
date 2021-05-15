@@ -9,9 +9,11 @@ import {
   SettingsSkeleton,
 } from '../../components/Skeletons.js';
 import { getLS } from '../../tools/storage';
+import { Go } from '../../Providers/Go.js';
 
 const Gateway = () => {
   const history = useHistory();
+  const go = useContext(Go);
   const { to } = useParams();
   const { user, settings } = useContext(App);
   const getClient = useGetClient();
@@ -31,12 +33,12 @@ const Gateway = () => {
     }
   }, [user, settings, history, to, initial, getClient]);
 
+  const closeModal = () => {
+    go('back');
+  };
+
   return !user ? (
-    <LoginModal
-      closeModal={
-        history.globalHistory ? history.goBack : () => history.push('/')
-      }
-    />
+    <LoginModal closeModal={closeModal} />
   ) : to === 'account' ? (
     <AccountSkeleton />
   ) : to === 'appointments' ? (

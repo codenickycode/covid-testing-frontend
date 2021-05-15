@@ -1,18 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 
 export const Go = React.createContext();
 export const GoProvider = ({ children }) => {
   const history = useHistory();
+  const pathname = useLocation().pathname;
   const [goTo, setGoTo] = useState(null);
+  const previousPathRef = useRef([pathname]);
 
   useEffect(() => {
     let timer = null;
     if (goTo) {
       timer = setTimeout(() => {
         if (goTo === 'back') {
-          history.goBack();
+          const path = previousPathRef.current.pop();
+          history.push(path || '/');
         } else {
+          previousPathRef.current.push(pathname);
           history.push(goTo);
         }
         setGoTo(null);
@@ -24,7 +28,7 @@ export const GoProvider = ({ children }) => {
       });
     }
     return () => clearTimeout(timer);
-  }, [goTo, history]);
+  }, [goTo, history, pathname]);
 
   const go = (to) => {
     const elements = document.querySelectorAll('.transition');
